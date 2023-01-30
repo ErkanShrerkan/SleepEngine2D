@@ -1,0 +1,8 @@
+xcopy /y /f "..\Lib\PhysX\Release\glut32.dll" ""
+xcopy /y /f "..\Lib\PhysX\Release\glut32.dll" ""
+xcopy /y /f "..\Lib\PhysX\Release\PhysX_64.dll" ""
+xcopy /y /f "..\Lib\PhysX\Release\PhysXCommon_64.dll" ""
+xcopy /y /f "..\Lib\PhysX\Release\PhysXCooking_64.dll" ""
+xcopy /y /f "..\Lib\PhysX\Release\PhysXDevice64.dll" ""
+xcopy /y /f "..\Lib\PhysX\Release\PhysXFoundation_64.dll" ""
+xcopy /y /f "..\Lib\PhysX\Release\PhysXGpu_64.dll" ""

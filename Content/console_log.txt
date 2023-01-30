@@ -1,0 +1,5597 @@
+----------------------------------------------------
+Found 3 graphic cards
+- NVIDIA GeForce RTX 2080 : 8010 MiB
+- Intel(R) UHD Graphics 630 : 128 MiB
+- Microsoft Basic Render Driver : 0 MiB
+Using graphic card: NVIDIA GeForce RTX 2080
+----------------------------------------------------
+models/EN_Sky_background/EN_Sky_background.erc
+ercData load time: 0.000841
+anim data load time: 0.000010
+Material name before: "EN_Sky_background_"
+Material name after: "EN_Sky_background"
+mesh data load time: 0.025514
+total time: 0.026374
+
+models/EN_Sky_moon/EN_Sky_moon.erc
+ercData load time: 0.000065
+anim data load time: 0.000002
+Material name before: "EN_Sky_moon_"
+Material name after: "EN_Sky_moon"
+mesh data load time: 0.002250
+total time: 0.002327
+
+Model "Models/ClocktowerCity/ClocktowerCity.erc" did not exist
+Models/Cube/Cube.erc
+ercData load time: 0.000075
+anim data load time: 0.000003
+Material name before: "Material"
+Material name after: "Material"
+pout [XX:XX:XX] <SE::CModelFactory::LoadERC> Could not load Albedo for "Models/Cube/Cube" ("Models/Material/Material"), fallback to "Textures/Error/Albedo_c.dds"
+mesh data load time: 0.001019
+total time: 0.001101
+
+Model "Models/Player/Player.erc" did not exist
+Model "Models/Directional Light/Directional Light.erc" did not exist
+Model "Models/TerrainGroup_0/TerrainGroup_0.erc" did not exist
+Models/EN_M_roof_corner/EN_M_roof_corner.erc
+ercData load time: 0.000160
+anim data load time: 0.000002
+Material name before: "EN_M_Roof_corner"
+Material name after: "EN_M_Roof_corner"
+mesh data load time: 0.011621
+total time: 0.011791
+
+Models/EN_M_upperFloor_bigWindow/EN_M_upperFloor_bigWindow.erc
+ercData load time: 0.000195
+anim data load time: 0.000002
+Material name before: "EN_M_upperFloor_bigWindow"
+Material name after: "EN_M_upperFloor_bigWindow"
+mesh data load time: 0.004077
+total time: 0.004280
+
+Models/EN_M_cornerstone/EN_M_cornerstone.erc
+ercData load time: 0.000177
+anim data load time: 0.000002
+Material name before: "EN_M_cornerstone"
+Material name after: "EN_M_cornerstone"
+mesh data load time: 0.003549
+total time: 0.003733
+
+Models/EN_M_bottomFloor_door/EN_M_bottomFloor_door.erc
+ercData load time: 0.000688
+anim data load time: 0.000002
+Material name before: "EN_M_bottomFloor_door"
+Material name after: "EN_M_bottomFloor_door"
+mesh data load time: 0.003809
+total time: 0.004505
+
+Models/EN_M_upperFloor_B_Base/EN_M_upperFloor_B_Base.erc
+ercData load time: 0.000055
+anim data load time: 0.000002
+Material name before: "EN_M_Brick"
+Material name after: "EN_M_Brick"
+mesh data load time: 0.003409
+total time: 0.003471
+
+Models/EN_M_bottomFloor_trims/EN_M_bottomFloor_trims.erc
+ercData load time: 0.000135
+anim data load time: 0.000002
+Material name before: "EN_M_bottomFloor_trims"
+Material name after: "EN_M_bottomFloor_trims"
+mesh data load time: 0.003723
+total time: 0.003866
+
+Models/EN_M_Chimney/EN_M_Chimney.erc
+ercData load time: 0.000171
+anim data load time: 0.000003
+Material name before: "EN_M_Chimney"
+Material name after: "EN_M_Chimney"
+mesh data load time: 0.003653
+total time: 0.003832
+
+Models/EN_M_roof/EN_M_roof.erc
+ercData load time: 0.000093
+anim data load time: 0.000002
+Material name before: "EN_M_Roof"
+Material name after: "EN_M_Roof"
+mesh data load time: 0.011450
+total time: 0.011553
+
+Models/EN_M_floordivider_corner/EN_M_floordivider_corner.erc
+ercData load time: 0.000194
+anim data load time: 0.000002
+Material name before: "EN_M_floordivider_corner"
+Material name after: "EN_M_floordivider_corner"
+mesh data load time: 0.001355
+total time: 0.001555
+
+Models/EN_M_upperFloor_smallWindow/EN_M_upperFloor_smallWindow.erc
+ercData load time: 0.000107
+anim data load time: 0.000002
+Material name before: "EN_M_upperFloor_smallWindow"
+Material name after: "EN_M_upperFloor_smallWindow"
+mesh data load time: 0.001378
+total time: 0.001492
+
+Models/EN_M_Floordivider/EN_M_Floordivider.erc
+ercData load time: 0.000115
+anim data load time: 0.000002
+Material name before: "EN_M_floordivider"
+Material name after: "EN_M_floordivider"
+mesh data load time: 0.003408
+total time: 0.003531
+
+Models/EN_M_cornerPillar/EN_M_cornerPillar.erc
+ercData load time: 0.000141
+anim data load time: 0.000002
+Material name before: "EN_M_cornerPillar_"
+Material name after: "EN_M_cornerPillar"
+mesh data load time: 0.003601
+total time: 0.003817
+
+Models/EN_M_midFloor_balcony/EN_M_midFloor_balcony.erc
+ercData load time: 0.000538
+anim data load time: 0.000002
+Material name before: "EN_M_midFloor_balcony"
+Material name after: "EN_M_midFloor_balcony"
+mesh data load time: 0.011436
+total time: 0.011983
+
+Models/EN_M_midFloor_grandwindow/EN_M_midFloor_grandwindow.erc
+ercData load time: 0.000319
+anim data load time: 0.000003
+Material name before: "EN_M_midFloor_grandwindow"
+Material name after: "EN_M_midFloor_grandwindow"
+mesh data load time: 0.003549
+total time: 0.003877
+
+Models/EN_M_bottomFloor_shopwindow/EN_M_bottomFloor_shopwindow.erc
+ercData load time: 0.000589
+anim data load time: 0.000004
+Material name before: "EN_M_bottomFloor_shopwindow"
+Material name after: "EN_M_bottomFloor_shopwindow"
+mesh data load time: 0.011708
+total time: 0.012312
+
+Models/EN_M_upperFloor_Bblue_base/EN_M_upperFloor_Bblue_base.erc
+ercData load time: 0.000062
+anim data load time: 0.000002
+Material name before: "EN_M_Brick_blue"
+Material name after: "EN_M_Brick_blue"
+mesh data load time: 0.003637
+total time: 0.003709
+
+Models/EN_M_Addon_light/EN_M_Addon_light.erc
+ercData load time: 0.001100
+anim data load time: 0.000003
+Material name before: "EN_M_Addon_light"
+Material name after: "EN_M_Addon_light"
+mesh data load time: 0.003794
+total time: 0.004905
+
+Models/EN_M_upperFloor_Byellow_Base/EN_M_upperFloor_Byellow_Base.erc
+ercData load time: 0.000061
+anim data load time: 0.000003
+Material name before: "EN_M_Brick_yellow"
+Material name after: "EN_M_Brick_yellow"
+mesh data load time: 0.003693
+total time: 0.003764
+
+Models/EN_M_bottomFloor_window/EN_M_bottomFloor_window.erc
+ercData load time: 0.000095
+anim data load time: 0.000003
+Material name before: "EN_M_bottomFloor_window"
+Material name after: "EN_M_bottomFloor_window"
+mesh data load time: 0.003500
+total time: 0.003605
+
+Models/EN_M_upperFloor_Bred_Base/EN_M_upperFloor_Bred_Base.erc
+ercData load time: 0.000054
+anim data load time: 0.000002
+Material name before: "EN_M_Brick_red"
+Material name after: "EN_M_Brick_red"
+mesh data load time: 0.003466
+total time: 0.003530
+
+Models/EN_M_upperFloor_P_Base/EN_M_upperFloor_P_Base.erc
+ercData load time: 0.000063
+anim data load time: 0.000004
+Material name before: "EN_M_Plaster"
+Material name after: "EN_M_Plaster"
+mesh data load time: 0.003341
+total time: 0.003415
+
+Models/EN_M_factoryPlatform/EN_M_factoryPlatform.erc
+ercData load time: 0.000221
+anim data load time: 0.000002
+Material name before: "EN_M_factoryPlatform"
+Material name after: "EN_M_factoryPlatform"
+mesh data load time: 0.003654
+total time: 0.003885
+
+Models/EN_M_factoryPlatform_corner/EN_M_factoryPlatform_corner.erc
+ercData load time: 0.000297
+anim data load time: 0.000003
+Material name before: "EN_M_factoryPlatform_corner"
+Material name after: "EN_M_factoryPlatform_corner"
+mesh data load time: 0.003292
+total time: 0.003598
+
+Models/EN_M_factoryPlatform_support/EN_M_factoryPlatform_support.erc
+ercData load time: 0.000284
+anim data load time: 0.000002
+Material name before: "EN_M_factoryPlatform_support"
+Material name after: "EN_M_factoryPlatform_support"
+mesh data load time: 0.003625
+total time: 0.003917
+
+Models/EN_M_Pillar/EN_M_Pillar.erc
+ercData load time: 0.000126
+anim data load time: 0.000002
+Material name before: "EN_M_Pillar"
+Material name after: "EN_M_Pillar"
+mesh data load time: 0.012437
+total time: 0.012573
+
+Models/EN_M_factoryRoof_straight/EN_M_factoryRoof_straight.erc
+ercData load time: 0.000119
+anim data load time: 0.000002
+Material name before: "EN_M_factoryRoof_straight_"
+Material name after: "EN_M_factoryRoof_straight"
+mesh data load time: 0.003725
+total time: 0.003852
+
+Models/EN_M_upperFloor_W_Base/EN_M_upperFloor_W_Base.erc
+ercData load time: 0.000055
+anim data load time: 0.000002
+Material name before: "EN_M_Wood"
+Material name after: "EN_M_Wood"
+mesh data load time: 0.003472
+total time: 0.003535
+
+Models/EN_M_factoryRoof_triangle/EN_M_factoryRoof_triangle.erc
+ercData load time: 0.000056
+anim data load time: 0.000002
+Material name before: "EN_M_Brick"
+Material name after: "EN_M_Brick"
+mesh data load time: 0.003474
+total time: 0.003589
+
+Models/EN_M_factoryRoof_angled/EN_M_factoryRoof_angled.erc
+ercData load time: 0.000110
+anim data load time: 0.000002
+Material name before: "EN_M_factoryRoof_angled_"
+Material name after: "EN_M_factoryRoof_angled"
+mesh data load time: 0.010231
+total time: 0.010350
+
+Models/EN_M_Awning_01/EN_M_Awning_01.erc
+ercData load time: 0.000169
+anim data load time: 0.000003
+Material name before: "EN_M_Awning_01_"
+Material name after: "EN_M_Awning_01"
+mesh data load time: 0.003567
+total time: 0.003745
+
+Models/EN_P_Streetlight/EN_P_Streetlight.erc
+ercData load time: 0.001864
+anim data load time: 0.000004
+Material name before: "EN_P_Streetlight"
+Material name after: "EN_P_Streetlight"
+mesh data load time: 0.011196
+total time: 0.013074
+
+Models/EN_M_upperFloor_Bred_base/EN_M_upperFloor_Bred_base.erc
+ercData load time: 0.000057
+anim data load time: 0.000002
+Material name before: "EN_M_Brick_red"
+Material name after: "EN_M_Brick_red"
+mesh data load time: 0.003283
+total time: 0.003346
+
+Model "Models/Missing Prefab/Missing Prefab.erc" did not exist
+Model "Models/Missing Prefab/Missing Prefab.erc" did not exist
+Model "Models/Missing Prefab/Missing Prefab.erc" did not exist
+Model "Models/Missing Prefab/Missing Prefab.erc" did not exist
+Model "Models/EN_M_factoryRoof_angled (1)/EN_M_factoryRoof_angled (1).erc" did not exist
+Model "Models/TerrainGroup_0/TerrainGroup_0.erc" did not exist
+Models/EN_M_ClockTower/EN_M_ClockTower.erc
+ercData load time: 0.006537
+anim data load time: 0.000006
+Material name before: "EN_M_Clocktower_face"
+Material name after: "EN_M_Clocktower_face"
+Material name before: "EN_M_Brick"
+Material name after: "EN_M_Brick"
+Material name before: "EN_M_curb"
+Material name after: "EN_M_curb"
+Material name before: "EN_M_upperFloor_smallWindow"
+Material name after: "EN_M_upperFloor_smallWindow"
+Material name before: "EN_M_factoryWall_pillar"
+Material name after: "EN_M_factoryWall_pillar"
+Material name before: "EN_M_Plaster1"
+Material name after: "EN_M_Plaster1"
+pout [XX:XX:XX] <SE::CModelFactory::LoadERC> Could not load Albedo for "Models/EN_M_ClockTower/EN_M_ClockTower" ("Models/EN_M_Plaster1/EN_M_Plaster1"), fallback to "Textures/Error/Albedo_c.dds"
+Material name before: "EN_M_Roof_corner"
+Material name after: "EN_M_Roof_corner"
+mesh data load time: 0.034460
+total time: 0.041012
+
+weapon initModels/CH_player/CH_weapon.erc
+ercData load time: 0.151427
+anim data load time: 0.000011
+Material name before: "CH_player_arm"
+Material name after: "CH_player_arm"
+Material name before: "CH_player"
+Material name after: "CH_player"
+Material name before: "CH_player"
+Material name after: "CH_player"
+mesh data load time: 0.161614
+total time: 0.313058
+
+Models/EN_M_Banner/EN_M_Banner.erc
+ercData load time: 0.000339
+anim data load time: 0.000003
+Material name before: "EN_M_Banner_"
+Material name after: "EN_M_Banner"
+Material name before: "EN_M_Banner_"
+Material name after: "EN_M_Banner"
+mesh data load time: 0.006470
+total time: 0.006818
+
+Models/EN_M_Fence/EN_M_Fence.erc
+ercData load time: 0.000121
+anim data load time: 0.000002
+Material name before: "EN_M_Fence_"
+Material name after: "EN_M_Fence"
+mesh data load time: 0.001246
+total time: 0.001373
+
+Models/EN_M_Spiralstair/EN_M_Spiralstair.erc
+ercData load time: 0.000188
+anim data load time: 0.000002
+Material name before: "EN_M_Spiralstair"
+Material name after: "EN_M_Spiralstair"
+mesh data load time: 0.010497
+total time: 0.010694
+
+Models/EN_M_ConcreteCover/EN_M_ConcreteCover.erc
+ercData load time: 0.000105
+anim data load time: 0.000002
+Material name before: "EN_M_ConcreteCover"
+Material name after: "EN_M_ConcreteCover"
+mesh data load time: 0.003624
+total time: 0.003735
+
+Models/EN_M_stoneStairs/EN_M_stoneStairs.erc
+ercData load time: 0.000131
+anim data load time: 0.000002
+Material name before: "EN_M_stoneStairs"
+Material name after: "EN_M_stoneStairs"
+mesh data load time: 0.003504
+total time: 0.003643
+
+Models/EN_M_stoneFence_pillar/EN_M_stoneFence_pillar.erc
+ercData load time: 0.000102
+anim data load time: 0.000004
+Material name before: "EN_M_stoneFence_pillar_"
+Material name after: "EN_M_stoneFence_pillar"
+mesh data load time: 0.001398
+total time: 0.001526
+
+Models/EN_M_Citypillar/EN_M_Citypillar.erc
+ercData load time: 0.000210
+anim data load time: 0.000002
+Material name before: "EN_M_Citypillar_"
+Material name after: "EN_M_Citypillar"
+mesh data load time: 0.010883
+total time: 0.011103
+
+Models/EN_M_stoneFence/EN_M_stoneFence.erc
+ercData load time: 0.000135
+anim data load time: 0.000002
+Material name before: "EN_M_stoneFence_"
+Material name after: "EN_M_stoneFence"
+mesh data load time: 0.003269
+total time: 0.003411
+
+Models/EN_M_Chair/EN_M_Chair.erc
+ercData load time: 0.000233
+anim data load time: 0.000002
+Material name before: "EN_M_Chair_"
+Material name after: "EN_M_Chair"
+mesh data load time: 0.003310
+total time: 0.003550
+
+Models/EN_M_Table/EN_M_Table.erc
+ercData load time: 0.000252
+anim data load time: 0.000002
+Material name before: "EN_M_Table_"
+Material name after: "EN_M_Table"
+mesh data load time: 0.003053
+total time: 0.003311
+
+Models/EN_M_Awning_02/EN_M_Awning_02.erc
+ercData load time: 0.000152
+anim data load time: 0.000002
+Material name before: "EN_M_Awning_02_"
+Material name after: "EN_M_Awning_02"
+mesh data load time: 0.003050
+total time: 0.003208
+
+Model "Models/House_9/House_9.erc" did not exist
+Model "Models/House_9/House_9.erc" did not exist
+Model "Models/House_9/House_9.erc" did not exist
+Models/CH_KillerDrone/CH_KillerDrone.erc
+ercData load time: 0.018920
+anim data load time: 0.000011
+Material name before: "CH_KillerDrone"
+Material name after: "CH_KillerDrone"
+Material name before: "CH_KillerDrone"
+Material name after: "CH_KillerDrone"
+Material name before: "CH_KillerDrone"
+Material name after: "CH_KillerDrone"
+Material name before: "CH_KillerDrone"
+Material name after: "CH_KillerDrone"
+Material name before: "CH_KillerDrone"
+Material name after: "CH_KillerDrone"
+Material name before: "CH_KillerDrone"
+Material name after: "CH_KillerDrone"
+Material name before: "CH_KillerDrone"
+Material name after: "CH_KillerDrone"
+Material name before: "CH_KillerDrone"
+Material name after: "CH_KillerDrone"
+Material name before: "CH_KillerDrone"
+Material name after: "CH_KillerDrone"
+Material name before: "CH_KillerDrone"
+Material name after: "CH_KillerDrone"
+Material name before: "CH_KillerDrone"
+Material name after: "CH_KillerDrone"
+Material name before: "CH_KillerDrone"
+Material name after: "CH_KillerDrone"
+Material name before: "CH_KillerDrone_Gun"
+Material name after: "CH_KillerDrone_Gun"
+Material name before: "CH_KillerDrone"
+Material name after: "CH_KillerDrone"
+mesh data load time: 0.140951
+total time: 0.159890
+
+Models/CH_Drone/CH_Drone.erc
+ercData load time: 0.018039
+anim data load time: 0.000008
+Material name before: "CH_Drone"
+Material name after: "CH_Drone"
+Material name before: "CH_Drone"
+Material name after: "CH_Drone"
+Material name before: "CH_Drone"
+Material name after: "CH_Drone"
+Material name before: "CH_Drone"
+Material name after: "CH_Drone"
+Material name before: "CH_Drone"
+Material name after: "CH_Drone"
+Material name before: "CH_Drone"
+Material name after: "CH_Drone"
+Material name before: "CH_Drone"
+Material name after: "CH_Drone"
+Material name before: "CH_Drone"
+Material name after: "CH_Drone"
+Material name before: "CH_Drone"
+Material name after: "CH_Drone"
+Material name before: "CH_Drone"
+Material name after: "CH_Drone"
+Material name before: "CH_Drone"
+Material name after: "CH_Drone"
+Material name before: "CH_Drone"
+Material name after: "CH_Drone"
+Material name before: "CH_Drone"
+Material name after: "CH_Drone"
+Material name before: "CH_Drone"
+Material name after: "CH_Drone"
+Material name before: "CH_Drone"
+Material name after: "CH_Drone"
+Material name before: "CH_Drone"
+Material name after: "CH_Drone"
+Material name before: "CH_Drone"
+Material name after: "CH_Drone"
+mesh data load time: 0.172284
+total time: 0.190339
+
+Models/EN_M_pipe/EN_M_pipe.erc
+ercData load time: 0.000168
+anim data load time: 0.000003
+Material name before: "EN_M_pipe_"
+Material name after: "EN_M_pipe"
+mesh data load time: 0.003561
+total time: 0.003737
+
+Models/EN_M_Pipe_corner/EN_M_Pipe_corner.erc
+ercData load time: 0.000397
+anim data load time: 0.000002
+Material name before: "EN_M_pipe_corner"
+Material name after: "EN_M_pipe_corner"
+mesh data load time: 0.003207
+total time: 0.003611
+
+Models/EN_M_LevelTrim/EN_M_LevelTrim.erc
+ercData load time: 0.000057
+anim data load time: 0.000003
+Material name before: "EN_M_Rock"
+Material name after: "EN_M_Rock"
+mesh data load time: 0.003321
+total time: 0.003385
+
+Models/EN_M_LevelTrim_corner/EN_M_LevelTrim_corner.erc
+ercData load time: 0.000103
+anim data load time: 0.000003
+Material name before: "EN_M_Rock"
+Material name after: "EN_M_Rock"
+mesh data load time: 0.003079
+total time: 0.003189
+
+Models/EN_M_LevelWall_corner/EN_M_LevelWall_corner.erc
+ercData load time: 0.000060
+anim data load time: 0.000002
+Material name before: "EN_M_levelWall"
+Material name after: "EN_M_levelWall"
+mesh data load time: 0.003092
+total time: 0.003158
+
+Models/EN_M_LevelWall/EN_M_LevelWall.erc
+ercData load time: 0.000052
+anim data load time: 0.000002
+Material name before: "EN_M_levelWall"
+Material name after: "EN_M_levelWall"
+mesh data load time: 0.002953
+total time: 0.003012
+
+Models/EN_P_Box_01/EN_P_Box_01.erc
+ercData load time: 0.000437
+anim data load time: 0.000002
+Material name before: "EN_P_Box_01"
+Material name after: "EN_P_Box_01"
+mesh data load time: 0.010185
+total time: 0.010629
+
+Models/EN_M_Box_02/EN_M_Box_02.erc
+ercData load time: 0.000214
+anim data load time: 0.000002
+Material name before: "EN_M_Box_02"
+Material name after: "EN_M_Box_02"
+mesh data load time: 0.010092
+total time: 0.010315
+
+Models/EN_M_SewerFloor/EN_M_SewerFloor.erc
+ercData load time: 0.000058
+anim data load time: 0.000002
+Material name before: "EN_M_Rock"
+Material name after: "EN_M_Rock"
+mesh data load time: 0.003011
+total time: 0.003076
+
+Models/EN_M_SewerWall/EN_M_SewerWall.erc
+ercData load time: 0.000052
+anim data load time: 0.000002
+Material name before: "EN_M_Rock"
+Material name after: "EN_M_Rock"
+mesh data load time: 0.002856
+total time: 0.002914
+
+Model "Models/MiddleApartment/MiddleApartment.erc" did not exist
+Models/EN_M_upperFloor_Byellow_base/EN_M_upperFloor_Byellow_base.erc
+ercData load time: 0.000060
+anim data load time: 0.000004
+Material name before: "EN_M_Brick_yellow"
+Material name after: "EN_M_Brick_yellow"
+mesh data load time: 0.003433
+total time: 0.003503
+
+Models/EN_M_factoryExhaust/EN_M_factoryExhaust.erc
+ercData load time: 0.000383
+anim data load time: 0.000002
+Material name before: "EN_M_factoryExhaust_"
+Material name after: "EN_M_factoryExhaust"
+mesh data load time: 0.010654
+total time: 0.011048
+
+Model "Models/EN_M_Box_01 1/EN_M_Box_01 1.erc" did not exist
+Models/EN_M_SignAddon_02/EN_M_SignAddon_02.erc
+ercData load time: 0.000160
+anim data load time: 0.000003
+Material name before: "EN_M_SignAddon_02"
+Material name after: "EN_M_SignAddon_02"
+mesh data load time: 0.003223
+total time: 0.003390
+
+Models/EN_P_Trash_03/EN_P_Trash_03.erc
+ercData load time: 0.000165
+anim data load time: 0.000002
+Material name before: "EN_P_Trash_"
+Material name after: "EN_P_Trash"
+mesh data load time: 0.004006
+total time: 0.004176
+
+Models/EN_P_Trash_02/EN_P_Trash_02.erc
+ercData load time: 0.000183
+anim data load time: 0.000002
+Material name before: "EN_P_Trash_"
+Material name after: "EN_P_Trash"
+mesh data load time: 0.003806
+total time: 0.003995
+
+Models/EN_P_Trash/EN_P_Trash.erc
+ercData load time: 0.000161
+anim data load time: 0.000002
+Material name before: "EN_P_Trash_"
+Material name after: "EN_P_Trash"
+mesh data load time: 0.003890
+total time: 0.004059
+
+Models/EN_P_Container_bottom/EN_P_Container_bottom.erc
+ercData load time: 0.000325
+anim data load time: 0.000002
+Material name before: "EN_P_Container_"
+Material name after: "EN_P_Container"
+mesh data load time: 0.005645
+total time: 0.005978
+
+Models/EN_M_Bottle_01/EN_M_Bottle_01.erc
+ercData load time: 0.000235
+anim data load time: 0.000002
+Material name before: "EN_M_Bottles"
+Material name after: "EN_M_Bottles"
+mesh data load time: 0.001440
+total time: 0.001699
+
+Models/EN_M_Bottle_02/EN_M_Bottle_02.erc
+ercData load time: 0.000233
+anim data load time: 0.000002
+Material name before: "EN_M_Bottles"
+Material name after: "EN_M_Bottles"
+mesh data load time: 0.001172
+total time: 0.001411
+
+Models/EN_M_Bottle_03/EN_M_Bottle_03.erc
+ercData load time: 0.000232
+anim data load time: 0.000002
+Material name before: "EN_M_Bottles"
+Material name after: "EN_M_Bottles"
+mesh data load time: 0.001332
+total time: 0.001569
+
+Models/EN_M_SignAddon_01/EN_M_SignAddon_01.erc
+ercData load time: 0.000155
+anim data load time: 0.000002
+Material name before: "EN_M_SignAddon_01"
+Material name after: "EN_M_SignAddon_01"
+mesh data load time: 0.003761
+total time: 0.003922
+
+Model "Models/EN_P_Planter_LOD0/EN_P_Planter_LOD0.erc" did not exist
+Model "Models/EN_P_Planter_LOD0/EN_P_Planter_LOD0.erc" did not exist
+Models/EN_P_SpeakerPole/EN_P_SpeakerPole.erc
+ercData load time: 0.001932
+anim data load time: 0.000002
+Material name before: "EN_P_SpeakerPole_"
+Material name after: "EN_P_SpeakerPole"
+Material name before: "EN_P_Speaker_"
+Material name after: "EN_P_Speaker"
+mesh data load time: 0.001722
+total time: 0.003660
+
+Models/EN_P_Container/EN_P_Container.erc
+ercData load time: 0.000370
+anim data load time: 0.000002
+Material name before: "EN_P_Container_"
+Material name after: "EN_P_Container"
+mesh data load time: 0.003552
+total time: 0.003928
+
+Models/EN_P_Trashbin/EN_P_Trashbin.erc
+ercData load time: 0.000417
+anim data load time: 0.000002
+Material name before: "EN_P_Trashbin"
+Material name after: "EN_P_Trashbin"
+mesh data load time: 0.003235
+total time: 0.003659
+
+Models/EN_M_SignAddon_03/EN_M_SignAddon_03.erc
+ercData load time: 0.000152
+anim data load time: 0.000002
+Material name before: "EN_M_SignAddon_03"
+Material name after: "EN_M_SignAddon_03"
+mesh data load time: 0.003659
+total time: 0.003818
+
+Model "Models/EN_P_Planter_LOD0/EN_P_Planter_LOD0.erc" did not exist
+Model "Models/EN_P_Planter_LOD0/EN_P_Planter_LOD0.erc" did not exist
+Model "Models/EN_P_Planter_LOD0/EN_P_Planter_LOD0.erc" did not exist
+Model "Models/EN_P_Planter_LOD0/EN_P_Planter_LOD0.erc" did not exist
+Models/EN_P_mailbox/EN_P_mailbox.erc
+ercData load time: 0.000288
+anim data load time: 0.000002
+Material name before: "EN_P_mailbox_"
+Material name after: "EN_P_mailbox"
+mesh data load time: 0.003216
+total time: 0.003511
+
+Models/EN_M_FactoryBillboard_01/EN_M_FactoryBillboard_01.erc
+ercData load time: 0.000301
+anim data load time: 0.000002
+Material name before: "EN_M_FactoryBillboard_01_"
+Material name after: "EN_M_FactoryBillboard_01"
+mesh data load time: 0.010217
+total time: 0.010527
+
+Models/EN_M_BridgePillar/EN_M_BridgePillar.erc
+ercData load time: 0.000224
+anim data load time: 0.000002
+Material name before: "EN_M_BridgePillar_"
+Material name after: "EN_M_BridgePillar"
+mesh data load time: 0.010672
+total time: 0.010905
+
+Models/EN_M_Citybridge/EN_M_Citybridge.erc
+ercData load time: 0.002537
+anim data load time: 0.000003
+Material name before: "EN_M_Curb"
+Material name after: "EN_M_Curb"
+Material name before: "EN_M_Brick_"
+Material name after: "EN_M_Brick"
+mesh data load time: 0.006762
+total time: 0.009312
+
+Models/EN_P_Gate/EN_P_Gate.erc
+ercData load time: 0.000637
+anim data load time: 0.000002
+Material name before: "EN_M_Clocktower_face"
+Material name after: "EN_M_Clocktower_face"
+Material name before: "EN_P_Gate"
+Material name after: "EN_P_Gate"
+mesh data load time: 0.051954
+total time: 0.052602
+
+Models/EN_M_Smallpipe_corner/EN_M_Smallpipe_corner.erc
+ercData load time: 0.000272
+anim data load time: 0.000002
+Material name before: "EN_M_smallpipe"
+Material name after: "EN_M_smallpipe"
+mesh data load time: 0.001419
+total time: 0.001698
+
+Models/EN_M_smallpipe/EN_M_smallpipe.erc
+ercData load time: 0.000123
+anim data load time: 0.000002
+Material name before: "EN_M_smallpipe"
+Material name after: "EN_M_smallpipe"
+mesh data load time: 0.000966
+total time: 0.001094
+
+Models/EN_P_OilBarrel_03/EN_P_OilBarrel_03.erc
+ercData load time: 0.000666
+anim data load time: 0.000002
+Material name before: "EN_P_OilBarrel_03_"
+Material name after: "EN_P_OilBarrel_03"
+mesh data load time: 0.004319
+total time: 0.004992
+
+Models/EN_P_OilBarrel_02/EN_P_OilBarrel_02.erc
+ercData load time: 0.000826
+anim data load time: 0.000003
+Material name before: "EN_P_OilBarrel_02_"
+Material name after: "EN_P_OilBarrel_02"
+mesh data load time: 0.003614
+total time: 0.004447
+
+Models/EN_M_sewer_grate/EN_M_sewer_grate.erc
+ercData load time: 0.000669
+anim data load time: 0.000002
+Material name before: "EN_M_sewer_grate_"
+Material name after: "EN_M_sewer_grate"
+mesh data load time: 0.003628
+total time: 0.004303
+
+Models/EN_M_sewer_outlet/EN_M_sewer_outlet.erc
+ercData load time: 0.000394
+anim data load time: 0.000002
+Material name before: "EN_M_Sewer_outlet"
+Material name after: "EN_M_Sewer_outlet"
+mesh data load time: 0.011572
+total time: 0.011975
+
+Models/EN_M_CobblestoneTile/EN_M_CobblestoneTile.erc
+ercData load time: 0.000059
+anim data load time: 0.000003
+Material name before: "EN_M_Cobblestone"
+Material name after: "EN_M_Cobblestone"
+mesh data load time: 0.010575
+total time: 0.010644
+
+Models/EN_M_Curb/EN_M_Curb.erc
+ercData load time: 0.000066
+anim data load time: 0.000002
+Material name before: "EN_M_Curb_"
+Material name after: "EN_M_Curb"
+mesh data load time: 0.003516
+total time: 0.003589
+
+Models/EN_M_CurbTile/EN_M_CurbTile.erc
+ercData load time: 0.000053
+anim data load time: 0.000002
+Material name before: "EN_M_CurbTile_"
+Material name after: "EN_M_CurbTile"
+mesh data load time: 0.003480
+total time: 0.003539
+
+Models/EN_M_Curb_corner/EN_M_Curb_corner.erc
+ercData load time: 0.000079
+anim data load time: 0.000002
+Material name before: "EN_M_Curb_"
+Material name after: "EN_M_Curb"
+mesh data load time: 0.002759
+total time: 0.002844
+
+Model "Models/Missing Prefab/Missing Prefab.erc" did not exist
+Model "Models/Missing Prefab/Missing Prefab.erc" did not exist
+Model "Models/Missing Prefab/Missing Prefab.erc" did not exist
+Model "Models/Missing Prefab/Missing Prefab.erc" did not exist
+Model "Models/Missing Prefab/Missing Prefab.erc" did not exist
+Model "Models/Missing Prefab/Missing Prefab.erc" did not exist
+Model "Models/Missing Prefab/Missing Prefab.erc" did not exist
+Model "Models/Missing Prefab/Missing Prefab.erc" did not exist
+Model "Models/Missing Prefab/Missing Prefab.erc" did not exist
+Model "Models/Missing Prefab/Missing Prefab.erc" did not exist
+Model "Models/EN_M_midFloor_balcony (5)/EN_M_midFloor_balcony (5).erc" did not exist
+Model "Models/EN_M_midFloor_balcony (4)/EN_M_midFloor_balcony (4).erc" did not exist
+Model "Models/EN_M_midFloor_balcony (8)/EN_M_midFloor_balcony (8).erc" did not exist
+Model "Models/EN_M_midFloor_balcony (7)/EN_M_midFloor_balcony (7).erc" did not exist
+Model "Models/EN_M_midFloor_balcony (1)/EN_M_midFloor_balcony (1).erc" did not exist
+Model "Models/EN_M_midFloor_balcony (9)/EN_M_midFloor_balcony (9).erc" did not exist
+Model "Models/EN_M_midFloor_balcony (6)/EN_M_midFloor_balcony (6).erc" did not exist
+Model "Models/EN_M_midFloor_balcony (2)/EN_M_midFloor_balcony (2).erc" did not exist
+Model "Models/EN_M_midFloor_balcony (3)/EN_M_midFloor_balcony (3).erc" did not exist
+Model "Models/Missing Prefab/Missing Prefab.erc" did not exist
+Model "Models/Missing Prefab/Missing Prefab.erc" did not exist
+Model "Models/Missing Prefab/Missing Prefab.erc" did not exist
+Model "Models/Missing Prefab/Missing Prefab.erc" did not exist
+Model "Models/Missing Prefab/Missing Prefab.erc" did not exist
+Model "Models/Missing Prefab/Missing Prefab.erc" did not exist
+Model "Models/Missing Prefab/Missing Prefab.erc" did not exist
+Model "Models/Missing Prefab/Missing Prefab.erc" did not exist
+Model "Models/EN_M_midFloor_balcony (7)/EN_M_midFloor_balcony (7).erc" did not exist
+Model "Models/EN_M_midFloor_balcony (4)/EN_M_midFloor_balcony (4).erc" did not exist
+Model "Models/EN_M_midFloor_balcony (1)/EN_M_midFloor_balcony (1).erc" did not exist
+Model "Models/EN_M_midFloor_balcony (6)/EN_M_midFloor_balcony (6).erc" did not exist
+Model "Models/EN_M_midFloor_balcony (5)/EN_M_midFloor_balcony (5).erc" did not exist
+Model "Models/EN_M_midFloor_balcony (2)/EN_M_midFloor_balcony (2).erc" did not exist
+Model "Models/EN_M_midFloor_balcony (3)/EN_M_midFloor_balcony (3).erc" did not exist
+Model "Models/Missing Prefab/Missing Prefab.erc" did not exist
+Model "Models/Missing Prefab/Missing Prefab.erc" did not exist
+Model "Models/Missing Prefab/Missing Prefab.erc" did not exist
+Model "Models/Missing Prefab/Missing Prefab.erc" did not exist
+Model "Models/Missing Prefab/Missing Prefab.erc" did not exist
+Model "Models/Missing Prefab/Missing Prefab.erc" did not exist
+Model "Models/Missing Prefab/Missing Prefab.erc" did not exist
+Model "Models/Missing Prefab/Missing Prefab.erc" did not exist
+Model "Models/Missing Prefab/Missing Prefab.erc" did not exist
+Model "Models/Missing Prefab/Missing Prefab.erc" did not exist
+Model "Models/EN_M_midFloor_balcony (5)/EN_M_midFloor_balcony (5).erc" did not exist
+Model "Models/EN_M_midFloor_balcony (4)/EN_M_midFloor_balcony (4).erc" did not exist
+Model "Models/EN_M_midFloor_balcony (8)/EN_M_midFloor_balcony (8).erc" did not exist
+Model "Models/EN_M_midFloor_balcony (7)/EN_M_midFloor_balcony (7).erc" did not exist
+Model "Models/EN_M_midFloor_balcony (1)/EN_M_midFloor_balcony (1).erc" did not exist
+Model "Models/EN_M_midFloor_balcony (9)/EN_M_midFloor_balcony (9).erc" did not exist
+Model "Models/EN_M_midFloor_balcony (6)/EN_M_midFloor_balcony (6).erc" did not exist
+Model "Models/EN_M_midFloor_balcony (2)/EN_M_midFloor_balcony (2).erc" did not exist
+Model "Models/EN_M_midFloor_balcony (3)/EN_M_midFloor_balcony (3).erc" did not exist
+Model "Models/Missing Prefab/Missing Prefab.erc" did not exist
+Model "Models/Missing Prefab/Missing Prefab.erc" did not exist
+Model "Models/Missing Prefab/Missing Prefab.erc" did not exist
+Model "Models/Missing Prefab/Missing Prefab.erc" did not exist
+Model "Models/Missing Prefab/Missing Prefab.erc" did not exist
+Model "Models/Missing Prefab/Missing Prefab.erc" did not exist
+Model "Models/Missing Prefab/Missing Prefab.erc" did not exist
+Model "Models/Missing Prefab/Missing Prefab.erc" did not exist
+Model "Models/EN_M_midFloor_balcony (7)/EN_M_midFloor_balcony (7).erc" did not exist
+Model "Models/EN_M_midFloor_balcony (4)/EN_M_midFloor_balcony (4).erc" did not exist
+Model "Models/EN_M_midFloor_balcony (1)/EN_M_midFloor_balcony (1).erc" did not exist
+Model "Models/EN_M_midFloor_balcony (6)/EN_M_midFloor_balcony (6).erc" did not exist
+Model "Models/EN_M_midFloor_balcony (5)/EN_M_midFloor_balcony (5).erc" did not exist
+Model "Models/EN_M_midFloor_balcony (2)/EN_M_midFloor_balcony (2).erc" did not exist
+Model "Models/EN_M_midFloor_balcony (3)/EN_M_midFloor_balcony (3).erc" did not exist
+Models/EN_P_Rubblepile_04/EN_P_Rubblepile_04.erc
+ercData load time: 0.000155
+anim data load time: 0.000004
+Material name before: "EN_M_DirtPile"
+Material name after: "EN_M_DirtPile"
+mesh data load time: 0.003595
+total time: 0.003760
+
+Models/EN_P_Rubblepile_03/EN_P_Rubblepile_03.erc
+ercData load time: 0.004642
+anim data load time: 0.000003
+Material name before: "CH_DeadDrone"
+Material name after: "CH_DeadDrone"
+Material name before: "EN_M_Box_02"
+Material name after: "EN_M_Box_02"
+Material name before: "EN_M_Brick"
+Material name after: "EN_M_Brick"
+Material name before: "EN_M_DirtPile"
+Material name after: "EN_M_DirtPile"
+Material name before: "EN_P_Box_01"
+Material name after: "EN_P_Box_01"
+mesh data load time: 0.039729
+total time: 0.044380
+
+Models/EN_P_Rubblepile_02/EN_P_Rubblepile_02.erc
+ercData load time: 0.012009
+anim data load time: 0.000004
+Material name before: "CH_Drone"
+Material name after: "CH_Drone"
+Material name before: "EN_M_Brick"
+Material name after: "EN_M_Brick"
+Material name before: "EN_M_Box_02"
+Material name after: "EN_M_Box_02"
+Material name before: "EN_P_Box_01"
+Material name after: "EN_P_Box_01"
+Material name before: "EN_M_DirtPile"
+Material name after: "EN_M_DirtPile"
+mesh data load time: 0.038724
+total time: 0.050743
+
+Models/EN_P_RubblePile_01/EN_P_RubblePile_01.erc
+ercData load time: 0.015681
+anim data load time: 0.000005
+Material name before: "CH_DeadDrone"
+Material name after: "CH_DeadDrone"
+Material name before: "EN_M_Brick"
+Material name after: "EN_M_Brick"
+Material name before: "EN_M_Box_02"
+Material name after: "EN_M_Box_02"
+Material name before: "EN_P_Box_01"
+Material name after: "EN_P_Box_01"
+Material name before: "EN_M_DirtPile"
+Material name after: "EN_M_DirtPile"
+mesh data load time: 0.039808
+total time: 0.055500
+
+Model "Models/EN_M_Box_02 1/EN_M_Box_02 1.erc" did not exist
+Model "Models/EN_M_Box_01 1/EN_M_Box_01 1.erc" did not exist
+Model "Models/EN_M_Box_02 1/EN_M_Box_02 1.erc" did not exist
+Model "Models/EN_M_Box_02 1/EN_M_Box_02 1.erc" did not exist
+Model "Models/EN_M_Box_02 1/EN_M_Box_02 1.erc" did not exist
+Model "Models/EN_M_Box_02 1/EN_M_Box_02 1.erc" did not exist
+Model "Models/EN_M_Box_02 1/EN_M_Box_02 1.erc" did not exist
+Model "Models/EN_M_Box_02 1/EN_M_Box_02 1.erc" did not exist
+Models/EN_P_Korvmoj/EN_P_Korvmoj.erc
+ercData load time: 0.006296
+anim data load time: 0.000004
+Material name before: "EN_M_WoodPaintedYellow"
+Material name after: "EN_M_WoodPaintedYellow"
+Material name before: "EN_M_WoodLight"
+Material name after: "EN_M_WoodLight"
+Material name before: "EN_P_SpeakerPole_"
+Material name after: "EN_P_SpeakerPole"
+Material name before: "EN_P_Korvmoj_"
+Material name after: "EN_P_Korvmoj"
+Material name before: "EN_P_Posters_02_"
+Material name after: "EN_P_Posters_02"
+mesh data load time: 0.015703
+total time: 0.022007
+
+pout [XX:XX:XX] Error loading "Textures/art.dds" as a CTexture
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Models/CH_KillerDrone/Engine.erc
+ercData load time: 0.003116
+anim data load time: 0.000004
+Material name before: "CH_KillerDrone"
+Material name after: "CH_KillerDrone"
+mesh data load time: 0.029155
+total time: 0.032283
+
+Models/CH_KillerDrone/Exhaust.erc
+ercData load time: 0.000445
+anim data load time: 0.000002
+Material name before: "CH_KillerDrone"
+Material name after: "CH_KillerDrone"
+mesh data load time: 0.022256
+total time: 0.022710
+
+Models/CH_KillerDrone/Gun.erc
+ercData load time: 0.000942
+anim data load time: 0.000003
+Material name before: "CH_KillerDrone_Gun"
+Material name after: "CH_KillerDrone_Gun"
+mesh data load time: 0.010512
+total time: 0.011464
+
+Models/CH_KillerDrone/L_Hatch.erc
+ercData load time: 0.000198
+anim data load time: 0.000002
+Material name before: "CH_KillerDrone"
+Material name after: "CH_KillerDrone"
+mesh data load time: 0.010776
+total time: 0.010984
+
+Models/CH_KillerDrone/L_lowerArm.erc
+ercData load time: 0.000527
+anim data load time: 0.000003
+Material name before: "CH_KillerDrone"
+Material name after: "CH_KillerDrone"
+mesh data load time: 0.010577
+total time: 0.011115
+
+Models/CH_KillerDrone/L_screw.erc
+ercData load time: 0.000206
+anim data load time: 0.000002
+Material name before: "CH_KillerDrone"
+Material name after: "CH_KillerDrone"
+mesh data load time: 0.011187
+total time: 0.011403
+
+Models/CH_KillerDrone/L_Upperarm.erc
+ercData load time: 0.000285
+anim data load time: 0.000002
+Material name before: "CH_KillerDrone"
+Material name after: "CH_KillerDrone"
+mesh data load time: 0.010436
+total time: 0.010730
+
+Models/CH_KillerDrone/mainPiece_01.erc
+ercData load time: 0.001334
+anim data load time: 0.000002
+Material name before: "CH_KillerDrone"
+Material name after: "CH_KillerDrone"
+mesh data load time: 0.010984
+total time: 0.012327
+
+Models/CH_KillerDrone/R_Hatch.erc
+ercData load time: 0.000228
+anim data load time: 0.000002
+Material name before: "CH_KillerDrone"
+Material name after: "CH_KillerDrone"
+mesh data load time: 0.010374
+total time: 0.010612
+
+Models/CH_KillerDrone/R_lowerArm.erc
+ercData load time: 0.000412
+anim data load time: 0.000002
+Material name before: "CH_KillerDrone"
+Material name after: "CH_KillerDrone"
+mesh data load time: 0.010692
+total time: 0.011115
+
+Models/CH_KillerDrone/R_screw.erc
+ercData load time: 0.000239
+anim data load time: 0.000002
+Material name before: "CH_KillerDrone"
+Material name after: "CH_KillerDrone"
+mesh data load time: 0.010526
+total time: 0.010774
+
+Models/CH_KillerDrone/R_Upperarm.erc
+ercData load time: 0.000275
+anim data load time: 0.000002
+Material name before: "CH_KillerDrone"
+Material name after: "CH_KillerDrone"
+mesh data load time: 0.010325
+total time: 0.010609
+
+Models/CH_KillerDrone/rotor_02.erc
+ercData load time: 0.000484
+anim data load time: 0.000002
+Material name before: "CH_KillerDrone"
+Material name after: "CH_KillerDrone"
+mesh data load time: 0.010914
+total time: 0.011408
+
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Models/CH_Drone/Part_Cog.erc
+ercData load time: 0.000308
+anim data load time: 0.000005
+Material name before: "CH_Drone"
+Material name after: "CH_Drone"
+mesh data load time: 0.024834
+total time: 0.025158
+
+Models/CH_Drone/Part_Exhaust.erc
+ercData load time: 0.000449
+anim data load time: 0.000002
+Material name before: "CH_Drone"
+Material name after: "CH_Drone"
+mesh data load time: 0.021054
+total time: 0.021512
+
+Models/CH_Drone/Part_Fan.erc
+ercData load time: 0.001747
+anim data load time: 0.000003
+Material name before: "CH_Drone"
+Material name after: "CH_Drone"
+mesh data load time: 0.011694
+total time: 0.013450
+
+Models/CH_Drone/Part_L_Hatch.erc
+ercData load time: 0.000197
+anim data load time: 0.000002
+Material name before: "CH_Drone"
+Material name after: "CH_Drone"
+mesh data load time: 0.011602
+total time: 0.011809
+
+Models/CH_Drone/Part_L_screw.erc
+ercData load time: 0.000569
+anim data load time: 0.000002
+Material name before: "CH_Drone"
+Material name after: "CH_Drone"
+mesh data load time: 0.012418
+total time: 0.012997
+
+Models/CH_Drone/Part_L_Siren.erc
+ercData load time: 0.000174
+anim data load time: 0.000002
+Material name before: "CH_Drone"
+Material name after: "CH_Drone"
+mesh data load time: 0.010708
+total time: 0.010893
+
+Models/CH_Drone/Part_L_Upperarm.erc
+ercData load time: 0.000276
+anim data load time: 0.000002
+Material name before: "CH_Drone"
+Material name after: "CH_Drone"
+mesh data load time: 0.010990
+total time: 0.011277
+
+Models/CH_Drone/Part_mainPiece.erc
+ercData load time: 0.001490
+anim data load time: 0.000002
+Material name before: "CH_Drone"
+Material name after: "CH_Drone"
+mesh data load time: 0.011714
+total time: 0.013214
+
+Models/CH_Drone/Part_R_Hatch.erc
+ercData load time: 0.000195
+anim data load time: 0.000002
+Material name before: "CH_Drone"
+Material name after: "CH_Drone"
+mesh data load time: 0.010483
+total time: 0.010687
+
+Models/CH_Drone/Part_R_screw.erc
+ercData load time: 0.000625
+anim data load time: 0.000002
+Material name before: "CH_Drone"
+Material name after: "CH_Drone"
+mesh data load time: 0.012676
+total time: 0.013319
+
+Models/CH_Drone/Part_R_Siren.erc
+ercData load time: 0.000196
+anim data load time: 0.000003
+Material name before: "CH_Drone"
+Material name after: "CH_Drone"
+mesh data load time: 0.010867
+total time: 0.011073
+
+Models/CH_Drone/Part_R_Upperarm.erc
+ercData load time: 0.000289
+anim data load time: 0.000002
+Material name before: "CH_Drone"
+Material name after: "CH_Drone"
+mesh data load time: 0.010439
+total time: 0.010740
+
+Models/CH_Drone/Part_Rotor_Stick.erc
+ercData load time: 0.000107
+anim data load time: 0.000002
+Material name before: "CH_Drone"
+Material name after: "CH_Drone"
+mesh data load time: 0.011084
+total time: 0.011200
+
+Models/CH_Drone/Part_Top.erc
+ercData load time: 0.000146
+anim data load time: 0.000002
+Material name before: "CH_Drone"
+Material name after: "CH_Drone"
+mesh data load time: 0.010499
+total time: 0.010655
+
+Models/CH_Drone/Part_Tube.erc
+ercData load time: 0.000646
+anim data load time: 0.000002
+Material name before: "CH_Drone"
+Material name after: "CH_Drone"
+mesh data load time: 0.011547
+total time: 0.012202
+
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
+Current Player Health: 100.000000
