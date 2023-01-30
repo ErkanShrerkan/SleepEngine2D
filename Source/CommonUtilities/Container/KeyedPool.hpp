@@ -1,0 +1,35 @@
+#pragma once
+#include <functional>
+#include <map>
+namespace CommonUtilities
+{
+    template <class Key, class Object>
+    class KeyedPool
+    {
+    public:
+        Object Get(const Key& aKey, std::function<Object(const Key&)> aCreateMethod)
+        {
+            auto position = myObjects.find(aKey);
+            if (position != myObjects.end())
+            {
+                return position->second;
+            }
+            else
+            {
+                Object object = aCreateMethod(aKey);
+                myObjects.insert({ aKey, object });
+                return object;
+            }
+        }
+
+        std::map<Key, Object>& GetMap() { return myObjects; }
+
+    private:
+        std::map<Key, Object> myObjects;
+    };
+}
+
+#define CU_KEYED_POOL_LAMBDA(aKey, aKeyParameter, anObject, anObjectFunction) \
+[this, aKeyParameter](const aKey&) -> anObject { \
+    return anObjectFunction(aKeyParameter); \
+}

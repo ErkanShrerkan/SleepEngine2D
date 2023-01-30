@@ -1,0 +1,23 @@
+#pragma once
+#include "Observer.h"
+#include "Observer.h"
+#include "Process.h"
+
+namespace Game
+{
+	class Editor : public Observer, public Process
+	{
+	public:
+		~Editor();
+		virtual bool Init() override;
+		virtual bool Update() override;
+		void RecieveMessage(eMessage aMessage) override;
+
+	private:
+		void OnImGui();
+
+	private:
+		bool myIsRunning = true;
+	};
+}
+
