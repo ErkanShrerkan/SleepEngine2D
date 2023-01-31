@@ -25,11 +25,16 @@
 *.la
 *.a
 *.lib
+*.idb
+*.pdb
 
 # Executables
 *.exe
 *.out
 *.app
+
+# Shaders
+*.cso
 
 #Folders
 Temp/
