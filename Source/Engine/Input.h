@@ -4,67 +4,35 @@
 #include "pch.h"
 #include <CommonUtilities/Math/Vector.hpp>
 #include <windows.h>
+#include "Keyboard.h"
+#include <functional>
 
-class Keyboard;
-
-enum class eButtonInput
+class InputObserver
 {
-	Up,
-	Down,
-	Forward,
-	Back,
-	Left,
-	Right,
-	Escape,
-	Jump,
-	ToggleAllPasses,
-	TogglePositionPass,
-	ToggleAlbedoPass,
-	ToggleNormalPass,
-	ToggleVertexNormalPass,
-	ToggleMaterialPass,
-	ToggleAOPass,
-	ToggleDepthPass,
-	MovementToggle,
-	RotUp,
-	RotDown,
-	RotLeft,
-	RotRight,
-	LMB,
-	RMB,
-	ChangeCamera,
-	ToggleDrawLine,
-	H,
-	G,
-	J,
-	O,
-	P,
-	Interact,
-	UseItem,
-	Reload,
-	One,
-	Two,
-	Three,
-	Quit,
-	Alt,
-	F4,
+protected:
+	void ObserveInputEvent(eInputEvent anEvent, eInputState aTriggerState, std::function<void()> aCallback);
+	void StopObservingInputEvent(eInputEvent anEvent, eInputState aTriggerState);
 };
 
 class Input
 {
-	friend class InputValue;
+	friend class InputKey;
+	friend class InputEvent;
 public:
-	static bool GetInputPressed(eButtonInput anInput);
-	static bool GetInputHeld(eButtonInput anInput);
-	static bool GetInputReleased(eButtonInput anInput);
-	static bool GetInputDown(eButtonInput anInput);
+	static bool GetInputPressed(eInputEvent anInput);
+	static bool GetInputHeld(eInputEvent anInput);
+	static bool GetInputReleased(eInputEvent anInput);
+	static bool GetInputDown(eInputEvent anInput);
 	static float2 GetMousePos();
 	static Vector2f GetMouseDelta();
 	static float2 GetClampedMousePos();
 	static int GetScrollInput();
 
+	static void DeInit();
 	static void Init();
-	static void Update();
+	static void Update(bool doUpdate);
+	static void Dispatch();
+	static void AddInputEventObserver(InputObserver* anObserver, eInputEvent anEvent, eInputState aState, std::function<void()>& aCallback);
 	static void LockCursor(bool aShouldLock = true);
 	static bool GetLockedCursorState() { return myLockCursor; }
 	static float GetMouseSensitivity();
@@ -80,33 +48,55 @@ public:
 	static void SetDrag(bool aDrag) { myDragIsActive = aDrag; }
 
 private:
-	Input();
-	static void AddKey(unsigned int aKey);
-
 	static Keyboard myKeyboard;
-	struct InputValue
+	struct InputKey
 	{
-		std::vector<unsigned int> myKeyInput;
+		std::vector<uint> myKeyInput;
 
-		InputValue(std::vector<unsigned int> aKeyInput)
+		InputKey(std::vector<uint> aKeyInput)
 			: myKeyInput(aKeyInput)
 		{
-			for (auto key : aKeyInput)
-			{
-				AddKey(key);
-			}
 		}
 
-		InputValue() : myKeyInput({ 0 }) {}
+		InputKey() : myKeyInput({ 0 }) {}
 
-		bool operator<(const InputValue& aRHS) const noexcept
+		bool operator<(const InputKey& aRHS) const noexcept
 		{
 			return this->myKeyInput[0] < aRHS.myKeyInput[0];
 		}
 	};
+
+	struct ObserverCallback
+	{
+		InputObserver* observer;
+		std::function<void()> callback;
+	};
+
+	struct InputEvent
+	{
+		eInputEvent event;
+		eInputState state;
+		std::vector<ObserverCallback> callbacks;
+
+		bool IsEqual(InputEvent& anEvent)
+		{
+			return (anEvent.event == event && anEvent.state == state);
+		}
+	};
+
+	static void RegisterInputEvent(InputEvent anIE);
+
+private:
+	Input();
+	~Input();
+
+private:
 	static Vector2f myMousePosition;
 	static Vector2f myMouseDelta;
-	static std::unordered_map<eButtonInput, InputValue> myButtonInputs;
+	static std::vector<KeyUpdate> myKeyUpdatesToDispatch;
+	static std::vector<InputEvent> myInputEvents;
+	// event is index for myEventTriggers
+	static std::vector<std::vector<uint>> myEventTriggers;
 	static bool myLockCursor;
 	static bool myInvertedY;
 	static bool myDragIsActive;

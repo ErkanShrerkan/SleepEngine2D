@@ -7,6 +7,7 @@
 #include <processthreadsapi.h>	// GetCurrentProcess
 
 #include "Engine.h"
+#include <Game\Time.h>
 
 int g_new;
 int g_del;
@@ -64,7 +65,8 @@ namespace SE
 		{
 			#ifdef _DEBUG
 			float deltaTime = std::chrono::duration<float>(myClock.now() - myFirstTime).count();
-			myTotalFrameTime += deltaTime;
+			deltaTime;
+			myTotalFrameTime += Singleton<Time>().deltaTime;
 			myFrameCounter += 1.f;
 
 			PROCESS_MEMORY_COUNTERS memCounter;

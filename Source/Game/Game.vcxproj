@@ -194,6 +194,7 @@
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameManager.h" />
     <ClInclude Include="Globals.h" />
+    <ClInclude Include="InputDispatcher.h" />
     <ClInclude Include="JsonExposedTemplate.h" />
     <ClInclude Include="JsonExposedType.h" />
     <ClInclude Include="JsonExposedVariable.h" />
@@ -210,6 +211,7 @@
     <ClInclude Include="SpriteRenderSystem.h" />
     <ClInclude Include="System.h" />
     <ClInclude Include="SystemInclude.h" />
+    <ClInclude Include="Time.h" />
     <ClInclude Include="Transform.h" />
   </ItemGroup>
   <ItemGroup>
@@ -222,6 +224,7 @@
     <ClCompile Include="Entity.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameManager.cpp" />
+    <ClCompile Include="InputDispatcher.cpp" />
     <ClCompile Include="JsonManager.cpp" />
     <ClCompile Include="Level.cpp" />
     <ClCompile Include="pch.cpp">

@@ -1,6 +1,6 @@
 #include "pch.h"
 #include "Input.h"
-#include "Keyboard.h"
+//#include "Keyboard.h"
 #include <Windows.h>
 #include "GraphicsEngine.h"
 #include "Engine.h"
@@ -9,14 +9,16 @@
 Keyboard Input::myKeyboard;
 Vector2f Input::myMousePosition;
 Vector2f Input::myMouseDelta;
-std::unordered_map<eButtonInput, Input::InputValue> Input::myButtonInputs;
+std::vector<KeyUpdate> Input::myKeyUpdatesToDispatch;
+std::vector<Input::InputEvent> Input::myInputEvents;
+std::vector<std::vector<uint>> Input::myEventTriggers;
 bool Input::myLockCursor = false;
 bool Input::myInvertedY = false;
 bool Input::myDragIsActive = false;
 float Input::myMouseSensitivity = 1.0f;
 float Input::myScrollDelta = 0.0f;
 
-#define BI myButtonInputs
+#define ET myEventTriggers
 
 void Input::SetInvertedY(bool aState)
 {
@@ -32,64 +34,94 @@ Input::Input()
 {
 }
 
-void Input::Init()
+Input::~Input()
 {
-	typedef InputValue IV;
-	BI[eButtonInput::ToggleAllPasses] = IV({ VK_F1 });
-	BI[eButtonInput::TogglePositionPass] = IV({ VK_F2 });
-	BI[eButtonInput::ToggleAlbedoPass] = IV({ VK_F3 });
-	BI[eButtonInput::ToggleNormalPass] = IV({ VK_F4 });
-	BI[eButtonInput::ToggleVertexNormalPass] = IV({ VK_F5 });
-	BI[eButtonInput::ToggleMaterialPass] = IV({ VK_F6 });
-	BI[eButtonInput::ToggleAOPass] = IV({ VK_F7 });
-	BI[eButtonInput::ToggleDepthPass] = IV({ VK_F8 });
-
-	BI[eButtonInput::LMB] = IV({ VK_LBUTTON });
-	BI[eButtonInput::RMB] = IV({ VK_RBUTTON });
-	BI[eButtonInput::Escape] = IV({ VK_ESCAPE });
-	BI[eButtonInput::Jump] = IV({ VK_SPACE });
-	BI[eButtonInput::MovementToggle] = IV({ VK_SHIFT });
-
-	BI[eButtonInput::RotUp] = IV({ VK_UP });
-	BI[eButtonInput::RotDown] = IV({ VK_DOWN });
-	BI[eButtonInput::RotLeft] = IV({ VK_LEFT });
-	BI[eButtonInput::RotRight] = IV({ VK_RIGHT });
-
-	BI[eButtonInput::Up] = IV({ 'W' });
-	BI[eButtonInput::Down] = IV({ 'S' });
-	BI[eButtonInput::Forward] = IV({ 'W' });
-	BI[eButtonInput::Back] = IV({ 'S' });
-	BI[eButtonInput::Left] = IV({ 'A' });
-	BI[eButtonInput::Right] = IV({ 'D' });
-
-	BI[eButtonInput::ChangeCamera] = IV({ 'Y' });
-	BI[eButtonInput::ToggleDrawLine] = IV({ 'Z' });
-
-
-	BI[eButtonInput::H] = IV({ 'H' });
-	BI[eButtonInput::J] = IV({ 'J' });
-	BI[eButtonInput::G] = IV({ 'G' });
-	BI[eButtonInput::Interact] = IV({ 'F' });
-	BI[eButtonInput::UseItem] = IV({ 'E' });
-	BI[eButtonInput::Reload] = IV({ 'R' });
-
-	BI[eButtonInput::O] = IV({ 'O' });
-	BI[eButtonInput::P] = IV({ 'P' });
-	BI[eButtonInput::Quit] = IV({ 'I' });
-	BI[eButtonInput::Alt] = IV({ VK_MENU });
-	BI[eButtonInput::F4] = IV({ VK_F4 });
-
-	BI[eButtonInput::One] = IV({ '1' });
-	BI[eButtonInput::Two] = IV({ '2' });
-	BI[eButtonInput::Three] = IV({ '3' });
-
+	DeInit();
 }
 
-bool Input::GetInputPressed(eButtonInput anInput)
+void Input::RegisterInputEvent(InputEvent anIE)
+{
+}
+
+void Input::DeInit()
+{
+	//for (auto& [key, eventMap] : myObservedInputEvents)
+	//{
+	//	eventMap.clear();
+	//}
+
+	//myObservedInputEvents.clear();
+	myInputEvents.clear();
+	myEventTriggers.clear();
+}
+
+void Input::Init()
+{
+	//typedef InputKey ;
+	//RegisterInputEvent{ eInputEvent::ToggleAllPasses, { VK_F1 },  }
+	myEventTriggers.resize((uint)eInputEvent::COUNT);
+	ET[(uint)eInputEvent::ToggleAllPasses] = { VK_F1 };
+	ET[(uint)eInputEvent::TogglePositionPass] = { VK_F2 };
+	ET[(uint)eInputEvent::ToggleAlbedoPass] = { VK_F3 };
+	ET[(uint)eInputEvent::ToggleNormalPass] = { VK_F4 };
+	ET[(uint)eInputEvent::ToggleVertexNormalPass] = { VK_F5 };
+	ET[(uint)eInputEvent::ToggleMaterialPass] = { VK_F6 };
+	ET[(uint)eInputEvent::ToggleAOPass] = { VK_F7 };
+	ET[(uint)eInputEvent::ToggleDepthPass] = { VK_F8 };
+
+	ET[(uint)eInputEvent::LMB] = { VK_LBUTTON };
+	ET[(uint)eInputEvent::RMB] = { VK_RBUTTON };
+	ET[(uint)eInputEvent::Escape] = { VK_ESCAPE };
+	ET[(uint)eInputEvent::Jump] = { VK_SPACE };
+	ET[(uint)eInputEvent::MovementToggle] = { VK_SHIFT };
+
+	ET[(uint)eInputEvent::RotUp] = { VK_UP };
+	ET[(uint)eInputEvent::RotDown] = { VK_DOWN };
+	ET[(uint)eInputEvent::RotLeft] = { VK_LEFT };
+	ET[(uint)eInputEvent::RotRight] = { VK_RIGHT };
+
+	ET[(uint)eInputEvent::Up] = { 'W' };
+	ET[(uint)eInputEvent::Down] = { 'S' };
+	ET[(uint)eInputEvent::Forward] = { 'W' };
+	ET[(uint)eInputEvent::Back] = { 'S' };
+	ET[(uint)eInputEvent::Left] = { 'A' };
+	ET[(uint)eInputEvent::Right] = { 'D' };
+
+	ET[(uint)eInputEvent::ChangeCamera] = { 'Y' };
+	ET[(uint)eInputEvent::ToggleDrawLine] = { 'Z' };
+
+	ET[(uint)eInputEvent::H] = { 'H' };
+	ET[(uint)eInputEvent::J] = { 'J' };
+	ET[(uint)eInputEvent::G] = { 'G' };
+	ET[(uint)eInputEvent::Interact] = { 'F' };
+	ET[(uint)eInputEvent::UseItem] = { 'E' };
+	ET[(uint)eInputEvent::Reload] = { 'R' };
+
+	ET[(uint)eInputEvent::O] = { 'O' };
+	ET[(uint)eInputEvent::P] = { 'P' };
+	ET[(uint)eInputEvent::Quit] = { 'I' };
+	ET[(uint)eInputEvent::Alt] = { VK_MENU };
+	ET[(uint)eInputEvent::F4] = { VK_F4 };
+
+	ET[(uint)eInputEvent::One] = { '1' };
+	ET[(uint)eInputEvent::Two] = { '2' };
+	ET[(uint)eInputEvent::Three] = { '3' };
+
+	// add registered keys to keyboard
+	for (auto& keys : ET)
+	{
+		for (auto key : keys)
+		{
+			myKeyboard.AddKey(key);
+		}
+	}
+}
+
+bool Input::GetInputPressed(eInputEvent anInput)
 {
 	bool pc = false;
 
-	for (auto& input : myButtonInputs[anInput].myKeyInput)
+	for (auto& input : myEventTriggers[(uint)anInput])
 	{
 		pc = myKeyboard.GetKeyPressed(input);
 		if (pc)
@@ -100,10 +132,10 @@ bool Input::GetInputPressed(eButtonInput anInput)
 	return pc;
 }
 
-bool Input::GetInputHeld(eButtonInput anInput)
+bool Input::GetInputHeld(eInputEvent anInput)
 {
 	bool pc = false;
-	for (auto& input : myButtonInputs[anInput].myKeyInput)
+	for (auto& input : myEventTriggers[(uint)anInput])
 	{
 		pc = myKeyboard.GetKeyHeld(input);
 		if (pc)
@@ -114,10 +146,10 @@ bool Input::GetInputHeld(eButtonInput anInput)
 	return pc;
 }
 
-bool Input::GetInputReleased(eButtonInput anInput)
+bool Input::GetInputReleased(eInputEvent anInput)
 {
 	bool pc = false;
-	for (auto& input : myButtonInputs[anInput].myKeyInput)
+	for (auto& input : myEventTriggers[(uint)anInput])
 	{
 		pc = myKeyboard.GetKeyReleased(input);
 		if (pc)
@@ -128,10 +160,10 @@ bool Input::GetInputReleased(eButtonInput anInput)
 	return pc;
 }
 
-bool Input::GetInputDown(eButtonInput anInput)
+bool Input::GetInputDown(eInputEvent anInput)
 {
 	bool pc = false;
-	for (auto& input : myButtonInputs[anInput].myKeyInput)
+	for (auto& input : myEventTriggers[(uint)anInput])
 	{
 		pc = myKeyboard.GetKeyDown(input);
 		if (pc)
@@ -150,7 +182,7 @@ Vector2f Input::GetMousePos()
 	HWND handle = GetActiveWindow();
 	GetWindowRect(handle, &rect);
 	ScreenToClient(handle, &p);
-	return Vector2f({ (float)p.x / (rect.right - rect.left), (float)p.y / (rect.bottom - rect.top) });
+	return Vector2f{ (float)p.x / (rect.right - rect.left), (float)p.y / (rect.bottom - rect.top) };
 }
 
 Vector2f Input::GetClampedMousePos()
@@ -162,7 +194,7 @@ Vector2f Input::GetClampedMousePos()
 	GetWindowRect(handle, &rect);
 	ScreenToClient(handle, &p);
 	Vector2f screenPos = { (float)p.x / (rect.right - rect.left), (float)p.y / (rect.bottom - rect.top) };
-	return Vector2f({ std::clamp(screenPos.x,0.0f,1.0f),std::clamp(screenPos.y,0.0f,1.0f) });
+	return Vector2f{ std::clamp(screenPos.x,0.0f,1.0f),std::clamp(screenPos.y,0.0f,1.0f) };
 }
 
 Vector2f Input::GetMouseDelta()
@@ -177,9 +209,17 @@ Vector2f Input::GetMouseDelta()
 	}
 }
 
-void Input::Update()
+void Input::Update(bool doUpdate)
 {
-	myKeyboard.Update();
+	myKeyUpdatesToDispatch.clear();
+
+	if (!doUpdate)
+	{
+		myMouseDelta = { 0, 0 };
+		return;
+	}
+
+	myKeyUpdatesToDispatch = myKeyboard.Update();
 	POINT p;
 	HWND handle = GetActiveWindow();
 	GetCursorPos(&p);
@@ -204,6 +244,73 @@ void Input::Update()
 		myMousePosition.y = static_cast<float>(p.y);
 	}
 
+	uint loops = 0;
+	for (auto& keyUpdate : myKeyUpdatesToDispatch)
+	{
+		uint uKey = keyUpdate.key;
+		eInputState uState = keyUpdate.state;
+
+		for (auto& inputEvent : myInputEvents)
+		{
+			eInputState s = (inputEvent.state & uState);
+			if (s == eInputState::Null)
+				continue;
+
+			bool eventTriggered = false;
+			for (auto& key : myEventTriggers[(uint)inputEvent.event])
+			{
+				if (key != uKey)
+					continue;
+
+				eventTriggered = true;
+				break;
+			}
+
+			if (eventTriggered)
+			{
+				// event trigger has the correct state
+				// send/store event
+				// callback one component all its current triggered events at a time
+				for (auto& observerCallback : inputEvent.callbacks)
+				{
+					observerCallback.callback();
+					loops++;
+				}
+			}
+		}
+	}
+}
+
+void Input::Dispatch()
+{
+}
+
+void Input::AddInputEventObserver(InputObserver* anObserver, eInputEvent anEvent, eInputState aState, std::function<void()>& aCallback)
+{
+	anObserver;
+	anEvent;
+	aState;
+	aCallback;
+
+	InputEvent check;
+	check.event = anEvent;
+	check.state = aState;
+
+	bool handled = false;
+	for (auto& inputEvent : myInputEvents)
+	{
+		if (inputEvent.IsEqual(check))
+		{
+			inputEvent.callbacks.push_back({ anObserver, aCallback });
+			handled = true;
+		}
+	}
+
+	if (!handled)
+	{
+		check.callbacks.push_back({ anObserver, aCallback });
+		myInputEvents.push_back(check);
+	}
 }
 
 void Input::LockCursor(bool aShouldLock)
@@ -215,9 +322,9 @@ float Input::GetMouseSensitivity()
 {
 	return myMouseSensitivity;
 }
-void Input::SetMouseSensitivity(float aSensitivity)
+void Input::SetMouseSensitivity(float aSensitity)
 {
-	myMouseSensitivity = aSensitivity;
+	myMouseSensitivity = aSensitity;
 }
 void Input::ScrollEvent(MSG aMessage)
 {
@@ -240,7 +347,17 @@ int Input::GetScrollInput()
 	}
 }
 
-void Input::AddKey(unsigned int aKey)
+void InputObserver::ObserveInputEvent(eInputEvent anEvent, eInputState aTriggerState, std::function<void()> aCallback)
 {
-	myKeyboard.AddKey(aKey);
+	anEvent;
+	aTriggerState;
+	aCallback;
+
+	Input::AddInputEventObserver(this, anEvent, aTriggerState, aCallback);
+}
+
+void InputObserver::StopObservingInputEvent(eInputEvent anEvent, eInputState aTriggerState)
+{
+	anEvent;
+	aTriggerState;
 }

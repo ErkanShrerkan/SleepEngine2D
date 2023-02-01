@@ -287,16 +287,16 @@ namespace SE
 	// TODO: remove trash and clean up vvvv
 	void CRenderManager::RenderFrame()
 	{
-		//for (int i = int(eButtonInput::ToggleAllPasses); i < int(eButtonInput::ToggleAllPasses) + 8; i++)
+		//for (int i = int(eInputEvent::ToggleAllPasses); i < int(eInputEvent::ToggleAllPasses) + 8; i++)
 		//{
-		//	if (Input::GetInputPressed((eButtonInput)i))
+		//	if (Input::GetInputPressed((eInputEvent)i))
 		//	{
-		//		myRenderLayer = i - int(eButtonInput::ToggleAllPasses);
+		//		myRenderLayer = i - int(eInputEvent::ToggleAllPasses);
 		//		break;
 		//	}
 		//}
 
-		//if (Input::GetInputPressed(eButtonInput::ToggleMaterialPass))
+		//if (Input::GetInputPressed(eInputEvent::ToggleMaterialPass))
 		//{
 		//	myRenderLayer++;
 		//	if (myRenderLayer > 7)
@@ -356,7 +356,7 @@ namespace SE
 
 		// line drawer
 		{
-			if (Input::GetInputPressed(eButtonInput::ToggleDrawLine))
+			if (Input::GetInputPressed(eInputEvent::ToggleDrawLine))
 			{
 				myDrawLines = !myDrawLines;
 				CLineDrawer::SetEnabled(myDrawLines);

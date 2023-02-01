@@ -1,7 +1,6 @@
 #include "pch.h"
 #include "PlayerController.h"
 #include "Entity.h"
-#include <Engine\Input.h>
 #include "Sprite.h"
 #include "Collider.h"
 #include "Transform.h"
@@ -18,14 +17,16 @@ PlayerController::~PlayerController()
 void PlayerController::Update(float aDeltaTime)
 {
 	aDeltaTime;
-	myMovement = { 0, 0 };
-	myMovement.y += Input::GetInputDown(eButtonInput::Down) - Input::GetInputDown(eButtonInput::Up);
-	myMovement.x += Input::GetInputDown(eButtonInput::Right) - Input::GetInputDown(eButtonInput::Left);
+	//myMovement = { 0, 0 };
+	//myMovement.y += Input::GetInputDown(eInputEvent::Down) - Input::GetInputDown(eInputEvent::Up);
+	//myMovement.x += Input::GetInputDown(eInputEvent::Right) - Input::GetInputDown(eInputEvent::Left);
 	myMovement.Normalize();
 	myMovement *= mySpeed;
-	myPosition += myMovement * aDeltaTime;
+	myPosition += myMovement * Singleton<Time>().deltaTime;
 
 	GameObject().GetComponent<Transform>().myTransform.SetRow(3, { myPosition, 1 });
+
+	myMovement = { 0, 0 };
 }
 
 void PlayerController::Start()
@@ -37,5 +38,31 @@ void PlayerController::Start()
 	auto& cc = GameObject().AddComponent<Collider>(Collider::eType::Circle);
 	cc.isRigidBody = true;
 	cc.radius = c.GetSize().x;
+
+	eInputState ph = eInputState::Pressed | eInputState::Held;
+	ObserveInputEvent(eInputEvent::Up, ph, [&]() { this->MoveUp(); });
+	ObserveInputEvent(eInputEvent::Down, ph, [&]() { this->MoveDown(); });
+	ObserveInputEvent(eInputEvent::Left, ph, [&]() { this->MoveLeft(); });
+	ObserveInputEvent(eInputEvent::Right, ph, [&]() { this->MoveRight(); });
 	printe("PlayerController Started\n");
+}
+
+void PlayerController::MoveRight()
+{
+	myMovement.x += 1;
+}
+
+void PlayerController::MoveLeft()
+{
+	myMovement.x -= 1;
+}
+
+void PlayerController::MoveUp()
+{
+	myMovement.y -= 1;
+}
+
+void PlayerController::MoveDown()
+{
+	myMovement.y += 1;
 }

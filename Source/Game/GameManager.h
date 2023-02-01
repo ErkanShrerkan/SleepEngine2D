@@ -9,10 +9,10 @@
 
 class Entity;
 
-class ComponentMapBase
+class IComponentMap
 {
 public:
-	virtual ~ComponentMapBase() = default;
+	virtual ~IComponentMap() = default;
 	virtual void DeleteComponentFromEntity(uint anEntity) = 0;
 	virtual void UpdateComponents(float aDeltaTime) = 0;
 };
@@ -22,7 +22,7 @@ template <
 	typename std::enable_if<
 	std::is_base_of<
 	Component, ComponentType>::value>::type* = nullptr>
-class ComponentMap : public ComponentMapBase
+class ComponentMap : public IComponentMap
 {
 public:
 	std::unordered_map<uint, ComponentType*> map;
@@ -138,8 +138,8 @@ private:
 	uint myNextEntityID = 0;
 	uint myIDCounter = 0;
 
-	std::map<uint, Entity*> myEntities;
-	std::map<uint, std::map<uint, Component*>> myEntityComponents;
-	std::map<uint, ComponentMapBase*> myComponentMaps;
+	std::unordered_map<uint, Entity*> myEntities;
+	std::unordered_map<uint, std::unordered_map<uint, Component*>> myEntityComponents;
+	std::unordered_map<uint, IComponentMap*> myComponentMaps;
 	std::vector<System*> mySystems;
 };

@@ -39,7 +39,7 @@ void Game::Editor::OnImGui()
 	}
 	ImGui::End();
 
-	if (Input::GetInputDown(eButtonInput::O))
+	if (Input::GetInputDown(eInputEvent::O))
 	{
 		myIsRunning = false;
 	}

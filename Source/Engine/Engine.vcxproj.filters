@@ -216,6 +216,9 @@
     <ClInclude Include="TypeInfo.h">
       <Filter>Source Files\Engine\Utilities</Filter>
     </ClInclude>
+    <ClInclude Include="InputData.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">

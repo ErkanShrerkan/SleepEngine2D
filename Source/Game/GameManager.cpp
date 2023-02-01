@@ -46,6 +46,8 @@ void GameManager::Init()
 void GameManager::Update(float aDeltaTime)
 {
 	aDeltaTime;
+	Singleton<Time>().deltaTime = aDeltaTime;
+	//printf("%f\n", 1.f / aDeltaTime);
 
 	for (auto& system : mySystems)
 	{

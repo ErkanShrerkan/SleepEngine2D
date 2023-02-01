@@ -1,35 +1,45 @@
 #pragma once
 #include <unordered_map>
+#include "InputData.h"
 
 struct Key
 {
-	enum class eState
-	{
-		Neutral,
-		Pressed,
-		Held,
-		Released
-	};
+	Key(uint aKey)
+		:key(aKey)
+	{}
 
-	Key() : myState(eState::Neutral) {}
+	Key(){}
 
-	eState myState;
+	uint key;
+};
+
+struct KeyUpdate
+{
+	uint key;
+	eInputState state;
 };
 
 class Keyboard
 {
-  public:
+public:
 	Keyboard();
-	bool GetKeyPressed(unsigned int aKey);
-	bool GetKeyHeld(unsigned int aKey);
-	bool GetKeyReleased(unsigned int aKey);
-	bool GetKeyDown(unsigned int aKey);
+	~Keyboard();
+	bool GetKeyPressed(uint aKey);
+	bool GetKeyHeld(uint aKey);
+	bool GetKeyReleased(uint aKey);
+	bool GetKeyDown(uint aKey);
 	Vector2f GetDirection();
-	void Update();
-	void AddKey(unsigned int aKey) { myKeys[aKey]; };
+	std::vector<KeyUpdate> Update();
 
-  private:
+	void AddKey(uint aKey)
+	{ 
+		myKeyStates[aKey] = eInputState::Neutral;
+	};
+
+	void DeInit();
+
+private:
 	bool KeyExists(unsigned int aKey);
-
-	std::unordered_map<unsigned int, Key> myKeys;
+	std::unordered_map<uint, eInputState> myKeyStates;
+	//std::unordered_map<uint, Key> myKeys;
 };

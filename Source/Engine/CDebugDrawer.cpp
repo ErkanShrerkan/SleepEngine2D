@@ -22,7 +22,7 @@ void CDebugDrawer::DrawSphere(float3 aPos, float aRadius, float4 aColor)
 
 void CDebugDrawer::Render()
 {
-	if (Input::GetInputPressed(eButtonInput::Up))
+	if (Input::GetInputPressed(eInputEvent::Up))
 	{
 		myShouldRender = !myShouldRender;
 	}

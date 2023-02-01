@@ -1,8 +1,11 @@
 #pragma once
+#include <Engine\Input.h>
+
 class Entity;
 
 class Component
 {
+	//friend class InputObserver;
 public:
 	Component(Entity*& anEntity);
 	Entity& GameObject();

@@ -52,19 +52,15 @@ void HandleTabbing(bool& isTabbed)
 	HWND active = GetActiveWindow();
 	HWND foreground = GetForegroundWindow();
 	bool same = active == foreground/*!memcmp(&active, &foreground, sizeof(HWND))*/;
-	if (!same)
-	{
-		isTabbed = true;
-	}
-	else
-	{
-		Input::Update();
-	}
+	
+	isTabbed = !same;
 
-	if (isTabbed && same)
-	{
-		isTabbed = false;
-	}
+	//if (isTabbed && same)
+	//{
+	//	isTabbed = false;
+	//}
+
+	Input::Update(!isTabbed);
 }
 
 void MessagePeek(MSG& aMSG)
@@ -151,7 +147,7 @@ int WINAPI wWinMain(_In_ HINSTANCE hInstance,
 #endif // RELEASE
 	}
 
-	Input::Init();
+	//Input::Init();
 	//Input::LockCursor();
 	timer.Update();
 
@@ -163,6 +159,7 @@ int WINAPI wWinMain(_In_ HINSTANCE hInstance,
 
 	while (isRunning)
 	{
+		Input::Init();
 		Process* process = nullptr;
 		Singleton<GlobalSettings>().gameplayResolution = (currentProcess ? uint2(640, /*480*/ 360) : uint2(x, y));
 		isRunning = engine->Restart();
@@ -193,7 +190,7 @@ int WINAPI wWinMain(_In_ HINSTANCE hInstance,
 			Input::ResetScrollInput();
 			PIXEndEvent();
 
-			if (Input::GetInputDown(eButtonInput::Quit))
+			if (Input::GetInputDown(eInputEvent::Quit))
 			{
 				isRunning = false;
 			}
@@ -201,6 +198,7 @@ int WINAPI wWinMain(_In_ HINSTANCE hInstance,
 
 		delete process;
 		currentProcess = !currentProcess;
+		Input::DeInit();
 	}
 
 	return 0;

@@ -9,31 +9,36 @@ Keyboard::Keyboard()
 {
 }
 
-bool Keyboard::GetKeyPressed(unsigned int aKey)
+Keyboard::~Keyboard()
+{
+	DeInit();
+}
+
+bool Keyboard::GetKeyPressed(uint aKey)
 {
 	if (!KeyExists(aKey))
 		return false;
 
-	return (myKeys[aKey].myState == Key::eState::Pressed);
+	return (myKeyStates[aKey] == eInputState::Pressed);
 }
 
-bool Keyboard::GetKeyHeld(unsigned int aKey)
+bool Keyboard::GetKeyHeld(uint aKey)
 {
 	if (!KeyExists(aKey))
 		return false;
 
-	return (myKeys[aKey].myState == Key::eState::Held);
+	return (myKeyStates[aKey] == eInputState::Held);
 }
 
-bool Keyboard::GetKeyReleased(unsigned int aKey)
+bool Keyboard::GetKeyReleased(uint aKey)
 {
 	if (!KeyExists(aKey))
 		return false;
 
-	return (myKeys[aKey].myState == Key::eState::Released);
+	return (myKeyStates[aKey] == eInputState::Released);
 }
 
-bool Keyboard::GetKeyDown(unsigned int aKey)
+bool Keyboard::GetKeyDown(uint aKey)
 {
 	if (!KeyExists(aKey))
 		return false;
@@ -53,43 +58,65 @@ Vector2f Keyboard::GetDirection()
 	return Vector2f({ x, y }).GetNormalized();
 }
 
-void Keyboard::Update()
+std::vector<KeyUpdate> Keyboard::Update()
 {
-	for (auto& key : myKeys)
+	std::vector<KeyUpdate> keyUpdates;
+	for (auto& [key, state] : myKeyStates)
 	{
-		switch (key.second.myState)
+		switch (state)
 		{
-		case Key::eState::Neutral:
-			if (IS_KEY_DOWN(key.first))
+		case eInputState::Neutral:
+			if (IS_KEY_DOWN(key))
 			{
-				myKeys[key.first].myState = Key::eState::Pressed;
-			}
-			break;
-		case Key::eState::Pressed:
-			if (!(IS_KEY_DOWN(key.first)))
-			{
-				key.second.myState = Key::eState::Released;
+				state = eInputState::Pressed;
+				keyUpdates.push_back({ key, eInputState::Pressed});
 			}
 			else
 			{
-				myKeys[key.first].myState = Key::eState::Held;
+				keyUpdates.push_back({ key, eInputState::Neutral });
 			}
 			break;
-		case Key::eState::Held:
-			if (!(IS_KEY_DOWN(key.first)))
+		case eInputState::Pressed:
+			if (!(IS_KEY_DOWN(key)))
 			{
-				key.second.myState = Key::eState::Released;
+				state = eInputState::Released;
+				keyUpdates.push_back({ key, eInputState::Released });
+			}
+			else
+			{
+				state = eInputState::Held;
+				keyUpdates.push_back({ key, eInputState::Held });
 			}
 			break;
-		case Key::eState::Released: key.second.myState = Key::eState::Neutral; break;
+		case eInputState::Held:
+			if (!(IS_KEY_DOWN(key)))
+			{
+				state = eInputState::Released;
+				keyUpdates.push_back({ key, eInputState::Released });
+			}
+			else
+			{
+				keyUpdates.push_back({ key, eInputState::Held });
+			}
+			break;
+		case eInputState::Released:
+			state = eInputState::Neutral; 
+			keyUpdates.push_back({ key, eInputState::Neutral });
+			break;
 		}
 	}
 
-
+	return keyUpdates;
 }
 
 
+void Keyboard::DeInit()
+{
+	myKeyStates.clear();
+	//myKeys.clear();
+}
+
 bool Keyboard::KeyExists(unsigned int aKey)
 {
-	return myKeys.find(aKey) != myKeys.end();
+	return myKeyStates.find(aKey) != myKeyStates.end();
 }
