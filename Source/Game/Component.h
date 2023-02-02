@@ -9,7 +9,7 @@ class Component
 public:
 	Component(Entity*& anEntity);
 	Entity& GameObject();
-	virtual void Update([[maybe_unused]] float aDeltaTime){};
+	virtual void Update(){};
 	virtual void Start() = 0;
 
 protected:

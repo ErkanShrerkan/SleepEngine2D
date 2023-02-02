@@ -5,9 +5,8 @@
 #include "Entity.h"
 #include "Transform.h"
 
-void SpriteRenderSystem::Update(float aDeltaTime)
+void SpriteRenderSystem::Update()
 {
-	aDeltaTime;
 	for (auto& [entity, component] : myGameManager->GetComponentMap<Sprite>().map)
 	{
 		float2 pos = myGameManager->GetEntity(entity).GetComponent<Transform>().myTransform.GetPosition();

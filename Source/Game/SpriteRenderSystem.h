@@ -11,6 +11,6 @@ public:
 
 	}
 
-	virtual void Update([[maybe_unused]] float aDeltaTime) override;
+	virtual void Update() override;
 };
 

@@ -45,18 +45,17 @@ void GameManager::Init()
 
 void GameManager::Update(float aDeltaTime)
 {
-	aDeltaTime;
 	Singleton<Time>().deltaTime = aDeltaTime;
 	//printf("%f\n", 1.f / aDeltaTime);
 
 	for (auto& system : mySystems)
 	{
-		system->Update(aDeltaTime);
+		system->Update();
 	}
 
 	for (auto& [componentID, componentMap] : myComponentMaps)
 	{
-		componentMap->UpdateComponents(aDeltaTime);
+		componentMap->UpdateComponents();
 	}
 
 	uint2 res = Singleton<GlobalSettings>().gameplayResolution;

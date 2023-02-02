@@ -287,11 +287,6 @@ void Input::Dispatch()
 
 void Input::AddInputEventObserver(InputObserver* anObserver, eInputEvent anEvent, eInputState aState, std::function<void()>& aCallback)
 {
-	anObserver;
-	anEvent;
-	aState;
-	aCallback;
-
 	InputEvent check;
 	check.event = anEvent;
 	check.state = aState;
@@ -311,6 +306,39 @@ void Input::AddInputEventObserver(InputObserver* anObserver, eInputEvent anEvent
 		check.callbacks.push_back({ anObserver, aCallback });
 		myInputEvents.push_back(check);
 	}
+}
+
+void Input::RemoveEventObserver(InputObserver* anObserver, eInputEvent anEvent, eInputState aState)
+{
+	InputEvent check;
+	check.event = anEvent;
+	check.state = aState;
+
+	bool handled = false;
+	uint index = 0;
+	for (auto& inputEvent : myInputEvents)
+	{
+		if (!inputEvent.IsEqual(check))
+			continue;
+
+		for (uint i = 0; i < inputEvent.callbacks.size(); i++)
+		{
+			if (inputEvent.callbacks[i].observer != anObserver)
+				continue;
+
+			handled = true;
+			index = i;
+			break;
+		}
+
+		if (handled)
+		{
+			inputEvent.callbacks.erase(inputEvent.callbacks.begin()+index);
+		}
+
+		break;
+	}
+
 }
 
 void Input::LockCursor(bool aShouldLock)
@@ -349,15 +377,10 @@ int Input::GetScrollInput()
 
 void InputObserver::ObserveInputEvent(eInputEvent anEvent, eInputState aTriggerState, std::function<void()> aCallback)
 {
-	anEvent;
-	aTriggerState;
-	aCallback;
-
 	Input::AddInputEventObserver(this, anEvent, aTriggerState, aCallback);
 }
 
 void InputObserver::StopObservingInputEvent(eInputEvent anEvent, eInputState aTriggerState)
 {
-	anEvent;
-	aTriggerState;
+	Input::RemoveEventObserver(this, anEvent, aTriggerState);
 }

@@ -12,7 +12,6 @@ public:
     bool isEngineDependent = false;
 
 public:
-    virtual void Update([[maybe_unused]] float aDeltaTime) override;
 
     void DrawRect();
     void SetPosition(const Vector2f& aPosition);

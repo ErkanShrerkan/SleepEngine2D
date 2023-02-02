@@ -16,10 +16,6 @@ Sprite::~Sprite()
 	Release();
 }
 
-void Sprite::Update([[maybe_unused]] float aDeltaTime)
-{
-}
-
 void Sprite::DrawRect()
 {
 	float rot = mySprite->GetRotationRadian();

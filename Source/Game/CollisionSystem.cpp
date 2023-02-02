@@ -6,9 +6,8 @@
 #include "Entity.h"
 #include "Transform.h"
 
-void CollisionSystem::Update(float aDeltaTime)
+void CollisionSystem::Update()
 {
-	aDeltaTime;
 	auto& colliders = myGameManager->GetComponentMap<Collider>();
 
 	// upgrade with spacial partitioning

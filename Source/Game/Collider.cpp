@@ -11,9 +11,8 @@ Collider::~Collider()
 {
 }
 
-void Collider::Update(float aDeltaTime)
+void Collider::Update()
 {
-	aDeltaTime;
 	// set position to position relative to parent
 }
 

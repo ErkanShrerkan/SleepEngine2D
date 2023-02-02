@@ -33,6 +33,7 @@ public:
 	static void Update(bool doUpdate);
 	static void Dispatch();
 	static void AddInputEventObserver(InputObserver* anObserver, eInputEvent anEvent, eInputState aState, std::function<void()>& aCallback);
+	static void RemoveEventObserver(InputObserver* anObserver, eInputEvent anEvent, eInputState aState);
 	static void LockCursor(bool aShouldLock = true);
 	static bool GetLockedCursorState() { return myLockCursor; }
 	static float GetMouseSensitivity();

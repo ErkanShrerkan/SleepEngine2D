@@ -14,12 +14,8 @@ PlayerController::~PlayerController()
 {
 }
 
-void PlayerController::Update(float aDeltaTime)
+void PlayerController::Update()
 {
-	aDeltaTime;
-	//myMovement = { 0, 0 };
-	//myMovement.y += Input::GetInputDown(eInputEvent::Down) - Input::GetInputDown(eInputEvent::Up);
-	//myMovement.x += Input::GetInputDown(eInputEvent::Right) - Input::GetInputDown(eInputEvent::Left);
 	myMovement.Normalize();
 	myMovement *= mySpeed;
 	myPosition += myMovement * Singleton<Time>().deltaTime;
@@ -38,12 +34,7 @@ void PlayerController::Start()
 	auto& cc = GameObject().AddComponent<Collider>(Collider::eType::Circle);
 	cc.isRigidBody = true;
 	cc.radius = c.GetSize().x;
-
-	eInputState ph = eInputState::Pressed | eInputState::Held;
-	ObserveInputEvent(eInputEvent::Up, ph, [&]() { this->MoveUp(); });
-	ObserveInputEvent(eInputEvent::Down, ph, [&]() { this->MoveDown(); });
-	ObserveInputEvent(eInputEvent::Left, ph, [&]() { this->MoveLeft(); });
-	ObserveInputEvent(eInputEvent::Right, ph, [&]() { this->MoveRight(); });
+	ObserveInputEvent(eInputEvent::Interact, eInputState::Released, [&]() { this->ToggleMovement(); });
 	printe("PlayerController Started\n");
 }
 
@@ -65,4 +56,24 @@ void PlayerController::MoveUp()
 void PlayerController::MoveDown()
 {
 	myMovement.y += 1;
+}
+
+void PlayerController::ToggleMovement()
+{
+	myCanMove = !myCanMove;
+	eInputState ph = eInputState::Pressed | eInputState::Held;
+	if (myCanMove)
+	{
+		ObserveInputEvent(eInputEvent::Up, ph, [&]() { this->MoveUp(); });
+		ObserveInputEvent(eInputEvent::Down, ph, [&]() { this->MoveDown(); });
+		ObserveInputEvent(eInputEvent::Left, ph, [&]() { this->MoveLeft(); });
+		ObserveInputEvent(eInputEvent::Right, ph, [&]() { this->MoveRight(); });
+	}
+	else
+	{
+		StopObservingInputEvent(eInputEvent::Up, ph);
+		StopObservingInputEvent(eInputEvent::Down, ph);
+		StopObservingInputEvent(eInputEvent::Left, ph);
+		StopObservingInputEvent(eInputEvent::Right, ph);
+	}
 }

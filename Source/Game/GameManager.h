@@ -14,7 +14,7 @@ class IComponentMap
 public:
 	virtual ~IComponentMap() = default;
 	virtual void DeleteComponentFromEntity(uint anEntity) = 0;
-	virtual void UpdateComponents(float aDeltaTime) = 0;
+	virtual void UpdateComponents() = 0;
 };
 
 template <
@@ -32,12 +32,12 @@ public:
 		map.erase(anEntity);
 	}
 
-	virtual void UpdateComponents(float aDeltaTime) override
+	virtual void UpdateComponents() override
 	{
 		// optimize to not iterate components if they dont override update
 		for (auto& [entity, component] : map)
 		{
-			component->Update(aDeltaTime);
+			component->Update();
 		}
 	}
 };

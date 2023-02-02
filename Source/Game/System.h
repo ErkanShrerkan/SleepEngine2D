@@ -12,7 +12,7 @@ public:
 
 	virtual ~System() = default;
 
-	virtual void Update([[maybe_unused]] float aDeltaTime) = 0;
+	virtual void Update() = 0;
 
 protected:
     std::vector<std::type_info> myComponentTypes;
