@@ -31,7 +31,14 @@ public:
 	static void DeInit();
 	static void Init();
 	static void Update(bool doUpdate);
-	static void Dispatch();
+	/// <summary>
+	/// Adds InputObserver to Input system. 
+	/// TODO: assert if observer is duplicate.
+	/// </summary>
+	/// <param name="anObserver"></param>
+	/// <param name="anEvent"></param>
+	/// <param name="aState"></param>
+	/// <param name="aCallback"></param>
 	static void AddInputEventObserver(InputObserver* anObserver, eInputEvent anEvent, eInputState aState, std::function<void()>& aCallback);
 	static void RemoveEventObserver(InputObserver* anObserver, eInputEvent anEvent, eInputState aState);
 	static void LockCursor(bool aShouldLock = true);

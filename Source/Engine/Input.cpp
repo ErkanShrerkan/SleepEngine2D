@@ -252,8 +252,7 @@ void Input::Update(bool doUpdate)
 
 		for (auto& inputEvent : myInputEvents)
 		{
-			eInputState s = (inputEvent.state & uState);
-			if (s == eInputState::Null)
+			if ((inputEvent.state & uState) == eInputState::Null)
 				continue;
 
 			bool eventTriggered = false;
@@ -268,9 +267,6 @@ void Input::Update(bool doUpdate)
 
 			if (eventTriggered)
 			{
-				// event trigger has the correct state
-				// send/store event
-				// callback one component all its current triggered events at a time
 				for (auto& observerCallback : inputEvent.callbacks)
 				{
 					observerCallback.callback();
@@ -279,10 +275,6 @@ void Input::Update(bool doUpdate)
 			}
 		}
 	}
-}
-
-void Input::Dispatch()
-{
 }
 
 void Input::AddInputEventObserver(InputObserver* anObserver, eInputEvent anEvent, eInputState aState, std::function<void()>& aCallback)
@@ -333,12 +325,16 @@ void Input::RemoveEventObserver(InputObserver* anObserver, eInputEvent anEvent, 
 
 		if (handled)
 		{
-			inputEvent.callbacks.erase(inputEvent.callbacks.begin()+index);
+			inputEvent.callbacks.erase(inputEvent.callbacks.begin() + index);
 		}
 
 		break;
 	}
 
+	if (!handled)
+	{
+		assert("InputObserver was not found" && false);
+	}
 }
 
 void Input::LockCursor(bool aShouldLock)
