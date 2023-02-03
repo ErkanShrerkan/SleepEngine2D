@@ -21,7 +21,7 @@ void PlayerController::Update()
 	myPosition += myMovement * Singleton<Time>().deltaTime;
 
 	GameObject().GetComponent<Transform>().myTransform.SetRow(3, { myPosition, 1 });
-
+	
 	myMovement = { 0, 0 };
 }
 
@@ -35,7 +35,10 @@ void PlayerController::Start()
 	cc.isRigidBody = true;
 	cc.radius = c.GetSize().x;
 	ObserveInputEvent(eInputEvent::Interact, eInputState::Released, [&]() { this->ToggleMovement(); });
-	printe("PlayerController Started\n");
+	
+	Expose(myPosition, "Position");
+	Expose(mySpeed, "Speed");
+	//printe("PlayerController Started\n");
 }
 
 void PlayerController::MoveRight()

@@ -9,6 +9,7 @@ Game::Editor::~Editor()
 
 bool Game::Editor::Init()
 {
+	myGM.Init();
 	return true;
 }
 

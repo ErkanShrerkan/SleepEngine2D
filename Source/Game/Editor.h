@@ -2,6 +2,7 @@
 #include "Observer.h"
 #include "Observer.h"
 #include "Process.h"
+#include "GameManager.h"
 
 namespace Game
 {
@@ -17,7 +18,7 @@ namespace Game
 		void OnImGui();
 
 	private:
-		bool myIsRunning = true;
+		GameManager myGM;
 	};
 }
 

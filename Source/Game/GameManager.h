@@ -15,14 +15,17 @@ public:
 	virtual ~IComponentMap() = default;
 	virtual void DeleteComponentFromEntity(uint anEntity) = 0;
 	virtual void UpdateComponents() = 0;
+
+public:
+	std::string myName;
 };
 
 template <
-	typename ComponentType, 
+	typename ComponentType,
 	typename std::enable_if<
 	std::is_base_of<
 	Component, ComponentType>::value>::type* = nullptr>
-class ComponentMap : public IComponentMap
+	class ComponentMap : public IComponentMap
 {
 public:
 	std::unordered_map<uint, ComponentType*> map;
@@ -34,7 +37,6 @@ public:
 
 	virtual void UpdateComponents() override
 	{
-		// optimize to not iterate components if they dont override update
 		for (auto& [entity, component] : map)
 		{
 			component->Update();
@@ -48,7 +50,7 @@ class GameManager
 public:
 	~GameManager();
 	void Init();
-	void Update(float aDeltaTime);
+	void Update();
 
 	/// <summary>
 	/// Gets ID of component classes only
@@ -82,19 +84,19 @@ public:
 		return *myEntities[anEntityID];
 	}
 
+	void OnImGui();
+
 private:
+
 	template <typename ComponentType>
 	typename std::enable_if<
 		std::is_base_of<
 		Component, ComponentType>::value,
 		void>::type
-		UpdateComponents(const ComponentType&, float aDeltaTime)
+		RegisterComponent(const std::string& aName)
 	{
-		auto& cm = GetComponentMap<ComponentType>();
-		for (auto& [entityID, component] : cm)
-		{
-			component.Update(aDeltaTime);
-		}
+		myComponentMaps[GetID<ComponentType>()] = new ComponentMap<ComponentType>();
+		myComponentMaps[GetID<ComponentType>()]->myName = aName;
 	}
 
 	Entity& CreateEntity();

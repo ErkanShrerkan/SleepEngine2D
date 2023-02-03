@@ -27,15 +27,17 @@ GameManager::~GameManager()
 
 void GameManager::Init()
 {
-	myComponentMaps[GetID<Sprite>()] = new ComponentMap<Sprite>();
-	myComponentMaps[GetID<Collider>()] = new ComponentMap<Collider>();
-	myComponentMaps[GetID<Transform>()] = new ComponentMap<Transform>();
-	myComponentMaps[GetID<PlayerController>()] = new ComponentMap<PlayerController>();
+	// register components
+	RegisterComponent<Sprite>("Sprite");
+	RegisterComponent<Collider>("Collider");
+	RegisterComponent<Transform>("Transform");
+	RegisterComponent<PlayerController>("PlayerController");
 	//myComponentMaps[GetID<CameraComponent>()] = new ComponentMap<CameraComponent>();
+
 	RegisterSystem<SpriteRenderSystem>();
 	RegisterSystem<CollisionSystem>();
 
-	for (size_t i = 0; i < 100; i++)
+	for (size_t i = 0; i < 10; i++)
 	{
 		CreateEntity().AddComponent<PlayerController>();
 	}
@@ -43,11 +45,8 @@ void GameManager::Init()
 	printe("GameManager Inited\n");
 }
 
-void GameManager::Update(float aDeltaTime)
+void GameManager::Update()
 {
-	Singleton<Time>().deltaTime = aDeltaTime;
-	//printf("%f\n", 1.f / aDeltaTime);
-
 	for (auto& system : mySystems)
 	{
 		system->Update();
@@ -58,6 +57,8 @@ void GameManager::Update(float aDeltaTime)
 		componentMap->UpdateComponents();
 	}
 
+	OnImGui();
+
 	uint2 res = Singleton<GlobalSettings>().gameplayResolution;
 	for (uint x = 0; x < res.x; x++)
 	{
@@ -67,6 +68,60 @@ void GameManager::Update(float aDeltaTime)
 	{
 		Debug::DrawLine2D({ 0, (float)y / res.y }, { 1, (float)y / res.y }, { 1, 1, 1, .0125f });
 	}
+}
+
+void GameManager::OnImGui()
+{
+	ImGui::SetNextWindowSize(ImVec2(600, 450), ImGuiCond_FirstUseEver);
+	if (!ImGui::Begin("Inspector"))
+	{
+		ImGui::End();
+		return;
+	}
+	ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(2, 2));
+	if (ImGui::BeginTable("", 3, ImGuiTableFlags_BordersOuter | ImGuiTableFlags_Resizable))
+	{
+		ImGui::TableNextRow();
+		ImGui::TableSetColumnIndex(0);
+		ImGui::AlignTextToFramePadding();
+		ImGui::Text("GameObjects");
+		ImGui::Separator();
+		ImGui::TableSetColumnIndex(1);
+		ImGui::Text("Components");
+		//ImGui::Separator();
+		ImGui::TableSetColumnIndex(2);
+		ImGui::Text("Variables");
+		//ImGui::Separator();
+
+		for (auto& [entity, components] : myEntityComponents)
+		{
+			ImGui::PushID(entity);
+
+			ImGui::TableNextRow();
+			ImGui::TableSetColumnIndex(0);
+			if (ImGui::TreeNode("Entities", "%s_%u", "Entity", entity))
+			{
+				// loop children when implemented
+				//
+
+				// loop components
+				for (auto& [id, component] : components)
+				{
+					if (component->HasExposedVariables())
+					{
+						ImGui::PushID(id);
+						component->OnImGui(myComponentMaps[id]->myName);
+						ImGui::PopID();
+					}
+				}
+				ImGui::TreePop();
+			}
+			ImGui::PopID();
+		}
+		ImGui::EndTable();
+	}
+	ImGui::PopStyleVar();
+	ImGui::End();
 }
 
 Entity& GameManager::CreateEntity()

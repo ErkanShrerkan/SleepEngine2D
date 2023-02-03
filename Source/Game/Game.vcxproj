@@ -190,6 +190,7 @@
     <ClInclude Include="eMessageTypes.h" />
     <ClInclude Include="Entity.h" />
     <ClInclude Include="Expose.h" />
+    <ClInclude Include="ExposedComponent.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameManager.h" />
@@ -222,6 +223,7 @@
     <ClCompile Include="Component.cpp" />
     <ClCompile Include="Editor.cpp" />
     <ClCompile Include="Entity.cpp" />
+    <ClCompile Include="ExposedComponent.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameManager.cpp" />
     <ClCompile Include="InputDispatcher.cpp" />

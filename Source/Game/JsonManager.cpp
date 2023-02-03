@@ -35,6 +35,13 @@ void JsonManager::InitDocument(const std::string& aConfigFilePath)
 void JsonManager::OnImGui()
 {
 	ImGui::ShowDemoWindow();
+
+	bool use = false;
+	if (!use)
+	{
+		return;
+	}
+
 	if (ImGui::BeginMenu("Exposed Variables"))
 	{
 		ImGui::BeginMenu(("Saving to \"" + myConfigFile + "\"").c_str(), false);

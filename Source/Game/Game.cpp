@@ -43,11 +43,12 @@ namespace Game
 	bool printAddress = true;
 	bool Game::Update()
 	{
-		float dt = SE::CEngine::GetInstance()->GetDeltaTime();
 		if (!myIsPaused)
 		{
-			myGM.Update(dt);
+			myGM.Update();
 		}
+
+		//EXPOSE()
 
 		/*if (myPauseStateChanged)
 		{

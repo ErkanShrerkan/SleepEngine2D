@@ -1,18 +1,17 @@
 #pragma once
 #include <Engine\Input.h>
+#include "ExposedComponent.h"
 
 class Entity;
-
-class Component
+class Component : public ExposedComponent
 {
-	//friend class InputObserver;
 public:
 	Component(Entity*& anEntity);
 	Entity& GameObject();
 	virtual void Update(){};
 	virtual void Start() = 0;
 
-protected:
+private:
 	Entity*& myEntity;
 };
 

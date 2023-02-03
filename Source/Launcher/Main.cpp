@@ -25,6 +25,7 @@ using namespace CommonUtilities;
 #include <Game\Editor.h>
 #include <Game\Globals.h>
 #include <Game\Process.h>
+#include <Game\Time.h>
 
 std::mutex mutex;
 std::condition_variable condition;
@@ -182,6 +183,7 @@ int WINAPI wWinMain(_In_ HINSTANCE hInstance,
 			engine->BeginFrame();
 			timer.Update();
 			float dt = timer.GetDeltaTime();
+			Singleton<Time>().deltaTime = dt;
 			engine->Update(dt);
 			isProcessing = process->Update();
 			engine->Render();
