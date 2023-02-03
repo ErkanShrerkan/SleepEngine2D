@@ -107,7 +107,8 @@ private:
 				break;
 			}
 
-			ImGui::NextColumn();
+			//ImGui::NextColumn();
+			ImGui::TableNextRow();
 		}
 	};
 
@@ -168,7 +169,21 @@ public:
 	{
 		ImGui::TableSetColumnIndex(1);
 		ImGui::AlignTextToFramePadding();
-		if (ImGui::TreeNode("Component", aName.c_str()))
+		bool open = ImGui::TreeNode("Component", aName.c_str());
+
+		if (!HasExposedVariables())
+		{
+			ImGui::PushID(INT_MIN);
+			ImGui::TableSetColumnIndex(2);
+			ImGui::AlignTextToFramePadding();
+			ImGui::Text("");
+			ImGui::TableNextRow();
+			ImGui::PopID();
+			if (!open)
+				return;
+		}
+
+		if (open)
 		{
 			for (auto& variable : myExposedVariables)
 			{

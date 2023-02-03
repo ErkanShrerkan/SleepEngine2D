@@ -72,6 +72,7 @@ void GameManager::Update()
 
 void GameManager::OnImGui()
 {
+	// TODO: GameObjects selected with combo, then components and variables with table
 	ImGui::SetNextWindowSize(ImVec2(600, 450), ImGuiCond_FirstUseEver);
 	if (!ImGui::Begin("Inspector"))
 	{
@@ -85,7 +86,7 @@ void GameManager::OnImGui()
 		ImGui::TableSetColumnIndex(0);
 		ImGui::AlignTextToFramePadding();
 		ImGui::Text("GameObjects");
-		ImGui::Separator();
+		//ImGui::Separator();
 		ImGui::TableSetColumnIndex(1);
 		ImGui::Text("Components");
 		//ImGui::Separator();
@@ -96,7 +97,6 @@ void GameManager::OnImGui()
 		for (auto& [entity, components] : myEntityComponents)
 		{
 			ImGui::PushID(entity);
-
 			ImGui::TableNextRow();
 			ImGui::TableSetColumnIndex(0);
 			if (ImGui::TreeNode("Entities", "%s_%u", "Entity", entity))
@@ -107,7 +107,7 @@ void GameManager::OnImGui()
 				// loop components
 				for (auto& [id, component] : components)
 				{
-					if (component->HasExposedVariables())
+					//if (component->HasExposedVariables())
 					{
 						ImGui::PushID(id);
 						component->OnImGui(myComponentMaps[id]->myName);
