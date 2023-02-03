@@ -171,7 +171,7 @@ public:
 		ImGui::AlignTextToFramePadding();
 		bool open = ImGui::TreeNode("Component", aName.c_str());
 
-		if (!HasExposedVariables())
+		if (!HasExposedVariables() || !open)
 		{
 			ImGui::PushID(INT_MIN);
 			ImGui::TableSetColumnIndex(2);
@@ -179,8 +179,11 @@ public:
 			ImGui::Text("");
 			ImGui::TableNextRow();
 			ImGui::PopID();
-			if (!open)
-				return;
+			if (open)
+			{
+				ImGui::TreePop();
+			}
+			return;
 		}
 
 		if (open)

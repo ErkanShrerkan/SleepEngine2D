@@ -6,6 +6,60 @@
 #include "Entity.h"
 #include "Transform.h"
 
+#include <vector>
+#include <limits>
+
+bool CollisionSystem::Intersects(const PolygonCollider& a, const PolygonCollider& b)
+{
+	float minOverlap = FLT_MAX;
+	int minIndex = 0;
+
+	for (int i = 0; i < b.size(); i++)
+	{
+		int j = (i + 1) % b.size();
+		float2 edge = b[j] - b[i];
+		float2 axis = { -edge.y, edge.x };
+		axis.Normalize();
+
+		float minA = 0, minB = 0, maxA = 0, maxB = 0;
+		for (int k = 0; k < a.size(); k++)
+		{
+			float dot = axis.Dot(a[k] - a[0]);
+			minA = Min(minA, dot);
+			maxA = Max(maxA, dot);
+		}
+		for (int k = 0; k < b.size(); k++)
+		{
+			float dot = axis.Dot(b[k] - b[0]);
+			minB = Min(minB, dot);
+			maxB = Max(maxB, dot);
+		}
+
+		float overlap = Min(maxA, maxB) - Max(minA, minB);
+		if (overlap < 0)
+		{
+			return false;
+		}
+		else if (overlap < minOverlap)
+		{
+			minOverlap = overlap;
+			minIndex = i;
+		}
+	}
+
+	//overlap
+	float2 edge = b[(minIndex + 1) % b.size()] - b[minIndex];
+	float2 axis = { -edge.y, edge.x };
+	axis.Normalize();
+	if (axis.Dot(a[0] - b[minIndex]) < 0)
+	{
+		axis = { -axis.x, -axis.y };
+	}
+	float2 MTV = axis * minOverlap;
+	MTV;
+	return true;
+}
+
 void CollisionSystem::Update()
 {
 	auto& colliders = myGameManager->GetComponentMap<Collider>();

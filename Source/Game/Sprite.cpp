@@ -11,6 +11,11 @@ Sprite::Sprite(const std::string& aTexturePath, Entity*& myEntity)
 	mySprite = SE::CEngine::GetInstance()->GetContentLoader()->GetSpriteFactory().GetSprite(aTexturePath);
 }
 
+void Sprite::Start()
+{
+	Expose(myTexture, "Texture");
+}
+
 Sprite::~Sprite()
 {
 	Release();

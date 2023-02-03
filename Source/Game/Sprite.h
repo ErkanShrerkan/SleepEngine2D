@@ -6,7 +6,7 @@ class Sprite : public Component
 {
 public:
     Sprite(const std::string& aTexturePath, Entity*& myEntity);
-    virtual void Start() override {}
+    virtual void Start() override;
     ~Sprite();
 
     bool isEngineDependent = false;
@@ -50,6 +50,7 @@ private:
     Vector2f myPosition;
     float4 myRect;
     float2 myPivot;
+    std::string myTexture;
     // TODO: fix grid lock logic
 
 private:

@@ -162,7 +162,7 @@ int WINAPI wWinMain(_In_ HINSTANCE hInstance,
 	{
 		Input::Init();
 		Process* process = nullptr;
-		Singleton<GlobalSettings>().gameplayResolution = (currentProcess ? uint2(640, /*480*/ 360) : uint2(x, y));
+		Singleton<GlobalSettings>().gameplayResolution = (currentProcess ? uint2(960/*640*/, 540/*480*/ /*360*/) : uint2(x, y));
 		isRunning = engine->Restart();
 
 		if (currentProcess)

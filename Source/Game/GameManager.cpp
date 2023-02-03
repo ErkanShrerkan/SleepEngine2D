@@ -57,8 +57,6 @@ void GameManager::Update()
 		componentMap->UpdateComponents();
 	}
 
-	OnImGui();
-
 	uint2 res = Singleton<GlobalSettings>().gameplayResolution;
 	for (uint x = 0; x < res.x; x++)
 	{
@@ -73,12 +71,15 @@ void GameManager::Update()
 void GameManager::OnImGui()
 {
 	// TODO: GameObjects selected with combo, then components and variables with table
-	ImGui::SetNextWindowSize(ImVec2(600, 450), ImGuiCond_FirstUseEver);
-	if (!ImGui::Begin("Inspector"))
-	{
-		ImGui::End();
-		return;
-	}
+	//ImGui::SetNextWindowSize(ImVec2(600, 450), ImGuiCond_FirstUseEver);
+	ImGui::Separator();
+	ImGui::Text("Inspector");
+	//if (!ImGui::Begin())
+	//{
+	//	ImGui::End();
+	//	return;
+	//}
+
 	ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(2, 2));
 	if (ImGui::BeginTable("", 3, ImGuiTableFlags_BordersOuter | ImGuiTableFlags_Resizable))
 	{
@@ -121,7 +122,7 @@ void GameManager::OnImGui()
 		ImGui::EndTable();
 	}
 	ImGui::PopStyleVar();
-	ImGui::End();
+	//ImGui::End();
 }
 
 Entity& GameManager::CreateEntity()
