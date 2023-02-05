@@ -5,7 +5,6 @@
 
 #include <array>
 #include "Engine.h"
-#include "Scene.h"
 
 #include "DirectX11Framework.h"
 #include "ContentLoader.h"
@@ -19,6 +18,7 @@
 #include "CDebugDrawer.h"
 #include "EnvironmentLight.h"
 
+#include "Scene.h"
 #include "Sprite.h"
 #include "SpriteFactory.h"
 
@@ -31,6 +31,8 @@
 #include <Game\Globals.h>
 #include <Game\Sprite.h>
 #include <Game\Entity.h>
+#include <Game\GameManager.h>
+#include <Game\CameraComponent.h>
 
 constexpr auto PI = 3.14159265f;
 
@@ -322,12 +324,31 @@ namespace SE
 			myPostProcessingData.TimePI -= PI * 2;
 		}
 
-		CScene* const& scene = CEngine::GetInstance()->GetActiveScene();
-		/*CameraComponent* mainCam = scene->GetMainCamera();
+		CScene* scene = CEngine::GetInstance()->GetActiveScene();
+		GameManager& gm = CEngine::GetInstance()->GetGameManager();
+		auto& cameraMap = gm.GetComponentMap<CameraComponent>();
+		CameraComponent* mainCam = nullptr;
+
+		// picks first best available camera, might fix later
+		if (!cameraMap.map.empty())
+		{
+			for (auto& [entity, cam] : cameraMap.map)
+			{
+				entity;
+				cam;
+				mainCam = cam;
+
+				if (mainCam)
+				{
+					break;
+				}
+			}
+		}
+
 		if (!mainCam)
 		{
 			return;
-		}*/
+		}
 
 		D3D11_MAPPED_SUBRESOURCE bufferData = { 0 };
 		ID3D11DeviceContext* context = CEngine::GetInstance()->GetDXDeviceContext();
@@ -347,7 +368,7 @@ namespace SE
 
 		SetBlendState(E_BLENDSTATE_ALPHABLEND);
 		myScaledBackBuffer.SetAsActiveTarget();
-		myForwardRenderer.RenderSprites(scene->GetSprites());
+		myForwardRenderer.RenderSprites(mainCam, scene->GetSprites());
 		SetBlendState(E_BLENDSTATE_DISABLE);
 
 		myFullscreen.SetAsActiveTarget();
@@ -385,10 +406,35 @@ namespace SE
 		if (!Input::GetLockedCursorState())
 			sprites.push_back(myCursor->GetSprite());
 
+		GameManager& gm = CEngine::GetInstance()->GetGameManager();
+		auto& cameraMap = gm.GetComponentMap<CameraComponent>();
+		CameraComponent* mainCam = nullptr;
+
+		// picks first best available camera, might fix later
+		if (!cameraMap.map.empty())
+		{
+			for (auto& [entity, cam] : cameraMap.map)
+			{
+				entity;
+				cam;
+				mainCam = cam;
+
+				if (mainCam)
+				{
+					break;
+				}
+			}
+		}
+
+		if (!mainCam)
+		{
+			return;
+		}
+
 		SetBlendState(E_BLENDSTATE_ALPHABLEND);
 		myScaledBackBuffer.ClearTexture();
 		myScaledBackBuffer.SetAsActiveTarget();
-		myForwardRenderer.RenderSprites(sprites);
+		myForwardRenderer.RenderSprites(mainCam, sprites);
 		SetBlendState(E_BLENDSTATE_DISABLE);
 
 		myFullscreenCopy.SetAsActiveTarget();

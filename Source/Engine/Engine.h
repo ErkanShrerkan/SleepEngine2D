@@ -15,6 +15,7 @@
 struct ID3D11Device;
 struct ID3D11DeviceContext;
 struct ImGuiContext;
+class GameManager;
 
 namespace SE
 {
@@ -64,7 +65,11 @@ namespace SE
 		CGraphicsEngine* const& GetGraphicsEngine();
 		CContentLoader* const& GetContentLoader();
 		float GetDeltaTime() { return myDeltaTime; };
-
+		void SetGameManagerRef(GameManager* aGameManagerRef) { myGMptr = aGameManagerRef; }
+		GameManager& GetGameManager()
+		{
+			return *myGMptr;
+		}
 	private:
 		bool InternalStart();
 
@@ -73,6 +78,7 @@ namespace SE
 		CContentLoader* myContentLoader;
 		CGraphicsEngine* myGraphicsEngine;
 		CAudioEngine* myAudioEngine;
+		GameManager* myGMptr;
 		CScene* myScene;
 	};
 }

@@ -2,6 +2,7 @@
 #include "Editor.h"
 #include <Engine/Input.h>
 #include <ImGui/imgui.h>
+#include <Engine\Engine.h>
 
 Game::Editor::~Editor()
 {
@@ -10,6 +11,7 @@ Game::Editor::~Editor()
 bool Game::Editor::Init()
 {
 	myGM.Init();
+	SE::CEngine::GetInstance()->SetGameManagerRef(&myGM);
 	return true;
 }
 

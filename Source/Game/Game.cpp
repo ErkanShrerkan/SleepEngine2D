@@ -4,7 +4,6 @@
 #include <Engine\Engine.h>
 
 #include <Engine\Camera.h>
-#include <Engine\Scene.h>
 #include <Engine\ContentLoader.h>
 #include <Engine\EnvironmentLight.h>
 #include <Engine/PointLight.h>
@@ -36,6 +35,8 @@ namespace Game
 		Postmaster::GetInstance().Subscribe(this, eMessage::eQuitGame);
 
 		myGM.Init();
+
+		SE::CEngine::GetInstance()->SetGameManagerRef(&myGM);
 
 		return true;
 	}

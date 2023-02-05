@@ -32,12 +32,12 @@ void GameManager::Init()
 	RegisterComponent<Collider>("Collider");
 	RegisterComponent<Transform>("Transform");
 	RegisterComponent<PlayerController>("PlayerController");
-	//myComponentMaps[GetID<CameraComponent>()] = new ComponentMap<CameraComponent>();
+	RegisterComponent<CameraComponent>("Camera");
 
 	RegisterSystem<SpriteRenderSystem>();
 	RegisterSystem<CollisionSystem>();
 
-	for (size_t i = 0; i < 10; i++)
+	for (size_t i = 0; i < 1; i++)
 	{
 		CreateEntity().AddComponent<PlayerController>();
 	}

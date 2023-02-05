@@ -4,21 +4,15 @@
 #include <d3d11.h>
 #define USE_PIX 1
 #include "pix3.h"
-
 #include "GraphicsEngine.h"
 #include "ContentLoader.h"
-#include "Scene.h"
-
 #include "DebugProfiler.h"
 #include "Editor.h"
-
 // Shortcuts
 #include "DX11.h"
-
 #include "AudioEngine.h"
-
-#include "Camera.h"
-
+#include "Scene.h"
+#include <Game\GameManager.h>
 #include <Engine\TextureHelper.h>
 
 namespace SE

@@ -4,9 +4,10 @@
 #include "Sprite.h"
 #include "Collider.h"
 #include "Transform.h"
+#include "CameraComponent.h"
 
-PlayerController::PlayerController(Entity*& myEntity)
-	: Component::Component(myEntity)
+PlayerController::PlayerController(Entity*& anEntity)
+	: Component::Component(anEntity)
 {
 }
 
@@ -17,17 +18,16 @@ PlayerController::~PlayerController()
 void PlayerController::Update()
 {
 	myMovement.Normalize();
-	myMovement *= mySpeed;
-	myPosition += myMovement * Singleton<Time>().deltaTime;
+	myMovement *= mySpeed * Singleton<Time>().deltaTime;
 
-	GameObject().GetComponent<Transform>().myTransform.SetRow(3, { myPosition, 1 });
+	GameObject().GetComponent<Transform>().Move(myMovement);
 	
 	myMovement = { 0, 0 };
 }
 
 void PlayerController::Start()
 {
-	myPosition = { float(rand() % 10000) / 10000.f, float(rand() % 10000) / 10000.f };
+	GameObject().GetComponent<Transform>().SetPosition({ float(rand() % 10000) / 10000.f, float(rand() % 10000) / 10000.f });
 	auto& c = GameObject().AddComponent<Sprite>("textures/sprites/tga/tgalogo_w.dds");
 	c.SetSizeRelativeToImage({ .1f, .1f });
 	c.SetPivot({ .5f, .5f });
@@ -35,8 +35,9 @@ void PlayerController::Start()
 	cc.isRigidBody = true;
 	cc.radius = c.GetSize().x;
 	ObserveInputEvent(eInputEvent::Interact, eInputState::Released, [&]() { this->ToggleMovement(); });
-	
-	Expose(myPosition, "Position");
+	GameObject().AddComponent<CameraComponent>();
+
+	//Expose(myPosition, "Position");
 	Expose(mySpeed, "Speed");
 	//printe("PlayerController Started\n");
 }

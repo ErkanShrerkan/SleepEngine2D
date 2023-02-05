@@ -265,7 +265,7 @@ namespace CommonUtilities
 			(*this)(4, 1),
 			(*this)(4, 2),
 			(*this)(4, 3)
-		);
+			);
 	}
 	template<class T>
 	inline void Matrix4x4<T>::SetTranslation(const Vector3<T>& aTranslation)
@@ -281,7 +281,7 @@ namespace CommonUtilities
 			(*this)(1, 1),
 			(*this)(2, 2),
 			(*this)(3, 3)
-		);
+			);
 	}
 	template<class T>
 	inline void Matrix4x4<T>::SetRotation(const Matrix4x4<T>& anOtherMatrix)
@@ -525,22 +525,22 @@ namespace CommonUtilities
 		Vector4<T> vector;
 
 		vector.x =
-			  aLhsVector4.x * aRhsMatrix(1, 1)
+			aLhsVector4.x * aRhsMatrix(1, 1)
 			+ aLhsVector4.y * aRhsMatrix(2, 1)
 			+ aLhsVector4.z * aRhsMatrix(3, 1)
 			+ aLhsVector4.w * aRhsMatrix(4, 1);
 		vector.y =
-			  aLhsVector4.x * aRhsMatrix(1, 2)
+			aLhsVector4.x * aRhsMatrix(1, 2)
 			+ aLhsVector4.y * aRhsMatrix(2, 2)
 			+ aLhsVector4.z * aRhsMatrix(3, 2)
 			+ aLhsVector4.w * aRhsMatrix(4, 2);
 		vector.z =
-			  aLhsVector4.x * aRhsMatrix(1, 3)
+			aLhsVector4.x * aRhsMatrix(1, 3)
 			+ aLhsVector4.y * aRhsMatrix(2, 3)
 			+ aLhsVector4.z * aRhsMatrix(3, 3)
 			+ aLhsVector4.w * aRhsMatrix(4, 3);
 		vector.w =
-			  aLhsVector4.x * aRhsMatrix(1, 4)
+			aLhsVector4.x * aRhsMatrix(1, 4)
 			+ aLhsVector4.y * aRhsMatrix(2, 4)
 			+ aLhsVector4.z * aRhsMatrix(3, 4)
 			+ aLhsVector4.w * aRhsMatrix(4, 4);

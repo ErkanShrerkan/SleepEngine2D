@@ -11,7 +11,6 @@ class Sprite;
 class Entity;
 namespace SE
 {
-	class Skybox;
 	class CRenderManager : public Observer
 	{
 	public:

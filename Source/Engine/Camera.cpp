@@ -88,8 +88,8 @@ namespace SE
 		myFOV = 90;
 		myRes = aResolution;
 
-		myFarPlane = 100000.f;
-		myNearPlane = 100.0f;
+		myFarPlane = 10.f;
+		myNearPlane = .01f;
 
 		myProjection(1, 1) = 2.f / aResolution.x;
 		myProjection(2, 2) = 2.f / aResolution.y;

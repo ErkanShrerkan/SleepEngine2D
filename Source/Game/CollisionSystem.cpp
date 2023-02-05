@@ -75,8 +75,7 @@ void CollisionSystem::Update()
 		//	}
 		//}
 
-		// TODO: fix 3x3 methods to orient collider in object space
-		float2 objectPos = myGameManager->GetEntity(entity0).GetComponent<Transform>().myTransform.GetPosition();
+		float2 objectPos = myGameManager->GetEntity(entity0).GetComponent<Transform>().GetPosition();
 		objectPos += component0->pos;
 
 		float2 firstPoint = { 0, 0 };

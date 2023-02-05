@@ -208,6 +208,7 @@
     <ClInclude Include="Postmaster.h" />
     <ClInclude Include="Process.h" />
     <ClInclude Include="resource.h" />
+    <ClInclude Include="Rigidbody.h" />
     <ClInclude Include="Sprite.h" />
     <ClInclude Include="SpriteRenderSystem.h" />
     <ClInclude Include="System.h" />
@@ -238,6 +239,7 @@
     <ClCompile Include="PlayerController.cpp" />
     <ClCompile Include="Postmaster.cpp" />
     <ClCompile Include="Process.cpp" />
+    <ClCompile Include="Rigidbody.cpp" />
     <ClCompile Include="Sprite.cpp" />
     <ClCompile Include="SpriteRenderSystem.cpp" />
     <ClCompile Include="System.cpp" />

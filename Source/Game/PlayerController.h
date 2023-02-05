@@ -4,7 +4,7 @@
 class PlayerController : public Component, public InputObserver
 {
 public:
-    PlayerController(Entity*& myEntity);
+    PlayerController(Entity*& anEntity);
     ~PlayerController();
 
 public:
@@ -19,7 +19,7 @@ private:
     void ToggleMovement();
 
 private:
-    float2 myPosition;
+    //float2 myPosition;
     float2 myMovement;
     float mySpeed = .5f;
     bool myCanMove = false;

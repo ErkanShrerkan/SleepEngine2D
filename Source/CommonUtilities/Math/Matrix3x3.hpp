@@ -28,6 +28,7 @@ namespace CommonUtilities
 
 		// Static function for creating a transpose of a matrix.
 		static Matrix3x3<T> Transpose(const Matrix3x3<T>& aMatrixToTranspose);
+		static Matrix3x3<T> GetFastInverse(const Matrix3x3<T>& aMatrixToFastInverse);
 
 		void SetRow(int aOneBasedIndex, Vector3<T> aVector3);
 		Vector3<T>& GetRow(int aOneBasedindex) const;
@@ -157,6 +158,22 @@ namespace CommonUtilities
 		}
 
 		return matrix;
+	}
+	template<class T>
+	inline Matrix3x3<T> Matrix3x3<T>::GetFastInverse(const Matrix3x3<T>& aMatrixToFastInverse)
+	{
+		// Inversen av R
+		Matrix3x3 matrixR = Matrix3x3::Transpose(aMatrixToFastInverse);
+		matrixR(1, 3) = T();
+		matrixR(2, 3) = T();
+
+		// Inversen av T
+		Matrix3x3 matrixT;
+		matrixT(3, 1) = -aMatrixToFastInverse(3, 1);
+		matrixT(3, 2) = -aMatrixToFastInverse(3, 2);
+
+		// Inversen av RT
+		return matrixT * matrixR;
 	}
 	template<class T>
 	inline void Matrix3x3<T>::SetRow(int aOneBasedIndex, Vector3<T> aVector3)

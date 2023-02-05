@@ -3,20 +3,17 @@
 #include "AutoReleaser.h"
 #include <array>
 #include <CommonUtilities\Container\RefillVector.h>
+
 struct ID3D11DeviceContext;
 struct ID3D11Buffer;
 struct ID3D11VertexShader;
 struct ID3D11PixelShader;
+class CameraComponent;
+
 namespace SE
 {
 	class CDirectX11Framework;
-	class CModelInstance;
-	class CCamera;
-	class CEnvironmentLight;
-	class CPointLight;
-	class CSpotLight;
 	class CSprite;
-	class CameraComponent;
 	class CForwardRenderer
 	{
 	public:
@@ -24,27 +21,24 @@ namespace SE
 		~CForwardRenderer();
 
 		bool Init(CDirectX11Framework* aFramework);
-		void Render(
-			const CEnvironmentLight *const anEnvironmentLight,
-			const std::vector<std::pair<size_t, std::array<CPointLight*, MAX_POINT_LIGHTS>>>& somePointLights,
-			const std::vector<std::pair<size_t, std::array<CSpotLight*, MAX_SPOT_LIGHTS>>>& someSpotLights,
-			const CCamera* aCamera,
-			std::vector<CModelInstance*>& aModelList);
+		void RenderSprites(CameraComponent* aCamera, CommonUtilities::RefillVector<CSprite*>& someSprites);
 
-		void RenderSprites(CommonUtilities::RefillVector<CSprite*>& someSprites);
-
-		//void SetCameraAndLight();
-		//void Render(CModelInstance*,)
-
+	private:
+		float4x4 M3ToM4(const float3x3& aMatrix)
+		{
+			float4x4 m;
+			m.SetRow(1, { aMatrix.GetRow(1), 1 });
+			m.SetRow(2, { aMatrix.GetRow(2), 1 });
+			m.SetRow(4, { aMatrix.GetRow(3), 1 });
+			return m;
+		}
 	private:
 		struct SFrameBufferData
 		{
-			float4x4 myToCameraSpace;
-			float4x4 myToProjectionSpace;
-			float4 myDirectionalLightDirection;
-			float4 myDirectionalLightColor;
-			float3 myCameraPosition;
-			float1 myEnvironmentLightMipCount;
+			float4x4 myToCamera;
+			float4x4 myCameraTransform;
+			float4x4 myToProjection;
+			float4 myCameraPosition;
 		};
 
 		struct SSpriteBufferData

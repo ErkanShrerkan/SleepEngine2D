@@ -1,21 +1,19 @@
 #include "pch.h"
 #include "ForwardRenderer.h"
 #include "DirectX11Framework.h"
-#include "Camera.h"
-// Lights
-#include "EnvironmentLight.h"
-#include "PointLight.h"
-#include "SpotLight.h"
 
 enum ESlot {
 	ESlot_SR_CubeMap,
 	ESlot_SR_Textures,
 };
 
+#include <Game\CameraComponent.h>
+#include <Game\Entity.h>
+#include <Game\Transform.h>
 #include "ShaderHelper.h"
 #include "Sprite.h"
 #include "Texture.h"
-
+#include "Engine.h"
 #include "DebugProfiler.h"
 #include <d3d11.h>
 
@@ -83,9 +81,10 @@ namespace SE
 		return true;
 	}
 
-	void CForwardRenderer::RenderSprites(CommonUtilities::RefillVector<CSprite*>& someSprites)
+	void CForwardRenderer::RenderSprites(CameraComponent* aCamera, CommonUtilities::RefillVector<CSprite*>& someSprites)
 	{
 		HRESULT result;
+		D3D11_MAPPED_SUBRESOURCE bufferData = { 0 };
 
 		myContext->IASetPrimitiveTopology(D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 		myContext->VSSetShader(mySpriteVertexShader, nullptr, 0u);
@@ -93,7 +92,27 @@ namespace SE
 		myContext->IASetIndexBuffer(Singleton<CSprite::Data>().myIndexBuffer, DXGI_FORMAT_R32_UINT, 0u);
 		myContext->IASetVertexBuffers(0u, 1u, &Singleton<CSprite::Data>().myVertexBuffer, &Singleton<CSprite::Data>().myStride, &Singleton<CSprite::Data>().myOffset);
 
-		D3D11_MAPPED_SUBRESOURCE bufferData;
+		float4x4 cameraTransform = aCamera->GameObject().GetComponent<Transform>().GetMatrix();
+		myFrameBufferData.myCameraTransform = cameraTransform;
+		myFrameBufferData.myToCamera = float4x4::GetFastInverse(myFrameBufferData.myCameraTransform);
+		myFrameBufferData.myToProjection = aCamera->GetProjection();
+		myFrameBufferData.myCameraPosition = cameraTransform.GetRow(4);
+
+		ID3D11DeviceContext* context = CEngine::GetInstance()->GetDXDeviceContext();
+
+		ZeroMemory(&bufferData, sizeof(D3D11_MAPPED_SUBRESOURCE));
+		result = context->Map(myFrameBuffer.Raw(), 0, D3D11_MAP_WRITE_DISCARD, 0, &bufferData);
+		if (FAILED(result))
+		{
+			return;
+		}
+
+		memcpy(bufferData.pData, &myFrameBufferData, sizeof(SFrameBufferData));
+		context->Unmap(myFrameBuffer.Raw(), 0);
+		context->VSSetConstantBuffers(0, 1, &myFrameBuffer.Raw());
+		context->PSSetConstantBuffers(0, 1, &myFrameBuffer.Raw());
+		context->GSSetConstantBuffers(0, 1, &myFrameBuffer.Raw());
+
 		ID3D11ShaderResourceView* lastTexture = nullptr;
 		ID3D11ShaderResourceView* lastMask = nullptr;
 		for (auto& sprite : someSprites)
