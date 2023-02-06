@@ -86,7 +86,6 @@ namespace SE
 		}
 
 		myPostProcessingBuffer->Release();
-		//myCursor->Release();
 	}
 
 	bool CRenderManager::Restart()
@@ -121,8 +120,8 @@ namespace SE
 
 		myCursor = CEngine::GetInstance()->GetContentLoader()->GetSpriteFactory().GetSprite(/*"textures/sprites/player/CharacterIdleFront.dds"*/"textures/cursor.dds");
 		//myCursor->isEngineDependent = true;
-		myCursor->SetSizeRelativeToImage({ 640.f / 1920, 360.f / 1920 });
-
+		//myCursor->SetSizeRelativeToImage({ 640.f / 1920, 360.f / 1080 });
+		myCursor->SetSizeRelativeToImage({ .05f, .05f * (16.f / 9)});
 		ID3D11Resource* backBufferResource = nullptr;
 		aFramework->GetBackBuffer()->GetResource(&backBufferResource);
 		ID3D11Texture2D* backBufferTexture = reinterpret_cast<ID3D11Texture2D*>(backBufferResource);
@@ -276,10 +275,9 @@ namespace SE
 		myPostProcessingData.gameResolution.x = gres.x;
 		myPostProcessingData.gameResolution.y = gres.y;
 
-		printe("render manager inited\n");
+		SetRasterizerState(ERasterizerState::E_RASTERIZERSTATE_CULLNONE);
 
-		//mySkybox = new Skybox();
-		//mySkybox->Init();
+		printe("render manager inited\n");
 		return true;
 	}
 
@@ -303,8 +301,6 @@ namespace SE
 		//		myRenderLayer = 0;
 		//	}
 		//}
-
-		//SetRasterizerState(ERasterizerState::E_RASTERIZERSTATE_CULLNONE);
 
 		myBackBuffer.ClearTexture({ 1, 1, 1, 1 });
 		myFullscreen.ClearTexture();

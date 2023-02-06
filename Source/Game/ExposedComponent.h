@@ -31,12 +31,12 @@ private:
 	protected:
 		void Scalar()
 		{
-			ImGui::DragFloat("", (float*)adr, 0.01f);
+			ImGui::DragFloat("", (float*)adr, 0.1f);
 		}
 
 		void Vec2()
 		{
-			ImGui::DragFloat2("", (float*)adr, 0.01f);
+			ImGui::DragFloat2("", (float*)adr, 0.1f);
 		}
 
 		void Vec3()
@@ -44,7 +44,7 @@ private:
 			switch (pickMode)
 			{
 			case ePickMode::Drag:
-				ImGui::DragFloat3("", (float*)adr, 0.01f);
+				ImGui::DragFloat3("", (float*)adr, 0.1f);
 				break;
 			case ePickMode::Color:
 				ImGui::ColorEdit3("", (float*)adr);
@@ -59,7 +59,7 @@ private:
 			switch (pickMode)
 			{
 			case ePickMode::Drag:
-				ImGui::DragFloat4("", (float*)adr, 0.01f);
+				ImGui::DragFloat4("", (float*)adr, 0.1f);
 				break;
 			case ePickMode::Color:
 				ImGui::ColorEdit4("", (float*)adr);

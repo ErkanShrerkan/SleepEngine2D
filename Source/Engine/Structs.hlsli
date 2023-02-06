@@ -145,13 +145,14 @@ cbuffer PostProcessingBuffer_Fullscreen : register(b3)
 
 cbuffer SpriteObjectBuffer_Sprite : register(b0)
 {
-    float4 mySpriteColor;
-    float4 mySpriteRect;
-    float2 mySpritePosition;
-    float2 mySpriteSize;
-    float2 mySpritePivot;
-    float mySpriteRotation;
-    float mySpriteData;
+    float4x4 SOB_Transform;
+    float4 SOB_Color;
+    float4 SOB_Rect;
+    float2 SOB_Size;
+    float2 SOB_PosOffset;
+    float2 SOB_Pivot;
+    float SOB_Rotation;
+    float SOB_Data;
 }
 
 cbuffer FrameBufferData_Sprite : register(b1)
@@ -160,18 +161,6 @@ cbuffer FrameBufferData_Sprite : register(b1)
     float4x4 myCameraTransform;
     float4x4 myToProjection;
     float4 myCameraPosition;
-};
-
-cbuffer WorldObjectBufferData_Sprite : register(b2)
-{
-    float4x4 myTransform;
-    float4 myColor;
-    float4 myRect;
-    float2 mySize;
-    float2 myPosOffset;
-    float2 myPivot;
-    float myRotation;
-    float myData;
 };
 
 // effect textures

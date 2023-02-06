@@ -75,10 +75,10 @@ void Sprite::SetSize(const Vector2f& aSize)
 {
 	mySize = aSize;
 
-	uint2 res = Singleton<GlobalSettings>().gameplayResolution;
-	float2 pixelSize = { 1.f / res.x, 1.f / res.y };
-	float2 gridLockedSize = { aSize.x / pixelSize.x, aSize.y / pixelSize.y };
-	gridLockedSize = { (float)(int)gridLockedSize.x / res.x, (float)(int)gridLockedSize.y / res.y };
+	//uint2 res = Singleton<GlobalSettings>().gameplayResolution;
+	//float2 pixelSize = { 1.f / res.x, 1.f / res.y };
+	//float2 gridLockedSize = { aSize.x / pixelSize.x, aSize.y / pixelSize.y };
+	//gridLockedSize = { (float)(int)gridLockedSize.x / res.x, (float)(int)gridLockedSize.y / res.y };
 
 	mySprite->SetSize(aSize);
 }

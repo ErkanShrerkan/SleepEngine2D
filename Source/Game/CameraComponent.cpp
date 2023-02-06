@@ -6,8 +6,8 @@ CameraComponent::CameraComponent(Entity*& anEntity)
 {
 }
 
-CameraComponent::CameraComponent(float2 aDimension, Entity*& anEntity)
-	:Component::Component(anEntity), myDimensions(aDimension)
+CameraComponent::CameraComponent(float2 anAspectRatio, Entity*& anEntity)
+	:Component::Component(anEntity), myAspectRatio(anAspectRatio)
 {
 
 }
@@ -20,17 +20,20 @@ void CameraComponent::Start()
 {
 	float f = 10.f;
 	float n = 0.01f;
-	myProjection(1, 1) = 2.f / myDimensions.x;
-	myProjection(2, 2) = 2.f / myDimensions.y;
+	float aspect = myAspectRatio.x / myAspectRatio.y;
+	myProjection(1, 1) = 2.f / (aspect * myZoom);
+	myProjection(2, 2) = 2.f / myZoom;
 	myProjection(3, 3) = 1.f / (f - n);
 	myProjection(4, 3) = n / (n - f);
 	myProjection(4, 4) = 1.0f;
 
-	Expose(myDimensions, "Dimensions");
+	Expose(myAspectRatio, "Aspect Ratio");
+	Expose(myZoom, "Zoom");
 }
 
 void CameraComponent::Update()
 {
-	myProjection(1, 1) = 2.f / myDimensions.x;
-	myProjection(2, 2) = 2.f / myDimensions.y;
+	float aspect = myAspectRatio.x / myAspectRatio.y;
+	myProjection(1, 1) = 2.f / (aspect * myZoom);
+	myProjection(2, 2) = 2.f / myZoom;
 }

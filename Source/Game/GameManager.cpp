@@ -38,14 +38,19 @@ void GameManager::Init()
 	RegisterSystem<SpriteRenderSystem>();
 	RegisterSystem<CollisionSystem>();
 
-	for (size_t i = 0; i < 10; i++)
+	for (size_t i = 0; i < 25; i++)
 	{
-		CreateEntity().AddComponent<PlayerController>();
+		auto& e = CreateEntity();
+		auto& s = e.AddComponent<Sprite>("textures/sprites/circle.dds");
+		s.SetColor({ Random::Float(0.f, 1.f), Random::Float(0.f, 1.f), Random::Float(0.f, 1.f), 1 });
+		s.SetSizeRelativeToImage({ .1f, .1f });
+		e.GetComponent<Transform>().SetPosition({ Random::Float(-10.f, 10.f), Random::Float(-10.f, 10.f) });
 	}
 
 	auto& e = CreateEntity(); 
 	e.AddComponent<PlayerController>();
 	e.AddComponent<CameraComponent>();
+	e.GetComponent<Transform>().SetPosition({ Random::Float(-10.f, 10.f), Random::Float(-10.f, 10.f) });
 
 	printe("GameManager Inited\n");
 }

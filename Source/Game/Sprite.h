@@ -10,7 +10,6 @@ public:
     ~Sprite();
 
 public:
-
     void DrawRect();
     void SetPosition(const Vector2f& aPosition);
     void SetSize(const Vector2f& aSize);

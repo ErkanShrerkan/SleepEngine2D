@@ -70,10 +70,10 @@ namespace SE
 		float halfHeight = 1;
 		SVertex vertices[4] = {
 			//         X            Y    Z    W         R    G    B    A         U    V
-			{  halfWidth,  halfHeight, 0.5f, 1.f, /**/ 1.f, 1.f, 1.f, 1.f, /**/ 1.f, 1.f },
-			{  halfWidth, -halfHeight, 0.5f, 1.f, /**/ 1.f, 1.f, 1.f, 1.f, /**/ 1.f, 0.f },
-			{ -halfWidth, -halfHeight, 0.5f, 1.f, /**/ 1.f, 1.f, 1.f, 1.f, /**/ 0.f, 0.f },
-			{ -halfWidth,  halfHeight, 0.5f, 1.f, /**/ 1.f, 1.f, 1.f, 1.f, /**/ 0.f, 1.f },
+			{  halfWidth, -halfHeight, 0.5f, 1.f, /**/ 1.f, 1.f, 1.f, 1.f, /**/ 1.f, 1.f },
+			{  halfWidth,  halfHeight, 0.5f, 1.f, /**/ 1.f, 1.f, 1.f, 1.f, /**/ 1.f, 0.f },
+			{ -halfWidth,  halfHeight, 0.5f, 1.f, /**/ 1.f, 1.f, 1.f, 1.f, /**/ 0.f, 0.f },
+			{ -halfWidth, -halfHeight, 0.5f, 1.f, /**/ 1.f, 1.f, 1.f, 1.f, /**/ 0.f, 1.f },
 		};
 
 		D3D11_BUFFER_DESC vertexBufferDescription = { 0 };
@@ -143,11 +143,9 @@ namespace SE
 		CTexture* texture = Singleton<CTextureFactory>().LoadTexture(aSpritePath.c_str());
 		CTexture* mask = Singleton<CTextureFactory>().LoadTexture("textures/maskdefault.dds");
 
-		uint2 res = Singleton<GlobalSettings>().gameplayResolution;
-
 		CSprite* sprite = new CSprite();
-		sprite->mySize = { texture->GetWidth() / res.x, texture->GetHeight() / res.x };
 		sprite->myTexture = texture;
+		sprite->SetSizeRelativeToImage({ 1, 1 });
 		sprite->myMaskTexture = mask;
 		sprite->myPivot = { 0, 0 };
 		sprite->myRect = { 0, 0, 1, 1 };

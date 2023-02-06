@@ -22,8 +22,8 @@ PixelOutput_Sprite main(VertexToPixel_Sprite input)
         uv.x = r * cos(phi) + .5f;
         uv.y = r * sin(phi) + .5f;
         
-        uv.x = Remap(uv.x, 0, 1, mySpriteRect.x, mySpriteRect.z);
-        uv.y = Remap(uv.y, 0, 1, mySpriteRect.y, mySpriteRect.w);
+        uv.x = Remap(uv.x, 0, 1, SOB_Rect.x, SOB_Rect.z);
+        uv.y = Remap(uv.y, 0, 1, SOB_Rect.y, SOB_Rect.w);
     }
     else
     {
@@ -36,7 +36,7 @@ PixelOutput_Sprite main(VertexToPixel_Sprite input)
     color.rgb = LinearToGamma(color.rgb) * mask;
     color.a *= mask;
     
-    color *= mySpriteColor;
+    color *= SOB_Color;
     
     PixelOutput_Sprite output;
     output.myColor.rgba = color;

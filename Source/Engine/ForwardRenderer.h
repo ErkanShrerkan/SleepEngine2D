@@ -33,7 +33,7 @@ namespace SE
 			float4 myCameraPosition;
 		};
 
-		struct SWorldSpriteBufferData
+		struct SSpriteBufferData
 		{
 			float4x4 myTransform;
 			float4 myColor;
@@ -45,26 +45,13 @@ namespace SE
 			float myData;
 		};
 
-		struct SSpriteBufferData
-		{
-			float4 myColor;
-			float4 myRect;
-			float2 myPosition;
-			float2 mySize;
-			float2 myPivot;
-			float myRotation;
-			float myData;
-		};
-
 		SFrameBufferData myFrameBufferData;
 		SSpriteBufferData mySpriteBufferData;
-		SWorldSpriteBufferData myWorldSpriteBufferData;
 
 		ID3D11DeviceContext* myContext;
 		AutoReleaser<ID3D11Buffer> myFrameBuffer;
 		AutoReleaser<ID3D11Buffer> myObjectBuffer;
 		AutoReleaser<ID3D11Buffer> mySpriteBuffer;
-		AutoReleaser<ID3D11Buffer> myWorldSpriteBuffer;
 
 		ID3D11PixelShader* myFisheyePixelShader;
 		ID3D11PixelShader* myCircularFillPixelShader;

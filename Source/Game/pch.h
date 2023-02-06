@@ -18,5 +18,6 @@
 #define perr pout
 #include "macro.h"
 #include "Time.h"
+#include "Random.h"
 
 #endif //PCH_H

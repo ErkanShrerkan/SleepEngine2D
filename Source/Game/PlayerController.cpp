@@ -17,19 +17,20 @@ PlayerController::~PlayerController()
 
 void PlayerController::Update()
 {
-	myMovement.Normalize();
-	myMovement *= mySpeed * Singleton<Time>().deltaTime;
-
-	GameObject().GetComponent<Transform>().Move(myMovement);
-	
-	myMovement = { 0, 0 };
+	if (myMovement.LengthSqr() > 0)
+	{
+		myMovement.Normalize();
+		myMovement *= mySpeed * Singleton<Time>().deltaTime;
+		GameObject().GetComponent<Transform>().Move(myMovement, Transform::Space::Object);
+		myMovement = { 0, 0 };
+	}
 }
 
 void PlayerController::Start()
 {
-	GameObject().GetComponent<Transform>().SetPosition({0, 0}/*{ float(rand() % 10000) / 10000.f, float(rand() % 10000) / 10000.f }*/);
+	GameObject().GetComponent<Transform>().SetPosition({ 0, 0 }/*{ float(rand() % 10000) / 10000.f, float(rand() % 10000) / 10000.f }*/);
 	auto& c = GameObject().AddComponent<Sprite>(/*"textures/sprites/white.dds"*/"textures/sprites/tga/tgalogo_w.dds");
-	c.SetSizeRelativeToImage({ 10, 10 });
+	c.SetSizeRelativeToImage({ .1f, .1f });
 	c.SetPivot({ .5f, .5f });
 	auto& cc = GameObject().AddComponent<Collider>(Collider::eType::Circle);
 	cc.isRigidBody = true;
@@ -52,12 +53,12 @@ void PlayerController::MoveLeft()
 
 void PlayerController::MoveUp()
 {
-	myMovement.y -= 1;
+	myMovement.y += 1;
 }
 
 void PlayerController::MoveDown()
 {
-	myMovement.y += 1;
+	myMovement.y -= 1;
 }
 
 void PlayerController::ToggleMovement()

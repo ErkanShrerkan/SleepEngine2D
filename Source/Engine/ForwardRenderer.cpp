@@ -75,14 +75,6 @@ namespace SE
 			return false;
 		}
 
-		bufferDescription.ByteWidth = sizeof(SWorldSpriteBufferData);
-		result = device->CreateBuffer(&bufferDescription, nullptr, &myWorldSpriteBuffer);
-		if (FAILED(result))
-		{
-			/* Error message */
-			return false;
-		}
-
 		Helper::ShaderHelper::CreatePixelShader(&mySpritePixelShader, "Shaders/SpritePixelShader");
 		Helper::ShaderHelper::CreateVertexShader(&mySpriteVertexShader, "Shaders/SpriteVertexShader");
 		Helper::ShaderHelper::CreateVertexShader(&myWorldSpriteVertexShader, "Shaders/WorldSpriteVS");
@@ -103,7 +95,8 @@ namespace SE
 		myContext->IASetIndexBuffer(Singleton<CSprite::Data>().myIndexBuffer, DXGI_FORMAT_R32_UINT, 0u);
 		myContext->IASetVertexBuffers(0u, 1u, &Singleton<CSprite::Data>().myVertexBuffer, &Singleton<CSprite::Data>().myStride, &Singleton<CSprite::Data>().myOffset);
 
-		float4x4 cameraTransform = aCamera->GameObject().GetComponent<Transform>().GetMatrix();
+		Transform& ct = aCamera->GameObject().GetComponent<Transform>();
+		float4x4 cameraTransform = ct.GetRotationMatrix() * ct.GetTranslationMatrix();
 		myFrameBufferData.myCameraTransform = cameraTransform;
 		myFrameBufferData.myToCamera = float4x4::GetFastInverse(cameraTransform);
 		myFrameBufferData.myToProjection = aCamera->GetProjection();
@@ -136,7 +129,7 @@ namespace SE
 			scale(2, 2) = size.y;
 
 			// get object transform in world space if it's a child
-			float4x4 t = sprite->GameObject().GetComponent<Transform>().GetMatrix();
+			float4x4 t = sprite->GameObject().GetComponent<Transform>().GetTransform();
 			float3 pos = t.GetPosition();
 			float2 offset = sprite->GetPosition();
 			pos += (t.GetRight() * offset.x) + (t.GetUp() * offset.y);
@@ -153,24 +146,24 @@ namespace SE
 			float4 vertexProjectionPosition = myFrameBufferData.myToProjection * vertexViewPosition;
 			vertexProjectionPosition;
 
-			myWorldSpriteBufferData.myTransform = t;
-			myWorldSpriteBufferData.myPosOffset = offset;
-			myWorldSpriteBufferData.mySize = size;
-			myWorldSpriteBufferData.myPivot = sprite->GetPivot();
-			myWorldSpriteBufferData.myRotation = Math::DegreeToRadian(sprite->GetRotation());
-			myWorldSpriteBufferData.myRect = sprite->GetRect();
-			myWorldSpriteBufferData.myData = sprite->GetShaderData();
-			myWorldSpriteBufferData.myColor = sprite->GetColor();
+			mySpriteBufferData.myTransform = t;
+			mySpriteBufferData.myPosOffset = offset;
+			mySpriteBufferData.mySize = size;
+			mySpriteBufferData.myPivot = sprite->GetPivot();
+			mySpriteBufferData.myRotation = Math::DegreeToRadian(sprite->GetRotation());
+			mySpriteBufferData.myRect = sprite->GetRect();
+			mySpriteBufferData.myData = sprite->GetShaderData();
+			mySpriteBufferData.myColor = sprite->GetColor();
 
 			ZeroMemory(&bufferData, sizeof(D3D11_MAPPED_SUBRESOURCE));
-			result = myContext->Map(myWorldSpriteBuffer.Raw(), 0, D3D11_MAP_WRITE_DISCARD, 0, &bufferData);
+			result = myContext->Map(mySpriteBuffer.Raw(), 0, D3D11_MAP_WRITE_DISCARD, 0, &bufferData);
 			if (FAILED(result))
 			{
 				/* Error Message */
 				return;
 			}
-			memcpy(bufferData.pData, &myWorldSpriteBufferData, sizeof(SWorldSpriteBufferData));
-			myContext->Unmap(myWorldSpriteBuffer.Raw(), 0);
+			memcpy(bufferData.pData, &mySpriteBufferData, sizeof(SSpriteBufferData));
+			myContext->Unmap(mySpriteBuffer.Raw(), 0);
 
 			ID3D11ShaderResourceView* texture = *sprite->GetSprite()->myTexture->GetPointerToShaderResourceView();
 			ID3D11ShaderResourceView* mask = *sprite->GetSprite()->myMaskTexture->GetPointerToShaderResourceView();
@@ -185,8 +178,8 @@ namespace SE
 			lastTexture = texture;
 			lastMask = mask;
 
-			myContext->PSSetConstantBuffers(2u, 1u, &myWorldSpriteBuffer);
-			myContext->VSSetConstantBuffers(2u, 1u, &myWorldSpriteBuffer);
+			myContext->PSSetConstantBuffers(2u, 1u, &mySpriteBuffer);
+			myContext->VSSetConstantBuffers(2u, 1u, &mySpriteBuffer);
 
 			ID3D11PixelShader* pixelShader;
 
@@ -229,7 +222,7 @@ namespace SE
 		ID3D11ShaderResourceView* lastMask = nullptr;
 		for (auto& sprite : someSprites)
 		{
-			mySpriteBufferData.myPosition = sprite->GetPosition();
+			mySpriteBufferData.myPosOffset = sprite->GetPosition();
 			mySpriteBufferData.mySize = sprite->GetSize();
 			mySpriteBufferData.myPivot = sprite->GetPivot();
 			mySpriteBufferData.myRotation = Math::DegreeToRadian(sprite->GetRotation());

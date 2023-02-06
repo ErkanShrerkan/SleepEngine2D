@@ -207,6 +207,7 @@
     <ClInclude Include="PlayerController.h" />
     <ClInclude Include="Postmaster.h" />
     <ClInclude Include="Process.h" />
+    <ClInclude Include="Random.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="Rigidbody.h" />
     <ClInclude Include="Sprite.h" />
@@ -239,6 +240,7 @@
     <ClCompile Include="PlayerController.cpp" />
     <ClCompile Include="Postmaster.cpp" />
     <ClCompile Include="Process.cpp" />
+    <ClCompile Include="Random.cpp" />
     <ClCompile Include="Rigidbody.cpp" />
     <ClCompile Include="Sprite.cpp" />
     <ClCompile Include="SpriteRenderSystem.cpp" />
