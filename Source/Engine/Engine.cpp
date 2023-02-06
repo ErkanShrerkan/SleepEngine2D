@@ -74,9 +74,9 @@ namespace SE
 		//*///
 
 		//*///
-		PIXBeginEvent(PIX_COLOR_INDEX(1), "Debug::CDebugProfiler::Render");
-		Singleton<Debug::CDebugProfiler>().Render();
-		PIXEndEvent();
+		//PIXBeginEvent(PIX_COLOR_INDEX(1), "Debug::CDebugProfiler::Render");
+		//Singleton<Debug::CDebugProfiler>().Render();
+		//PIXEndEvent();
 		//*///
 
 		/*///

@@ -9,11 +9,12 @@ struct ID3D11Buffer;
 struct ID3D11VertexShader;
 struct ID3D11PixelShader;
 class CameraComponent;
+class Sprite;
 
 namespace SE
 {
-	class CDirectX11Framework;
 	class CSprite;
+	class CDirectX11Framework;
 	class CForwardRenderer
 	{
 	public:
@@ -21,8 +22,8 @@ namespace SE
 		~CForwardRenderer();
 
 		bool Init(CDirectX11Framework* aFramework);
+		void RenderSprites(CameraComponent* aCamera, CommonUtilities::RefillVector<Sprite*>& someSprites);
 		void RenderSprites(CameraComponent* aCamera, CommonUtilities::RefillVector<CSprite*>& someSprites);
-
 	private:
 		float4x4 M3ToM4(const float3x3& aMatrix)
 		{

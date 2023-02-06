@@ -9,8 +9,6 @@ public:
     virtual void Start() override;
     ~Sprite();
 
-    bool isEngineDependent = false;
-
 public:
 
     void DrawRect();
@@ -26,6 +24,7 @@ public:
     void SetMask(const std::string& aFilePath);
     void SetRect(const float4 aRect);
     void Render();
+    void SetIsScreenSpace(bool aToggle) { myIsScreenSpace = aToggle; }
     void SetShaderType(SE::SpriteShaderType aType) { mySprite->SetShaderType(aType); }
     void SetShaderData(float someData);
     float GetShaderData() { return mySprite->GetShaderData(); }
@@ -51,7 +50,7 @@ private:
     float4 myRect;
     float2 myPivot;
     std::string myTexture;
-    // TODO: fix grid lock logic
+    bool myIsScreenSpace = false;
 
 private:
     SE::CSprite* mySprite;

@@ -108,8 +108,12 @@ namespace SE
 		void CDebugProfiler::Render()
 		{
 			#ifdef _DEBUG
-			ImGui::SetNextWindowSize(ImVec2(350, 675), ImGuiCond_FirstUseEver);
-			if (ImGui::Begin("Profiler##prf", 0, ImGuiWindowFlags_NoScrollbar))
+			ImGui::Text("");
+			ImGui::Text("Profiler");
+			ImGui::Separator();
+			ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(2, 2));
+			//ImGui::SetNextWindowSize(ImVec2(350, 675), ImGuiCond_FirstUseEver);
+			//if (ImGui::Begin("Profiler##prf", 0, ImGuiWindowFlags_NoScrollbar))
 			{
 				ImGui::Text("Total Mallocs: %i", g_new);
 				ImGui::Text("Total Frees: %i", g_del);
@@ -161,7 +165,8 @@ namespace SE
 					ImGui::EndTable();
 				}
 			}
-			ImGui::End();
+			ImGui::PopStyleVar();
+			//ImGui::End();
 			#endif // _DEBUG
 		}
 		void CDebugProfiler::IncrementDrawCallCount()

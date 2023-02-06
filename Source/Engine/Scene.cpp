@@ -15,15 +15,26 @@ namespace SE
 
 	}
 
+	void CScene::AddInstance(Sprite* aSprite)
+	{
+		mySprites.push_back(aSprite);
+	}
+
+	void CScene::AddInstance(std::vector<Sprite*> someSprite)
+	{
+		for (auto& sprite : someSprite)
+		{
+			AddInstance(sprite);
+		}
+	}
+
 	void CScene::AddInstance(CSprite* aSprite)
 	{
-		//mySprites.push_back(aSprite);
-		mySprites.push_back(aSprite);
+		mySSSprites.push_back(aSprite);
 	}
 
 	void CScene::AddInstance(std::vector<CSprite*> someSprite)
 	{
-		//mySprites.push_back(aSprite);
 		for (auto& sprite : someSprite)
 		{
 			AddInstance(sprite);
@@ -40,8 +51,12 @@ namespace SE
 		myLoadingFrame = aLoadingFrame;
 	}
 
-	CommonUtilities::RefillVector<CSprite*>& CScene::GetSprites()
+	CommonUtilities::RefillVector<Sprite*>& CScene::GetSprites()
 	{
 		return mySprites;
+	}
+	CommonUtilities::RefillVector<CSprite*>& CScene::GetSSSprites()
+	{
+		return mySSSprites;
 	}
 }

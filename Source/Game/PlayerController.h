@@ -19,7 +19,6 @@ private:
     void ToggleMovement();
 
 private:
-    //float2 myPosition;
     float2 myMovement;
     float mySpeed = .5f;
     bool myCanMove = false;

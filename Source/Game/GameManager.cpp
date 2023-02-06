@@ -5,6 +5,7 @@
 #include "SystemInclude.h"
 #include "ComponentInclude.h"
 #include "Entity.h"
+#include <Engine\DebugProfiler.h>
 
 GameManager::~GameManager()
 {
@@ -122,6 +123,8 @@ void GameManager::OnImGui()
 		ImGui::EndTable();
 	}
 	ImGui::PopStyleVar();
+
+	Singleton<SE::Debug::CDebugProfiler>().Render();
 	//ImGui::End();
 }
 

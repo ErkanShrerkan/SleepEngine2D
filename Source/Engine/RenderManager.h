@@ -94,8 +94,7 @@ namespace SE
 
 		int myRenderLayer = 0;
 
-		Sprite* myCursor;
-		Entity* myCursorEntity;
+		CSprite* myCursor;
 
 		CForwardRenderer myForwardRenderer;
 		CFullscreenRenderer myFullscreenRenderer;

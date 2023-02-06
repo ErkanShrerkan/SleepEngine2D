@@ -3,6 +3,8 @@
 #include <Engine\Engine.h>
 #include <Engine\ContentLoader.h>
 #include <Engine\LineDrawer.h>
+#include <Engine\Engine.h>
+#include <Engine\Scene.h>
 #include "Globals.h"
 
 Sprite::Sprite(const std::string& aTexturePath, Entity*& myEntity)
@@ -131,7 +133,14 @@ void Sprite::SetRect(const float4 aRect)
 
 void Sprite::Render()
 {
-	mySprite->Render();
+	if (myIsScreenSpace)
+	{
+		mySprite->Render();
+	}
+	else
+	{
+		SE::CEngine::GetInstance()->GetActiveScene()->AddInstance(this);
+	}
 }
 
 void Sprite::SetShaderData(float someData)
@@ -186,8 +195,5 @@ float Sprite::GetRotation()
 
 void Sprite::Release()
 {
-	if (!isEngineDependent)
-	{
-		mySprite->Release();
-	}
+	mySprite->Release();
 }

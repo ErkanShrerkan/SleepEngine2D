@@ -86,9 +86,7 @@ namespace SE
 		}
 
 		myPostProcessingBuffer->Release();
-
-		delete myCursor;
-		delete myCursorEntity;
+		//myCursor->Release();
 	}
 
 	bool CRenderManager::Restart()
@@ -121,9 +119,8 @@ namespace SE
 		CLineDrawer::Init();
 		CDebugDrawer::GetInstance().Init();
 
-		myCursorEntity = new Entity();
-		myCursor = new Sprite(/*"textures/sprites/player/CharacterIdleFront.dds"*/"textures/cursor.dds", myCursorEntity);
-		myCursor->isEngineDependent = true;
+		myCursor = CEngine::GetInstance()->GetContentLoader()->GetSpriteFactory().GetSprite(/*"textures/sprites/player/CharacterIdleFront.dds"*/"textures/cursor.dds");
+		//myCursor->isEngineDependent = true;
 		myCursor->SetSizeRelativeToImage({ 640.f / 1920, 360.f / 1080 });
 
 		ID3D11Resource* backBufferResource = nullptr;
@@ -404,7 +401,7 @@ namespace SE
 		auto pos = Input::GetMousePos();
 		myCursor->SetPosition(pos);
 		if (!Input::GetLockedCursorState())
-			sprites.push_back(myCursor->GetSprite());
+			sprites.push_back(myCursor);
 
 		GameManager& gm = CEngine::GetInstance()->GetGameManager();
 		auto& cameraMap = gm.GetComponentMap<CameraComponent>();
