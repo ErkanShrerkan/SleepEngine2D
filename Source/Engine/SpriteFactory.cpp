@@ -146,7 +146,7 @@ namespace SE
 		uint2 res = Singleton<GlobalSettings>().gameplayResolution;
 
 		CSprite* sprite = new CSprite();
-		sprite->mySize = { texture->GetWidth() / res.x, texture->GetHeight() / res.y };
+		sprite->mySize = { texture->GetWidth() / res.x, texture->GetHeight() / res.x };
 		sprite->myTexture = texture;
 		sprite->myMaskTexture = mask;
 		sprite->myPivot = { 0, 0 };

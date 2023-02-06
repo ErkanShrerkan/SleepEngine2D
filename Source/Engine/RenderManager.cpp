@@ -121,7 +121,7 @@ namespace SE
 
 		myCursor = CEngine::GetInstance()->GetContentLoader()->GetSpriteFactory().GetSprite(/*"textures/sprites/player/CharacterIdleFront.dds"*/"textures/cursor.dds");
 		//myCursor->isEngineDependent = true;
-		myCursor->SetSizeRelativeToImage({ 640.f / 1920, 360.f / 1080 });
+		myCursor->SetSizeRelativeToImage({ 640.f / 1920, 360.f / 1920 });
 
 		ID3D11Resource* backBufferResource = nullptr;
 		aFramework->GetBackBuffer()->GetResource(&backBufferResource);
@@ -304,6 +304,8 @@ namespace SE
 		//	}
 		//}
 
+		//SetRasterizerState(ERasterizerState::E_RASTERIZERSTATE_CULLNONE);
+
 		myBackBuffer.ClearTexture({ 1, 1, 1, 1 });
 		myFullscreen.ClearTexture();
 		myScaledBackBuffer.ClearTexture();
@@ -431,7 +433,7 @@ namespace SE
 		SetBlendState(E_BLENDSTATE_ALPHABLEND);
 		myScaledBackBuffer.ClearTexture();
 		myScaledBackBuffer.SetAsActiveTarget();
-		myForwardRenderer.RenderSprites(mainCam, sprites);
+		myForwardRenderer.RenderSprites(sprites);
 		SetBlendState(E_BLENDSTATE_DISABLE);
 
 		myFullscreenCopy.SetAsActiveTarget();

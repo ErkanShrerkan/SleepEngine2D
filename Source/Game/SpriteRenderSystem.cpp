@@ -9,8 +9,8 @@ void SpriteRenderSystem::Update()
 {
 	for (auto& [entity, component] : myGameManager->GetComponentMap<Sprite>().map)
 	{
-		float2 pos = myGameManager->GetEntity(entity).GetComponent<Transform>().GetPosition();
-		component->SetPosition(pos);
+		//float2 pos = myGameManager->GetEntity(entity).GetComponent<Transform>().GetPosition();
+		//component->SetPosition(pos);
 		component->DrawRect();
 		component->Render();
 	}

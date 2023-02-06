@@ -38,10 +38,14 @@ void GameManager::Init()
 	RegisterSystem<SpriteRenderSystem>();
 	RegisterSystem<CollisionSystem>();
 
-	for (size_t i = 0; i < 1; i++)
+	for (size_t i = 0; i < 10; i++)
 	{
 		CreateEntity().AddComponent<PlayerController>();
 	}
+
+	auto& e = CreateEntity(); 
+	e.AddComponent<PlayerController>();
+	e.AddComponent<CameraComponent>();
 
 	printe("GameManager Inited\n");
 }

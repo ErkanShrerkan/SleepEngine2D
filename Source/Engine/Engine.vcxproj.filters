@@ -409,6 +409,9 @@
     <FxCompile Include="FullscreenPS-BilateralH.hlsl">
       <Filter>Source Files\Engine\Shader\Effects\Post Processing</Filter>
     </FxCompile>
+    <FxCompile Include="WorldSpriteVS.hlsl">
+      <Filter>Source Files\Engine\Shader</Filter>
+    </FxCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="BRDFHelper.hlsli">

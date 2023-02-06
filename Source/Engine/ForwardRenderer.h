@@ -23,16 +23,7 @@ namespace SE
 
 		bool Init(CDirectX11Framework* aFramework);
 		void RenderSprites(CameraComponent* aCamera, CommonUtilities::RefillVector<Sprite*>& someSprites);
-		void RenderSprites(CameraComponent* aCamera, CommonUtilities::RefillVector<CSprite*>& someSprites);
-	private:
-		float4x4 M3ToM4(const float3x3& aMatrix)
-		{
-			float4x4 m;
-			m.SetRow(1, { aMatrix.GetRow(1), 1 });
-			m.SetRow(2, { aMatrix.GetRow(2), 1 });
-			m.SetRow(4, { aMatrix.GetRow(3), 1 });
-			return m;
-		}
+		void RenderSprites(CommonUtilities::RefillVector<CSprite*>& someSprites);
 	private:
 		struct SFrameBufferData
 		{
@@ -40,6 +31,18 @@ namespace SE
 			float4x4 myCameraTransform;
 			float4x4 myToProjection;
 			float4 myCameraPosition;
+		};
+
+		struct SWorldSpriteBufferData
+		{
+			float4x4 myTransform;
+			float4 myColor;
+			float4 myRect;
+			float2 mySize;
+			float2 myPosOffset;
+			float2 myPivot;
+			float myRotation;
+			float myData;
 		};
 
 		struct SSpriteBufferData
@@ -55,15 +58,18 @@ namespace SE
 
 		SFrameBufferData myFrameBufferData;
 		SSpriteBufferData mySpriteBufferData;
+		SWorldSpriteBufferData myWorldSpriteBufferData;
 
 		ID3D11DeviceContext* myContext;
 		AutoReleaser<ID3D11Buffer> myFrameBuffer;
 		AutoReleaser<ID3D11Buffer> myObjectBuffer;
 		AutoReleaser<ID3D11Buffer> mySpriteBuffer;
+		AutoReleaser<ID3D11Buffer> myWorldSpriteBuffer;
 
 		ID3D11PixelShader* myFisheyePixelShader;
 		ID3D11PixelShader* myCircularFillPixelShader;
 		ID3D11PixelShader* mySpritePixelShader;
 		ID3D11VertexShader* mySpriteVertexShader;
+		ID3D11VertexShader* myWorldSpriteVertexShader;
 	};
 }

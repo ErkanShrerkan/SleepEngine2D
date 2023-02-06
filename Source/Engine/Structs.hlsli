@@ -154,6 +154,26 @@ cbuffer SpriteObjectBuffer_Sprite : register(b0)
     float mySpriteData;
 }
 
+cbuffer FrameBufferData_Sprite : register(b1)
+{
+    float4x4 myToCamera;
+    float4x4 myCameraTransform;
+    float4x4 myToProjection;
+    float4 myCameraPosition;
+};
+
+cbuffer WorldObjectBufferData_Sprite : register(b2)
+{
+    float4x4 myTransform;
+    float4 myColor;
+    float4 myRect;
+    float2 mySize;
+    float2 myPosOffset;
+    float2 myPivot;
+    float myRotation;
+    float myData;
+};
+
 // effect textures
 Texture2D FullscreenTexture : register(t0);
 Texture2D FullscreenTexture2 : register(t1);

@@ -97,7 +97,7 @@ namespace SE
     Vector2f CSprite::GetNormalizedImageSize()
     {
         float x = GetImageSize().x / Singleton<GlobalSettings>().gameplayResolution.x;
-        float y = GetImageSize().y / Singleton<GlobalSettings>().gameplayResolution.y;
+        float y = GetImageSize().y / Singleton<GlobalSettings>().gameplayResolution.x;
         return { x, y };
     }
     float4 CSprite::GetRect()

@@ -19,7 +19,7 @@ CameraComponent::~CameraComponent()
 void CameraComponent::Start()
 {
 	float f = 10.f;
-	float n = 0.1f;
+	float n = 0.01f;
 	myProjection(1, 1) = 2.f / myDimensions.x;
 	myProjection(2, 2) = 2.f / myDimensions.y;
 	myProjection(3, 3) = 1.f / (f - n);

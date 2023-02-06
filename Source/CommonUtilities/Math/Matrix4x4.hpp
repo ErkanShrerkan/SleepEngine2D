@@ -68,6 +68,7 @@ namespace CommonUtilities
 		void operator+=(const Matrix4x4<T>& aMatrix);
 		void operator-=(const Matrix4x4<T>& aMatrix);
 		void operator*=(const Matrix4x4<T>& aMatrix);
+		Vector4<T> operator*(const Vector4<T>& aVector);
 
 		Matrix4x4<T> operator*(const T aScalar);
 		void operator*=(const T aScalar);
@@ -451,6 +452,19 @@ namespace CommonUtilities
 		}
 
 		(*this) = matrix;
+	}
+
+	template<class T>
+	inline Vector4<T> Matrix4x4<T>::operator*(const Vector4<T>& aVector)
+	{
+		Vector4<T> newVector;
+
+		newVector.x = (aVector.x * (*this)(1, 1) + aVector.y * (*this)(2, 1) + aVector.z * (*this)(3, 1) + aVector.w * (*this)(4, 1));
+		newVector.y = (aVector.x * (*this)(1, 2) + aVector.y * (*this)(2, 2) + aVector.z * (*this)(3, 2) + aVector.w * (*this)(4, 2));
+		newVector.z = (aVector.x * (*this)(1, 3) + aVector.y * (*this)(2, 3) + aVector.z * (*this)(3, 3) + aVector.w * (*this)(4, 3));
+		newVector.w = (aVector.x * (*this)(1, 4) + aVector.y * (*this)(2, 4) + aVector.z * (*this)(3, 4) + aVector.w * (*this)(4, 4));
+
+		return newVector;
 	}
 
 	template<>
