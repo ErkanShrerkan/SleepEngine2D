@@ -28,13 +28,15 @@ void PlayerController::Update()
 
 void PlayerController::Start()
 {
-	GameObject().GetComponent<Transform>().SetPosition({ 0, 0 }/*{ float(rand() % 10000) / 10000.f, float(rand() % 10000) / 10000.f }*/);
+	//GameObject().GetComponent<Transform>().SetPosition({ 0, 0 }/*{ float(rand() % 10000) / 10000.f, float(rand() % 10000) / 10000.f }*/);
 	auto& c = GameObject().AddComponent<Sprite>(/*"textures/sprites/white.dds"*/"textures/sprites/tga/tgalogo_w.dds");
 	c.SetSizeRelativeToImage({ .1f, .1f });
 	c.SetPivot({ .5f, .5f });
 	auto& cc = GameObject().AddComponent<Collider>(Collider::eType::Circle);
 	cc.isRigidBody = true;
 	cc.radius = c.GetSize().x;
+	GameObject().AddComponent<CameraComponent>();
+	GameObject().GetComponent<Transform>().SetPosition({ Random::Float(-10.f, 10.f), Random::Float(-10.f, 10.f) });
 	ObserveInputEvent(eInputEvent::Interact, eInputState::Released, [&]() { this->ToggleMovement(); });
 	//GameObject().AddComponent<CameraComponent>();
 

@@ -116,9 +116,9 @@ void Transform::MoveWorldSpace(float2 aMovementVector)
 
 void Transform::Start()
 {
+	Expose(myScale, "Scale");
 	Expose(myPosition, "Position");
 	Expose(myRotation, "Rotation");
-	Expose(myScale, "Scale");
 }
 
 void Transform::Update()

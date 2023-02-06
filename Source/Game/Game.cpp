@@ -63,7 +63,7 @@ namespace Game
 			return false;
 		}
 
-		Singleton<JsonManager>().OnImGui();
+		//Singleton<JsonManager>().OnImGui();
 
 		return myIsRunning;
 	}

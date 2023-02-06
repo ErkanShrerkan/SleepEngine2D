@@ -38,20 +38,16 @@ void GameManager::Init()
 	RegisterSystem<SpriteRenderSystem>();
 	RegisterSystem<CollisionSystem>();
 
-	for (size_t i = 0; i < 25; i++)
+	for (size_t i = 0; i < 10; i++)
 	{
 		auto& e = CreateEntity();
+		e.GetComponent<Transform>().SetPosition({ Random::Float(-10.f, 10.f), Random::Float(-10.f, 10.f) });
 		auto& s = e.AddComponent<Sprite>("textures/sprites/circle.dds");
 		s.SetColor({ Random::Float(0.f, 1.f), Random::Float(0.f, 1.f), Random::Float(0.f, 1.f), 1 });
 		s.SetSizeRelativeToImage({ .1f, .1f });
-		e.GetComponent<Transform>().SetPosition({ Random::Float(-10.f, 10.f), Random::Float(-10.f, 10.f) });
 	}
 
-	auto& e = CreateEntity(); 
-	e.AddComponent<PlayerController>();
-	e.AddComponent<CameraComponent>();
-	e.GetComponent<Transform>().SetPosition({ Random::Float(-10.f, 10.f), Random::Float(-10.f, 10.f) });
-
+	CreateEntity().AddComponent<PlayerController>();
 	printe("GameManager Inited\n");
 }
 
@@ -67,74 +63,36 @@ void GameManager::Update()
 		componentMap->UpdateComponents();
 	}
 
-	uint2 res = Singleton<GlobalSettings>().gameplayResolution;
-	for (uint x = 0; x < res.x; x++)
-	{
-		Debug::DrawLine2D({ (float)x / res.x, 0 }, { (float)x / res.x, 1 }, { 1, 1, 1, .0125f });
-	}
-	for (uint y = 0; y < res.y; y++)
-	{
-		Debug::DrawLine2D({ 0, (float)y / res.y }, { 1, (float)y / res.y }, { 1, 1, 1, .0125f });
-	}
+	//uint2 res = Singleton<GlobalSettings>().gameplayResolution;
+	//for (uint x = 0; x < res.x; x++)
+	//{
+	//	Debug::DrawLine2D({ (float)x / res.x, 0 }, { (float)x / res.x, 1 }, { 1, 1, 1, .0125f });
+	//}
+	//for (uint y = 0; y < res.y; y++)
+	//{
+	//	Debug::DrawLine2D({ 0, (float)y / res.y }, { 1, (float)y / res.y }, { 1, 1, 1, .0125f });
+	//}
 }
 
 void GameManager::OnImGui()
 {
-	// TODO: GameObjects selected with combo, then components and variables with table
-	//ImGui::SetNextWindowSize(ImVec2(600, 450), ImGuiCond_FirstUseEver);
 	ImGui::Separator();
 	ImGui::Text("Inspector");
-	//if (!ImGui::Begin())
-	//{
-	//	ImGui::End();
-	//	return;
-	//}
-
 	ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(2, 2));
-	if (ImGui::BeginTable("", 3, ImGuiTableFlags_BordersOuter | ImGuiTableFlags_Resizable))
+	if (ImGui::BeginTable("", 2, ImGuiTableFlags_BordersOuter))
 	{
 		ImGui::TableNextRow();
 		ImGui::TableSetColumnIndex(0);
-		ImGui::AlignTextToFramePadding();
-		ImGui::Text("GameObjects");
-		//ImGui::Separator();
+		ImGui::Text("Game Objects");
+		SelectEntity();
 		ImGui::TableSetColumnIndex(1);
-		ImGui::Text("Components");
-		//ImGui::Separator();
-		ImGui::TableSetColumnIndex(2);
-		ImGui::Text("Variables");
-		//ImGui::Separator();
-
-		for (auto& [entity, components] : myEntityComponents)
-		{
-			ImGui::PushID(entity);
-			ImGui::TableNextRow();
-			ImGui::TableSetColumnIndex(0);
-			if (ImGui::TreeNode("Entities", "%s_%u", "Entity", entity))
-			{
-				// loop children when implemented
-				//
-
-				// loop components
-				for (auto& [id, component] : components)
-				{
-					//if (component->HasExposedVariables())
-					{
-						ImGui::PushID(id);
-						component->OnImGui(myComponentMaps[id]->myName);
-						ImGui::PopID();
-					}
-				}
-				ImGui::TreePop();
-			}
-			ImGui::PopID();
-		}
+		ImGui::Text("Options");
+		AddEntityComponent();
 		ImGui::EndTable();
 	}
-	ImGui::PopStyleVar();
-
+	ModifyValues();
 	Singleton<SE::Debug::CDebugProfiler>().Render();
-	//ImGui::End();
+	ImGui::PopStyleVar();
 }
 
 Entity& GameManager::CreateEntity()
@@ -144,4 +102,79 @@ Entity& GameManager::CreateEntity()
 	Entity& entity = *myEntities[id];
 	entity.AddComponent<Transform>();
 	return entity;
+}
+
+void GameManager::AddEntityComponent()
+{
+	ImGui::Text("Hello");
+	ImGui::Text("Hello");
+	ImGui::Text("Hello");
+	ImGui::Text("Hello");
+	ImGui::Text("Hello");
+}
+
+void GameManager::SelectEntity()
+{
+	if (ImGui::BeginListBox("", { ImGui::GetContentRegionAvail().x, ImGui::GetContentRegionAvail().y / 3 }))
+	{
+		for (auto& [entity, components] : myEntityComponents)
+		{
+			ImGuiTreeNodeFlags nodeFlag = ImGuiTreeNodeFlags_Leaf;
+			if (mySelectedEntity == entity)
+			{
+				nodeFlag |= ImGuiTreeNodeFlags_Selected;
+			}
+
+			if (ImGui::TreeNodeEx("Entities", nodeFlag, "%s_%u", "Entity", entity))
+			{
+				ImGui::PushID(entity);
+				if (ImGui::IsItemClicked())
+				{
+					if (mySelectedEntity == entity)
+					{
+						mySelectedEntity = UINT_MAX;
+					}
+					else
+					{
+						mySelectedEntity = entity;
+					}
+				}
+				ImGui::PopID();
+				ImGui::TreePop();
+			}
+		}
+		ImGui::EndListBox();
+	}
+}
+
+void GameManager::ModifyValues()
+{
+	if (mySelectedEntity != UINT_MAX)
+	{
+		if (ImGui::BeginTable("", 2, ImGuiTableFlags_BordersOuter))
+		{
+			ImGui::TableNextRow();
+			ImGui::TableSetColumnIndex(0);
+			ImGui::Text("Components");
+			ImGui::TableSetColumnIndex(1);
+			ImGui::Text("Variables");
+			// loop children when implemented
+			//
+
+			// loop components
+			auto& components = myEntityComponents[mySelectedEntity];
+			for (auto& [id, component] : components)
+			{
+				ImGui::TableNextRow();
+				ImGui::TableSetColumnIndex(0);
+				//if (component->HasExposedVariables())
+				{
+					ImGui::PushID(id);
+					component->OnImGui(myComponentMaps[id]->myName);
+					ImGui::PopID();
+				}
+			}
+			ImGui::EndTable();
+		}
+	}
 }

@@ -29,7 +29,9 @@ void Game::Editor::RecieveMessage(eMessage aMessage)
 
 void Game::Editor::OnImGui()
 {
-	ImGui::SetNextWindowSize(ImVec2(500, 800), ImGuiCond_FirstUseEver);
+	float x = (float)GetSystemMetrics(SM_CXSCREEN);
+	float y = (float)GetSystemMetrics(SM_CYSCREEN);
+	ImGui::SetNextWindowSize(ImVec2(x / 6, y), ImGuiCond_FirstUseEver);
 	ImGui::SetNextWindowPos(ImVec2(0, 0));
 	if (ImGui::Begin("Editor", 0,
 		ImGuiWindowFlags_NoScrollbar |

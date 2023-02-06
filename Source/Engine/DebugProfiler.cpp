@@ -114,6 +114,7 @@ namespace SE
 			ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(2, 2));
 			//ImGui::SetNextWindowSize(ImVec2(350, 675), ImGuiCond_FirstUseEver);
 			//if (ImGui::Begin("Profiler##prf", 0, ImGuiWindowFlags_NoScrollbar))
+
 			{
 				ImGui::Text("Total Mallocs: %i", g_new);
 				ImGui::Text("Total Frees: %i", g_del);

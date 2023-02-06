@@ -9,7 +9,7 @@ void SpriteRenderSystem::Update()
 {
 	for (auto& [entity, component] : myGameManager->GetComponentMap<Sprite>().map)
 	{
-		component->DrawRect();
-		component->Render();
+		//component->DrawRect();
+		//component->Render();
 	}
 }

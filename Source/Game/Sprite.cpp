@@ -8,7 +8,7 @@
 #include "Globals.h"
 
 Sprite::Sprite(const std::string& aTexturePath, Entity*& myEntity)
-	: Component::Component(myEntity)
+	: Component::Component(myEntity), myTexture(aTexturePath)
 {
 	mySprite = SE::CEngine::GetInstance()->GetContentLoader()->GetSpriteFactory().GetSprite(aTexturePath);
 }
@@ -16,6 +16,15 @@ Sprite::Sprite(const std::string& aTexturePath, Entity*& myEntity)
 void Sprite::Start()
 {
 	Expose(myTexture, "Texture");
+	Expose(myRender, "Render");
+}
+
+void Sprite::Update()
+{
+	if (myRender)
+	{
+		Render();
+	}
 }
 
 Sprite::~Sprite()

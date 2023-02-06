@@ -144,4 +144,14 @@ private:
 	std::unordered_map<uint, std::unordered_map<uint, Component*>> myEntityComponents;
 	std::unordered_map<uint, IComponentMap*> myComponentMaps;
 	std::vector<System*> mySystems;
+
+private:
+	// Editor Functions
+	void AddEntityComponent();
+	void SelectEntity();
+	void ModifyValues();
+
+private:
+	// Editor control variables
+	uint mySelectedEntity = UINT_MAX;
 };

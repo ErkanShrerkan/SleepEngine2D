@@ -13,6 +13,7 @@ protected:
 private:
 	enum class eDataFormat
 	{
+		Bool,
 		Scalar,
 		Vec2,
 		Vec3,
@@ -29,6 +30,12 @@ private:
 		ePickMode pickMode;
 
 	protected:
+
+		void Bool()
+		{
+			ImGui::Checkbox("", (bool*)adr);
+		}
+
 		void Scalar()
 		{
 			ImGui::DragFloat("", (float*)adr, 0.1f);
@@ -77,17 +84,15 @@ private:
 	public:
 		void OnImGui()
 		{
-			ImGui::TableSetColumnIndex(2);
+			ImGui::TableSetColumnIndex(1);
 			ImGui::AlignTextToFramePadding();
-
-			//ImGuiTreeNodeFlags flags = ImGuiTreeNodeFlags_Leaf | ImGuiTreeNodeFlags_NoTreePushOnOpen;
-			//ImGui::TreeNodeEx("Variable", flags, name.c_str());
-
 			ImGui::Text(name.c_str());
 			ImGui::SetNextItemWidth(-FLT_MIN);
-			//ImGui::SetNextItemWidth(-FLT_MIN);
 			switch (format)
 			{
+			case eDataFormat::Bool:
+				Bool();
+				break;
 			case eDataFormat::Scalar:
 				Scalar();
 				break;
@@ -106,8 +111,6 @@ private:
 			default:
 				break;
 			}
-
-			//ImGui::NextColumn();
 			ImGui::TableNextRow();
 		}
 	};
@@ -115,6 +118,15 @@ private:
 	std::vector<ExposedVariable> myExposedVariables;
 
 protected:
+	void Expose(bool& aVariable, const std::string& aName)
+	{
+		ExposedVariable ev;
+		ev.adr = &aVariable;
+		ev.format = eDataFormat::Bool;
+		ev.name = aName;
+		myExposedVariables.push_back(ev);
+	}
+
 	void Expose(float& aVariable, const std::string& aName)
 	{
 		ExposedVariable ev;
@@ -167,14 +179,14 @@ protected:
 public:
 	void OnImGui(const std::string& aName)
 	{
-		ImGui::TableSetColumnIndex(1);
+		ImGui::TableSetColumnIndex(0);
 		ImGui::AlignTextToFramePadding();
 		bool open = ImGui::TreeNode("Component", aName.c_str());
 
 		if (!HasExposedVariables() || !open)
 		{
 			ImGui::PushID(INT_MIN);
-			ImGui::TableSetColumnIndex(2);
+			ImGui::TableSetColumnIndex(1);
 			ImGui::AlignTextToFramePadding();
 			ImGui::Text("");
 			ImGui::TableNextRow();

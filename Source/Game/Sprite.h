@@ -7,6 +7,7 @@ class Sprite : public Component
 public:
     Sprite(const std::string& aTexturePath, Entity*& myEntity);
     virtual void Start() override;
+    virtual void Update() override;
     ~Sprite();
 
 public:
@@ -50,6 +51,7 @@ private:
     float2 myPivot;
     std::string myTexture;
     bool myIsScreenSpace = false;
+    bool myRender = true;
 
 private:
     SE::CSprite* mySprite;
