@@ -166,6 +166,31 @@ void GameManager::AddEntityComponent()
 			MarkEntityForRemoval(mySelectedEntity);
 		}
 	};
+	// TODO: Add option to add component from list
+
+	std::set<uint> entityComponents;
+	for (auto& [componentID, component] : myEntityComponents[mySelectedEntity])
+	{
+		entityComponents.insert(componentID);
+	}
+
+	if (ImGui::BeginMenu("Add Component"))
+	{
+		for (auto& [componentID, map] : myComponentMaps)
+		{
+			// can't add a component that already has been added
+			if (entityComponents.find(componentID) != entityComponents.end())
+			{
+				continue;
+			}
+
+			if (ImGui::MenuItem(map->GetName().c_str()))
+			{
+				map->AddComponent(mySelectedEntity, *this);
+			}
+		}
+		ImGui::EndMenu();
+	}
 }
 
 void GameManager::AddEntity()

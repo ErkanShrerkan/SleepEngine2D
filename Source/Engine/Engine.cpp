@@ -36,8 +36,6 @@ namespace SE
 	CEngine::~CEngine()
 	{
 		// Release resources
-		
-		Helper::TextureHelper::TextureBank::GetInstance().Release();
 
 		delete myContentLoader;
 		myContentLoader = nullptr;

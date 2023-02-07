@@ -9,13 +9,18 @@
 #include <set>
 
 class Entity;
-
+class GameManager;
 class IComponentMap
 {
 public:
 	virtual ~IComponentMap() = default;
 	virtual void DeleteComponentFromEntity(uint anEntity) = 0;
 	virtual void UpdateComponents() = 0;
+	virtual void AddComponent(uint anEntity, GameManager& aGameManager) = 0;
+	std::string GetName()
+	{
+		return myName;
+	}
 
 public:
 	std::string myName;
@@ -26,26 +31,7 @@ template <
 	typename std::enable_if<
 	std::is_base_of<
 	Component, ComponentType>::value>::type* = nullptr>
-	class ComponentMap : public IComponentMap
-{
-public:
-	std::unordered_map<uint, ComponentType*> map;
-	virtual void DeleteComponentFromEntity(uint anEntity) override
-	{
-		// deletes the component pointer
-		delete map[anEntity];
-		// removes the entity entry in the map
-		map.erase(anEntity);
-	}
-
-	virtual void UpdateComponents() override
-	{
-		for (auto& [entity, component] : map)
-		{
-			component->Update();
-		}
-	}
-};
+	class ComponentMap;
 
 class GameManager
 {
@@ -89,6 +75,33 @@ public:
 
 	void OnImGui();
 
+	template <typename ComponentType, typename... Args>
+	typename std::enable_if<
+		std::is_base_of<
+		Component, ComponentType>::value,
+		ComponentType&>::type
+		AddComponent(uint anEntityID, Args&&... someArgs)
+	{
+		ComponentType* component = nullptr;
+		auto& entityComponents = myEntityComponents[anEntityID];
+		uint componentID = GetID<ComponentType>();
+
+		if (entityComponents.find(componentID) != entityComponents.end())
+		{
+			component = static_cast<ComponentType*>(myEntityComponents[anEntityID][componentID]);
+			return *component;
+		}
+
+		ComponentMap<ComponentType>& cm = GetComponentMap<ComponentType>();
+		component = new ComponentType(std::forward<Args>(someArgs)...);
+		Entity* entity = myEntities[anEntityID];
+		component->SetEntity(entity);
+		cm.map.insert(std::make_pair(anEntityID, component));
+		entityComponents[componentID] = component;
+		component->Start();
+		return *component;
+	}
+
 private:
 	template <typename ComponentType>
 	typename std::enable_if<
@@ -105,22 +118,6 @@ private:
 	void RemoveEntity(uint anEntityID);
 	void MarkEntityForRemoval(uint anEntityID);
 
-	template <typename ComponentType, typename... Args>
-	typename std::enable_if<
-		std::is_base_of<
-		Component, ComponentType>::value,
-		ComponentType&>::type
-		AddComponent(uint anEntityID, Args&&... someArgs)
-	{
-		ComponentMap<ComponentType>& cm = GetComponentMap<ComponentType>();
-		ComponentType* component = new ComponentType(std::forward<Args>(someArgs)...);
-		Entity* entity = myEntities[anEntityID];
-		component->SetEntity(entity);
-		cm.map.insert(std::make_pair(anEntityID, component));
-		myEntityComponents[anEntityID][GetID<ComponentType>()] = component;
-		component->Start();
-		return *component;
-	}
 
 	template <typename ComponentType>
 	typename std::enable_if<
@@ -167,4 +164,35 @@ private:
 private:
 	// Editor control variables
 	uint mySelectedEntity = UINT_MAX;
+};
+
+template <
+	typename ComponentType,
+	typename std::enable_if<
+	std::is_base_of<
+	Component, ComponentType>::value>::type*>
+class ComponentMap : public IComponentMap
+{
+public:
+	std::unordered_map<uint, ComponentType*> map;
+	virtual void DeleteComponentFromEntity(uint anEntity) override
+	{
+		// deletes the component pointer
+		delete map[anEntity];
+		// removes the entity entry in the map
+		map.erase(anEntity);
+	}
+
+	virtual void UpdateComponents() override
+	{
+		for (auto& [entity, component] : map)
+		{
+			component->Update();
+		}
+	}
+
+	virtual void AddComponent(uint anEntity, GameManager& aGameManager) override
+	{
+		aGameManager.AddComponent<ComponentType>(anEntity);
+	}
 };

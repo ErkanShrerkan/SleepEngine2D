@@ -9,6 +9,8 @@
 
 class InputObserver
 {
+public:
+	~InputObserver();
 protected:
 	void ObserveInputEvent(eInputEvent anEvent, eInputState aTriggerState, std::function<void()> aCallback);
 	void StopObservingInputEvent(eInputEvent anEvent, eInputState aTriggerState);
@@ -41,6 +43,7 @@ public:
 	/// <param name="aCallback"></param>
 	static void AddInputEventObserver(InputObserver* anObserver, eInputEvent anEvent, eInputState aState, std::function<void()>& aCallback);
 	static void RemoveEventObserver(InputObserver* anObserver, eInputEvent anEvent, eInputState aState);
+	static void RemoveEventObserver(InputObserver* anObserver);
 	static void LockCursor(bool aShouldLock = true);
 	static bool GetLockedCursorState() { return myLockCursor; }
 	static float GetMouseSensitivity();

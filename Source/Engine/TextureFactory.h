@@ -2,9 +2,9 @@
 #pragma comment(lib, "d3d11.lib")
 #include <dxgiformat.h>
 #include <string>
-#include <CommonUtilities\Container\KeyedPool.hpp>
 #include "FullscreenTexture.h"
 #include "GBuffer.h"
+#include <unordered_map>
 
 struct ID3D11Texture2D;
 namespace SE
@@ -20,10 +20,10 @@ namespace SE
         CFullscreenTexture CreateFullscreenTexture(ID3D11Texture2D* const& aTexture);
         CGBuffer CreateGBuffer(const Vector2ui& aSize);
         CTexture* LoadTexture(const std::string& aPath);
-        CTexture* CreateTexture(const std::string& aPath);
+        CTexture* CreateTexture(std::string& aPath);
 
     private:
 
-        CommonUtilities::KeyedPool<std::string, CTexture*> myPool;
+        std::unordered_map<std::string, CTexture*> myPool;
     };
 }

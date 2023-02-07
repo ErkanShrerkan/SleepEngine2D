@@ -192,7 +192,7 @@ int WINAPI wWinMain(_In_ HINSTANCE hInstance,
 			Input::ResetScrollInput();
 			PIXEndEvent();
 
-			if (Input::GetInputDown(eInputEvent::Alt))
+			if (Input::GetInputDown(eInputEvent::Escape))
 			{
 				isRunning = false;
 			}

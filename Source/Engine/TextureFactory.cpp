@@ -7,13 +7,13 @@
 #include "Texture.h"
 
 #include "DX11.h"
+#include <algorithm>
 
 namespace SE
 {
 	CTextureFactory::~CTextureFactory()
 	{
-		auto& map = myPool.GetMap();
-		for (auto& [name, texture] : map)
+		for (auto& [path, texture] : myPool)
 		{
 			delete texture;
 		}
@@ -243,11 +243,30 @@ namespace SE
 
 	CTexture* CTextureFactory::LoadTexture(const std::string& aPath)
 	{
-		return myPool.Get(aPath, [this, aPath](const std::string&) -> CTexture* {
-			return CreateTexture(aPath);
-		});
+		std::string cleanName(aPath);
+		std::replace(cleanName.begin(), cleanName.end(), '\\', '/');
+#pragma warning(disable:4244)
+		// '=': conversion from 'int' to 'char', possible loss of data
+		std::string lowerCasePath = cleanName;
+		std::transform(cleanName.begin(), cleanName.end(), lowerCasePath.begin(), std::tolower);
+#pragma warning(default:4244)
+
+		CTexture* texture = nullptr;
+		if (myPool.find(lowerCasePath) == myPool.end())
+		{
+			std::string modifiablePath = lowerCasePath;
+			texture = CreateTexture(modifiablePath);
+			myPool[modifiablePath] = texture;
+			printf("created texture %s\n", modifiablePath.c_str());
+		}
+		else
+		{
+			texture = myPool[lowerCasePath];
+			printf("loaded texture %s\n", lowerCasePath.c_str());
+		}
+		return texture;
 	}
-	CTexture* CTextureFactory::CreateTexture(const std::string& aPath)
+	CTexture* CTextureFactory::CreateTexture(std::string& aPath)
 	{
 		// TODO: Move CTexture Constructor to this class
 		return new CTexture(aPath);

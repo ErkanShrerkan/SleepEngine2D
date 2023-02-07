@@ -78,7 +78,7 @@ private:
 
 		void String()
 		{
-			ImGui::InputText("", (char*)adr, 128);
+			ImGui::InputText("", (char*)((std::string*)adr)->c_str(), 128);
 		}
 
 	public:
@@ -170,7 +170,7 @@ protected:
 	void Expose(std::string& aVariable, const std::string& aName)
 	{
 		ExposedVariable ev;
-		ev.adr = &aVariable[0];
+		ev.adr = &aVariable;
 		ev.format = eDataFormat::String;
 		ev.name = aName;
 		myExposedVariables.push_back(ev);

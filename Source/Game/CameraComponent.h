@@ -5,6 +5,7 @@
 class CameraComponent : public Component
 {
 public: 
+    CameraComponent(){}
     CameraComponent(float2 anAspectRatio, float aZoom);
     ~CameraComponent();
 

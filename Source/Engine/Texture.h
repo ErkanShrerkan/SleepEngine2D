@@ -9,6 +9,7 @@ namespace SE
     {
     public:
         CTexture();
+        CTexture(std::string& aFilePath);
         CTexture(const std::string& aFilePath);
         ~CTexture();
         ID3D11ShaderResourceView* const GetShaderResourceView() const noexcept;

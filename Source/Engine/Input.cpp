@@ -330,10 +330,28 @@ void Input::RemoveEventObserver(InputObserver* anObserver, eInputEvent anEvent, 
 
 		break;
 	}
+}
 
-	if (!handled)
+void Input::RemoveEventObserver(InputObserver* anObserver)
+{
+	for (auto& inputEvent : myInputEvents)
 	{
-		assert("InputObserver was not found" && false);
+		printf("--------------------------------\n");
+		printf("Event callbacks: %i\n", (int)inputEvent.callbacks.size());
+		inputEvent.callbacks.erase(
+			std::remove_if(inputEvent.callbacks.begin(), inputEvent.callbacks.end(),
+				[&](ObserverCallback& aCallback)
+				{
+					bool remove = aCallback.observer == anObserver;
+					if (remove)
+					{
+						int i = 0;
+						i;
+					}
+					return remove;
+				}),
+			inputEvent.callbacks.end());
+		printf("Event callbacks after: %i\n", (int)inputEvent.callbacks.size());
 	}
 }
 
@@ -379,4 +397,9 @@ void InputObserver::ObserveInputEvent(eInputEvent anEvent, eInputState aTriggerS
 void InputObserver::StopObservingInputEvent(eInputEvent anEvent, eInputState aTriggerState)
 {
 	Input::RemoveEventObserver(this, anEvent, aTriggerState);
+}
+
+InputObserver::~InputObserver()
+{
+	Input::RemoveEventObserver(this);
 }

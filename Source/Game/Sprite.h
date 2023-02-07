@@ -5,6 +5,7 @@
 class Sprite : public Component
 {
 public:
+    Sprite(){}
     Sprite(const std::string& aTexturePath);
     virtual void Start() override;
     virtual void Update() override;
@@ -28,6 +29,8 @@ public:
     void SetIsScreenSpace(bool aToggle) { myIsScreenSpace = aToggle; }
     void SetShaderType(SE::SpriteShaderType aType) { mySprite->SetShaderType(aType); }
     void SetShaderData(float someData);
+    void SetTexture(const std::string& aTexturePath);
+    std::string GetTextureName();
     float GetShaderData() { return mySprite->GetShaderData(); }
     SE::SpriteShaderType GetShaderType() { return mySprite->GetShaderType(); }
     Vector2f& GetPosition();
@@ -46,7 +49,7 @@ private:
 
 private:
     // not proud of this sprite setup but it's very low priority to fix
-    std::string myTexture;
+    std::string myTexture = "";
     float4 myColor = { 1, 1, 1, 1 };
     float4 myRect = { 0, 0, 1, 1 };
     float2 mySize;

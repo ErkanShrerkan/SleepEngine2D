@@ -49,43 +49,12 @@ namespace SE
 					return false;
 				}
 
-				myMutex.lock();
-				resources[aFilePath] = *aShaderResourceView;
-				printf("created texture %s\n", aFilePath.c_str());
-				myMutex.unlock();
-
 				return true;
 			}
 
 			bool TextureBank::GetResource(ID3D11ShaderResourceView** aShaderResourceView, const std::string& aFilePath)
 			{
-				myMutex.lock();
-				std::string cleanName(aFilePath);
-				std::replace(cleanName.begin(), cleanName.end(), '\\', '/');
-#pragma warning(disable:4244)
-				// '=': conversion from 'int' to 'char', possible loss of data
-				std::string lowerCasePath = cleanName;
-				std::transform(cleanName.begin(), cleanName.end(), lowerCasePath.begin(), std::tolower);
-#pragma warning(default:4244)
-				bool exists = resources.find(lowerCasePath) != resources.end();
-				myMutex.unlock();
-				if (exists)
-				{
-					*aShaderResourceView = resources.at(lowerCasePath);
-					printf("loaded texture %s\n", lowerCasePath.c_str());
-					return true;
-				}
-				else
-				{
-					return CreateResource(aShaderResourceView, lowerCasePath);
-				}
-			}
-			void TextureBank::Release()
-			{
-				//for (auto& tex : resources)
-				//{
-				//	tex.second->Release();
-				//}
+				return CreateResource(aShaderResourceView, aFilePath);
 			}
 		}
 	}

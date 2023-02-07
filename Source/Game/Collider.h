@@ -9,6 +9,7 @@ public:
         Circle,
         Quad,
     };
+    Collider(){}
     Collider(eType aType);
     ~Collider();
 

@@ -10,11 +10,11 @@
 Sprite::Sprite(const std::string& aTexturePath)
 	: myTexture(aTexturePath)
 {
-	mySprite = SE::CEngine::GetInstance()->GetContentLoader()->GetSpriteFactory().GetSprite(aTexturePath);
 }
 
 void Sprite::Start()
 {
+	mySprite = SE::CEngine::GetInstance()->GetContentLoader()->GetSpriteFactory().GetSprite(myTexture);
 	mySize = mySprite->GetSize();
 	Expose(myTexture, "Texture");
 	Expose(myRotation, "Rotation");
@@ -173,6 +173,16 @@ void Sprite::Render()
 void Sprite::SetShaderData(float someData)
 {
 	mySprite->SetShaderData(someData);
+}
+
+void Sprite::SetTexture(const std::string& aTexturePath)
+{
+	myTexture = aTexturePath;
+}
+
+std::string Sprite::GetTextureName()
+{
+	return myTexture;
 }
 
 Vector2f& Sprite::GetPosition()
