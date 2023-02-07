@@ -121,7 +121,7 @@ namespace SE
 		myCursor = CEngine::GetInstance()->GetContentLoader()->GetSpriteFactory().GetSprite(/*"textures/sprites/player/CharacterIdleFront.dds"*/"textures/cursor.dds");
 		//myCursor->isEngineDependent = true;
 		//myCursor->SetSizeRelativeToImage({ 640.f / 1920, 360.f / 1080 });
-		myCursor->SetSizeRelativeToImage({ .05f, .05f * (16.f / 9)});
+		myCursor->SetSizeRelativeToImage({ .05f, .05f * (16.f / 9) });
 		ID3D11Resource* backBufferResource = nullptr;
 		aFramework->GetBackBuffer()->GetResource(&backBufferResource);
 		ID3D11Texture2D* backBufferTexture = reinterpret_cast<ID3D11Texture2D*>(backBufferResource);
@@ -340,10 +340,6 @@ namespace SE
 			}
 		}
 
-		if (!mainCam)
-		{
-			return;
-		}
 
 		D3D11_MAPPED_SUBRESOURCE bufferData = { 0 };
 		ID3D11DeviceContext* context = CEngine::GetInstance()->GetDXDeviceContext();
@@ -361,10 +357,13 @@ namespace SE
 
 		myIntermediateDepth.ClearDepth();
 
-		SetBlendState(E_BLENDSTATE_ALPHABLEND);
-		myScaledBackBuffer.SetAsActiveTarget();
-		myForwardRenderer.RenderSprites(mainCam, scene->GetSprites());
-		SetBlendState(E_BLENDSTATE_DISABLE);
+		if (mainCam)
+		{
+			SetBlendState(E_BLENDSTATE_ALPHABLEND);
+			myScaledBackBuffer.SetAsActiveTarget();
+			myForwardRenderer.RenderSprites(mainCam, scene->GetSprites());
+			SetBlendState(E_BLENDSTATE_DISABLE);
+		}
 
 		myFullscreen.SetAsActiveTarget();
 		myScaledBackBuffer.SetAsResourceOnSlot(0);
@@ -386,10 +385,13 @@ namespace SE
 			//{
 				//myScaledBackBuffer.SetAsActiveTarget();
 			//}
-			SetBlendState(E_BLENDSTATE_ALPHABLEND);
-			CLineDrawer::Render();
-			CLineDrawer::Clear();
-			SetBlendState(E_BLENDSTATE_DISABLE);
+			if (mainCam)
+			{
+				SetBlendState(E_BLENDSTATE_ALPHABLEND);
+				CLineDrawer::Render();
+				CLineDrawer::Clear();
+				SetBlendState(E_BLENDSTATE_DISABLE);
+			}
 		}
 	}
 
@@ -400,31 +402,6 @@ namespace SE
 		myCursor->SetPosition(pos);
 		if (!Input::GetLockedCursorState())
 			sprites.push_back(myCursor);
-
-		GameManager& gm = CEngine::GetInstance()->GetGameManager();
-		auto& cameraMap = gm.GetComponentMap<CameraComponent>();
-		CameraComponent* mainCam = nullptr;
-
-		// picks first best available camera, might fix later
-		if (!cameraMap.map.empty())
-		{
-			for (auto& [entity, cam] : cameraMap.map)
-			{
-				entity;
-				cam;
-				mainCam = cam;
-
-				if (mainCam)
-				{
-					break;
-				}
-			}
-		}
-
-		if (!mainCam)
-		{
-			return;
-		}
 
 		SetBlendState(E_BLENDSTATE_ALPHABLEND);
 		myScaledBackBuffer.ClearTexture();

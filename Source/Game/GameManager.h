@@ -6,6 +6,7 @@
 #include "Component.h"
 #include "System.h"
 #include <type_traits>
+#include <set>
 
 class Entity;
 
@@ -31,7 +32,9 @@ public:
 	std::unordered_map<uint, ComponentType*> map;
 	virtual void DeleteComponentFromEntity(uint anEntity) override
 	{
+		// deletes the component pointer
 		delete map[anEntity];
+		// removes the entity entry in the map
 		map.erase(anEntity);
 	}
 
@@ -87,7 +90,6 @@ public:
 	void OnImGui();
 
 private:
-
 	template <typename ComponentType>
 	typename std::enable_if<
 		std::is_base_of<
@@ -100,6 +102,8 @@ private:
 	}
 
 	Entity& CreateEntity();
+	void RemoveEntity(uint anEntityID);
+	void MarkEntityForRemoval(uint anEntityID);
 
 	template <typename ComponentType, typename... Args>
 	typename std::enable_if<
@@ -143,13 +147,19 @@ private:
 	uint myIDCounter = 0;
 
 	std::unordered_map<uint, Entity*> myEntities;
+	// myEntityComponents is just a register to quickly access all the entity's components
+	// first key is the entity's ID, and the second key is the component's ID
 	std::unordered_map<uint, std::unordered_map<uint, Component*>> myEntityComponents;
+	// IComponentMap is in charge of cleaning up component pointers
+	// key is the component's ID
 	std::unordered_map<uint, IComponentMap*> myComponentMaps;
 	std::vector<System*> mySystems;
+	std::set<uint> myEntitiesToRemove;
 
 private:
 	// Editor Functions
 	void AddEntityComponent();
+	void AddEntity();
 	void SelectEntity();
 	void ModifyValues();
 	bool ValidSelection();

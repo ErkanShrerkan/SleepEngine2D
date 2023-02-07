@@ -54,6 +54,12 @@ void GameManager::Init()
 
 void GameManager::Update()
 {
+	for (auto& entityID : myEntitiesToRemove)
+	{
+		RemoveEntity(entityID);
+	}
+	myEntitiesToRemove.clear();
+
 	for (auto& system : mySystems)
 	{
 		system->Update();
@@ -79,12 +85,15 @@ void GameManager::OnImGui()
 {
 	ImGui::Separator();
 	ImGui::Text("Inspector");
+	ImGui::PushStyleColor(ImGuiCol_Button, { .1f, .1f, .1f, 1 });
 	ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(2, 2));
 	if (ImGui::BeginTable("", 2, ImGuiTableFlags_BordersOuter))
 	{
 		ImGui::TableNextRow();
 		ImGui::TableSetColumnIndex(0);
 		ImGui::Text("Game Objects");
+		ImGui::SameLine();
+		AddEntity();
 		SelectEntity();
 		ImGui::TableSetColumnIndex(1);
 		ImGui::Text("Options");
@@ -93,6 +102,7 @@ void GameManager::OnImGui()
 	}
 	ModifyValues();
 	Singleton<SE::Debug::CDebugProfiler>().Render();
+	ImGui::PopStyleColor();
 	ImGui::PopStyleVar();
 }
 
@@ -105,10 +115,40 @@ Entity& GameManager::CreateEntity()
 	return entity;
 }
 
+void GameManager::RemoveEntity(uint anEntityID)
+{
+	// deletes the entity
+	delete myEntities[anEntityID];
+	// removes the entity entry
+	myEntities.erase(anEntityID);
+
+	// delete and remove the entity's components
+	for (auto& [componentID, component] : myEntityComponents[anEntityID])
+	{
+		myComponentMaps[componentID]->DeleteComponentFromEntity(anEntityID);
+	}
+
+	myEntityComponents.erase(anEntityID);
+
+	if (mySelectedEntity == anEntityID)
+	{
+		mySelectedEntity = UINT_MAX;
+	}
+}
+
+void GameManager::MarkEntityForRemoval(uint anEntityID)
+{
+	myEntitiesToRemove.insert(anEntityID);
+}
+
 void GameManager::AddEntityComponent()
 {
-	//ImGui::Text("Reload Component");
-	if (ImGui::Button("Reload Component"))
+	if (!ValidSelection())
+	{
+		return;
+	}
+
+	if (ImGui::Button("Reload"))
 	{
 		if (ValidSelection())
 		{
@@ -118,9 +158,22 @@ void GameManager::AddEntityComponent()
 			}
 		}
 	};
-	ImGui::Text("Hello");
-	ImGui::Text("Hello");
-	ImGui::Text("Hello");
+	ImGui::SameLine();
+	if (ImGui::Button("Remove"))
+	{
+		if (ValidSelection())
+		{
+			MarkEntityForRemoval(mySelectedEntity);
+		}
+	};
+}
+
+void GameManager::AddEntity()
+{
+	if (ImGui::Button("Add Object"))
+	{
+		CreateEntity();
+	}
 }
 
 void GameManager::SelectEntity()
