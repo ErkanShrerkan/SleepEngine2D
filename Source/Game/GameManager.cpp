@@ -35,8 +35,8 @@ void GameManager::Init()
 	RegisterComponent<PlayerController>("PlayerController");
 	RegisterComponent<CameraComponent>("Camera");
 
-	RegisterSystem<SpriteRenderSystem>();
-	RegisterSystem<CollisionSystem>();
+	//RegisterSystem<SpriteRenderSystem>();
+	//RegisterSystem<CollisionSystem>();
 
 	for (size_t i = 0; i < 10; i++)
 	{
