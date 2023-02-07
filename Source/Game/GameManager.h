@@ -150,6 +150,7 @@ private:
 	void AddEntityComponent();
 	void SelectEntity();
 	void ModifyValues();
+	bool ValidSelection();
 
 private:
 	// Editor control variables

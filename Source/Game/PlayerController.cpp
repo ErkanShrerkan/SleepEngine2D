@@ -5,6 +5,7 @@
 #include "Collider.h"
 #include "Transform.h"
 #include "CameraComponent.h"
+#include <Engine\LineDrawer.h>
 
 PlayerController::PlayerController(Entity*& anEntity)
 	: Component::Component(anEntity)
@@ -24,6 +25,7 @@ void PlayerController::Update()
 		GameObject().GetComponent<Transform>().Move(myMovement, Transform::Space::Object);
 		myMovement = { 0, 0 };
 	}
+	Debug::DrawCircle(GameObject().GetComponent<Transform>().GetPosition(), 5);
 }
 
 void PlayerController::Start()

@@ -20,6 +20,7 @@ struct VertexInput_LineDrawer
 {
     float4 myPosition : POSITION;
     float4 myColor : COLOR;
+    float mySpace : SPACE;
 };
 
 struct VertexInput_Fullscreen

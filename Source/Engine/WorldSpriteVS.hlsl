@@ -5,8 +5,10 @@ VertexToPixel_Sprite main(VertexInput_Sprite input)
 {
     VertexToPixel_Sprite returnValue;
 
+    float2 offset = float2(1 - SOB_Pivot.x * 2, (SOB_Pivot.y * 2) - 1);
     float2 uv = input.myUV;
 	float4 vertexObjectPosition = input.myPosition;
+    vertexObjectPosition.xy += offset;
     float4 vertexWorldPosition = mul(SOB_Transform, vertexObjectPosition);
     float4 vertexViewPosition = mul(myToCamera, vertexWorldPosition);
     float4 vertexProjectionPosition = mul(myToProjection, vertexViewPosition);

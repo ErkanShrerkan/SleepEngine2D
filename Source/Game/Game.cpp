@@ -58,7 +58,7 @@ namespace Game
 			SE::CEngine::GetInstance()->GetActiveScene()->SetPaused(myIsPaused);
 		}*/
 
-		if (Input::GetInputPressed(eInputEvent::P))
+		if (Input::GetInputReleased(eInputEvent::F4))
 		{
 			return false;
 		}

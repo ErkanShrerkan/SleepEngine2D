@@ -147,7 +147,7 @@ protected:
 		myExposedVariables.push_back(ev);
 	}
 
-	void Expose(float3& aVariable, const std::string& aName, ePickMode aPickMode)
+	void Expose(float3& aVariable, const std::string& aName, ePickMode aPickMode = ePickMode::Color)
 	{
 		ExposedVariable ev;
 		ev.adr = &aVariable;
@@ -157,7 +157,7 @@ protected:
 		myExposedVariables.push_back(ev);
 	}
 
-	void Expose(float4& aVariable, const std::string& aName, ePickMode aPickMode)
+	void Expose(float4& aVariable, const std::string& aName, ePickMode aPickMode = ePickMode::Color)
 	{
 		ExposedVariable ev;
 		ev.adr = &aVariable;

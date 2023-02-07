@@ -7,7 +7,6 @@ VertexToPixel_Sprite main(VertexInput_Sprite input)
     
     float2 size = SOB_Size * .5f;
     float rads = SOB_Rotation;// / 180 * PI;
-    float2 pivot = SOB_Pivot;
     float2 offset = float2(1 - SOB_Pivot.x * 2, 1 - SOB_Pivot.y * 2);
     
     float2x2 rotation =

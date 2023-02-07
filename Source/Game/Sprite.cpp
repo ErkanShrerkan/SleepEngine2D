@@ -15,7 +15,15 @@ Sprite::Sprite(const std::string& aTexturePath, Entity*& myEntity)
 
 void Sprite::Start()
 {
+	mySize = mySprite->GetSize();
 	Expose(myTexture, "Texture");
+	Expose(myRotation, "Rotation");
+	Expose(myPosition, "Offset");
+	Expose(mySize, "Size");
+	Expose(myPivot, "Pivot");
+	Expose(myColor, "Color");
+	Expose(myRect, "Rect", ePickMode::Drag);
+	Expose(myIsScreenSpace, "Is Screen Space");
 	Expose(myRender, "Render");
 }
 
@@ -25,6 +33,12 @@ void Sprite::Update()
 	{
 		Render();
 	}
+}
+
+void Sprite::Reload()
+{
+	Release();
+	mySprite = SE::CEngine::GetInstance()->GetContentLoader()->GetSpriteFactory().GetSprite(myTexture);
 }
 
 Sprite::~Sprite()
@@ -118,16 +132,19 @@ void Sprite::SetSizeRelativeToAnotherImage(const float2& aSize, Sprite* aSprite)
 void Sprite::SetColor(const Vector4f& aColor)
 {
 	mySprite->SetColor(aColor);
+	myColor = aColor;
 }
 
 void Sprite::SetPivot(const Vector2f& aPivot)
 {
 	mySprite->SetPivot(aPivot);
+	myPivot = aPivot;
 }
 
 void Sprite::SetRotation(const float& aRotation)
 {
 	mySprite->SetRotation(aRotation);
+	myRotation = aRotation;
 }
 
 void Sprite::SetMask(const std::string& aFilePath)
@@ -138,6 +155,7 @@ void Sprite::SetMask(const std::string& aFilePath)
 void Sprite::SetRect(const float4 aRect)
 {
 	mySprite->SetRect(aRect);
+	myRect = aRect;
 }
 
 void Sprite::Render()
@@ -159,7 +177,7 @@ void Sprite::SetShaderData(float someData)
 
 Vector2f& Sprite::GetPosition()
 {
-	return mySprite->GetPosition();
+	return myPosition;
 }
 
 Vector2f Sprite::GetTopLeftPosition()
@@ -169,17 +187,17 @@ Vector2f Sprite::GetTopLeftPosition()
 
 Vector2f& Sprite::GetSize()
 {
-	return mySprite->GetSize();
+	return mySize;
 }
 
 Vector2f& Sprite::GetPivot()
 {
-	return mySprite->GetPivot();
+	return myPivot;
 }
 
 Vector4f& Sprite::GetColor()
 {
-	return mySprite->GetColor();
+	return myColor;
 }
 
 Vector2f Sprite::GetImageSize()
@@ -194,12 +212,12 @@ Vector2f Sprite::GetNormalizedImageSize()
 
 float4 Sprite::GetRect()
 {
-	return mySprite->GetRect();
+	return myRect;
 }
 
 float Sprite::GetRotation()
 {
-	return mySprite->GetRotation();
+	return myRotation;
 }
 
 void Sprite::Release()

@@ -50,7 +50,7 @@ void Game::Editor::OnImGui()
 	myGM.OnImGui();
 	ImGui::End();
 
-	if (Input::GetInputDown(eInputEvent::O))
+	if (Input::GetInputReleased(eInputEvent::F4))
 	{
 		myIsRunning = false;
 	}

@@ -12,12 +12,13 @@ namespace SE
 		{
 			float4 pos;
 			float4 col;
+			float space;
 		};
 
 	public:
 		static bool Init();
 		static void DeInit();
-		static void DrawLine(float3 aStart, float3 anEnd, float4 aCol = {1, 1, 1, 1});
+		static void DrawLine(float3 aStart, float3 anEnd, float4 aCol = {1, 1, 1, 1}, bool aIsScreenSpace = false);
 		static void Render();
 		static void Clear();
 		static void SetEnabled(bool anIsEnabled = true) { myIsEnabled = anIsEnabled; }
@@ -40,5 +41,6 @@ namespace SE
 
 namespace Debug
 {
-	void DrawLine2D(float2 aStart, float2 anEnd, float4 aCol = { 1, 1, 1, 1 });
+	void DrawLine2D(float2 aStart, float2 anEnd, float4 aCol = { 1, 1, 1, 1 }, bool aIsScreenSpace = false);
+	void DrawCircle(float2 aCenter, float aRadius, bool aIsScreenSpace = false);
 }

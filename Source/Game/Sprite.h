@@ -8,6 +8,7 @@ public:
     Sprite(const std::string& aTexturePath, Entity*& myEntity);
     virtual void Start() override;
     virtual void Update() override;
+    virtual void Reload() override;
     ~Sprite();
 
 public:
@@ -44,12 +45,14 @@ private:
     void Release();
 
 private:
-    // grid locked in mySprite
-    Vector2f mySize;
-    Vector2f myPosition;
-    float4 myRect;
-    float2 myPivot;
+    // not proud of this sprite setup but it's very low priority to fix
     std::string myTexture;
+    float4 myColor = { 1, 1, 1, 1 };
+    float4 myRect = { 0, 0, 1, 1 };
+    float2 mySize;
+    float2 myPosition;
+    float2 myPivot;
+    float myRotation;
     bool myIsScreenSpace = false;
     bool myRender = true;
 

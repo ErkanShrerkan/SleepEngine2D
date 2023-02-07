@@ -42,9 +42,10 @@ void GameManager::Init()
 	{
 		auto& e = CreateEntity();
 		e.GetComponent<Transform>().SetPosition({ Random::Float(-10.f, 10.f), Random::Float(-10.f, 10.f) });
+		e.GetComponent<Transform>().SetScale({ .1f, .1f });
 		auto& s = e.AddComponent<Sprite>("textures/sprites/circle.dds");
 		s.SetColor({ Random::Float(0.f, 1.f), Random::Float(0.f, 1.f), Random::Float(0.f, 1.f), 1 });
-		s.SetSizeRelativeToImage({ .1f, .1f });
+		//s.SetSizeRelativeToImage({ .1f, .1f });
 	}
 
 	CreateEntity().AddComponent<PlayerController>();
@@ -106,8 +107,17 @@ Entity& GameManager::CreateEntity()
 
 void GameManager::AddEntityComponent()
 {
-	ImGui::Text("Hello");
-	ImGui::Text("Hello");
+	//ImGui::Text("Reload Component");
+	if (ImGui::Button("Reload Component"))
+	{
+		if (ValidSelection())
+		{
+			for (auto& [id, component] : myEntityComponents[mySelectedEntity])
+			{
+				component->Reload();
+			}
+		}
+	};
 	ImGui::Text("Hello");
 	ImGui::Text("Hello");
 	ImGui::Text("Hello");
@@ -149,32 +159,39 @@ void GameManager::SelectEntity()
 
 void GameManager::ModifyValues()
 {
-	if (mySelectedEntity != UINT_MAX)
+	if (!ValidSelection())
 	{
-		if (ImGui::BeginTable("", 2, ImGuiTableFlags_BordersOuter))
+		return;
+	}
+
+	if (ImGui::BeginTable("", 2, ImGuiTableFlags_BordersOuter))
+	{
+		ImGui::TableNextRow();
+		ImGui::TableSetColumnIndex(0);
+		ImGui::Text("Components");
+		ImGui::TableSetColumnIndex(1);
+		ImGui::Text("Variables");
+		// loop children when implemented
+		//
+
+		// loop components
+		auto& components = myEntityComponents[mySelectedEntity];
+		for (auto& [id, component] : components)
 		{
 			ImGui::TableNextRow();
 			ImGui::TableSetColumnIndex(0);
-			ImGui::Text("Components");
-			ImGui::TableSetColumnIndex(1);
-			ImGui::Text("Variables");
-			// loop children when implemented
-			//
-
-			// loop components
-			auto& components = myEntityComponents[mySelectedEntity];
-			for (auto& [id, component] : components)
+			//if (component->HasExposedVariables())
 			{
-				ImGui::TableNextRow();
-				ImGui::TableSetColumnIndex(0);
-				//if (component->HasExposedVariables())
-				{
-					ImGui::PushID(id);
-					component->OnImGui(myComponentMaps[id]->myName);
-					ImGui::PopID();
-				}
+				ImGui::PushID(id);
+				component->OnImGui(myComponentMaps[id]->myName);
+				ImGui::PopID();
 			}
-			ImGui::EndTable();
 		}
+		ImGui::EndTable();
 	}
+}
+
+bool GameManager::ValidSelection()
+{
+	return mySelectedEntity != UINT_MAX;
 }

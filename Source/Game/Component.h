@@ -10,6 +10,7 @@ public:
 	Entity& GameObject();
 	virtual void Update(){};
 	virtual void Start() = 0;
+	virtual void Reload(){};
 
 private:
 	Entity*& myEntity;
