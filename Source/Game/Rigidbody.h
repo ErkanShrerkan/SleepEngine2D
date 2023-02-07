@@ -4,7 +4,7 @@
 class Rigidbody : public Component
 {
 public:
-    Rigidbody(Entity*& anEntity);
+    Rigidbody();
     ~Rigidbody();
 
 public:

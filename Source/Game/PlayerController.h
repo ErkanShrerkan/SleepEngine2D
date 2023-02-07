@@ -4,7 +4,7 @@
 class PlayerController : public Component, public InputObserver
 {
 public:
-    PlayerController(Entity*& anEntity);
+    PlayerController();
     ~PlayerController();
 
 public:

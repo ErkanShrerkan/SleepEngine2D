@@ -5,7 +5,7 @@
 class Sprite : public Component
 {
 public:
-    Sprite(const std::string& aTexturePath, Entity*& myEntity);
+    Sprite(const std::string& aTexturePath);
     virtual void Start() override;
     virtual void Update() override;
     virtual void Reload() override;
@@ -52,7 +52,7 @@ private:
     float2 mySize;
     float2 myPosition;
     float2 myPivot;
-    float myRotation;
+    float myRotation = 0;
     bool myIsScreenSpace = false;
     bool myRender = true;
 

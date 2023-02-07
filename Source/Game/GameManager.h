@@ -109,11 +109,13 @@ private:
 		AddComponent(uint anEntityID, Args&&... someArgs)
 	{
 		ComponentMap<ComponentType>& cm = GetComponentMap<ComponentType>();
-		cm.map.insert(std::make_pair(anEntityID, new ComponentType(std::forward<Args>(someArgs)..., myEntities[anEntityID])));
-		ComponentType& component = *cm.map[anEntityID];
-		myEntityComponents[anEntityID][GetID<ComponentType>()] = &component;
-		component.Start();
-		return component;
+		ComponentType* component = new ComponentType(std::forward<Args>(someArgs)...);
+		Entity* entity = myEntities[anEntityID];
+		component->SetEntity(entity);
+		cm.map.insert(std::make_pair(anEntityID, component));
+		myEntityComponents[anEntityID][GetID<ComponentType>()] = component;
+		component->Start();
+		return *component;
 	}
 
 	template <typename ComponentType>

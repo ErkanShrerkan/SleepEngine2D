@@ -11,7 +11,7 @@ public:
     };
 
 public:
-    Transform(Entity*& myEntity);
+    Transform();
     ~Transform();
 
     void SetPosition(float2 aPos);

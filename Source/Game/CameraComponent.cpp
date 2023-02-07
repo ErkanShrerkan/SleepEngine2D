@@ -1,13 +1,8 @@
 #include "pch.h"
 #include "CameraComponent.h"
 
-CameraComponent::CameraComponent(Entity*& anEntity)
-	:Component::Component(anEntity)
-{
-}
-
-CameraComponent::CameraComponent(float2 anAspectRatio, Entity*& anEntity)
-	:Component::Component(anEntity), myAspectRatio(anAspectRatio)
+CameraComponent::CameraComponent(float2 anAspectRatio, float aZoom)
+	: myAspectRatio(anAspectRatio), myZoom(aZoom)
 {
 
 }

@@ -7,8 +7,8 @@
 #include <Engine\Scene.h>
 #include "Globals.h"
 
-Sprite::Sprite(const std::string& aTexturePath, Entity*& myEntity)
-	: Component::Component(myEntity), myTexture(aTexturePath)
+Sprite::Sprite(const std::string& aTexturePath)
+	: myTexture(aTexturePath)
 {
 	mySprite = SE::CEngine::GetInstance()->GetContentLoader()->GetSpriteFactory().GetSprite(aTexturePath);
 }

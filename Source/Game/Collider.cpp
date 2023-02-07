@@ -1,8 +1,7 @@
 #include "pch.h"
 #include "Collider.h"
 
-Collider::Collider(eType aType, Entity*& myEntity)
-	: Component::Component(myEntity)
+Collider::Collider(eType aType)
 {
 	aType;
 }

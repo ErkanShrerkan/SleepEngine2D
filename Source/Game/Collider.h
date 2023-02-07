@@ -9,7 +9,7 @@ public:
         Circle,
         Quad,
     };
-    Collider(eType aType, Entity*& myEntity);
+    Collider(eType aType);
     ~Collider();
 
     bool isRigidBody = false;

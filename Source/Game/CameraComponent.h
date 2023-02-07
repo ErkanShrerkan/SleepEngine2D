@@ -5,8 +5,7 @@
 class CameraComponent : public Component
 {
 public: 
-    CameraComponent(Entity*& anEntity);
-    CameraComponent(float2 anAspectRatio, Entity*& anEntity);
+    CameraComponent(float2 anAspectRatio, float aZoom);
     ~CameraComponent();
 
 public:
@@ -16,7 +15,7 @@ public:
 
 private:
     float4x4 myProjection;
-    float2 myAspectRatio = { 16, 9 };
-    float myZoom = 10;
+    float2 myAspectRatio = { 1, 1 };
+    float myZoom = 1000;
 };
 
