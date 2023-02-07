@@ -166,8 +166,8 @@ void GameManager::AddEntityComponent()
 			MarkEntityForRemoval(mySelectedEntity);
 		}
 	};
-	// TODO: Add option to add component from list
 
+	ImGui::SameLine();
 	std::set<uint> entityComponents;
 	for (auto& [componentID, component] : myEntityComponents[mySelectedEntity])
 	{
