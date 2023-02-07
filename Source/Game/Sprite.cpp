@@ -8,13 +8,13 @@
 #include "Globals.h"
 
 Sprite::Sprite(const std::string& aTexturePath)
-	: myTexture(aTexturePath)
 {
+	myTexture.SetString(aTexturePath);
 }
 
 void Sprite::Start()
 {
-	mySprite = SE::CEngine::GetInstance()->GetContentLoader()->GetSpriteFactory().GetSprite(myTexture);
+	mySprite = SE::CEngine::GetInstance()->GetContentLoader()->GetSpriteFactory().GetSprite(myTexture.GetString());
 	mySize = mySprite->GetSize();
 	Expose(myTexture, "Texture");
 	Expose(myRotation, "Rotation");
@@ -38,7 +38,7 @@ void Sprite::Update()
 void Sprite::Reload()
 {
 	Release();
-	mySprite = SE::CEngine::GetInstance()->GetContentLoader()->GetSpriteFactory().GetSprite(myTexture);
+	mySprite = SE::CEngine::GetInstance()->GetContentLoader()->GetSpriteFactory().GetSprite(myTexture.GetString());
 }
 
 Sprite::~Sprite()
@@ -182,7 +182,7 @@ void Sprite::SetTexture(const std::string& aTexturePath)
 
 std::string Sprite::GetTextureName()
 {
-	return myTexture;
+	return myTexture.GetString();
 }
 
 Vector2f& Sprite::GetPosition()

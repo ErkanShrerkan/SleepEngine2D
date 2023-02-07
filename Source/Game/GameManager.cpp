@@ -96,7 +96,7 @@ void GameManager::OnImGui()
 		AddEntity();
 		SelectEntity();
 		ImGui::TableSetColumnIndex(1);
-		ImGui::Text("Options");
+		ImGui::Text("");
 		AddEntityComponent();
 		ImGui::EndTable();
 	}
@@ -167,14 +167,14 @@ void GameManager::AddEntityComponent()
 		}
 	};
 
-	ImGui::SameLine();
+	//ImGui::SameLine();
 	std::set<uint> entityComponents;
 	for (auto& [componentID, component] : myEntityComponents[mySelectedEntity])
 	{
 		entityComponents.insert(componentID);
 	}
 
-	if (ImGui::BeginMenu("Add Component"))
+	if (ImGui::BeginCombo("", "Add Component"))
 	{
 		for (auto& [componentID, map] : myComponentMaps)
 		{

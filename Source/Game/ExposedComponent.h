@@ -1,6 +1,48 @@
 #pragma once
 #include <ThirdParty\ImGui\imgui.h>
 
+class ExposableString
+{
+private:
+public:
+	ExposableString()
+	{
+		SetSize(128);
+	};
+	ExposableString(const std::string& aString)
+	{
+		SetSize(128);
+		SetString(aString);
+	}
+	ExposableString(uint aSize)
+	{
+		SetSize(aSize);
+	}
+	void SetString(const std::string& aString)
+	{
+		strncpy_s(&buf[0], buf.size(), aString.data(), buf.size() - 1);
+	}
+	void SetSize(uint aSize)
+	{
+		buf.resize(aSize);
+	}
+	uint GetSize()
+	{
+		return (uint)buf.size();
+	}
+	std::string GetString()
+	{
+		return std::string(&buf[0]);
+	}
+	char* operator[](uint anIndex)
+	{
+		return &buf[anIndex];
+	}
+
+private:
+	std::vector<char> buf;
+};
+
 class ExposedComponent
 {
 protected:
@@ -78,7 +120,8 @@ private:
 
 		void String()
 		{
-			ImGui::InputText("", (char*)((std::string*)adr)->c_str(), 128);
+			ExposableString& es = *(ExposableString*)adr;
+			ImGui::InputText("", es[0], es.GetSize());
 		}
 
 	public:
@@ -167,7 +210,7 @@ protected:
 		myExposedVariables.push_back(ev);
 	}
 
-	void Expose(std::string& aVariable, const std::string& aName)
+	void Expose(ExposableString& aVariable, const std::string& aName)
 	{
 		ExposedVariable ev;
 		ev.adr = &aVariable;
