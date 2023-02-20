@@ -18,7 +18,6 @@ namespace SE
 		myDevice = nullptr;
 		myContext = nullptr;
 		myBackBuffer = nullptr;
-		myDepthBuffer = nullptr;
 	}
 
 	CDirectX11Framework::~CDirectX11Framework()
@@ -38,10 +37,6 @@ namespace SE
 		if (myBackBuffer != nullptr)
 		{
 			myBackBuffer->Release();
-		}
-		if (myDepthBuffer != nullptr)
-		{
-			myDepthBuffer->Release();
 		}
 
 		printf("framework deleted\n");

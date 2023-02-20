@@ -34,6 +34,5 @@ namespace SE
 		AutoReleaser<ID3D11Device> myDevice;
 		AutoReleaser<ID3D11DeviceContext> myContext;
 		AutoReleaser<ID3D11RenderTargetView> myBackBuffer;
-		AutoReleaser<ID3D11DepthStencilView> myDepthBuffer;
 	};
 }
