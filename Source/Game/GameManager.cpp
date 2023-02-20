@@ -38,13 +38,14 @@ void GameManager::Init()
 	//RegisterSystem<SpriteRenderSystem>();
 	//RegisterSystem<CollisionSystem>();
 
-	for (size_t i = 0; i < 10; i++)
+	for (size_t i = 0; i < 100; i++)
 	{
 		auto& e = CreateEntity();
-		e.GetComponent<Transform>().SetPosition({ Random::Float(-10.f, 10.f), Random::Float(-10.f, 10.f) });
-		e.GetComponent<Transform>().SetScale({ .1f, .1f });
+		e.GetComponent<Transform>().SetPosition({ Random::Float(-100'00.f, 100'00.f), Random::Float(-100'00.f, 100'00.f) });
+		//e.GetComponent<Transform>().SetScale({ .1f, .1f });
 		auto& s = e.AddComponent<Sprite>("textures/sprites/circle.dds");
 		s.SetColor({ Random::Float(0.f, 1.f), Random::Float(0.f, 1.f), Random::Float(0.f, 1.f), 1 });
+		s.SetWidthSizePreservedImageRatio(100);
 		//s.SetSizeRelativeToImage({ .1f, .1f });
 	}
 
@@ -79,6 +80,16 @@ void GameManager::Update()
 	//{
 	//	Debug::DrawLine2D({ 0, (float)y / res.y }, { 1, (float)y / res.y }, { 1, 1, 1, .0125f });
 	//}
+
+	int2 res = {100, 100};
+	for (int x = -res.x; x < res.x; x++)
+	{
+		Debug::DrawLine2D({ x * 100.f, -res.x * 100.f }, { x * 100.f, res.x * 100.f }, { 1, 1, 1, .0125f }, true);
+	}
+	for (int y = -res.y; y < res.y; y++)
+	{
+		Debug::DrawLine2D({ -res.y * 100.f, y * 100.f }, { res.y * 100.f, y * 100.f }, { 1, 1, 1, .0125f }, true);
+	}
 }
 
 void GameManager::OnImGui()

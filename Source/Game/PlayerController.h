@@ -20,7 +20,7 @@ private:
 
 private:
     float2 myMovement;
-    float mySpeed = 5;
+    float mySpeed = 500;
     bool myCanMove = false;
 };
 
