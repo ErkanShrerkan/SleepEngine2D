@@ -29,29 +29,40 @@ void Game::Editor::RecieveMessage(eMessage aMessage)
 
 void Game::Editor::OnImGui()
 {
+	if (Input::GetInputReleased(eInputEvent::F4))
+	{
+		myIsRunning = false;
+	}
+
 	float x = (float)GetSystemMetrics(SM_CXSCREEN);
 	float y = (float)GetSystemMetrics(SM_CYSCREEN);
-	ImGui::SetNextWindowSize(ImVec2(x / 6, y), ImGuiCond_FirstUseEver);
+	ImGui::SetNextWindowSize(ImVec2(x / 6, myDisplay ? y : 0));
 	ImGui::SetNextWindowPos(ImVec2(0, 0));
+
 	if (ImGui::Begin("Editor", 0,
 		ImGuiWindowFlags_NoScrollbar |
 		ImGuiWindowFlags_NoMove |
 		ImGuiWindowFlags_NoCollapse |
 		ImGuiWindowFlags_NoResize |
-		//ImGuiWindowFlags_AlwaysAutoResize
+		//ImGuiWindowFlags_AlwaysAutoResize |
 		ImGuiWindowFlags_None
 	))
 	{
+		std::string label = myDisplay ? "Hide" : "Show";
+
+		if (ImGui::Button(label.c_str()))
+		{
+			myDisplay = !myDisplay;
+		}
+		ImGui::SameLine();
 		if (ImGui::Button("Play"))
 		{
 			myIsRunning = false;
 		}
 	}
-	myGM.OnImGui();
-	ImGui::End();
-
-	if (Input::GetInputReleased(eInputEvent::F4))
+	if (myDisplay)
 	{
-		myIsRunning = false;
+		myGM.OnImGui();
 	}
+	ImGui::End();
 }

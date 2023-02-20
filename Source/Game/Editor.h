@@ -19,6 +19,7 @@ namespace Game
 
 	private:
 		GameManager myGM;
+		bool myDisplay = true;
 	};
 }
 
