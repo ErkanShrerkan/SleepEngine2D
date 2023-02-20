@@ -37,6 +37,7 @@ class GameManager
 {
 	friend class Entity;
 public:
+	GameManager();
 	~GameManager();
 	void Init();
 	void Update();
@@ -70,7 +71,7 @@ public:
 
 	Entity& GetEntity(uint anEntityID)
 	{
-		return *myEntities[anEntityID];
+		return *myEntities.at(anEntityID);
 	}
 
 	void OnImGui();
@@ -118,7 +119,6 @@ private:
 	void RemoveEntity(uint anEntityID);
 	void MarkEntityForRemoval(uint anEntityID);
 
-
 	template <typename ComponentType>
 	typename std::enable_if<
 		std::is_base_of
@@ -159,11 +159,13 @@ private:
 	void AddEntity();
 	void SelectEntity();
 	void ModifyValues();
+	void ListEntityRecursive(uint anID, std::map<uint, std::set<uint>>& aHierarchy);
 	bool ValidSelection();
 
 private:
 	// Editor control variables
 	uint mySelectedEntity = UINT_MAX;
+	std::unordered_map<uint, bool> myShowChildrenRecord;
 };
 
 template <

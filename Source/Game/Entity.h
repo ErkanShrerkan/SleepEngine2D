@@ -22,7 +22,26 @@ public:
 		return myGameManager->GetComponent<ComponentType>(myID);
 	}
 
+	Entity& GetParent();
+	Entity& AdoptChild(Entity& anEntity);
+	Entity& AdoptChild(uint anID);
+	Entity& CreateChild();
+	Entity& AbandonChild(uint anID);
+	Entity& GetChild(uint anID);
+	Entity& GetEntity(uint anID);
+	Entity& CreateEntity();
+	void MarkForRemoval();
+	void RemoveChild(uint anID);
+	uint GetID();
+	uint GetParentID();
+	std::vector<uint> GetChildrenIDs();
+
+private:
+	void ForceAbandon(uint aParentID, uint aChildID);
+
 private:
 	uint myID;
+	uint myParentID = UINT_MAX;
+	std::vector<uint> myChildren;
 	GameManager* myGameManager;
 };

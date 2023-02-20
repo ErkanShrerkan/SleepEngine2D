@@ -7,6 +7,11 @@
 #include "Entity.h"
 #include <Engine\DebugProfiler.h>
 
+GameManager::GameManager()
+{
+	myShowChildrenRecord[UINT_MAX] = true;
+}
+
 GameManager::~GameManager()
 {
 	for (auto& [id, entity] : myEntities)
@@ -38,9 +43,10 @@ void GameManager::Init()
 	//RegisterSystem<SpriteRenderSystem>();
 	//RegisterSystem<CollisionSystem>();
 
+	auto& entityPool = CreateEntity();
 	for (size_t i = 0; i < 100; i++)
 	{
-		auto& e = CreateEntity();
+		auto& e = entityPool.CreateChild();
 		e.GetComponent<Transform>().SetPosition({ Random::Float(-100'00.f, 100'00.f), Random::Float(-100'00.f, 100'00.f) });
 		//e.GetComponent<Transform>().SetScale({ .1f, .1f });
 		auto& s = e.AddComponent<Sprite>("textures/sprites/circle.dds");
@@ -49,7 +55,7 @@ void GameManager::Init()
 		//s.SetSizeRelativeToImage({ .1f, .1f });
 	}
 
-	CreateEntity().AddComponent<PlayerController>();
+	CreateEntity().AddComponent<PlayerController>().GameObject().CreateChild().CreateChild().CreateChild().CreateChild().CreateChild().CreateChild().CreateChild();
 	printe("GameManager Inited\n");
 }
 
@@ -81,7 +87,7 @@ void GameManager::Update()
 	//	Debug::DrawLine2D({ 0, (float)y / res.y }, { 1, (float)y / res.y }, { 1, 1, 1, .0125f });
 	//}
 
-	int2 res = {100, 100};
+	int2 res = { 100, 100 };
 	for (int x = -res.x; x < res.x; x++)
 	{
 		Debug::DrawLine2D({ x * 100.f, -res.x * 100.f }, { x * 100.f, res.x * 100.f }, { 1, 1, 1, .0125f }, true);
@@ -214,34 +220,21 @@ void GameManager::AddEntity()
 
 void GameManager::SelectEntity()
 {
+	// Build hierarchy
+	std::map<uint, std::set<uint>> hierarchy;
+	for (auto& [id, entity] : myEntities)
+	{
+		hierarchy[entity->GetParentID()].insert(id);
+		for (auto& childID : entity->GetChildrenIDs())
+		{
+			hierarchy[id].insert(childID);
+		}
+	}
+
+	// List object hierarchy
 	if (ImGui::BeginListBox("", { ImGui::GetContentRegionAvail().x, ImGui::GetContentRegionAvail().y / 3 }))
 	{
-		for (auto& [entity, components] : myEntityComponents)
-		{
-			ImGuiTreeNodeFlags nodeFlag = ImGuiTreeNodeFlags_Leaf;
-			if (mySelectedEntity == entity)
-			{
-				nodeFlag |= ImGuiTreeNodeFlags_Selected;
-			}
-
-			if (ImGui::TreeNodeEx("Entities", nodeFlag, "%s_%u", "Entity", entity))
-			{
-				ImGui::PushID(entity);
-				if (ImGui::IsItemClicked())
-				{
-					if (mySelectedEntity == entity)
-					{
-						mySelectedEntity = UINT_MAX;
-					}
-					else
-					{
-						mySelectedEntity = entity;
-					}
-				}
-				ImGui::PopID();
-				ImGui::TreePop();
-			}
-		}
+		ListEntityRecursive(UINT_MAX, hierarchy);
 		ImGui::EndListBox();
 	}
 }
@@ -283,4 +276,73 @@ void GameManager::ModifyValues()
 bool GameManager::ValidSelection()
 {
 	return mySelectedEntity != UINT_MAX;
+}
+
+void GameManager::ListEntityRecursive(uint anID, std::map<uint, std::set<uint>>& aHierarchy)
+{
+	for (auto& id : aHierarchy[anID])
+	{
+		ImGuiTreeNodeFlags nodeFlag = ImGuiTreeNodeFlags_Leaf;
+		if (mySelectedEntity == id)
+		{
+			nodeFlag |= ImGuiTreeNodeFlags_Selected;
+		}
+
+		bool& showChildren = myShowChildrenRecord[id];
+		//if (!aHierarchy[id].empty())
+		//{
+			std::string label = showChildren ? " - " : " + ";
+			if (aHierarchy[id].empty())
+			{
+				label = "   ";
+			}
+			if (ImGui::Button(label.c_str()))
+			{
+				showChildren = !showChildren;
+			}
+			ImGui::SameLine();
+		//}
+
+		if (ImGui::TreeNodeEx("Entities", nodeFlag, "%s_%u", "Entity", id))
+		{
+			ImGui::PushID(id);
+			if (ImGui::IsItemClicked())
+			{
+				mySelectedEntity = mySelectedEntity == id ? UINT_MAX : id;
+			}
+			ImGui::PopID();
+			if (showChildren)
+			{
+				ListEntityRecursive(id, aHierarchy);
+			}
+			ImGui::TreePop();
+		}
+	}
+
+	//for (auto& [entity, components] : myEntityComponents)
+	//{
+	//	ImGuiTreeNodeFlags nodeFlag = ImGuiTreeNodeFlags_Leaf;
+	//	if (mySelectedEntity == entity)
+	//	{
+	//		nodeFlag |= ImGuiTreeNodeFlags_Selected;
+	//	}
+
+	//	if (ImGui::TreeNodeEx("Entities", nodeFlag, "%s_%u", "Entity", entity))
+	//	{
+	//		ImGui::PushID(entity);
+	//		if (ImGui::IsItemClicked())
+	//		{
+	//			if (mySelectedEntity == entity)
+	//			{
+	//				mySelectedEntity = UINT_MAX;
+	//			}
+	//			else
+	//			{
+	//				mySelectedEntity = entity;
+	//			}
+	//		}
+	//		ImGui::PopID();
+	//		ImGui::TreePop();
+	//	}
+	//}
 }

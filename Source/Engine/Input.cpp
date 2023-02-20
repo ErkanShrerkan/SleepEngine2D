@@ -342,13 +342,7 @@ void Input::RemoveEventObserver(InputObserver* anObserver)
 			std::remove_if(inputEvent.callbacks.begin(), inputEvent.callbacks.end(),
 				[&](ObserverCallback& aCallback)
 				{
-					bool remove = aCallback.observer == anObserver;
-					if (remove)
-					{
-						int i = 0;
-						i;
-					}
-					return remove;
+					return aCallback.observer == anObserver;
 				}),
 			inputEvent.callbacks.end());
 		printf("Event callbacks after: %i\n", (int)inputEvent.callbacks.size());
