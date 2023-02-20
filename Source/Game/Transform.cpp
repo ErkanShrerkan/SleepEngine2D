@@ -37,6 +37,7 @@ void Transform::Rotate(float aRotaionInDegrees)
 void Transform::SetRotation(float aRotationInDegrees)
 {
 	myRotation = aRotationInDegrees;
+	myRotation += myRotation > 360.f ? -360.f : (myRotation < 0.f ? 360.f : 0);
 }
 
 void Transform::SetScale(float2 aScale)
@@ -91,7 +92,7 @@ float4x4 Transform::GetScaleMatrix()
 
 float4x4 Transform::GetRotationMatrix()
 {
-	return float4x4::CreateRotationAroundZ(Math::DegreeToRadian(myRotation));
+	return float4x4::CreateRotationAroundZ(Math::DegreeToRadian(-myRotation));
 }
 
 float4x4 Transform::GetTranslationMatrix()
@@ -122,4 +123,5 @@ void Transform::Start()
 
 void Transform::Update()
 {
+	SetRotation(myRotation);
 }
