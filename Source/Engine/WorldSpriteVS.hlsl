@@ -5,7 +5,7 @@ VertexToPixel_Sprite main(VertexInput_Sprite input)
 {
     VertexToPixel_Sprite returnValue;
 
-    float2 offset = float2(1 - SOB_Pivot.x * 2, (SOB_Pivot.y * 2) - 1);
+    float2 offset = float2(.5 - SOB_Pivot.x, SOB_Pivot.y - .5);
     float2 uv = input.myUV;
 	float4 vertexObjectPosition = input.myPosition;
     vertexObjectPosition.xy += offset;

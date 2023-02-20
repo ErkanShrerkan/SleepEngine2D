@@ -340,7 +340,6 @@ namespace SE
 			}
 		}
 
-
 		D3D11_MAPPED_SUBRESOURCE bufferData = { 0 };
 		ID3D11DeviceContext* context = CEngine::GetInstance()->GetDXDeviceContext();
 		ZeroMemory(&bufferData, sizeof(D3D11_MAPPED_SUBRESOURCE));
@@ -362,6 +361,7 @@ namespace SE
 			SetBlendState(E_BLENDSTATE_ALPHABLEND);
 			myScaledBackBuffer.SetAsActiveTarget();
 			myForwardRenderer.RenderSprites(mainCam, scene->GetSprites());
+			myForwardRenderer.RenderSprites(mainCam, scene->GetSSSprites(), true);
 			SetBlendState(E_BLENDSTATE_DISABLE);
 		}
 

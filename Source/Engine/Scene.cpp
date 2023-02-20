@@ -7,6 +7,7 @@
 #include "LineDrawer.h"
 #include <d3d11.h>
 #include <Engine\Engine.h>
+#include <Game\Sprite.h>
 
 namespace SE
 {
@@ -17,6 +18,12 @@ namespace SE
 
 	void CScene::AddInstance(Sprite* aSprite)
 	{
+		if (aSprite->GetSpace())
+		{
+			mySSSprites.push_back(aSprite);
+			return;
+		}
+
 		mySprites.push_back(aSprite);
 	}
 
@@ -28,22 +35,10 @@ namespace SE
 		}
 	}
 
-	void CScene::AddInstance(CSprite* aSprite)
-	{
-		mySSSprites.push_back(aSprite);
-	}
-
-	void CScene::AddInstance(std::vector<CSprite*> someSprite)
-	{
-		for (auto& sprite : someSprite)
-		{
-			AddInstance(sprite);
-		}
-	}
-
 	void CScene::PrepareFrame()
 	{
 		mySprites.flush();
+		mySSSprites.flush();
 	}
 
 	void CScene::SetLoadingFrame(bool aLoadingFrame)
@@ -55,7 +50,7 @@ namespace SE
 	{
 		return mySprites;
 	}
-	CommonUtilities::RefillVector<CSprite*>& CScene::GetSSSprites()
+	CommonUtilities::RefillVector<Sprite*>& CScene::GetSSSprites()
 	{
 		return mySSSprites;
 	}

@@ -6,6 +6,8 @@
 #include <Engine\Engine.h>
 #include <Engine\Scene.h>
 #include "Globals.h"
+#include "Entity.h"
+#include <Game\Transform.h>
 
 Sprite::Sprite(const std::string& aTexturePath)
 {
@@ -25,6 +27,7 @@ void Sprite::Start()
 	Expose(myRect, "Rect", ePickMode::Drag);
 	Expose(myIsScreenSpace, "Is Screen Space");
 	Expose(myRender, "Render");
+	Expose(myDrawRect, "Draw Rect");
 }
 
 void Sprite::Update()
@@ -33,6 +36,11 @@ void Sprite::Update()
 	{
 		Render();
 	}
+	if (myDrawRect)
+	{
+		DrawRect();
+	}
+	SetRotation(myRotation);
 }
 
 void Sprite::Reload()
@@ -48,38 +56,43 @@ Sprite::~Sprite()
 
 void Sprite::DrawRect()
 {
-	float rot = mySprite->GetRotationRadian();
-	float2 spriteSize = GetSize();
-	float2 spritePos = GetPosition();
-	float2 topLeft = GetTopLeftPosition();
-	float2 topRight = { topLeft.x + spriteSize.x, topLeft.y };
-	float2 bottomLeft = { topLeft.x, topLeft.y + spriteSize.y };
-	float2 bottomRight = { topLeft.x + spriteSize.x, topLeft.y + spriteSize.y };
-	float2 verts[] = { topLeft, topRight, bottomLeft, bottomRight };
+	float2 size = GetSize();
+	float4x4 scale;
+	scale(1, 1) = size.x;
+	scale(2, 2) = size.y;
 
-	//float rads = rot / 180 * 3.14159265f;
-	float c = cos(rot);
-	float s = sin(rot);
+	// get object transform in world space if it's a child
+	float4x4 t = GameObject().GetComponent<Transform>().GetTransform();
+	float3 pos = t.GetPosition();
+	float2 offset = GetPosition();
+	pos += (t.GetRight() * offset.x) + (t.GetUp() * offset.y);
+	t.SetRow(4, { 0, 0, 0, 1 });
+	t = scale * t;
+	t = t * float4x4::CreateRotationAroundZ(Math::DegreeToRadian(-GetRotation()));
+	t.SetRow(4, { pos, 1 });
 
-	float aspect = (float)Singleton<GlobalSettings>().gameplayResolution.x / Singleton<GlobalSettings>().gameplayResolution.y;
-	float aspect_rcp = 1.f / aspect;
+	float half = .5f;
+	float4 verts[4] =
+	{
+		{ -half,  half, half, 1 },
+		{  half,  half, half, 1 },
+		{ -half, -half, half, 1 },
+		{  half, -half, half, 1 },
+	};
 
+	float2 pivot = GetPivot();
+	offset = float2(half - pivot.x, pivot.y - half);
 	for (int i = 0; i < 4; i++)
 	{
-		float2& vert = verts[i];
-		float2 pos = vert - spritePos;
-		float2 newPos;
-		{
-			newPos.x = (pos.x * c) - (pos.y * s * aspect_rcp);
-			newPos.y = (pos.x * s * aspect) + (pos.y * c);
-		}
-		vert = newPos + spritePos;
+		float4& vert = verts[i];
+		vert.xy += offset;
+		vert = vert * t;
 	}
 
-	Debug::DrawLine2D(verts[0], verts[1]);
-	Debug::DrawLine2D(verts[0], verts[2]);
-	Debug::DrawLine2D(verts[2], verts[3]);
-	Debug::DrawLine2D(verts[3], verts[1]);
+	Debug::DrawLine2D(verts[0].xy, verts[1].xy, { 1, 1, 1, 1 }, true);
+	Debug::DrawLine2D(verts[0].xy, verts[2].xy, { 1, 1, 1, 1 }, true);
+	Debug::DrawLine2D(verts[2].xy, verts[3].xy, { 1, 1, 1, 1 }, true);
+	Debug::DrawLine2D(verts[3].xy, verts[1].xy, { 1, 1, 1, 1 }, true);
 }
 
 void Sprite::SetPosition(const Vector2f& aPosition)
@@ -129,6 +142,20 @@ void Sprite::SetSizeRelativeToAnotherImage(const float2& aSize, Sprite* aSprite)
 	SetSize(mySize * aSize);
 }
 
+void Sprite::SetWidthSizePreservedImageRatio(const float& aSize)
+{
+	float2 imgSize = GetImageSize();
+	float ratio = imgSize.y / imgSize.x;
+	SetSize({ aSize, aSize * ratio });
+}
+
+void Sprite::SetHeightSizePreservedImageRatio(const float& aSize)
+{
+	float2 imgSize = GetImageSize();
+	float ratio = imgSize.x / imgSize.y;
+	SetSize({ aSize * ratio, aSize });
+}
+
 void Sprite::SetColor(const Vector4f& aColor)
 {
 	mySprite->SetColor(aColor);
@@ -143,8 +170,9 @@ void Sprite::SetPivot(const Vector2f& aPivot)
 
 void Sprite::SetRotation(const float& aRotation)
 {
-	mySprite->SetRotation(aRotation);
 	myRotation = aRotation;
+	myRotation += myRotation > 360.f ? -360.f : (myRotation < 0.f ? 360.f : 0);
+	mySprite->SetRotation(aRotation);
 }
 
 void Sprite::SetMask(const std::string& aFilePath)
@@ -160,14 +188,7 @@ void Sprite::SetRect(const float4 aRect)
 
 void Sprite::Render()
 {
-	if (myIsScreenSpace)
-	{
-		mySprite->Render();
-	}
-	else
-	{
-		SE::CEngine::GetInstance()->GetActiveScene()->AddInstance(this);
-	}
+	SE::CEngine::GetInstance()->GetActiveScene()->AddInstance(this);
 }
 
 void Sprite::SetShaderData(float someData)

@@ -20,6 +20,8 @@ public:
     void SetSizeRelativeToImage(const Vector2f& aSize);
     void SetSizeRelativeToAnotherImage(const float2& aSize, Sprite& aSprite);
     void SetSizeRelativeToAnotherImage(const float2& aSize, Sprite* aSprite);
+    void SetWidthSizePreservedImageRatio(const float& aSize);
+    void SetHeightSizePreservedImageRatio(const float& aSize);
     void SetColor(const Vector4f& aColor);
     void SetPivot(const Vector2f& aPivot);
     void SetRotation(const float& aRotation);
@@ -31,6 +33,7 @@ public:
     void SetShaderData(float someData);
     void SetTexture(const std::string& aTexturePath);
     std::string GetTextureName();
+    bool GetSpace() { return myIsScreenSpace; }
     float GetShaderData() { return mySprite->GetShaderData(); }
     SE::SpriteShaderType GetShaderType() { return mySprite->GetShaderType(); }
     Vector2f& GetPosition();
@@ -58,6 +61,7 @@ private:
     float myRotation = 0;
     bool myIsScreenSpace = false;
     bool myRender = true;
+    bool myDrawRect = false;
 
 private:
     SE::CSprite* mySprite;

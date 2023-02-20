@@ -84,13 +84,21 @@ namespace SE
 		return true;
 	}
 
-	void CForwardRenderer::RenderSprites(CameraComponent* aCamera, CommonUtilities::RefillVector<Sprite*>& someSprites)
+	void CForwardRenderer::RenderSprites(CameraComponent* aCamera, CommonUtilities::RefillVector<Sprite*>& someSprites, bool aIsScreenSpace)
 	{
 		HRESULT result;
 		D3D11_MAPPED_SUBRESOURCE bufferData = { 0 };
 
 		myContext->IASetPrimitiveTopology(D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-		myContext->VSSetShader(myWorldSpriteVertexShader, nullptr, 0u);
+		if (aIsScreenSpace)
+		{
+			myContext->VSSetShader(mySpriteVertexShader, nullptr, 0u);
+		}
+		else
+		{
+			myContext->VSSetShader(myWorldSpriteVertexShader, nullptr, 0u);
+		}
+
 		myContext->IASetInputLayout(Singleton<CSprite::Data>().myInputLayout);
 		myContext->IASetIndexBuffer(Singleton<CSprite::Data>().myIndexBuffer, DXGI_FORMAT_R32_UINT, 0u);
 		myContext->IASetVertexBuffers(0u, 1u, &Singleton<CSprite::Data>().myVertexBuffer, &Singleton<CSprite::Data>().myStride, &Singleton<CSprite::Data>().myOffset);
@@ -141,10 +149,6 @@ namespace SE
 
 			t = t * float4x4::CreateRotationAroundZ(Math::DegreeToRadian(-sprite->GetRotation()));
 			t.SetRow(4, { pos, 1 });
-
-			float4 vertexViewPosition = myFrameBufferData.myToCamera * float4(pos, 1);
-			float4 vertexProjectionPosition = myFrameBufferData.myToProjection * vertexViewPosition;
-			vertexProjectionPosition;
 
 			mySpriteBufferData.myTransform = t;
 			mySpriteBufferData.myPosOffset = offset;

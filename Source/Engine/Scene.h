@@ -18,19 +18,17 @@ namespace SE
 		void Init();
 		void AddInstance(Sprite* aSprite);
 		void AddInstance(std::vector<Sprite*> someSprite);
-		void AddInstance(CSprite* aSprite);
-		void AddInstance(std::vector<CSprite*> someSprite);
 		void PrepareFrame();
 		void SetLoadingFrame(bool aLoadingFrame);
 		void SetPaused(bool aValue) { myIsPaused = aValue; }
 
 		CommonUtilities::RefillVector<Sprite*>& GetSprites();
-		CommonUtilities::RefillVector<CSprite*>& GetSSSprites();
+		CommonUtilities::RefillVector<Sprite*>& GetSSSprites();
 		
 	private:
 
 		CommonUtilities::RefillVector<Sprite*> mySprites;
-		CommonUtilities::RefillVector<CSprite*> mySSSprites;
+		CommonUtilities::RefillVector<Sprite*> mySSSprites;
 		
 		bool myLoadingFrame = false;
 		bool myIsPaused = false;

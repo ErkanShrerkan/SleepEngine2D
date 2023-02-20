@@ -22,7 +22,7 @@ namespace SE
 		~CForwardRenderer();
 
 		bool Init(CDirectX11Framework* aFramework);
-		void RenderSprites(CameraComponent* aCamera, CommonUtilities::RefillVector<Sprite*>& someSprites);
+		void RenderSprites(CameraComponent* aCamera, CommonUtilities::RefillVector<Sprite*>& someSprites, bool aIsScreenSpace = false);
 		void RenderSprites(CommonUtilities::RefillVector<CSprite*>& someSprites);
 	private:
 		struct SFrameBufferData

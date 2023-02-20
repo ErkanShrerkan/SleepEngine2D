@@ -62,7 +62,7 @@ namespace SE
     }
     void CSprite::Render()
     {
-        CEngine::GetInstance()->GetActiveScene()->AddInstance(this);
+        //CEngine::GetInstance()->GetActiveScene()->AddInstance(this);
     }
     void CSprite::SetShaderData(float someData)
     {

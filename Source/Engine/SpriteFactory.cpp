@@ -66,8 +66,8 @@ namespace SE
 			assert(!"<SE::CSpriteFactory::InitFactory> Error creating InputLayout");
 		}
 
-		float halfWidth = 1;
-		float halfHeight = 1;
+		float halfWidth = .5f;
+		float halfHeight = .5f;
 		SVertex vertices[4] = {
 			//         X            Y    Z    W         R    G    B    A         U    V
 			{  halfWidth, -halfHeight, 0.5f, 1.f, /**/ 1.f, 1.f, 1.f, 1.f, /**/ 1.f, 1.f },
