@@ -39,7 +39,7 @@ namespace SE
 		//io.IniFilename = nullptr;
 		io.IniFilename = "ImGui_Preference";
 		io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;           // Enable Docking
-		io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;         // Enable Multiple Viewports
+		//io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;         // Enable Multiple Viewports
 
 		ImGui_ImplWin32_Init(hwnd);
 		ImGui_ImplDX11_Init(aDXDevice, aDXDeviceContext);

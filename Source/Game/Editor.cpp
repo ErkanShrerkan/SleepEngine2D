@@ -36,25 +36,18 @@ void Game::Editor::OnImGui()
 
 	float x = (float)GetSystemMetrics(SM_CXSCREEN);
 	float y = (float)GetSystemMetrics(SM_CYSCREEN);
-	ImGui::SetNextWindowSize(ImVec2(x / 6, myDisplay ? y : 0));
+	ImGui::SetNextWindowSize(ImVec2(x / 6, myDisplay ? y : 0)/*, ImGuiCond_FirstUseEver*/);
 	ImGui::SetNextWindowPos(ImVec2(0, 0));
 
 	if (ImGui::Begin("Editor", 0,
-		ImGuiWindowFlags_NoScrollbar |
+		//ImGuiWindowFlags_NoScrollbar |
 		ImGuiWindowFlags_NoMove |
-		ImGuiWindowFlags_NoCollapse |
+		//ImGuiWindowFlags_NoCollapse |
 		ImGuiWindowFlags_NoResize |
 		//ImGuiWindowFlags_AlwaysAutoResize |
 		ImGuiWindowFlags_None
 	))
 	{
-		std::string label = myDisplay ? "Hide" : "Show";
-
-		if (ImGui::Button(label.c_str()))
-		{
-			myDisplay = !myDisplay;
-		}
-		ImGui::SameLine();
 		if (ImGui::Button("Play"))
 		{
 			myIsRunning = false;
