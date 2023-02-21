@@ -19,12 +19,12 @@ void Sprite::Start()
 	mySprite = SE::CEngine::GetInstance()->GetContentLoader()->GetSpriteFactory().GetSprite(myTexture.GetString());
 	mySize = mySprite->GetSize();
 	Expose(myTexture, "Texture");
-	Expose(myRotation, "Rotation");
-	Expose(myPosition, "Offset");
-	Expose(mySize, "Size");
-	Expose(myPivot, "Pivot");
-	Expose(myColor, "Color");
-	Expose(myRect, "Rect", ePickMode::Drag);
+	Expose(myRotation, "Rotation", .1f, eBounds::Loop, { 0.f, 360.f });
+	Expose(myPosition, "Offset", .25f);
+	Expose(mySize, "Size", .25f);
+	Expose(myPivot, "Pivot", .01f);
+	Expose(myColor, "Color", .1f);
+	Expose(myRect, "Rect", .01f, ePickMode::Drag);
 	Expose(myIsScreenSpace, "Is Screen Space");
 	Expose(myRender, "Render");
 	Expose(myDrawRect, "Draw Rect");
@@ -40,7 +40,6 @@ void Sprite::Update()
 	{
 		DrawRect();
 	}
-	SetRotation(myRotation);
 }
 
 void Sprite::Reload()

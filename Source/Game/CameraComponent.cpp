@@ -22,8 +22,8 @@ void CameraComponent::Start()
 	myProjection(4, 3) = n / (n - f);
 	myProjection(4, 4) = 1.0f;
 
-	Expose(myAspectRatio, "Aspect Ratio");
-	Expose(myZoom, "Zoom");
+	Expose(myAspectRatio, "Aspect Ratio", 1.f, eBounds::Clamp, { 1, 100 });
+	Expose(myZoom, "Zoom", 1.f, eBounds::Clamp, { 0, FLT_MAX });
 }
 
 void CameraComponent::Update()

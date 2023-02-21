@@ -51,6 +51,12 @@ protected:
 		Drag,
 		Color
 	};
+	enum class eBounds
+	{
+		None,
+		Loop,
+		Clamp
+	};
 
 private:
 	enum class eDataFormat
@@ -70,6 +76,27 @@ private:
 		std::string name;
 		eDataFormat format;
 		ePickMode pickMode;
+		eBounds boundsType = eBounds::None;
+		float2 bounds;
+		float sensitivity;
+
+	private:
+		float InBoundsValue(float aValue)
+		{
+			float returnVal = aValue;
+			switch (boundsType)
+			{
+			case eBounds::Loop:
+				returnVal += returnVal > bounds.y ? bounds.x - bounds.y : (returnVal < bounds.x ? bounds.y - bounds.x : 0.f);
+				break;
+			case eBounds::Clamp:
+				returnVal = Math::Clamp(returnVal, bounds.x, bounds.y);
+				break;
+			default:
+				break;
+			}
+			return returnVal;
+		}
 
 	protected:
 
@@ -80,20 +107,28 @@ private:
 
 		void Scalar()
 		{
-			ImGui::DragFloat("", (float*)adr, 0.1f);
+			ImGui::DragFloat("", (float*)adr, sensitivity);
+			*(float*)adr = InBoundsValue(*(float*)adr);
 		}
 
 		void Vec2()
 		{
-			ImGui::DragFloat2("", (float*)adr, 0.1f);
+			ImGui::DragFloat2("", (float*)adr, sensitivity);
+			float2& f2 = *(float2*)adr;
+			f2.x = InBoundsValue(f2.x);
+			f2.y = InBoundsValue(f2.y);
 		}
 
 		void Vec3()
 		{
+			float3& f3 = *(float3*)adr;
 			switch (pickMode)
 			{
 			case ePickMode::Drag:
-				ImGui::DragFloat3("", (float*)adr, 0.1f);
+				ImGui::DragFloat3("", (float*)adr, sensitivity);
+				f3.x = InBoundsValue(f3.x);
+				f3.y = InBoundsValue(f3.y);
+				f3.z = InBoundsValue(f3.z);
 				break;
 			case ePickMode::Color:
 				ImGui::ColorEdit3("", (float*)adr);
@@ -105,10 +140,15 @@ private:
 
 		void Vec4()
 		{
+			float4& f4 = *(float4*)adr;
 			switch (pickMode)
 			{
 			case ePickMode::Drag:
-				ImGui::DragFloat4("", (float*)adr, 0.1f);
+				ImGui::DragFloat4("", (float*)adr, sensitivity);
+				f4.x = InBoundsValue(f4.x);
+				f4.y = InBoundsValue(f4.y);
+				f4.z = InBoundsValue(f4.z);
+				f4.w = InBoundsValue(f4.w);
 				break;
 			case ePickMode::Color:
 				ImGui::ColorEdit4("", (float*)adr);
@@ -170,43 +210,85 @@ protected:
 		myExposedVariables.push_back(ev);
 	}
 
-	void Expose(float& aVariable, const std::string& aName)
+	void Expose(
+		float& aVariable, 
+		const std::string& aName, 
+		float aSensitivity, 
+		eBounds aBoundsType = eBounds::None, 
+		float2 someBounds = {0, 100})
 	{
 		ExposedVariable ev;
 		ev.adr = &aVariable;
 		ev.format = eDataFormat::Scalar;
 		ev.name = aName;
 		ev.pickMode = ePickMode::Drag;
+
+		ev.sensitivity = aSensitivity;
+		ev.boundsType = aBoundsType;
+		ev.bounds = someBounds;
+
 		myExposedVariables.push_back(ev);
 	}
 
-	void Expose(float2& aVariable, const std::string& aName)
+	void Expose(
+		float2& aVariable, 
+		const std::string& aName, 
+		float aSensitivity, 
+		eBounds aBoundsType = eBounds::None, 
+		float2 someBounds = { 0, 100 })
 	{
 		ExposedVariable ev;
 		ev.adr = &aVariable.x;
 		ev.format = eDataFormat::Vec2;
 		ev.name = aName;
 		ev.pickMode = ePickMode::Drag;
+
+		ev.sensitivity = aSensitivity;
+		ev.boundsType = aBoundsType;
+		ev.bounds = someBounds;
+
 		myExposedVariables.push_back(ev);
 	}
 
-	void Expose(float3& aVariable, const std::string& aName, ePickMode aPickMode = ePickMode::Color)
+	void Expose(
+		float3& aVariable, 
+		const std::string& aName, 
+		float aSensitivity, 
+		ePickMode aPickMode = ePickMode::Color, 
+		eBounds aBoundsType = eBounds::None, 
+		float2 someBounds = { 0, 100 })
 	{
 		ExposedVariable ev;
 		ev.adr = &aVariable;
 		ev.format = eDataFormat::Vec3;
 		ev.name = aName;
 		ev.pickMode = aPickMode;
+
+		ev.sensitivity = aSensitivity;
+		ev.boundsType = aBoundsType;
+		ev.bounds = someBounds;
+
 		myExposedVariables.push_back(ev);
 	}
 
-	void Expose(float4& aVariable, const std::string& aName, ePickMode aPickMode = ePickMode::Color)
+	void Expose(
+		float4& aVariable,
+		const std::string& aName, 
+		float aSensitivity, 
+		ePickMode aPickMode = ePickMode::Color, 
+		eBounds aBoundsType = eBounds::None, 
+		float2 someBounds = { 0, 100 })
 	{
 		ExposedVariable ev;
 		ev.adr = &aVariable;
 		ev.format = eDataFormat::Vec4;
 		ev.name = aName;
 		ev.pickMode = aPickMode;
+
+		ev.sensitivity = aSensitivity;
+		ev.boundsType = aBoundsType;
+		ev.bounds = someBounds;
+
 		myExposedVariables.push_back(ev);
 	}
 
@@ -251,6 +333,11 @@ public:
 			}
 			ImGui::TreePop();
 		}
+	}
+
+	void Update()
+	{
+
 	}
 
 	bool HasExposedVariables() { return !myExposedVariables.empty(); }

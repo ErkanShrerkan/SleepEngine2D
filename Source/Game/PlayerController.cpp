@@ -43,7 +43,7 @@ void PlayerController::Start()
 	//GameObject().GetComponent<Transform>().SetPosition({ Random::Float(-10.f, 10.f), Random::Float(-10.f, 10.f) });
 	ObserveInputEvent(eInputEvent::Interact, eInputState::Released, [&]() { this->ToggleMovement(); });
 
-	Expose(mySpeed, "Speed");
+	Expose(mySpeed, "Speed", 10.f);
 }
 
 void PlayerController::MoveRight()

@@ -116,12 +116,12 @@ void Transform::MoveWorldSpace(float2 aMovementVector)
 
 void Transform::Start()
 {
-	Expose(myScale, "Scale");
-	Expose(myPosition, "Position");
-	Expose(myRotation, "Rotation");
+	Expose(myScale, "Scale", .1f);
+	Expose(myPosition, "Position", .25f);
+	Expose(myRotation, "Rotation", .1f, eBounds::Loop, { 0.f, 360.f });
 }
 
 void Transform::Update()
 {
-	SetRotation(myRotation);
+	//SetRotation(myRotation);
 }
