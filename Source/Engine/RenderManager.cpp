@@ -332,7 +332,6 @@ namespace SE
 				entity;
 				cam;
 				mainCam = cam;
-
 				if (mainCam)
 				{
 					break;
@@ -389,10 +388,11 @@ namespace SE
 			{
 				SetBlendState(E_BLENDSTATE_ALPHABLEND);
 				CLineDrawer::Render();
-				CLineDrawer::Clear();
 				SetBlendState(E_BLENDSTATE_DISABLE);
 			}
 		}
+
+		CLineDrawer::Clear();
 	}
 
 	void CRenderManager::DrawCursor()

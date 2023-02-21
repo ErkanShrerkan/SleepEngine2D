@@ -117,7 +117,7 @@ namespace SE
 		context->PSSetShader(ourPS, nullptr, 0);
 
 		context->Draw(ourVertIndex, 0);
-		ourVertIndex = 0;
+		Clear();
 	}
 
 	void CLineDrawer::Clear()
