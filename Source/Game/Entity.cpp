@@ -95,16 +95,7 @@ Entity& Entity::CreateEntity()
 
 void Entity::MarkForRemoval()
 {
-	if (myParentID != UINT_MAX)
-	{
-		GetParent().AbandonChild(myID);
-	}
-
 	myGameManager->MarkEntityForRemoval(myID);
-	for (auto& id : myChildren)
-	{
-		GetEntity(id).MarkForRemoval();
-	}
 }
 
 void Entity::ForceAbandon(uint aParentID, uint aChildID)

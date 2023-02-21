@@ -104,19 +104,19 @@ void GameManager::OnImGui()
 	ImGui::Text("Inspector");
 	ImGui::PushStyleColor(ImGuiCol_Button, { .1f, .1f, .1f, 1 });
 	ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(2, 2));
-	if (ImGui::BeginTable("", 2, ImGuiTableFlags_BordersOuter))
-	{
-		ImGui::TableNextRow();
-		ImGui::TableSetColumnIndex(0);
-		ImGui::Text("Game Objects");
-		ImGui::SameLine();
-		AddEntity();
-		SelectEntity();
-		ImGui::TableSetColumnIndex(1);
-		ImGui::Text("");
-		AddEntityComponent();
-		ImGui::EndTable();
-	}
+	//if (ImGui::BeginTable("", 2, ImGuiTableFlags_BordersOuter))
+	//{
+		//ImGui::TableNextRow();
+		//ImGui::TableSetColumnIndex(0);
+	ImGui::Text("Game Objects");
+	ImGui::SameLine();
+	AddEntity();
+	SelectEntity();
+	//ImGui::TableSetColumnIndex(1);
+	ImGui::Text("");
+	AddEntityComponent();
+	//ImGui::EndTable();
+//}
 	ModifyValues();
 	Singleton<SE::Debug::CDebugProfiler>().Render();
 	ImGui::PopStyleColor();
@@ -155,7 +155,16 @@ void GameManager::RemoveEntity(uint anEntityID)
 
 void GameManager::MarkEntityForRemoval(uint anEntityID)
 {
+	Entity& e = GetEntity(anEntityID);
+	if (e.GetParentID() != UINT_MAX)
+	{
+		e.GetParent().AbandonChild(anEntityID);
+	}
 	myEntitiesToRemove.insert(anEntityID);
+	for (auto& id : e.GetChildrenIDs())
+	{
+		MarkEntityForRemoval(id);
+	}
 }
 
 void GameManager::AddEntityComponent()
@@ -175,22 +184,14 @@ void GameManager::AddEntityComponent()
 			}
 		}
 	};
-	ImGui::SameLine();
-	if (ImGui::Button("Remove"))
-	{
-		if (ValidSelection())
-		{
-			MarkEntityForRemoval(mySelectedEntity);
-		}
-	};
 
-	//ImGui::SameLine();
 	std::set<uint> entityComponents;
 	for (auto& [componentID, component] : myEntityComponents[mySelectedEntity])
 	{
 		entityComponents.insert(componentID);
 	}
 
+	ImGui::SameLine();
 	if (ImGui::BeginCombo("", "Add Component"))
 	{
 		for (auto& [componentID, map] : myComponentMaps)
@@ -215,6 +216,14 @@ void GameManager::AddEntity()
 	if (ImGui::Button("Add Object"))
 	{
 		CreateEntity();
+	}
+	if (ValidSelection())
+	{
+		ImGui::SameLine();
+		if (ImGui::Button("Remove"))
+		{
+			MarkEntityForRemoval(mySelectedEntity);
+		};
 	}
 }
 
@@ -290,17 +299,12 @@ void GameManager::ListEntityRecursive(uint anID, std::map<uint, std::set<uint>>&
 		}
 
 		bool& showChildren = myShowChildrenRecord[id];
-		std::string label = showChildren ? " - " : " + ";
-		if (aHierarchy[id].empty())
-		{
-			label = "   ";
-		}
+		std::string label = aHierarchy[id].empty() ? "   " : (showChildren ? " - " : " + ");
 		if (ImGui::Button(label.c_str()))
 		{
 			showChildren = !showChildren;
 		}
 		ImGui::SameLine();
-
 		if (ImGui::TreeNodeEx("Entities", nodeFlag, "%s_%u", "Entity", id))
 		{
 			if (ImGui::IsItemClicked())
@@ -315,31 +319,4 @@ void GameManager::ListEntityRecursive(uint anID, std::map<uint, std::set<uint>>&
 			ImGui::TreePop();
 		}
 	}
-
-	//for (auto& [entity, components] : myEntityComponents)
-	//{
-	//	ImGuiTreeNodeFlags nodeFlag = ImGuiTreeNodeFlags_Leaf;
-	//	if (mySelectedEntity == entity)
-	//	{
-	//		nodeFlag |= ImGuiTreeNodeFlags_Selected;
-	//	}
-
-	//	if (ImGui::TreeNodeEx("Entities", nodeFlag, "%s_%u", "Entity", entity))
-	//	{
-	//		ImGui::PushID(entity);
-	//		if (ImGui::IsItemClicked())
-	//		{
-	//			if (mySelectedEntity == entity)
-	//			{
-	//				mySelectedEntity = UINT_MAX;
-	//			}
-	//			else
-	//			{
-	//				mySelectedEntity = entity;
-	//			}
-	//		}
-	//		ImGui::PopID();
-	//		ImGui::TreePop();
-	//	}
-	//}
 }
