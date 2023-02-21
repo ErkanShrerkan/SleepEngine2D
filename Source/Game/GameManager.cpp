@@ -282,6 +282,7 @@ void GameManager::ListEntityRecursive(uint anID, std::map<uint, std::set<uint>>&
 {
 	for (auto& id : aHierarchy[anID])
 	{
+		ImGui::PushID(id);
 		ImGuiTreeNodeFlags nodeFlag = ImGuiTreeNodeFlags_Leaf;
 		if (mySelectedEntity == id)
 		{
@@ -289,23 +290,19 @@ void GameManager::ListEntityRecursive(uint anID, std::map<uint, std::set<uint>>&
 		}
 
 		bool& showChildren = myShowChildrenRecord[id];
-		//if (!aHierarchy[id].empty())
-		//{
-			std::string label = showChildren ? " - " : " + ";
-			if (aHierarchy[id].empty())
-			{
-				label = "   ";
-			}
-			if (ImGui::Button(label.c_str()))
-			{
-				showChildren = !showChildren;
-			}
-			ImGui::SameLine();
-		//}
+		std::string label = showChildren ? " - " : " + ";
+		if (aHierarchy[id].empty())
+		{
+			label = "   ";
+		}
+		if (ImGui::Button(label.c_str()))
+		{
+			showChildren = !showChildren;
+		}
+		ImGui::SameLine();
 
 		if (ImGui::TreeNodeEx("Entities", nodeFlag, "%s_%u", "Entity", id))
 		{
-			ImGui::PushID(id);
 			if (ImGui::IsItemClicked())
 			{
 				mySelectedEntity = mySelectedEntity == id ? UINT_MAX : id;
