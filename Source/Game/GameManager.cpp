@@ -53,6 +53,11 @@ void GameManager::Init()
 		s.SetColor({ Random::Float(0.f, 1.f), Random::Float(0.f, 1.f), Random::Float(0.f, 1.f), 1 });
 		s.SetWidthSizePreservedImageRatio(100);
 		//s.SetSizeRelativeToImage({ .1f, .1f });
+
+		for (size_t j = 0; j < 100; j++)
+		{
+			e.CreateChild();
+		}
 	}
 
 	CreateEntity().AddComponent<PlayerController>().GameObject().CreateChild().CreateChild().CreateChild().CreateChild().CreateChild().CreateChild().CreateChild();
@@ -75,6 +80,12 @@ void GameManager::Update()
 	for (auto& [componentID, componentMap] : myComponentMaps)
 	{
 		componentMap->UpdateComponents();
+	}
+
+	if (myEntityHierarchyNeedsUpdating)
+	{
+		BuildHierarchy();
+		myEntityHierarchyNeedsUpdating = false;
 	}
 
 	//uint2 res = Singleton<GlobalSettings>().gameplayResolution;
@@ -129,6 +140,7 @@ Entity& GameManager::CreateEntity()
 	myEntities[id] = new Entity(id, this);
 	Entity& entity = *myEntities[id];
 	entity.AddComponent<Transform>();
+	UpdateHierarchy();
 	return entity;
 }
 
@@ -151,6 +163,8 @@ void GameManager::RemoveEntity(uint anEntityID)
 	{
 		mySelectedEntity = UINT_MAX;
 	}
+
+	UpdateHierarchy();
 }
 
 void GameManager::MarkEntityForRemoval(uint anEntityID)
@@ -234,21 +248,10 @@ void GameManager::AddEntity()
 
 void GameManager::SelectEntity()
 {
-	// Build hierarchy
-	std::map<uint, std::set<uint>> hierarchy;
-	for (auto& [id, entity] : myEntities)
-	{
-		hierarchy[entity->GetParentID()].insert(id);
-		for (auto& childID : entity->GetChildrenIDs())
-		{
-			hierarchy[id].insert(childID);
-		}
-	}
-
 	// List object hierarchy
 	if (ImGui::BeginListBox("", { ImGui::GetContentRegionAvail().x, ImGui::GetContentRegionAvail().y / 3 }))
 	{
-		ListEntityRecursive(UINT_MAX, hierarchy);
+		ListEntityRecursive(UINT_MAX);
 		ImGui::EndListBox();
 	}
 }
@@ -292,9 +295,9 @@ bool GameManager::ValidSelection()
 	return mySelectedEntity != UINT_MAX;
 }
 
-void GameManager::ListEntityRecursive(uint anID, std::map<uint, std::set<uint>>& aHierarchy)
+void GameManager::ListEntityRecursive(uint anID)
 {
-	for (auto& id : aHierarchy[anID])
+	for (auto& id : myEntityHierarchy[anID])
 	{
 		ImGui::PushID(id);
 		ImGuiTreeNodeFlags nodeFlag = ImGuiTreeNodeFlags_Leaf;
@@ -304,7 +307,7 @@ void GameManager::ListEntityRecursive(uint anID, std::map<uint, std::set<uint>>&
 		}
 
 		bool& showChildren = myShowChildrenRecord[id];
-		std::string label = aHierarchy[id].empty() ? "   " : (showChildren ? " - " : " + ");
+		std::string label = myEntityHierarchy[id].empty() ? "   " : (showChildren ? " - " : " + ");
 		if (ImGui::Button(label.c_str()))
 		{
 			showChildren = !showChildren;
@@ -319,9 +322,28 @@ void GameManager::ListEntityRecursive(uint anID, std::map<uint, std::set<uint>>&
 			ImGui::PopID();
 			if (showChildren)
 			{
-				ListEntityRecursive(id, aHierarchy);
+				ListEntityRecursive(id);
 			}
 			ImGui::TreePop();
 		}
 	}
+}
+
+void GameManager::BuildHierarchy()
+{
+	// Build hierarchy
+	myEntityHierarchy.clear();
+	for (auto& [id, entity] : myEntities)
+	{
+		myEntityHierarchy[entity->GetParentID()].insert(id);
+		for (auto& childID : entity->GetChildrenIDs())
+		{
+			myEntityHierarchy[id].insert(childID);
+		}
+	}
+}
+
+void GameManager::UpdateHierarchy()
+{
+	myEntityHierarchyNeedsUpdating = true;
 }

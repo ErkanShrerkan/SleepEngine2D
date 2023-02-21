@@ -13,6 +13,7 @@ Entity& Entity::AdoptChild(Entity& anEntity)
 	// Child is free to adopt
 	myChildren.push_back(anEntity.myID);
 	anEntity.myParentID = myID;
+	myGameManager->UpdateHierarchy();
 	return anEntity;
 }
 
@@ -24,6 +25,7 @@ Entity& Entity::AdoptChild(uint anID)
 	// Child is free to adopt
 	myChildren.push_back(anID);
 	child.myParentID = myID;
+	myGameManager->UpdateHierarchy();
 	return child;
 }
 
@@ -43,6 +45,7 @@ Entity& Entity::AbandonChild(uint anID)
 		myChildren.end());
 	Entity& e = GetEntity(anID);
 	e.myParentID = UINT_MAX;
+	myGameManager->UpdateHierarchy();
 	return e;
 }
 

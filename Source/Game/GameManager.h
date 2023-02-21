@@ -159,13 +159,17 @@ private:
 	void AddEntity();
 	void SelectEntity();
 	void ModifyValues();
-	void ListEntityRecursive(uint anID, std::map<uint, std::set<uint>>& aHierarchy);
+	void ListEntityRecursive(uint anID);
 	bool ValidSelection();
+	void BuildHierarchy();
+	void UpdateHierarchy();
 
 private:
 	// Editor control variables
 	uint mySelectedEntity = UINT_MAX;
 	std::unordered_map<uint, bool> myShowChildrenRecord;
+	std::map<uint, std::set<uint>> myEntityHierarchy;
+	bool myEntityHierarchyNeedsUpdating = false;
 };
 
 template <
