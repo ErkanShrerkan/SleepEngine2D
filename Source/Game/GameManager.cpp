@@ -213,9 +213,14 @@ void GameManager::AddEntityComponent()
 
 void GameManager::AddEntity()
 {
-	if (ImGui::Button("Add Object"))
+	std::string label = ValidSelection() ? "Add Child Object" : "Add Object";
+	if (ImGui::Button(label.c_str()))
 	{
-		CreateEntity();
+		Entity& e = CreateEntity();
+		if (ValidSelection())
+		{
+			GetEntity(mySelectedEntity).AdoptChild(e.GetID());
+		}
 	}
 	if (ValidSelection())
 	{

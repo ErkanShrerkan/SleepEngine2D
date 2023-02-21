@@ -25,6 +25,7 @@ namespace SE
 		if (mySwapChain != nullptr)
 		{
 			mySwapChain->SetFullscreenState(FALSE, NULL);
+			mySwapChain->Release();
 		}
 		if (myDevice != nullptr)
 		{
