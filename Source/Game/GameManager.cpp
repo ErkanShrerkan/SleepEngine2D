@@ -5,11 +5,15 @@
 #include "SystemInclude.h"
 #include "ComponentInclude.h"
 #include "Entity.h"
+#include <Engine\JsonDocument.h>
 #include <Engine\DebugProfiler.h>
+#include <fstream>
+#include "SceneManager.h"
 
 GameManager::GameManager()
 {
 	myShowChildrenRecord[UINT_MAX] = true;
+	mySceneManager = new SceneManager(this);
 }
 
 GameManager::~GameManager()
@@ -27,6 +31,8 @@ GameManager::~GameManager()
 	{
 		delete mcm;
 	}
+
+	delete mySceneManager;
 
 	printe("GameManager Deleted\n");
 }
@@ -178,6 +184,14 @@ void GameManager::MarkEntityForRemoval(uint anEntityID)
 	for (auto& id : e.GetChildrenIDs())
 	{
 		MarkEntityForRemoval(id);
+	}
+}
+
+void GameManager::UnLoadAll()
+{
+	for (auto& [id, entity] : myEntities)
+	{
+		entity->MarkForRemoval();
 	}
 }
 
@@ -347,3 +361,4 @@ void GameManager::UpdateHierarchy()
 {
 	myEntityHierarchyNeedsUpdating = true;
 }
+

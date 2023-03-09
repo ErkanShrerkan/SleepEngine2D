@@ -6,24 +6,44 @@
 #include <rapidjson/writer.h>
 #include <rapidjson/pointer.h>
 #include <rapidjson/prettywriter.h>
+#include <filesystem>
 
 JsonDocument::JsonDocument(const std::string& aJsonFile)
 {
-    // Load ENTIRE file into RAM before parsing
-    std::ifstream file{ std::string(aJsonFile) };
-    std::string content{ std::istreambuf_iterator<char>(file), std::istreambuf_iterator<char>() };
-    file.close();
+    //// Load ENTIRE file into RAM before parsing
+    //std::ofstream wf(aJsonFile.c_str(), std::ios::out);
+    //wf.close();
 
+    //std::ifstream file{ std::string(aJsonFile) };
+    //std::string content{ std::istreambuf_iterator<char>(file), std::istreambuf_iterator<char>() };
+    //file.close();
+
+    //if (content.empty())
+    //{
+    //    return;
+    //}
+
+    std::filesystem::path dataPath(std::filesystem::current_path() / L"Data");
+    std::filesystem::create_directory(dataPath);
+    std::string jsonPath(dataPath.string() + "/" + aJsonFile);
+    std::ifstream t(jsonPath);
+    std::stringstream buffer;
+    buffer << t.rdbuf();
+    t.close();
+
+    std::string content = buffer.str();
     rapidjson::StringStream stream(content.c_str());
-    if (myDocument.ParseStream(stream).HasParseError())
+    bool error = myDocument.ParseStream(stream).HasParseError();
+
+    printf("<%s> Parse error at offset %u: \"%s\", when loading file",
+        "JsonDocument::JsonDocument",
+        (unsigned)myDocument.GetErrorOffset(),
+        rapidjson::GetParseError_En(myDocument.GetParseError())
+    );
+
+    if (error)
     {
-        perr("<%s> Parse error at offset %u: \"%s\", when loading file \"%s\"",
-            "JsonDocument::JsonDocument",
-            (unsigned)myDocument.GetErrorOffset(),
-            rapidjson::GetParseError_En(myDocument.GetParseError()),
-            aJsonFile.data()
-        );
-        assert(!"JSON Parse error");
+        // handle error
     }
 }
 

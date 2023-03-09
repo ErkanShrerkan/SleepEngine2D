@@ -8,8 +8,10 @@
 #include <type_traits>
 #include <set>
 
+class SceneManager;
 class Entity;
 class GameManager;
+
 class IComponentMap
 {
 public:
@@ -36,6 +38,7 @@ template <
 class GameManager
 {
 	friend class Entity;
+	friend class SceneManager;
 public:
 	GameManager();
 	~GameManager();
@@ -118,6 +121,7 @@ private:
 	Entity& CreateEntity();
 	void RemoveEntity(uint anEntityID);
 	void MarkEntityForRemoval(uint anEntityID);
+	void UnLoadAll();
 
 	template <typename ComponentType>
 	typename std::enable_if<
@@ -152,6 +156,7 @@ private:
 	std::unordered_map<uint, IComponentMap*> myComponentMaps;
 	std::vector<System*> mySystems;
 	std::set<uint> myEntitiesToRemove;
+	SceneManager* mySceneManager;
 
 private:
 	// Editor Functions
@@ -163,6 +168,8 @@ private:
 	bool ValidSelection();
 	void BuildHierarchy();
 	void UpdateHierarchy();
+	std::unordered_map<uint, Entity*>& GetEntities() { return myEntities; }
+	std::unordered_map<uint, std::unordered_map<uint, Component*>>& GetEntityComponents() { return myEntityComponents; }
 
 private:
 	// Editor control variables

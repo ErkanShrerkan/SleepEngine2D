@@ -337,7 +337,7 @@ public:
 
 	void Update()
 	{
-
+		// TODO: Fix variable update here
 	}
 
 	bool HasExposedVariables() { return !myExposedVariables.empty(); }
