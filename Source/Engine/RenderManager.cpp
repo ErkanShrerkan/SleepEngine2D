@@ -398,22 +398,27 @@ namespace SE
 		myFullscreen.SetAsResourceOnSlot(0);
 		myFullscreenRenderer.Render(CFullscreenRenderer::EShader_ToRawColor);
 
+		ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0, 0));
 		ImGui::Begin("Game Window");
 		{
 			Vector2ui res = Singleton<GlobalSettings>().gameplayResolution;
 			float ratio = (float)res.x / res.y;
 			auto windowSize = ImGui::GetContentRegionAvail();
+			float frameH = ImGui::GetFrameHeight();
 			if (windowSize.x * 1.f / ratio > windowSize.y)
 			{
+				ImGui::SetCursorPos({ (windowSize.x - (ratio * windowSize.y)) * 0.5f, frameH });
 				windowSize.x = ratio * windowSize.y;
 			}
 			else
 			{
+				ImGui::SetCursorPos({ 0, frameH + ((windowSize.y - (windowSize.x * 1.f / ratio)) * 0.5f) });
 				windowSize.y = windowSize.x * 1.f / ratio;
 			}
 			ImGui::Image((void*)myFullscreenCopy.GetSRV(), windowSize);
 		}
 		ImGui::End();
+		ImGui::PopStyleVar();
 
 		CLineDrawer::Clear();
 
