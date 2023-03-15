@@ -400,14 +400,16 @@ namespace SE
 
 		ImGui::Begin("Game Window");
 		{
+			Vector2ui res = Singleton<GlobalSettings>().gameplayResolution;
+			float ratio = (float)res.x / res.y;
 			auto windowSize = ImGui::GetContentRegionAvail();
-			if (windowSize.x * (9.f / 16) > windowSize.y)
+			if (windowSize.x * 1.f / ratio > windowSize.y)
 			{
-				windowSize.x = (16.f / 9) * windowSize.y;
+				windowSize.x = ratio * windowSize.y;
 			}
 			else
 			{
-				windowSize.y = windowSize.x * (9.f / 16);
+				windowSize.y = windowSize.x * 1.f / ratio;
 			}
 			ImGui::Image((void*)myFullscreenCopy.GetSRV(), windowSize);
 		}
