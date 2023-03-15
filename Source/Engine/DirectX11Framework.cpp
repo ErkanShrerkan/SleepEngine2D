@@ -35,10 +35,10 @@ namespace SE
 		{
 			myContext->Release();
 		}
-		if (myBackBuffer != nullptr)
-		{
-			myBackBuffer->Release();
-		}
+		//if (myBackBuffer != nullptr)
+		//{
+		//	myBackBuffer->Release();
+		//}
 
 		printf("framework deleted\n");
 	}

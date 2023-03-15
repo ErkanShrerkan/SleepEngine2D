@@ -167,7 +167,6 @@ private:
 	public:
 		void OnImGui()
 		{
-			ImGui::TableSetColumnIndex(1);
 			ImGui::AlignTextToFramePadding();
 			ImGui::Text(name.c_str());
 			ImGui::SetNextItemWidth(-FLT_MIN);
@@ -194,7 +193,6 @@ private:
 			default:
 				break;
 			}
-			ImGui::TableNextRow();
 		}
 	};
 
@@ -211,11 +209,11 @@ protected:
 	}
 
 	void Expose(
-		float& aVariable, 
-		const std::string& aName, 
-		float aSensitivity, 
-		eBounds aBoundsType = eBounds::None, 
-		float2 someBounds = {0, 100})
+		float& aVariable,
+		const std::string& aName,
+		float aSensitivity,
+		eBounds aBoundsType = eBounds::None,
+		float2 someBounds = { 0, 100 })
 	{
 		ExposedVariable ev;
 		ev.adr = &aVariable;
@@ -231,10 +229,10 @@ protected:
 	}
 
 	void Expose(
-		float2& aVariable, 
-		const std::string& aName, 
-		float aSensitivity, 
-		eBounds aBoundsType = eBounds::None, 
+		float2& aVariable,
+		const std::string& aName,
+		float aSensitivity,
+		eBounds aBoundsType = eBounds::None,
 		float2 someBounds = { 0, 100 })
 	{
 		ExposedVariable ev;
@@ -251,11 +249,11 @@ protected:
 	}
 
 	void Expose(
-		float3& aVariable, 
-		const std::string& aName, 
-		float aSensitivity, 
-		ePickMode aPickMode = ePickMode::Color, 
-		eBounds aBoundsType = eBounds::None, 
+		float3& aVariable,
+		const std::string& aName,
+		float aSensitivity,
+		ePickMode aPickMode = ePickMode::Color,
+		eBounds aBoundsType = eBounds::None,
 		float2 someBounds = { 0, 100 })
 	{
 		ExposedVariable ev;
@@ -273,10 +271,10 @@ protected:
 
 	void Expose(
 		float4& aVariable,
-		const std::string& aName, 
-		float aSensitivity, 
-		ePickMode aPickMode = ePickMode::Color, 
-		eBounds aBoundsType = eBounds::None, 
+		const std::string& aName,
+		float aSensitivity,
+		ePickMode aPickMode = ePickMode::Color,
+		eBounds aBoundsType = eBounds::None,
 		float2 someBounds = { 0, 100 })
 	{
 		ExposedVariable ev;
@@ -304,17 +302,14 @@ protected:
 public:
 	void OnImGui(const std::string& aName)
 	{
-		ImGui::TableSetColumnIndex(0);
+		//ImGui::TableSetColumnIndex(0);
+		ImGui::Separator();
 		ImGui::AlignTextToFramePadding();
 		bool open = ImGui::TreeNode("Component", aName.c_str());
 
 		if (!HasExposedVariables() || !open)
 		{
 			ImGui::PushID(INT_MIN);
-			ImGui::TableSetColumnIndex(1);
-			ImGui::AlignTextToFramePadding();
-			ImGui::Text("");
-			ImGui::TableNextRow();
 			ImGui::PopID();
 			if (open)
 			{

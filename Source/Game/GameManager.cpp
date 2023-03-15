@@ -117,7 +117,7 @@ void GameManager::Update()
 
 void GameManager::OnImGui()
 {
-	//ImGui::ShowDemoWindow();
+	ImGui::ShowDemoWindow();
 	SceneHierarchy();
 	Inspector();
 	Profiler();
@@ -248,7 +248,7 @@ void GameManager::AddEntity()
 void GameManager::SelectEntity()
 {
 	// List object hierarchy
-	if (ImGui::BeginListBox("", { ImGui::GetContentRegionAvail().x, ImGui::GetContentRegionAvail().y}))
+	if (ImGui::BeginListBox("", { ImGui::GetContentRegionAvail().x, ImGui::GetContentRegionAvail().y }))
 	{
 		ListEntityRecursive(UINT_MAX);
 		ImGui::EndListBox();
@@ -262,31 +262,17 @@ void GameManager::ModifyValues()
 		return;
 	}
 
-	if (ImGui::BeginTable("", 2, ImGuiTableFlags_BordersOuter))
+	// loop components
+	auto& components = myEntityComponents[mySelectedEntity];
+	for (auto& [id, component] : components)
 	{
-		ImGui::TableNextRow();
-		ImGui::TableSetColumnIndex(0);
-		ImGui::Text("Components");
-		ImGui::TableSetColumnIndex(1);
-		ImGui::Text("Variables");
-		// loop children when implemented
-		//
-
-		// loop components
-		auto& components = myEntityComponents[mySelectedEntity];
-		for (auto& [id, component] : components)
 		{
-			ImGui::TableNextRow();
-			ImGui::TableSetColumnIndex(0);
-			//if (component->HasExposedVariables())
-			{
-				ImGui::PushID(id);
-				component->OnImGui(myComponentMaps[id]->myName);
-				ImGui::PopID();
-			}
+			ImGui::PushID(id);
+			component->OnImGui(myComponentMaps[id]->myName);
+			ImGui::PopID();
 		}
-		ImGui::EndTable();
 	}
+	ImGui::Separator();
 }
 
 bool GameManager::ValidSelection()

@@ -54,6 +54,7 @@ namespace SE
 		myIntermediateDepth.Release();
 		myFullscreenCopy.Release();
 		myFullscreen.Release();
+		myBackBuffer.Release();
 
 		for (auto& state : myBlendStates)
 		{
@@ -405,28 +406,43 @@ namespace SE
 			{
 				Vector2ui res = Singleton<GlobalSettings>().gameplayResolution;
 				float ratio = (float)res.x / res.y;
-				auto windowSize = ImGui::GetContentRegionAvail();
 				float frameH = ImGui::GetFrameHeight();
+				ImVec2 windowSize = ImGui::GetContentRegionAvail();
+				ImVec2 viewPortSize = windowSize;
+				ImVec2 pos = ImGui::GetWindowPos();
 				ImVec2 cursorPos;
+				// too wide
 				if (windowSize.x * 1.f / ratio > windowSize.y)
 				{
 					cursorPos = { (windowSize.x - (ratio * windowSize.y)) * 0.5f, frameH };
-					windowSize.x = ratio * windowSize.y;
+					viewPortSize.x = ratio * windowSize.y;
 				}
+				// too narrow
 				else
 				{
 					cursorPos = { 0, frameH + ((windowSize.y - (windowSize.x * 1.f / ratio)) * 0.5f) };
-					windowSize.y = windowSize.x * 1.f / ratio;
+					viewPortSize.y = windowSize.x * 1.f / ratio;
 				}
 				ImGui::SetCursorPos(cursorPos);
+				cursorPos.x += pos.x;
+				cursorPos.y += pos.y;
 				Singleton<GlobalSettings>().gameWindowRect =
 				{
-					cursorPos.x / DX11::GetResolution().x,
-					cursorPos.y / DX11::GetResolution().y,
-					(cursorPos.x + windowSize.x) / DX11::GetResolution().x,
-					(cursorPos.y + windowSize.y) / DX11::GetResolution().y,
+					((cursorPos.x /*/ DX11::GetResolution().x*/)),
+					((cursorPos.y /*/ DX11::GetResolution().y*/)),
+					((cursorPos.x + viewPortSize.x) /*/ DX11::GetResolution().x*/),
+					((cursorPos.y + viewPortSize.y) /*/ DX11::GetResolution().y*/),
 				};
-				ImGui::Image((void*)myFullscreenCopy.GetSRV(), windowSize);
+				float4 rect = Singleton<GlobalSettings>().gameWindowRect;
+				ImVec2 tl = { rect.x, rect.y };
+				ImVec2 br = { rect.z, rect.w };
+				ImColor col = { .2f, .2f, .2f, 1.f };
+				ImColor black = { .0125f, .0125f, .0125f, 1.f };
+				ImVec2 posPlusWindowSize = { pos.x + windowSize.x, pos.y + windowSize.y + frameH };
+				ImGui::GetWindowDrawList()->AddRectFilled(pos, posPlusWindowSize, black);
+				ImGui::Image((void*)myFullscreenCopy.GetSRV(), viewPortSize);
+				myFullscreen.ClearTexture();
+				ImGui::GetWindowDrawList()->AddRect(tl, br, col);
 			}
 			ImGui::End();
 			ImGui::PopStyleVar();

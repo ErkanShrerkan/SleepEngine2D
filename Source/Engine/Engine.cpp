@@ -36,15 +36,14 @@ namespace SE
 	CEngine::~CEngine()
 	{
 		// Release resources
+		delete myScene;
+		myScene = nullptr;
 
 		delete myContentLoader;
 		myContentLoader = nullptr;
 
 		delete myGraphicsEngine;
 		myGraphicsEngine = nullptr;
-
-		delete myScene;
-		myScene = nullptr;
 	}
 
 	bool CEngine::Update(float aDeltaTime)
