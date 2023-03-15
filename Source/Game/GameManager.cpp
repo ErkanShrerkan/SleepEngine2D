@@ -117,27 +117,10 @@ void GameManager::Update()
 
 void GameManager::OnImGui()
 {
-	ImGui::Separator();
-	ImGui::Text("Inspector");
-	ImGui::PushStyleColor(ImGuiCol_Button, { .1f, .1f, .1f, 1 });
-	ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(2, 2));
-	//if (ImGui::BeginTable("", 2, ImGuiTableFlags_BordersOuter))
-	//{
-		//ImGui::TableNextRow();
-		//ImGui::TableSetColumnIndex(0);
-	ImGui::Text("Game Objects");
-	ImGui::SameLine();
-	AddEntity();
-	SelectEntity();
-	//ImGui::TableSetColumnIndex(1);
-	ImGui::Text("");
-	AddEntityComponent();
-	//ImGui::EndTable();
-//}
-	ModifyValues();
-	Singleton<SE::Debug::CDebugProfiler>().Render();
-	ImGui::PopStyleColor();
-	ImGui::PopStyleVar();
+	//ImGui::ShowDemoWindow();
+	SceneHierarchy();
+	Inspector();
+	Profiler();
 }
 
 Entity& GameManager::CreateEntity()
@@ -220,6 +203,7 @@ void GameManager::AddEntityComponent()
 	}
 
 	ImGui::SameLine();
+	ImGui::PushID("Component Combo");
 	if (ImGui::BeginCombo("", "Add Component"))
 	{
 		for (auto& [componentID, map] : myComponentMaps)
@@ -237,6 +221,7 @@ void GameManager::AddEntityComponent()
 		}
 		ImGui::EndMenu();
 	}
+	ImGui::PopID();
 }
 
 void GameManager::AddEntity()
@@ -263,7 +248,7 @@ void GameManager::AddEntity()
 void GameManager::SelectEntity()
 {
 	// List object hierarchy
-	if (ImGui::BeginListBox("", { ImGui::GetContentRegionAvail().x, ImGui::GetContentRegionAvail().y / 3 }))
+	if (ImGui::BeginListBox("", { ImGui::GetContentRegionAvail().x, ImGui::GetContentRegionAvail().y}))
 	{
 		ListEntityRecursive(UINT_MAX);
 		ImGui::EndListBox();
@@ -360,5 +345,32 @@ void GameManager::BuildHierarchy()
 void GameManager::UpdateHierarchy()
 {
 	myEntityHierarchyNeedsUpdating = true;
+}
+
+void GameManager::SceneHierarchy()
+{
+	ImGui::Begin("Scene Hierarchy");
+	{
+		ImGui::Text("Game Objects");
+		ImGui::SameLine();
+		AddEntity();
+		SelectEntity();
+	}
+	ImGui::End();
+}
+
+void GameManager::Inspector()
+{
+	ImGui::Begin("Inspector");
+	{
+		AddEntityComponent();
+		ModifyValues();
+	}
+	ImGui::End();
+}
+
+void GameManager::Profiler()
+{
+	Singleton<SE::Debug::CDebugProfiler>().Render();
 }
 

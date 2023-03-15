@@ -168,6 +168,9 @@ private:
 	bool ValidSelection();
 	void BuildHierarchy();
 	void UpdateHierarchy();
+	void SceneHierarchy();
+	void Inspector();
+	void Profiler();
 	std::unordered_map<uint, Entity*>& GetEntities() { return myEntities; }
 	std::unordered_map<uint, std::unordered_map<uint, Component*>>& GetEntityComponents() { return myEntityComponents; }
 

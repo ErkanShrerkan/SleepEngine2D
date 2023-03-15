@@ -37,7 +37,7 @@ namespace SE
 		(void)io;
 
 		//io.IniFilename = nullptr;
-		io.IniFilename = "ImGui_Preference";
+		//io.IniFilename = "ImGui_Preference";
 		io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;           // Enable Docking
 		//io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;         // Enable Multiple Viewports
 

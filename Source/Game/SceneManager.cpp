@@ -75,6 +75,7 @@ void SceneManager::LoadScene(const std::string& aSceneName)
 	//  ]
 	//}
 
+	// TODO: Load Scene Data
 	// populate GameManager with data from document
 	for (auto& entity : mySceneDoc->GetDocument()["Entities"].GetArray())
 	{

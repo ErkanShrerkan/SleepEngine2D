@@ -34,16 +34,15 @@ void Game::Editor::OnImGui()
 		myIsRunning = false;
 	}
 
-	float x = (float)GetSystemMetrics(SM_CXSCREEN);
-	float y = (float)GetSystemMetrics(SM_CYSCREEN);
-	ImGui::SetNextWindowSize(ImVec2(x / 6, myDisplay ? y : 0)/*, ImGuiCond_FirstUseEver*/);
-	ImGui::SetNextWindowPos(ImVec2(0, 0));
+	ImGui::DockSpaceOverViewport();
+	ImGui::PushStyleColor(ImGuiCol_Button, { .1f, .1f, .1f, 1 });
+	ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(2, 2));
 
 	if (ImGui::Begin("Editor", 0,
 		//ImGuiWindowFlags_NoScrollbar |
-		ImGuiWindowFlags_NoMove |
+		//ImGuiWindowFlags_NoMove |
 		//ImGuiWindowFlags_NoCollapse |
-		ImGuiWindowFlags_NoResize |
+		//ImGuiWindowFlags_NoResize |
 		//ImGuiWindowFlags_AlwaysAutoResize |
 		ImGuiWindowFlags_None
 	))
@@ -53,9 +52,13 @@ void Game::Editor::OnImGui()
 			myIsRunning = false;
 		}
 	}
+	ImGui::End();
+
 	if (myDisplay)
 	{
 		myGM.OnImGui();
 	}
-	ImGui::End();
+
+	ImGui::PopStyleColor();
+	ImGui::PopStyleVar();
 }

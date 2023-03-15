@@ -54,6 +54,7 @@ namespace SE
 		float GetRotation();
 		float GetRotationRadian() { return myRotation; };
 		void Release();
+		CTexture* GetTexture() { return myTexture; }
 
 	private:
 		CTexture* myTexture;

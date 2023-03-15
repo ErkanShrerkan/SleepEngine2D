@@ -53,17 +53,17 @@ namespace SE
 
 		void CDebugProfiler::BeginCapture()
 		{
-			#ifdef _DEBUG
+#ifdef _DEBUG
 			myFirstTime = myClock.now();
 			myDrawCallCountSum += myDrawCallCount;
 			myDrawCallCount = 0;
 			myDrawnTriangles = 0;
-			#endif // _DEBUG
+#endif // _DEBUG
 		}
 
 		void CDebugProfiler::EndCapture()
 		{
-			#ifdef _DEBUG
+#ifdef _DEBUG
 			float deltaTime = std::chrono::duration<float>(myClock.now() - myFirstTime).count();
 			deltaTime;
 			myTotalFrameTime += Singleton<Time>().deltaTime;
@@ -102,87 +102,88 @@ namespace SE
 				myAverageDrawCalls.Push(static_cast<float>(myDrawCallCountSum) * oneDividedByFrameCounter);
 				myDrawCallCountSum = 0;
 			}
-			#endif // _DEBUG
+#endif // _DEBUG
 		}
 
 		void CDebugProfiler::Render()
 		{
-			#ifdef _DEBUG
-			ImGui::Text("");
-			ImGui::Text("Profiler");
-			ImGui::Separator();
-			ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(2, 2));
-			//ImGui::SetNextWindowSize(ImVec2(350, 675), ImGuiCond_FirstUseEver);
-			//if (ImGui::Begin("Profiler##prf", 0, ImGuiWindowFlags_NoScrollbar))
-
+#ifdef _DEBUG
+			ImGui::Begin("Profiler");
 			{
-				ImGui::Text("Total Mallocs: %i", g_new);
-				ImGui::Text("Total Frees: %i", g_del);
-				ImGui::Text("Last Diff: %i", myMallocDiff);
-				ImGui::Text("Memory Usage: %i", myMemoryUsage);
-				ImGui::Text("Avg MS: %f", myAverageTime);
-				ImGui::Text("Avg FPS: %i", myAverageFPS);
-				ImGui::Text("Draw Calls: %i", myDrawCallCount);
-				ImGui::Text("Drawn Triangles: %i", myDrawnTriangles);
+				ImGui::Separator();
+				ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(2, 2));
+				//ImGui::SetNextWindowSize(ImVec2(350, 675), ImGuiCond_FirstUseEver);
+				//if (ImGui::Begin("Profiler##prf", 0, ImGuiWindowFlags_NoScrollbar))
 
-				//ImGui::Image((ImTextureID)texture.GetShaderResourceView(), ImVec2(texture.GetWidth(), texture.GetWidth()));
-
-				ImGui::Text("Data Refresh Rate: %.3f seconds", myRefreshRate);
-
-				if (ImGui::BeginTable("profiler-plots", 1))
 				{
-					// FLT_MAX in plotlines/plothistogram removes a cap and automates the levels for us
+					ImGui::Text("Total Mallocs: %i", g_new);
+					ImGui::Text("Total Frees: %i", g_del);
+					ImGui::Text("Last Diff: %i", myMallocDiff);
+					ImGui::Text("Memory Usage: %i", myMemoryUsage);
+					ImGui::Text("Avg MS: %f", myAverageTime);
+					ImGui::Text("Avg FPS: %i", myAverageFPS);
+					ImGui::Text("Draw Calls: %i", myDrawCallCount);
+					ImGui::Text("Drawn Triangles: %i", myDrawnTriangles);
 
-					ImGui::SetNextItemWidth(-1);
-					ImGui::TableNextColumn();
-					ImGui::PlotHistogram("##", myAllocations.Get(), myAllocations.Size(), 0, "Memory Usage", 0.f, FLT_MAX, ImVec2(0, 80.f));
+					//ImGui::Image((ImTextureID)texture.GetShaderResourceView(), ImVec2(texture.GetWidth(), texture.GetWidth()));
 
-					ImGui::TableNextRow();
-					ImGui::SetNextItemWidth(-1);
-					ImGui::TableNextColumn();
-					ImGui::PlotHistogram("##", myAverageTimes.Get(), myAverageTimes.Size(), 0, "Average MS Per Frame", 0.f, FLT_MAX, ImVec2(0, 60.f));
+					ImGui::Text("Data Refresh Rate: %.3f seconds", myRefreshRate);
 
-					ImGui::TableNextRow();
-					ImGui::SetNextItemWidth(-1);
-					ImGui::TableNextColumn();
-					ImGui::PlotHistogram("##", myFrameRates.Get(), myFrameRates.Size(), 0, "Average FPS", 0.f, FLT_MAX, ImVec2(0, 100.f));
+					if (ImGui::BeginTable("profiler-plots", 1))
+					{
+						// FLT_MAX in plotlines/plothistogram removes a cap and automates the levels for us
 
-					/*ImGui::TableNextRow();
-					ImGui::TableNextColumn();
-					ImGui::TextUnformatted("FPS Stability");*/
-					ImGui::TableNextRow();
-					ImGui::SetNextItemWidth(-1);
-					ImGui::TableNextColumn();
-					ImGui::PlotLines("##", myFrameDrops.Get(), myFrameDrops.Size(), 0, "FPS Stability", FLT_MAX, FLT_MAX, ImVec2(0, 100.f));
-					
-					/*ImGui::TableNextRow();
-					ImGui::TableNextColumn();
-					ImGui::TextUnformatted("Average Draw Calls");*/
-					ImGui::TableNextRow();
-					ImGui::SetNextItemWidth(-1);
-					ImGui::TableNextColumn();
-					ImGui::PlotLines("##", myAverageDrawCalls.Get(), myAverageDrawCalls.Size(), 0, "Average Draw Calls", FLT_MAX, FLT_MAX, ImVec2(0, 100.f));
+						ImGui::SetNextItemWidth(-1);
+						ImGui::TableNextColumn();
+						ImGui::PlotHistogram("##", myAllocations.Get(), myAllocations.Size(), 0, "Memory Usage", 0.f, FLT_MAX, ImVec2(0, 80.f));
 
-					ImGui::EndTable();
+						ImGui::TableNextRow();
+						ImGui::SetNextItemWidth(-1);
+						ImGui::TableNextColumn();
+						ImGui::PlotHistogram("##", myAverageTimes.Get(), myAverageTimes.Size(), 0, "Average MS Per Frame", 0.f, FLT_MAX, ImVec2(0, 60.f));
+
+						ImGui::TableNextRow();
+						ImGui::SetNextItemWidth(-1);
+						ImGui::TableNextColumn();
+						ImGui::PlotHistogram("##", myFrameRates.Get(), myFrameRates.Size(), 0, "Average FPS", 0.f, FLT_MAX, ImVec2(0, 100.f));
+
+						/*ImGui::TableNextRow();
+						ImGui::TableNextColumn();
+						ImGui::TextUnformatted("FPS Stability");*/
+						ImGui::TableNextRow();
+						ImGui::SetNextItemWidth(-1);
+						ImGui::TableNextColumn();
+						ImGui::PlotLines("##", myFrameDrops.Get(), myFrameDrops.Size(), 0, "FPS Stability", FLT_MAX, FLT_MAX, ImVec2(0, 100.f));
+
+						/*ImGui::TableNextRow();
+						ImGui::TableNextColumn();
+						ImGui::TextUnformatted("Average Draw Calls");*/
+						ImGui::TableNextRow();
+						ImGui::SetNextItemWidth(-1);
+						ImGui::TableNextColumn();
+						ImGui::PlotLines("##", myAverageDrawCalls.Get(), myAverageDrawCalls.Size(), 0, "Average Draw Calls", FLT_MAX, FLT_MAX, ImVec2(0, 100.f));
+
+						ImGui::EndTable();
+					}
 				}
+				ImGui::PopStyleVar();
+				ImGui::End();
 			}
-			ImGui::PopStyleVar();
-			//ImGui::End();
-			#endif // _DEBUG
+#endif // _DEBUG
 		}
 		void CDebugProfiler::IncrementDrawCallCount()
 		{
-			#ifdef _DEBUG
+#ifdef _DEBUG
 			++myDrawCallCount;
-			#endif // _DEBUG
+#endif // _DEBUG
 		}
 		void CDebugProfiler::IncrementDrawnTriangles(int anAmount)
 		{
-			#ifdef _DEBUG
+#ifdef _DEBUG
 			myDrawnTriangles += anAmount;
-			#else
+#else
 			anAmount;
-			#endif // _DEBUG
+#endif // _DEBUG
 		}
 	}
 }

@@ -21,6 +21,7 @@
 #include "Scene.h"
 #include "Sprite.h"
 #include "SpriteFactory.h"
+#include "Texture.h"
 
 #include <algorithm>
 #include <Game\Postmaster.h>
@@ -33,6 +34,7 @@
 #include <Game\Entity.h>
 #include <Game\GameManager.h>
 #include <Game\CameraComponent.h>
+#include <ImGui/imgui.h>
 
 constexpr auto PI = 3.14159265f;
 
@@ -304,9 +306,9 @@ namespace SE
 
 		myBackBuffer.ClearTexture({ 1, 1, 1, 1 });
 		myFullscreen.ClearTexture();
-		myScaledBackBuffer.ClearTexture();
 		myFullscreenCopy.ClearTexture();
 		myIntermediateDepth.ClearDepth();
+		myScaledBackBuffer.ClearTexture();
 
 		myPostProcessingData.volumetricIndex = 0;
 
@@ -392,7 +394,28 @@ namespace SE
 			}
 		}
 
+		myFullscreenCopy.SetAsActiveTarget();
+		myFullscreen.SetAsResourceOnSlot(0);
+		myFullscreenRenderer.Render(CFullscreenRenderer::EShader_ToRawColor);
+
+		ImGui::Begin("Game Window");
+		{
+			auto windowSize = ImGui::GetContentRegionAvail();
+			if (windowSize.x * (9.f / 16) > windowSize.y)
+			{
+				windowSize.x = (16.f / 9) * windowSize.y;
+			}
+			else
+			{
+				windowSize.y = windowSize.x * (9.f / 16);
+			}
+			ImGui::Image((void*)myFullscreenCopy.GetSRV(), windowSize);
+		}
+		ImGui::End();
+
 		CLineDrawer::Clear();
+
+		myFullscreen.SetAsActiveTarget();
 	}
 
 	void CRenderManager::DrawCursor()

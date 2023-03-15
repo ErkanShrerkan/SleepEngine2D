@@ -52,6 +52,7 @@ namespace SE
         shaderPaths[EShader_VolumetricMerge   ] = "Shaders/FullscreenPS-VolumetricMerge";
         shaderPaths[EShader_BilateralH        ] = "Shaders/FullscreenPS-BilateralH";
         shaderPaths[EShader_BilateralV        ] = "Shaders/FullscreenPS-BilateralV";
+        shaderPaths[EShader_ToRawColor        ] = "Shaders/FullscreenPS-ToRawColor";
         for (uint i = 0u; i < EShader_Count; ++i)
         {
             Helper::ShaderHelper::CreatePixelShader(&myPixelShaders[i], shaderPaths[i]);

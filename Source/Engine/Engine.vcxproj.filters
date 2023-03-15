@@ -412,6 +412,9 @@
     <FxCompile Include="WorldSpriteVS.hlsl">
       <Filter>Source Files\Engine\Shader</Filter>
     </FxCompile>
+    <FxCompile Include="FullscreenPS-ToRawColor.hlsl">
+      <Filter>Source Files\Engine\Shader\Effects\Post Processing</Filter>
+    </FxCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="BRDFHelper.hlsli">

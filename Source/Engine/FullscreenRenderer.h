@@ -34,6 +34,7 @@ namespace SE
             EShader_VolumetricMerge,
             EShader_BilateralH,
             EShader_BilateralV,
+            EShader_ToRawColor,
 
 
             // Keep last, don't remove

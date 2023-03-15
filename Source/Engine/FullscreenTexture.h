@@ -24,6 +24,7 @@ namespace SE
         void SetAsResourceOnSlot(uint aSlot);
         void SetDeviceContext(ID3D11DeviceContext* aContext);
         ID3D11Texture2D* GetTexture() { return myTexture; }
+        ID3D11ShaderResourceView* GetSRV() { return myShaderResourceView; }
 
     private:
         
