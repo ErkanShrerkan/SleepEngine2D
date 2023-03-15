@@ -394,31 +394,43 @@ namespace SE
 			}
 		}
 
-		myFullscreenCopy.SetAsActiveTarget();
-		myFullscreen.SetAsResourceOnSlot(0);
-		myFullscreenRenderer.Render(CFullscreenRenderer::EShader_ToRawColor);
-
-		ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0, 0));
-		ImGui::Begin("Game Window");
+		if (Singleton<GlobalSettings>().isEditingMode)
 		{
-			Vector2ui res = Singleton<GlobalSettings>().gameplayResolution;
-			float ratio = (float)res.x / res.y;
-			auto windowSize = ImGui::GetContentRegionAvail();
-			float frameH = ImGui::GetFrameHeight();
-			if (windowSize.x * 1.f / ratio > windowSize.y)
+			myFullscreenCopy.SetAsActiveTarget();
+			myFullscreen.SetAsResourceOnSlot(0);
+			myFullscreenRenderer.Render(CFullscreenRenderer::EShader_ToRawColor);
+
+			ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0, 0));
+			if (ImGui::Begin("Game Window"))
 			{
-				ImGui::SetCursorPos({ (windowSize.x - (ratio * windowSize.y)) * 0.5f, frameH });
-				windowSize.x = ratio * windowSize.y;
+				Vector2ui res = Singleton<GlobalSettings>().gameplayResolution;
+				float ratio = (float)res.x / res.y;
+				auto windowSize = ImGui::GetContentRegionAvail();
+				float frameH = ImGui::GetFrameHeight();
+				ImVec2 cursorPos;
+				if (windowSize.x * 1.f / ratio > windowSize.y)
+				{
+					cursorPos = { (windowSize.x - (ratio * windowSize.y)) * 0.5f, frameH };
+					windowSize.x = ratio * windowSize.y;
+				}
+				else
+				{
+					cursorPos = { 0, frameH + ((windowSize.y - (windowSize.x * 1.f / ratio)) * 0.5f) };
+					windowSize.y = windowSize.x * 1.f / ratio;
+				}
+				ImGui::SetCursorPos(cursorPos);
+				Singleton<GlobalSettings>().gameWindowRect =
+				{
+					cursorPos.x / DX11::GetResolution().x,
+					cursorPos.y / DX11::GetResolution().y,
+					(cursorPos.x + windowSize.x) / DX11::GetResolution().x,
+					(cursorPos.y + windowSize.y) / DX11::GetResolution().y,
+				};
+				ImGui::Image((void*)myFullscreenCopy.GetSRV(), windowSize);
 			}
-			else
-			{
-				ImGui::SetCursorPos({ 0, frameH + ((windowSize.y - (windowSize.x * 1.f / ratio)) * 0.5f) });
-				windowSize.y = windowSize.x * 1.f / ratio;
-			}
-			ImGui::Image((void*)myFullscreenCopy.GetSRV(), windowSize);
+			ImGui::End();
+			ImGui::PopStyleVar();
 		}
-		ImGui::End();
-		ImGui::PopStyleVar();
 
 		CLineDrawer::Clear();
 
@@ -429,6 +441,7 @@ namespace SE
 	{
 		CommonUtilities::RefillVector<SE::CSprite*> sprites;
 		auto pos = Input::GetMousePos();
+		//myCursor->SetPosition(Singleton<GlobalSettings>().gameWindowRect.xy);
 		myCursor->SetPosition(pos);
 		if (!Input::GetLockedCursorState())
 			sprites.push_back(myCursor);

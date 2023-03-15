@@ -3,6 +3,7 @@
 #include <Engine/Input.h>
 #include <ImGui/imgui.h>
 #include <Engine\Engine.h>
+#include "Globals.h"
 
 Game::Editor::~Editor()
 {
@@ -10,6 +11,7 @@ Game::Editor::~Editor()
 
 bool Game::Editor::Init()
 {
+	Singleton<GlobalSettings>().isEditingMode = true;
 	myGM.Init();
 	SE::CEngine::GetInstance()->SetGameManagerRef(&myGM);
 	return true;
