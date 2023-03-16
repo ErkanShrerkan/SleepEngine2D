@@ -8,9 +8,13 @@
 #include <type_traits>
 #include <set>
 
+namespace Game
+{
+	class Editor;
+}
 class SceneManager;
-class Entity;
 class GameManager;
+class Entity;
 
 class IComponentMap
 {
@@ -39,6 +43,7 @@ class GameManager
 {
 	friend class Entity;
 	friend class SceneManager;
+	friend class Game::Editor;
 public:
 	GameManager();
 	~GameManager();
@@ -159,27 +164,23 @@ private:
 	SceneManager* mySceneManager;
 
 private:
-	// Editor Functions
-	void AddEntityComponent();
-	void AddEntity();
-	void SelectEntity();
-	void ModifyValues();
-	void ListEntityRecursive(uint anID);
-	bool ValidSelection();
-	void BuildHierarchy();
-	void UpdateHierarchy();
-	void SceneHierarchy();
-	void Inspector();
-	void Profiler();
+	//// Editor Functions
+	//void AddEntityComponent();
+	//void AddEntity();
+	//void SelectEntity();
+	//void ModifyValues();
+	//void ListEntityRecursive(uint anID);
+	//bool ValidSelection();
+	//void BuildHierarchy();
+	void UpdateHierarchy(bool aBool = true);
+	bool GetUpdateHierarchy() { return myEntityHierarchyNeedsUpdating; }
+	//void SceneHierarchy();
+	//void Inspector();
 	std::unordered_map<uint, Entity*>& GetEntities() { return myEntities; }
 	std::unordered_map<uint, std::unordered_map<uint, Component*>>& GetEntityComponents() { return myEntityComponents; }
-
+	std::unordered_map<uint, IComponentMap*>& GetComponentMaps() { return myComponentMaps; }
 private:
-	// Editor control variables
-	uint mySelectedEntity = UINT_MAX;
-	std::unordered_map<uint, bool> myShowChildrenRecord;
-	std::map<uint, std::set<uint>> myEntityHierarchy;
-	bool myEntityHierarchyNeedsUpdating = false;
+	bool myEntityHierarchyNeedsUpdating = true;
 };
 
 template <

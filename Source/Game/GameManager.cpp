@@ -12,7 +12,7 @@
 
 GameManager::GameManager()
 {
-	myShowChildrenRecord[UINT_MAX] = true;
+	//myShowChildrenRecord[UINT_MAX] = true;
 	mySceneManager = new SceneManager(this);
 }
 
@@ -88,12 +88,6 @@ void GameManager::Update()
 		componentMap->UpdateComponents();
 	}
 
-	if (myEntityHierarchyNeedsUpdating)
-	{
-		BuildHierarchy();
-		myEntityHierarchyNeedsUpdating = false;
-	}
-
 	//uint2 res = Singleton<GlobalSettings>().gameplayResolution;
 	//for (uint x = 0; x < res.x; x++)
 	//{
@@ -113,14 +107,6 @@ void GameManager::Update()
 	{
 		Debug::DrawLine2D({ -res.y * 100.f, y * 100.f }, { res.y * 100.f, y * 100.f }, { 1, 1, 1, .0125f }, true);
 	}
-}
-
-void GameManager::OnImGui()
-{
-	ImGui::ShowDemoWindow();
-	SceneHierarchy();
-	Inspector();
-	Profiler();
 }
 
 Entity& GameManager::CreateEntity()
@@ -148,11 +134,6 @@ void GameManager::RemoveEntity(uint anEntityID)
 
 	myEntityComponents.erase(anEntityID);
 
-	if (mySelectedEntity == anEntityID)
-	{
-		mySelectedEntity = UINT_MAX;
-	}
-
 	UpdateHierarchy();
 }
 
@@ -178,185 +159,8 @@ void GameManager::UnLoadAll()
 	}
 }
 
-void GameManager::AddEntityComponent()
+void GameManager::UpdateHierarchy(bool aBool)
 {
-	if (!ValidSelection())
-	{
-		return;
-	}
-
-	if (ImGui::Button("Reload"))
-	{
-		if (ValidSelection())
-		{
-			for (auto& [id, component] : myEntityComponents[mySelectedEntity])
-			{
-				component->Reload();
-			}
-		}
-	};
-
-	std::set<uint> entityComponents;
-	for (auto& [componentID, component] : myEntityComponents[mySelectedEntity])
-	{
-		entityComponents.insert(componentID);
-	}
-
-	ImGui::SameLine();
-	ImGui::PushID("Component Combo");
-	if (ImGui::BeginCombo("", "Add Component"))
-	{
-		for (auto& [componentID, map] : myComponentMaps)
-		{
-			// can't add a component that already has been added
-			if (entityComponents.find(componentID) != entityComponents.end())
-			{
-				continue;
-			}
-
-			if (ImGui::MenuItem(map->GetName().c_str()))
-			{
-				map->AddComponent(mySelectedEntity, *this);
-			}
-		}
-		ImGui::EndMenu();
-	}
-	ImGui::PopID();
-}
-
-void GameManager::AddEntity()
-{
-	std::string label = ValidSelection() ? "Add Child Object" : "Add Object";
-	if (ImGui::Button(label.c_str()))
-	{
-		Entity& e = CreateEntity();
-		if (ValidSelection())
-		{
-			GetEntity(mySelectedEntity).AdoptChild(e.GetID());
-		}
-	}
-	if (ValidSelection())
-	{
-		ImGui::SameLine();
-		if (ImGui::Button("Remove"))
-		{
-			MarkEntityForRemoval(mySelectedEntity);
-		};
-	}
-}
-
-void GameManager::SelectEntity()
-{
-	// List object hierarchy
-	if (ImGui::BeginListBox("", { ImGui::GetContentRegionAvail().x, ImGui::GetContentRegionAvail().y }))
-	{
-		ListEntityRecursive(UINT_MAX);
-		ImGui::EndListBox();
-	}
-}
-
-void GameManager::ModifyValues()
-{
-	if (!ValidSelection())
-	{
-		return;
-	}
-
-	// loop components
-	auto& components = myEntityComponents[mySelectedEntity];
-	for (auto& [id, component] : components)
-	{
-		{
-			ImGui::PushID(id);
-			component->OnImGui(myComponentMaps[id]->myName);
-			ImGui::PopID();
-		}
-	}
-	ImGui::Separator();
-}
-
-bool GameManager::ValidSelection()
-{
-	return mySelectedEntity != UINT_MAX;
-}
-
-void GameManager::ListEntityRecursive(uint anID)
-{
-	for (auto& id : myEntityHierarchy[anID])
-	{
-		ImGui::PushID(id);
-		ImGuiTreeNodeFlags nodeFlag = ImGuiTreeNodeFlags_Leaf;
-		if (mySelectedEntity == id)
-		{
-			nodeFlag |= ImGuiTreeNodeFlags_Selected;
-		}
-
-		bool& showChildren = myShowChildrenRecord[id];
-		std::string label = myEntityHierarchy[id].empty() ? "   " : (showChildren ? " - " : " + ");
-		if (ImGui::Button(label.c_str()))
-		{
-			showChildren = !showChildren;
-		}
-		ImGui::SameLine();
-		if (ImGui::TreeNodeEx("Entities", nodeFlag, "%s_%u", "Entity", id))
-		{
-			if (ImGui::IsItemClicked())
-			{
-				mySelectedEntity = mySelectedEntity == id ? UINT_MAX : id;
-			}
-			ImGui::PopID();
-			if (showChildren)
-			{
-				ListEntityRecursive(id);
-			}
-			ImGui::TreePop();
-		}
-	}
-}
-
-void GameManager::BuildHierarchy()
-{
-	// Build hierarchy
-	myEntityHierarchy.clear();
-	for (auto& [id, entity] : myEntities)
-	{
-		myEntityHierarchy[entity->GetParentID()].insert(id);
-		for (auto& childID : entity->GetChildrenIDs())
-		{
-			myEntityHierarchy[id].insert(childID);
-		}
-	}
-}
-
-void GameManager::UpdateHierarchy()
-{
-	myEntityHierarchyNeedsUpdating = true;
-}
-
-void GameManager::SceneHierarchy()
-{
-	ImGui::Begin("Scene Hierarchy");
-	{
-		ImGui::Text("Game Objects");
-		ImGui::SameLine();
-		AddEntity();
-		SelectEntity();
-	}
-	ImGui::End();
-}
-
-void GameManager::Inspector()
-{
-	ImGui::Begin("Inspector");
-	{
-		AddEntityComponent();
-		ModifyValues();
-	}
-	ImGui::End();
-}
-
-void GameManager::Profiler()
-{
-	Singleton<SE::Debug::CDebugProfiler>().Render();
+	myEntityHierarchyNeedsUpdating = aBool;
 }
 
