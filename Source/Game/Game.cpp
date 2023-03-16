@@ -30,8 +30,6 @@ namespace Game
 
 	bool Game::Init()
 	{
-		Singleton<GlobalSettings>().isEditingMode = false;
-
 		Postmaster::GetInstance().Subscribe(this, eMessage::eUI_Element_Button_Exit);
 		Postmaster::GetInstance().Subscribe(this, eMessage::eGame_Event_PauseGame);
 		Postmaster::GetInstance().Subscribe(this, eMessage::eGame_Event_ResumeGame);

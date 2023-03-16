@@ -164,18 +164,9 @@ private:
 	SceneManager* mySceneManager;
 
 private:
-	//// Editor Functions
-	//void AddEntityComponent();
-	//void AddEntity();
-	//void SelectEntity();
-	//void ModifyValues();
-	//void ListEntityRecursive(uint anID);
-	//bool ValidSelection();
-	//void BuildHierarchy();
 	void UpdateHierarchy(bool aBool = true);
 	bool GetUpdateHierarchy() { return myEntityHierarchyNeedsUpdating; }
-	//void SceneHierarchy();
-	//void Inspector();
+
 	std::unordered_map<uint, Entity*>& GetEntities() { return myEntities; }
 	std::unordered_map<uint, std::unordered_map<uint, Component*>>& GetEntityComponents() { return myEntityComponents; }
 	std::unordered_map<uint, IComponentMap*>& GetComponentMaps() { return myComponentMaps; }

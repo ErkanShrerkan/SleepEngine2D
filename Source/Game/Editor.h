@@ -17,11 +17,13 @@ namespace Game
 	private:
 		// ImGui
 		void OnImGui();
+		void BlackScreen();
 		void SceneHierarchy();
 		void Inspector();
 		void Profiler();
 		void ContentBrowser();
 		void Controls();
+		void GameWindow();
 
 		// Editor Functions
 		void AddEntityComponent();

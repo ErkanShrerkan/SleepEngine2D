@@ -100,6 +100,7 @@ int WINAPI wWinMain(_In_ HINSTANCE hInstance,
 	engineParameters.clearColor = { .1f, .1f, .1f, 1.f };
 
 	Singleton<JsonManager>().InitDocument("Data/Config.json");
+	Singleton<GlobalSettings>().windowResolution = { x, y };
 
 	// Start the Engine
 	if (!SE::CEngine::GetInstance()->Start(engineParameters))

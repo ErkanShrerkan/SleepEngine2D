@@ -96,13 +96,13 @@ namespace SE
 		//colors[ImGuiCol_TextDisabled] = imgcDisabledTextColor;
 		//colors[ImGuiCol_WindowBg] = imgcWindowBackground;
 		//colors[ImGuiCol_ChildBg] = imgcNone;
-		//colors[ImGuiCol_PopupBg] = imgcWindowBackground;
+		colors[ImGuiCol_PopupBg] = ImColor(25, 25, 25, 240);//imgcWindowBackground;
 		//colors[ImGuiCol_Border] = imgcBorder;
 		//colors[ImGuiCol_BorderShadow] = imgcNone;
 		colors[ImGuiCol_FrameBg] = ImColor(1, 6, 21, 138); //imgcFrameBG;
 		//colors[ImGuiCol_FrameBgHovered] = imgcFrameBG;
 		//colors[ImGuiCol_FrameBgActive] = imgcFrameBG;
-		//colors[ImGuiCol_TitleBg] = imgcTitleBG;
+		colors[ImGuiCol_TitleBg] = ImColor(1, 3, 8, 255);//ImColor(HexColor<0x010308FF>().value);//imgcTitleBG;
 		//colors[ImGuiCol_TitleBgActive] = imgcTitleBG;
 		//colors[ImGuiCol_TitleBgCollapsed] = imgcTitleBG;
 		//colors[ImGuiCol_MenuBarBg] = imgcMenuBarBG;
@@ -117,7 +117,7 @@ namespace SE
 		//colors[ImGuiCol_ButtonHovered] = imgcHover;
 		//colors[ImGuiCol_ButtonActive] = imgcActive;
 		colors[ImGuiCol_Header] = ImColor(HexColor<0x4B5C854F>().value);//imgcMenuBarBG;
-		colors[ImGuiCol_HeaderHovered] = ImColor(HexColor<0x3A61DECC>().value);//imgcTitleBG;
+		colors[ImGuiCol_HeaderHovered] = ImColor(HexColor<0x2B3892CC>().value);//imgcTitleBG;
 		colors[ImGuiCol_HeaderActive] = ImColor(HexColor<0x0E42E7FF>().value);//imgcTitleBG;
 		colors[ImGuiCol_Separator] = ImColor(111, 111, 111, 128); //imgcBorder;
 		colors[ImGuiCol_SeparatorHovered] = ImColor(HexColor<0x7CFF78C7>().value);//imgcHover;//Still unknown//ImVec4(0.10f, 0.40f, 0.75f, 0.78f);
@@ -160,7 +160,7 @@ namespace SE
 		style->GrabRounding = 2.f;
 		style->GrabMinSize = 8.f;
 		style->ScrollbarRounding = 2.f;
-		style->ScrollbarSize = 12.f;
+		style->ScrollbarSize = 14.f;
 
 		style->IndentSpacing = 12.f;
 	}

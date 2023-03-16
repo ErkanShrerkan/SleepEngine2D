@@ -13,7 +13,6 @@ Game::Editor::~Editor()
 
 bool Game::Editor::Init()
 {
-	Singleton<GlobalSettings>().isEditingMode = true;
 	myShowChildrenRecord[UINT_MAX] = true;
 	myGM.Init();
 	SE::CEngine::GetInstance()->SetGameManagerRef(&myGM);
@@ -41,17 +40,29 @@ void Game::Editor::RecieveMessage(eMessage aMessage)
 void Game::Editor::OnImGui()
 {
 	ImGui::DockSpaceOverViewport();
-	ImGui::PushStyleColor(ImGuiCol_Button, { .1f, .1f, .1f, 1 });
+	//ImGui::PushStyleColor(ImGuiCol_Button, { .1f, .1f, .1f, 1 });
 	ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(2, 2));
-	
+
+	BlackScreen();
+	ImGui::ShowDemoWindow();
 	Profiler();
 	SceneHierarchy();
 	Inspector();
 	ContentBrowser();
 	Controls();
+	GameWindow();
 
-	ImGui::PopStyleColor();
+	//ImGui::PopStyleColor();
 	ImGui::PopStyleVar();
+}
+
+void Game::Editor::BlackScreen()
+{
+	ImColor bgCol = { 0.f, 0.f, 0.f, 1.f };
+	ImVec2 tl = { 0, 0 };
+	uint2 res = Singleton<GlobalSettings>().gameplayResolution;
+	ImVec2 br = { (float)res.x, (float)res.y };
+	ImGui::GetBackgroundDrawList()->AddRectFilled(tl, br, bgCol);
 }
 
 void Game::Editor::AddEntityComponent()
@@ -82,6 +93,7 @@ void Game::Editor::AddEntityComponent()
 	ImGui::PushID("Component Combo");
 	if (ImGui::BeginCombo("", "Add Component"))
 	{
+		//ImGui::PushStyleColor()
 		for (auto& [componentID, map] : myGM.GetComponentMaps())
 		{
 			// can't add a component that already has been added
@@ -240,18 +252,23 @@ void Game::Editor::Profiler()
 
 void Game::Editor::ContentBrowser()
 {
+	ImGui::Begin("Content Browser");
+	{
+
+	}
+	ImGui::End();
 }
 
 void Game::Editor::Controls()
 {
-	if (ImGui::Begin("Editor", 0,
+	ImGui::Begin("Editor", 0,
 		//ImGuiWindowFlags_NoScrollbar |
 		//ImGuiWindowFlags_NoMove |
 		//ImGuiWindowFlags_NoCollapse |
 		//ImGuiWindowFlags_NoResize |
 		//ImGuiWindowFlags_AlwaysAutoResize |
 		ImGuiWindowFlags_None
-	))
+	);
 	{
 		if (ImGui::Button("Play"))
 		{
@@ -259,4 +276,52 @@ void Game::Editor::Controls()
 		}
 	}
 	ImGui::End();
+}
+
+void Game::Editor::GameWindow()
+{
+	ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0, 0));
+	if (ImGui::Begin("Game Window"))
+	{
+		Vector2ui res = Singleton<GlobalSettings>().gameplayResolution;
+		float ratio = (float)res.x / res.y;
+		float frameH = ImGui::GetFrameHeight();
+		ImVec2 windowSize = ImGui::GetContentRegionAvail();
+		ImVec2 viewPortSize = windowSize;
+		ImVec2 pos = ImGui::GetWindowPos();
+		ImVec2 cursorPos;
+		// too wide
+		if (windowSize.x * 1.f / ratio > windowSize.y)
+		{
+			cursorPos = { (windowSize.x - (ratio * windowSize.y)) * 0.5f, frameH };
+			viewPortSize.x = ratio * windowSize.y;
+		}
+		// too narrow
+		else
+		{
+			cursorPos = { 0, frameH + ((windowSize.y - (windowSize.x * 1.f / ratio)) * 0.5f) };
+			viewPortSize.y = windowSize.x * 1.f / ratio;
+		}
+		ImGui::SetCursorPos(cursorPos);
+		cursorPos.x += pos.x;
+		cursorPos.y += pos.y;
+		Singleton<GlobalSettings>().gameWindowRect =
+		{
+			((cursorPos.x /*/ DX11::GetResolution().x*/)),
+			((cursorPos.y /*/ DX11::GetResolution().y*/)),
+			((cursorPos.x + viewPortSize.x) /*/ DX11::GetResolution().x*/),
+			((cursorPos.y + viewPortSize.y) /*/ DX11::GetResolution().y*/),
+		};
+		float4 rect = Singleton<GlobalSettings>().gameWindowRect;
+		ImVec2 tl = { rect.x, rect.y };
+		ImVec2 br = { rect.z, rect.w };
+		ImColor col = { .2f, .2f, .2f, 1.f };
+		ImColor sideBarCol = { .0125f, .0125f, .0125f, 1.f };
+		ImVec2 posPlusWindowSize = { pos.x + windowSize.x, pos.y + windowSize.y + frameH };
+		ImGui::GetWindowDrawList()->AddRectFilled(pos, posPlusWindowSize, sideBarCol);
+		ImGui::Image((void*)Singleton<GlobalSettings>().gameViewTexture->GetSRV(), viewPortSize);
+		ImGui::GetWindowDrawList()->AddRect(tl, br, col);
+	}
+	ImGui::End();
+	ImGui::PopStyleVar();
 }
