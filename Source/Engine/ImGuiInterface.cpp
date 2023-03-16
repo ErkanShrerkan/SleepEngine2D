@@ -82,14 +82,24 @@ namespace SE
 
 		ImGuiStyle* style = &ImGui::GetStyle();
 		ImVec4* colors = style->Colors;
-		//colors[ImGuiCol_Text] = imgcTextColor;
+
+		for (size_t i = 0; i < ImGuiCol_COUNT; i++)
+		{
+			auto& col = colors[i];
+			col.x = pow(col.x, 2.2f);
+			col.y = pow(col.y, 2.2f);
+			col.z = pow(col.z, 2.2f);
+			//col.w = 1.f;
+		}
+
+		colors[ImGuiCol_Text] = ImColor(238, 238, 238, 255);//imgcTextColor;
 		//colors[ImGuiCol_TextDisabled] = imgcDisabledTextColor;
 		//colors[ImGuiCol_WindowBg] = imgcWindowBackground;
 		//colors[ImGuiCol_ChildBg] = imgcNone;
 		//colors[ImGuiCol_PopupBg] = imgcWindowBackground;
 		//colors[ImGuiCol_Border] = imgcBorder;
 		//colors[ImGuiCol_BorderShadow] = imgcNone;
-		//colors[ImGuiCol_FrameBg] = imgcFrameBG;
+		colors[ImGuiCol_FrameBg] = ImColor(1, 6, 21, 138); //imgcFrameBG;
 		//colors[ImGuiCol_FrameBgHovered] = imgcFrameBG;
 		//colors[ImGuiCol_FrameBgActive] = imgcFrameBG;
 		//colors[ImGuiCol_TitleBg] = imgcTitleBG;
@@ -106,11 +116,11 @@ namespace SE
 		//colors[ImGuiCol_Button] = imgcFrameBG;
 		//colors[ImGuiCol_ButtonHovered] = imgcHover;
 		//colors[ImGuiCol_ButtonActive] = imgcActive;
-		//colors[ImGuiCol_Header] = imgcMenuBarBG;
-		//colors[ImGuiCol_HeaderHovered] = imgcTitleBG;
-		//colors[ImGuiCol_HeaderActive] = imgcTitleBG;
-		//colors[ImGuiCol_Separator] = imgcBorder;
-		//colors[ImGuiCol_SeparatorHovered] = imgcHover;//Still unknown//ImVec4(0.10f, 0.40f, 0.75f, 0.78f);
+		colors[ImGuiCol_Header] = ImColor(HexColor<0x4B5C854F>().value);//imgcMenuBarBG;
+		colors[ImGuiCol_HeaderHovered] = ImColor(HexColor<0x3A61DECC>().value);//imgcTitleBG;
+		colors[ImGuiCol_HeaderActive] = ImColor(HexColor<0x0E42E7FF>().value);//imgcTitleBG;
+		colors[ImGuiCol_Separator] = ImColor(111, 111, 111, 128); //imgcBorder;
+		colors[ImGuiCol_SeparatorHovered] = ImColor(HexColor<0x7CFF78C7>().value);//imgcHover;//Still unknown//ImVec4(0.10f, 0.40f, 0.75f, 0.78f);
 		//colors[ImGuiCol_SeparatorActive] = imgcHover;
 		//colors[ImGuiCol_ResizeGrip] = imgcTitleBG;
 		//colors[ImGuiCol_ResizeGripHovered] = imgcHover;
@@ -138,16 +148,6 @@ namespace SE
 		//colors[ImGuiCol_NavWindowingDimBg] = imgcUnknown;//ImVec4(0.80f, 0.80f, 0.80f, 0.20f);
 		//colors[ImGuiCol_ModalWindowDimBg] = imgcUnknown;//ImVec4(0.80f, 0.80f, 0.80f, 0.35f);
 
-
-		for (size_t i = 0; i < ImGuiCol_COUNT; i++)
-		{
-			auto& col = colors[i];
-			col.x = pow(col.x, 2.2f);
-			col.y = pow(col.y, 2.2f);
-			col.z = pow(col.z, 2.2f);
-			//col.w = 1.f;
-		}
-
 		//colors[ImGuiCol_ChildBg] = { .003125f, .003125f, .003125f, 1.f };
 
 		style->FrameBorderSize = 1.f;
@@ -161,6 +161,8 @@ namespace SE
 		style->GrabMinSize = 8.f;
 		style->ScrollbarRounding = 2.f;
 		style->ScrollbarSize = 12.f;
+
+		style->IndentSpacing = 12.f;
 	}
 
 	void CImGuiInterface::BeginFrame()
