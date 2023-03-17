@@ -12,8 +12,6 @@ public:
 	uint GetPickedEntityID() { return myPickedEntityID; }
 	void SetPickPos(float2 aPos) { myPickPos = aPos; }
 	void SetPickedEntityID(uint anID) { myPickedEntityID = anID; }
-
-private:
 	void Pick();
 
 private:

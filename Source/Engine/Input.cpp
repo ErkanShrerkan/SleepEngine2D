@@ -6,11 +6,13 @@
 #include "Engine.h"
 #include <algorithm>
 
+eScrollState Input::myScrollState;
 Keyboard Input::myKeyboard;
 Vector2f Input::myMousePosition;
 Vector2f Input::myMouseDelta;
 std::vector<KeyUpdate> Input::myKeyUpdatesToDispatch;
 std::vector<Input::InputEvent> Input::myInputEvents;
+std::vector<Input::ScrollEvent> Input::myScrollEvents;
 std::vector<std::vector<uint>> Input::myEventTriggers;
 bool Input::myLockCursor = false;
 bool Input::myInvertedY = false;
@@ -72,6 +74,7 @@ void Input::Init()
 
 	ET[(uint)eInputEvent::LMB] = { VK_LBUTTON };
 	ET[(uint)eInputEvent::RMB] = { VK_RBUTTON };
+	ET[(uint)eInputEvent::MMB] = { VK_MBUTTON };
 	ET[(uint)eInputEvent::Escape] = { VK_ESCAPE };
 	ET[(uint)eInputEvent::Jump] = { VK_SPACE };
 	ET[(uint)eInputEvent::MovementToggle] = { VK_SHIFT };
@@ -90,6 +93,7 @@ void Input::Init()
 
 	ET[(uint)eInputEvent::ChangeCamera] = { 'Y' };
 	ET[(uint)eInputEvent::ToggleDrawLine] = { 'Z' };
+	ET[(uint)eInputEvent::Shift] = { VK_SHIFT };
 
 	ET[(uint)eInputEvent::H] = { 'H' };
 	ET[(uint)eInputEvent::J] = { 'J' };
@@ -116,6 +120,9 @@ void Input::Init()
 			myKeyboard.AddKey(key);
 		}
 	}
+
+	ET[(uint)eInputEvent::ScrollDown] = { ' ' };
+	ET[(uint)eInputEvent::ScrollUp] = { ' ' };
 }
 
 bool Input::GetInputPressed(eInputEvent anInput)
@@ -245,6 +252,61 @@ void Input::Update(bool doUpdate)
 		myMousePosition.y = static_cast<float>(p.y);
 	}
 
+	int scroll = GetScrollInput();
+	bool fireScrollEvent = false;
+	switch (myScrollState)
+	{
+	case eScrollState::Null:
+		myScrollState = eScrollState::Neutral;
+		break;
+	case eScrollState::Neutral:
+		if (scroll > 0)
+		{
+			printf("Scroll up\n");
+			myScrollState = eScrollState::Up;
+			fireScrollEvent = true;
+		}
+		else if (scroll < 0)
+		{
+			printf("Scroll down\n");
+			myScrollState = eScrollState::Down;
+			fireScrollEvent = true;
+		}
+		break;
+	case eScrollState::Up:
+		myScrollState = eScrollState::Neutral;
+		break;
+	case eScrollState::Down:
+		myScrollState = eScrollState::Neutral;
+		break;
+	default:
+		break;
+	}
+
+	if (fireScrollEvent)
+	{
+		for (auto& scrollEvent : myScrollEvents)
+		{
+			if (scrollEvent.state != myScrollState)
+				continue;
+
+			for (auto& observerCallback : scrollEvent.callbacks)
+			{
+				if (myIsEditing)
+				{
+					if (observerCallback.observer->myIsObservingEditorInputs)
+					{
+						observerCallback.callback();
+					}
+				}
+				else
+				{
+					observerCallback.callback();
+				}
+			}
+		}
+	}
+
 	for (auto& keyUpdate : myKeyUpdatesToDispatch)
 	{
 		uint uKey = keyUpdate.key;
@@ -356,6 +418,73 @@ void Input::RemoveEventObserver(InputObserver* anObserver)
 			inputEvent.callbacks.end());
 		printf("Event callbacks after: %i\n", (int)inputEvent.callbacks.size());
 	}
+
+	for (auto& scrollEvent : myScrollEvents)
+	{
+		printf("--------------------------------\n");
+		printf("Event callbacks: %i\n", (int)scrollEvent.callbacks.size());
+		scrollEvent.callbacks.erase(
+			std::remove_if(scrollEvent.callbacks.begin(), scrollEvent.callbacks.end(),
+				[&](ObserverCallback& aCallback)
+				{
+					return aCallback.observer == anObserver;
+				}),
+			scrollEvent.callbacks.end());
+		printf("Event callbacks after: %i\n", (int)scrollEvent.callbacks.size());
+	}
+}
+
+void Input::AddScrollEventObserver(InputObserver* anObserver, eScrollState aState, std::function<void()>& aCallback)
+{
+	ScrollEvent check;
+	check.state = aState;
+
+	bool handled = false;
+	for (auto& inputEvent : myScrollEvents)
+	{
+		if (inputEvent.IsEqual(check))
+		{
+			inputEvent.callbacks.push_back({ anObserver, aCallback });
+			handled = true;
+		}
+	}
+
+	if (!handled)
+	{
+		check.callbacks.push_back({ anObserver, aCallback });
+		myScrollEvents.push_back(check);
+	}
+}
+
+void Input::RemoveScrollEventObserver(InputObserver* anObserver, eScrollState aState)
+{
+	ScrollEvent check;
+	check.state = aState;
+
+	bool handled = false;
+	uint index = 0;
+	for (auto& scrollEvent : myScrollEvents)
+	{
+		if (!scrollEvent.IsEqual(check))
+			continue;
+
+		for (uint i = 0; i < scrollEvent.callbacks.size(); i++)
+		{
+			if (scrollEvent.callbacks[i].observer != anObserver)
+				continue;
+
+			handled = true;
+			index = i;
+			break;
+		}
+
+		if (handled)
+		{
+			scrollEvent.callbacks.erase(scrollEvent.callbacks.begin() + index);
+		}
+
+		break;
+	}
 }
 
 void Input::LockCursor(bool aShouldLock)
@@ -371,7 +500,7 @@ void Input::SetMouseSensitivity(float aSensitity)
 {
 	myMouseSensitivity = aSensitity;
 }
-void Input::ScrollEvent(MSG aMessage)
+void Input::HandleScrollEvent(MSG aMessage)
 {
 	myScrollDelta = GET_WHEEL_DELTA_WPARAM(aMessage.wParam);
 }
@@ -380,11 +509,11 @@ int Input::GetScrollInput()
 {
 	if (myScrollDelta > 0)
 	{
-		return -1;
+		return 1;
 	}
 	else if (myScrollDelta < 0)
 	{
-		return 1;
+		return -1;
 	}
 	else
 	{
@@ -402,7 +531,22 @@ void InputObserver::StopObservingInputEvent(eInputEvent anEvent, eInputState aTr
 	Input::RemoveEventObserver(this, anEvent, aTriggerState);
 }
 
-InputObserver::~InputObserver()
+void InputObserver::ObserveScrollEvent(eScrollState aState, std::function<void()> aCallback)
+{
+	Input::AddScrollEventObserver(this, aState, aCallback);
+}
+
+void InputObserver::StopObservingScrollEvent(eScrollState aState)
+{
+	Input::RemoveScrollEventObserver(this, aState);
+}
+
+void InputObserver::StopObservingAllEvents()
 {
 	Input::RemoveEventObserver(this);
+}
+
+InputObserver::~InputObserver()
+{
+	StopObservingAllEvents();
 }

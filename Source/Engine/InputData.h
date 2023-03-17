@@ -9,6 +9,14 @@ enum class eInputState
 	Released	= 1 << 3
 };
 
+enum class eScrollState : uint
+{
+	Null,
+	Neutral,
+	Up, 
+	Down,
+};
+
 inline eInputState operator|(eInputState lhs, eInputState rhs)
 {
 	return static_cast<eInputState>(static_cast<uint>(lhs) | static_cast<uint>(rhs));
@@ -60,6 +68,10 @@ enum class eInputEvent : uint
 	Quit,
 	Alt,
 	F4,
+	ScrollUp,
+	ScrollDown,
+	MMB,
+	Shift,
 
 	COUNT
 };

@@ -15,9 +15,11 @@ Game::Editor::~Editor()
 
 bool Game::Editor::Init()
 {
+	Input::SetIsEditing(true);
 	myShowChildrenRecord[UINT_MAX] = true;
 	myGM.Init();
 	myEditorEntityID = myGM.CreateEntity().AddComponent<EditorController>().GameObject().GetID();
+	myPicker = myGM.GetEntity(myEditorEntityID).GetComponent<EntityPickingComponent>();
 	SE::CEngine::GetInstance()->SetGameManagerRef(&myGM);
 	return true;
 }
@@ -199,7 +201,7 @@ void Game::Editor::ListEntityRecursive(uint anID)
 			if (ImGui::IsItemClicked())
 			{
 				mySelectedEntity = mySelectedEntity == id ? UINT_MAX : id;
-				myGM.GetEntity(myEditorEntityID).GetComponent<EntityPickingComponent>()->SetPickedEntityID(mySelectedEntity);
+				myPicker->SetPickedEntityID(mySelectedEntity);
 			}
 			ImGui::PopID();
 			if (showChildren)
@@ -232,7 +234,7 @@ void Game::Editor::BuildHierarchy()
 
 void Game::Editor::HandleSelection()
 {
-	uint pickedID = myGM.GetEntity(myEditorEntityID).GetComponent<EntityPickingComponent>()->GetPickedEntityID();
+	uint pickedID = myPicker->GetPickedEntityID();
 	if (pickedID != mySelectedEntityLastFrame)
 	{
 		mySelectedEntity = pickedID;

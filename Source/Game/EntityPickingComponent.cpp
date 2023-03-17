@@ -3,8 +3,6 @@
 
 EntityPickingComponent::~EntityPickingComponent()
 {
-	eInputState ph = eInputState::Pressed;
-	StopObservingInputEvent(eInputEvent::LMB, ph);
 }
 
 void EntityPickingComponent::Start()

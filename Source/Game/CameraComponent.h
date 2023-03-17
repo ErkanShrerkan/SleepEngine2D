@@ -15,6 +15,8 @@ public:
     void UpdateProjection();
     float GetAspectRatio() { return myAspectRatio.x / myAspectRatio.y; }
     float GetZoom() { return myZoom; }
+    void Zoom(float aZoomMod) { myZoom *= aZoomMod; };
+    void SetZoom(float aZoom) { myZoom = aZoom; };
 
 private:
     float4x4 myProjection;

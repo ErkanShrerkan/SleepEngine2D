@@ -16,6 +16,9 @@ public:
 protected:
 	void ObserveInputEvent(eInputEvent anEvent, eInputState aTriggerState, std::function<void()> aCallback);
 	void StopObservingInputEvent(eInputEvent anEvent, eInputState aTriggerState);
+	void ObserveScrollEvent(eScrollState aState, std::function<void()> aCallback);
+	void StopObservingScrollEvent(eScrollState aState);
+	void StopObservingAllEvents();
 };
 
 class Input
@@ -47,11 +50,13 @@ public:
 	static void AddInputEventObserver(InputObserver* anObserver, eInputEvent anEvent, eInputState aState, std::function<void()>& aCallback);
 	static void RemoveEventObserver(InputObserver* anObserver, eInputEvent anEvent, eInputState aState);
 	static void RemoveEventObserver(InputObserver* anObserver);
+	static void AddScrollEventObserver(InputObserver* anObserver, eScrollState aState, std::function<void()>& aCallback);
+	static void RemoveScrollEventObserver(InputObserver* anObserver, eScrollState aState);
 	static void LockCursor(bool aShouldLock = true);
 	static bool GetLockedCursorState() { return myLockCursor; }
 	static float GetMouseSensitivity();
 	static void SetMouseSensitivity(float aSensitivity);
-	static void ScrollEvent(MSG aMessage);
+	static void HandleScrollEvent(MSG aMessage);
 	static void ResetScrollInput() { myScrollDelta = 0; }
 
 	Input(Input const&) = delete;
@@ -98,6 +103,17 @@ private:
 		}
 	};
 
+	struct ScrollEvent
+	{
+		eScrollState state;
+		std::vector<ObserverCallback> callbacks;
+
+		bool IsEqual(ScrollEvent& anEvent)
+		{
+			return (anEvent.state == state);
+		}
+	};
+
 	static void RegisterInputEvent(InputEvent anIE);
 
 private:
@@ -105,10 +121,12 @@ private:
 	~Input();
 
 private:
+	static eScrollState myScrollState;
 	static Vector2f myMousePosition;
 	static Vector2f myMouseDelta;
 	static std::vector<KeyUpdate> myKeyUpdatesToDispatch;
 	static std::vector<InputEvent> myInputEvents;
+	static std::vector<ScrollEvent> myScrollEvents;
 	// event is index for myEventTriggers
 	static std::vector<std::vector<uint>> myEventTriggers;
 	static bool myLockCursor;

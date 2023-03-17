@@ -73,7 +73,7 @@ void MessagePeek(MSG& aMSG)
 
 		if (aMSG.message == WM_MOUSEWHEEL)
 		{
-			Input::ScrollEvent(aMSG);
+			Input::HandleScrollEvent(aMSG);
 		}
 	}
 }

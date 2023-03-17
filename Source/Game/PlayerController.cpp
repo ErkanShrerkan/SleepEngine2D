@@ -13,14 +13,6 @@ PlayerController::PlayerController()
 
 PlayerController::~PlayerController()
 {
-	if (myCanMove)
-	{
-		eInputState ph = eInputState::Pressed | eInputState::Held;
-		StopObservingInputEvent(eInputEvent::Up, ph);
-		StopObservingInputEvent(eInputEvent::Down, ph);
-		StopObservingInputEvent(eInputEvent::Left, ph);
-		StopObservingInputEvent(eInputEvent::Right, ph);
-	}
 }
 
 void PlayerController::Update()

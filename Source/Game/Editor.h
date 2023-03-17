@@ -4,6 +4,7 @@
 #include "Process.h"
 #include "GameManager.h"
 
+class EntityPickingComponent;
 namespace Game
 {
 	class Editor : public Observer, public Process
@@ -37,6 +38,8 @@ namespace Game
 
 	private:
 		GameManager myGM;
+		EntityPickingComponent* myPicker;
+
 		bool myDisplay = true;
 
 		// Editor control variables
