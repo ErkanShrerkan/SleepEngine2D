@@ -2,6 +2,8 @@
 #include <Engine\Input.h>
 #include "ExposedComponent.h"
 
+#define OVERRIDED(aBase, aDerived, aFunction) !std::is_same_v<decltype(&aBase::aFunction), decltype(&aDerived::aFunction)>
+
 class Entity;
 class Component : public ExposedComponent
 {

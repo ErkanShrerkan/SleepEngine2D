@@ -34,6 +34,7 @@
 #include <Game\Entity.h>
 #include <Game\GameManager.h>
 #include <Game\CameraComponent.h>
+#include <Game\EditorController.h>
 #include <ImGui/imgui.h>
 
 constexpr auto PI = 3.14159265f;
@@ -326,21 +327,22 @@ namespace SE
 
 		CScene* scene = CEngine::GetInstance()->GetActiveScene();
 		GameManager& gm = CEngine::GetInstance()->GetGameManager();
-		auto& cameraMap = gm.GetComponentMap<CameraComponent>();
 		CameraComponent* mainCam = nullptr;
 
-		// picks first best available camera, might fix later
-		if (!cameraMap.map.empty())
+		// TODO: Implement main or active cam in scene
+		for (auto& [entity, component] : gm.GetComponentMap<EditorController>().map)
 		{
-			for (auto& [entity, cam] : cameraMap.map)
+			mainCam = gm.GetEntity(entity).GetComponent<CameraComponent>();
+		}
+
+		if (!mainCam)
+		{
+			auto& cameraMap = gm.GetComponentMap<CameraComponent>();
+
+			// picks first best available camera, might fix later
+			if (!cameraMap.map.empty())
 			{
-				entity;
-				cam;
-				mainCam = cam;
-				if (mainCam)
-				{
-					break;
-				}
+				mainCam = cameraMap.map.begin()->second;
 			}
 		}
 

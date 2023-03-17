@@ -181,14 +181,19 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="CameraComponent.h" />
+    <ClInclude Include="CameraSystem.h" />
     <ClInclude Include="CircleCollider.h" />
     <ClInclude Include="Collider.h" />
     <ClInclude Include="CollisionSystem.h" />
     <ClInclude Include="Component.h" />
     <ClInclude Include="ComponentInclude.h" />
     <ClInclude Include="Editor.h" />
+    <ClInclude Include="EditorController.h" />
+    <ClInclude Include="EditorSystem.h" />
     <ClInclude Include="eMessageTypes.h" />
     <ClInclude Include="Entity.h" />
+    <ClInclude Include="EntityPickingComponent.h" />
+    <ClInclude Include="EntityPickingSystem.h" />
     <ClInclude Include="Expose.h" />
     <ClInclude Include="ExposedComponent.h" />
     <ClInclude Include="framework.h" />
@@ -220,12 +225,17 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CameraComponent.cpp" />
+    <ClCompile Include="CameraSystem.cpp" />
     <ClCompile Include="CircleCollider.cpp" />
     <ClCompile Include="Collider.cpp" />
     <ClCompile Include="CollisionSystem.cpp" />
     <ClCompile Include="Component.cpp" />
     <ClCompile Include="Editor.cpp" />
+    <ClCompile Include="EditorController.cpp" />
+    <ClCompile Include="EditorSystem.cpp" />
     <ClCompile Include="Entity.cpp" />
+    <ClCompile Include="EntityPickingComponent.cpp" />
+    <ClCompile Include="EntityPickingSystem.cpp" />
     <ClCompile Include="ExposedComponent.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameManager.cpp" />

@@ -16,7 +16,7 @@ public:
 	}
 
 	template <typename ComponentType>
-	typename std::enable_if<std::is_base_of<Component, ComponentType>::value, ComponentType&>::type
+	typename std::enable_if<std::is_base_of<Component, ComponentType>::value, ComponentType*>::type
 	GetComponent()
 	{
 		return myGameManager->GetComponent<ComponentType>(myID);

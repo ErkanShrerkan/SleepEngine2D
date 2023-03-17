@@ -11,8 +11,10 @@ public:
 
 public:
     virtual void Start() override;
-    virtual void Update() override;
     float4x4 GetProjection() { return myProjection; }
+    void UpdateProjection();
+    float GetAspectRatio() { return myAspectRatio.x / myAspectRatio.y; }
+    float GetZoom() { return myZoom; }
 
 private:
     float4x4 myProjection;

@@ -1,10 +1,10 @@
 #pragma once
 #include "System.h"
 
-class SpriteRenderSystem : public System
+class EntityPickingSystem : public System
 {
 public:
-	SpriteRenderSystem(GameManager* aGM)
+	EntityPickingSystem(GameManager* aGM)
 		: System::System(aGM)
 	{
 
@@ -12,4 +12,3 @@ public:
 
 	virtual void Update() override;
 };
-

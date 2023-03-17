@@ -33,6 +33,7 @@ namespace Game
 		void ListEntityRecursive(uint anID);
 		bool ValidSelection();
 		void BuildHierarchy();
+		void HandleSelection();
 
 	private:
 		GameManager myGM;
@@ -40,9 +41,11 @@ namespace Game
 
 		// Editor control variables
 		uint mySelectedEntity = UINT_MAX;
+		uint mySelectedEntityLastFrame = UINT_MAX;
 		std::unordered_map<uint, bool> myShowChildrenRecord;
 		std::map<uint, std::set<uint>> myEntityHierarchy;
 		bool myEntityHierarchyNeedsUpdating = false;
+		uint myEditorEntityID;
 	};
 }
 

@@ -1,10 +1,10 @@
 #pragma once
 #include "System.h"
 
-class SpriteRenderSystem : public System
+class CameraSystem : public System
 {
 public:
-	SpriteRenderSystem(GameManager* aGM)
+	CameraSystem(GameManager* aGM)
 		: System::System(aGM)
 	{
 

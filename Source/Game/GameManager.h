@@ -82,6 +82,11 @@ public:
 		return *myEntities.at(anEntityID);
 	}
 
+	std::unordered_map<uint, Entity*>& GetEntities()
+	{
+		return myEntities;
+	}
+
 	void OnImGui();
 
 	template <typename ComponentType, typename... Args>
@@ -132,10 +137,18 @@ private:
 	typename std::enable_if<
 		std::is_base_of
 		<Component, ComponentType>::value,
-		ComponentType&>::type
+		ComponentType*>::type
 		GetComponent(uint anEntityID)
 	{
-		return *(GetComponentMap<ComponentType>().map.at(anEntityID));
+		auto& map = GetComponentMap<ComponentType>().map;
+		if (map.find(anEntityID) == map.end())
+		{
+			return nullptr;
+		}
+		else
+		{
+			return map.at(anEntityID);
+		}
 	}
 
 	template <typename SystemType>
@@ -164,10 +177,13 @@ private:
 	SceneManager* mySceneManager;
 
 private:
+	void UpdateEntityRemoval();
+	void UpdateSystems();
+	void UpdateComponents();
 	void UpdateHierarchy(bool aBool = true);
 	bool GetUpdateHierarchy() { return myEntityHierarchyNeedsUpdating; }
 
-	std::unordered_map<uint, Entity*>& GetEntities() { return myEntities; }
+	//std::unordered_map<uint, Entity*>& GetEntities() { return myEntities; }
 	std::unordered_map<uint, std::unordered_map<uint, Component*>>& GetEntityComponents() { return myEntityComponents; }
 	std::unordered_map<uint, IComponentMap*>& GetComponentMaps() { return myComponentMaps; }
 private:
@@ -179,12 +195,15 @@ template <
 	typename std::enable_if<
 	std::is_base_of<
 	Component, ComponentType>::value>::type*>
-class ComponentMap : public IComponentMap
+	class ComponentMap : public IComponentMap
 {
 public:
 	std::unordered_map<uint, ComponentType*> map;
 	virtual void DeleteComponentFromEntity(uint anEntity) override
 	{
+		if (map.find(anEntity) == map.end())
+			return;
+
 		// deletes the component pointer
 		delete map[anEntity];
 		// removes the entity entry in the map
@@ -193,6 +212,10 @@ public:
 
 	virtual void UpdateComponents() override
 	{
+		// if Update function is not overrided it is not called
+		if (!OVERRIDED(Component, ComponentType, Update))
+			return;
+
 		for (auto& [entity, component] : map)
 		{
 			component->Update();

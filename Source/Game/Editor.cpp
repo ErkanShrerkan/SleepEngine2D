@@ -6,6 +6,8 @@
 #include "Globals.h"
 #include <Engine\DebugProfiler.h>
 #include "Entity.h"
+#include "EditorController.h"
+#include "EntityPickingComponent.h"
 
 Game::Editor::~Editor()
 {
@@ -15,6 +17,7 @@ bool Game::Editor::Init()
 {
 	myShowChildrenRecord[UINT_MAX] = true;
 	myGM.Init();
+	myEditorEntityID = myGM.CreateEntity().AddComponent<EditorController>().GameObject().GetID();
 	SE::CEngine::GetInstance()->SetGameManagerRef(&myGM);
 	return true;
 }
@@ -26,7 +29,10 @@ bool Game::Editor::Update()
 		myIsRunning = false;
 	}
 
-	myGM.Update();
+	mySelectedEntityLastFrame = mySelectedEntity;
+	myGM.UpdateEntityRemoval();
+	myGM.UpdateSystems();
+	HandleSelection();
 	OnImGui();
 
 	return myIsRunning;
@@ -97,7 +103,10 @@ void Game::Editor::AddEntityComponent()
 		for (auto& [componentID, map] : myGM.GetComponentMaps())
 		{
 			// can't add a component that already has been added
-			if (entityComponents.find(componentID) != entityComponents.end())
+			if (
+				//(componentID == myGM.GetID<EditorController>()) || 
+				(entityComponents.find(componentID) != entityComponents.end())
+				)
 			{
 				continue;
 			}
@@ -168,6 +177,9 @@ void Game::Editor::ListEntityRecursive(uint anID)
 {
 	for (auto& id : myEntityHierarchy[anID])
 	{
+		if (id == myEditorEntityID)
+			continue;
+
 		ImGui::PushID(id);
 		ImGuiTreeNodeFlags nodeFlag = ImGuiTreeNodeFlags_Leaf;
 		if (mySelectedEntity == id)
@@ -187,6 +199,7 @@ void Game::Editor::ListEntityRecursive(uint anID)
 			if (ImGui::IsItemClicked())
 			{
 				mySelectedEntity = mySelectedEntity == id ? UINT_MAX : id;
+				myGM.GetEntity(myEditorEntityID).GetComponent<EntityPickingComponent>()->SetPickedEntityID(mySelectedEntity);
 			}
 			ImGui::PopID();
 			if (showChildren)
@@ -213,6 +226,30 @@ void Game::Editor::BuildHierarchy()
 		for (auto& childID : entity->GetChildrenIDs())
 		{
 			myEntityHierarchy[id].insert(childID);
+		}
+	}
+}
+
+void Game::Editor::HandleSelection()
+{
+	uint pickedID = myGM.GetEntity(myEditorEntityID).GetComponent<EntityPickingComponent>()->GetPickedEntityID();
+	if (pickedID != mySelectedEntityLastFrame)
+	{
+		mySelectedEntity = pickedID;
+		if (ValidSelection())
+		{
+			uint id = mySelectedEntity;
+			std::vector<uint> trace;
+			while (id != UINT_MAX)
+			{
+				id = myGM.GetEntity(id).GetParentID();
+				trace.push_back(id);
+			}
+
+			for (auto& parent : trace)
+			{
+				myShowChildrenRecord[parent] = true;
+			}
 		}
 	}
 }
@@ -283,7 +320,8 @@ void Game::Editor::GameWindow()
 	ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0, 0));
 	if (ImGui::Begin("Game Window"))
 	{
-		Vector2ui res = Singleton<GlobalSettings>().gameplayResolution;
+		uint2 res = Singleton<GlobalSettings>().gameplayResolution;
+		uint2 windowRes = Singleton<GlobalSettings>().windowResolution;
 		float ratio = (float)res.x / res.y;
 		float frameH = ImGui::GetFrameHeight();
 		ImVec2 windowSize = ImGui::GetContentRegionAvail();
@@ -307,10 +345,10 @@ void Game::Editor::GameWindow()
 		cursorPos.y += pos.y;
 		Singleton<GlobalSettings>().gameWindowRect =
 		{
-			((cursorPos.x /*/ DX11::GetResolution().x*/)),
-			((cursorPos.y /*/ DX11::GetResolution().y*/)),
-			((cursorPos.x + viewPortSize.x) /*/ DX11::GetResolution().x*/),
-			((cursorPos.y + viewPortSize.y) /*/ DX11::GetResolution().y*/),
+			((cursorPos.x / windowRes.x)),
+			((cursorPos.y / windowRes.y)),
+			((cursorPos.x + viewPortSize.x) / windowRes.x),
+			((cursorPos.y + viewPortSize.y) / windowRes.y),
 		};
 		float4 rect = Singleton<GlobalSettings>().gameWindowRect;
 		ImVec2 tl = { rect.x, rect.y };

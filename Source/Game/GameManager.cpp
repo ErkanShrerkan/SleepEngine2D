@@ -2,12 +2,12 @@
 #include "GameManager.h"
 #include "Globals.h"
 #include <Engine\LineDrawer.h>
-#include "SystemInclude.h"
-#include "ComponentInclude.h"
 #include "Entity.h"
 #include <Engine\JsonDocument.h>
 #include <Engine\DebugProfiler.h>
 #include <fstream>
+#include "SystemInclude.h"
+#include "ComponentInclude.h"
 #include "SceneManager.h"
 
 GameManager::GameManager()
@@ -40,27 +40,33 @@ GameManager::~GameManager()
 void GameManager::Init()
 {
 	// register components
+	RegisterComponent<EditorController>("Editor Controller");
 	RegisterComponent<Sprite>("Sprite");
 	RegisterComponent<Collider>("Collider");
 	RegisterComponent<Transform>("Transform");
-	RegisterComponent<PlayerController>("PlayerController");
+	RegisterComponent<PlayerController>("Player Controller");
 	RegisterComponent<CameraComponent>("Camera");
+	RegisterComponent<EntityPickingComponent>("Entity Picking");
 
-	//RegisterSystem<SpriteRenderSystem>();
-	//RegisterSystem<CollisionSystem>();
+	RegisterSystem<EditorSystem>();
+	RegisterSystem<SpriteRenderSystem>();
+	RegisterSystem<CollisionSystem>();
+	RegisterSystem<CameraSystem>();
+	RegisterSystem<EntityPickingSystem>();
 
 	auto& entityPool = CreateEntity();
-	for (size_t i = 0; i < 100; i++)
+	for (size_t i = 0; i < 10; i++)
 	{
 		auto& e = entityPool.CreateChild();
-		e.GetComponent<Transform>().SetPosition({ Random::Float(-100'00.f, 100'00.f), Random::Float(-100'00.f, 100'00.f) });
+		e.GetComponent<Transform>()->SetPosition({ Random::Float(-10'00.f, 10'00.f), Random::Float(-10'00.f, 10'00.f) });
 		//e.GetComponent<Transform>().SetScale({ .1f, .1f });
 		auto& s = e.AddComponent<Sprite>("textures/sprites/circle.dds");
 		s.SetColor({ Random::Float(0.f, 1.f), Random::Float(0.f, 1.f), Random::Float(0.f, 1.f), 1 });
 		s.SetWidthSizePreservedImageRatio(100);
+		s.SetPivot({ .5f, .5f });
 		//s.SetSizeRelativeToImage({ .1f, .1f });
 
-		for (size_t j = 0; j < 100; j++)
+		for (size_t j = 0; j < 10; j++)
 		{
 			e.CreateChild();
 		}
@@ -72,21 +78,9 @@ void GameManager::Init()
 
 void GameManager::Update()
 {
-	for (auto& entityID : myEntitiesToRemove)
-	{
-		RemoveEntity(entityID);
-	}
-	myEntitiesToRemove.clear();
-
-	for (auto& system : mySystems)
-	{
-		system->Update();
-	}
-
-	for (auto& [componentID, componentMap] : myComponentMaps)
-	{
-		componentMap->UpdateComponents();
-	}
+	UpdateEntityRemoval();
+	UpdateSystems();
+	UpdateComponents();
 
 	//uint2 res = Singleton<GlobalSettings>().gameplayResolution;
 	//for (uint x = 0; x < res.x; x++)
@@ -156,6 +150,31 @@ void GameManager::UnLoadAll()
 	for (auto& [id, entity] : myEntities)
 	{
 		entity->MarkForRemoval();
+	}
+}
+
+void GameManager::UpdateEntityRemoval()
+{
+	for (auto& entityID : myEntitiesToRemove)
+	{
+		RemoveEntity(entityID);
+	}
+	myEntitiesToRemove.clear();
+}
+
+void GameManager::UpdateSystems()
+{
+	for (auto& system : mySystems)
+	{
+		system->Update();
+	}
+}
+
+void GameManager::UpdateComponents()
+{
+	for (auto& [componentID, componentMap] : myComponentMaps)
+	{
+		componentMap->UpdateComponents();
 	}
 }
 

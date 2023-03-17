@@ -26,7 +26,7 @@ void CameraComponent::Start()
 	Expose(myZoom, "Zoom", 1.f, eBounds::Clamp, { 0, FLT_MAX });
 }
 
-void CameraComponent::Update()
+void CameraComponent::UpdateProjection()
 {
 	float aspect = myAspectRatio.x / myAspectRatio.y;
 	myProjection(1, 1) = 2.f / (aspect * myZoom);

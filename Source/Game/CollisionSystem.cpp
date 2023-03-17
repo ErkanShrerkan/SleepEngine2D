@@ -75,7 +75,7 @@ void CollisionSystem::Update()
 		//	}
 		//}
 
-		float2 objectPos = myGameManager->GetEntity(entity0).GetComponent<Transform>().GetPosition();
+		float2 objectPos = myGameManager->GetEntity(entity0).GetComponent<Transform>()->GetPosition();
 		objectPos += component0->pos;
 
 		float2 firstPoint = { 0, 0 };

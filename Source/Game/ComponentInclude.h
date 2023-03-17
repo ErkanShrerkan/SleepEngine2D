@@ -6,3 +6,5 @@
 #include "PlayerController.h"
 #include "CameraComponent.h"
 #include "Rigidbody.h"
+#include "EditorController.h"
+#include "EntityPickingComponent.h"

@@ -133,6 +133,21 @@
       <Filter>Source Files</Filter>
     </ClInclude>
     <ClInclude Include="SceneManager.h" />
+    <ClInclude Include="CameraSystem.h">
+      <Filter>Source Files\Game\ECS\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="EditorSystem.h">
+      <Filter>Source Files\Game\ECS\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="EditorController.h">
+      <Filter>Source Files\Game\ECS\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="EntityPickingComponent.h">
+      <Filter>Source Files\Game\ECS\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="EntityPickingSystem.h">
+      <Filter>Source Files\Game\ECS\Systems</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -206,6 +221,21 @@
     </ClCompile>
     <ClCompile Include="SceneManager.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CameraSystem.cpp">
+      <Filter>Source Files\Game\ECS\Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="EditorSystem.cpp">
+      <Filter>Source Files\Game\ECS\Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="EditorController.cpp">
+      <Filter>Source Files\Game\ECS\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="EntityPickingComponent.cpp">
+      <Filter>Source Files\Game\ECS\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="EntityPickingSystem.cpp">
+      <Filter>Source Files\Game\ECS\Systems</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

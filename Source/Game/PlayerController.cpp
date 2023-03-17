@@ -13,6 +13,14 @@ PlayerController::PlayerController()
 
 PlayerController::~PlayerController()
 {
+	if (myCanMove)
+	{
+		eInputState ph = eInputState::Pressed | eInputState::Held;
+		StopObservingInputEvent(eInputEvent::Up, ph);
+		StopObservingInputEvent(eInputEvent::Down, ph);
+		StopObservingInputEvent(eInputEvent::Left, ph);
+		StopObservingInputEvent(eInputEvent::Right, ph);
+	}
 }
 
 void PlayerController::Update()
@@ -21,10 +29,10 @@ void PlayerController::Update()
 	{
 		myMovement.Normalize();
 		myMovement *= mySpeed * Singleton<Time>().deltaTime;
-		GameObject().GetComponent<Transform>().Move(myMovement, Transform::Space::Object);
+		GameObject().GetComponent<Transform>()->Move(myMovement, Transform::Space::Object);
 		myMovement = { 0, 0 };
 	}
-	Debug::DrawCircle(GameObject().GetComponent<Transform>().GetPosition(), 50, true);
+	Debug::DrawCircle(GameObject().GetComponent<Transform>()->GetPosition(), 50, true);
 }
 
 void PlayerController::Start()

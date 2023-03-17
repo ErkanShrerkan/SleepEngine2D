@@ -15,6 +15,7 @@ std::vector<std::vector<uint>> Input::myEventTriggers;
 bool Input::myLockCursor = false;
 bool Input::myInvertedY = false;
 bool Input::myDragIsActive = false;
+bool Input::myIsEditing = false;
 float Input::myMouseSensitivity = 1.0f;
 float Input::myScrollDelta = 0.0f;
 
@@ -244,7 +245,6 @@ void Input::Update(bool doUpdate)
 		myMousePosition.y = static_cast<float>(p.y);
 	}
 
-	uint loops = 0;
 	for (auto& keyUpdate : myKeyUpdatesToDispatch)
 	{
 		uint uKey = keyUpdate.key;
@@ -269,8 +269,17 @@ void Input::Update(bool doUpdate)
 			{
 				for (auto& observerCallback : inputEvent.callbacks)
 				{
-					observerCallback.callback();
-					loops++;
+					if (myIsEditing)
+					{
+						if (observerCallback.observer->myIsObservingEditorInputs)
+						{
+							observerCallback.callback();
+						}
+					}
+					else
+					{
+						observerCallback.callback();
+					}
 				}
 			}
 		}

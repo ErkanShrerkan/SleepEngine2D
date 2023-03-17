@@ -8,7 +8,6 @@ public:
     Sprite(){}
     Sprite(const std::string& aTexturePath);
     virtual void Start() override;
-    virtual void Update() override;
     virtual void Reload() override;
     ~Sprite();
 

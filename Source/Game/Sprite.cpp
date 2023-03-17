@@ -30,18 +30,6 @@ void Sprite::Start()
 	Expose(myDrawRect, "Draw Rect");
 }
 
-void Sprite::Update()
-{
-	if (myRender)
-	{
-		Render();
-	}
-	if (myDrawRect)
-	{
-		DrawRect();
-	}
-}
-
 void Sprite::Reload()
 {
 	Release();
@@ -61,7 +49,7 @@ void Sprite::DrawRect()
 	scale(2, 2) = size.y;
 
 	// get object transform in world space if it's a child
-	float4x4 t = GameObject().GetComponent<Transform>().GetTransform();
+	float4x4 t = GameObject().GetComponent<Transform>()->GetTransform();
 	float3 pos = t.GetPosition();
 	float2 offset = GetPosition();
 	pos += (t.GetRight() * offset.x) + (t.GetUp() * offset.y);
@@ -187,7 +175,14 @@ void Sprite::SetRect(const float4 aRect)
 
 void Sprite::Render()
 {
-	SE::CEngine::GetInstance()->GetActiveScene()->AddInstance(this);
+	if (myRender)
+	{
+		SE::CEngine::GetInstance()->GetActiveScene()->AddInstance(this);
+	}
+	if (myDrawRect)
+	{
+		DrawRect();
+	}
 }
 
 void Sprite::SetShaderData(float someData)

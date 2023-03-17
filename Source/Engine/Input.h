@@ -11,6 +11,8 @@ class InputObserver
 {
 public:
 	~InputObserver();
+	bool myIsObservingEditorInputs = false;
+
 protected:
 	void ObserveInputEvent(eInputEvent anEvent, eInputState aTriggerState, std::function<void()> aCallback);
 	void StopObservingInputEvent(eInputEvent anEvent, eInputState aTriggerState);
@@ -33,6 +35,7 @@ public:
 	static void DeInit();
 	static void Init();
 	static void Update(bool doUpdate);
+	static void SetIsEditing(bool aBool) { myIsEditing = aBool; }
 	/// <summary>
 	/// Adds InputObserver to Input system. 
 	/// TODO: assert if observer is duplicate.
@@ -111,6 +114,7 @@ private:
 	static bool myLockCursor;
 	static bool myInvertedY;
 	static bool myDragIsActive;
+	static bool myIsEditing;
 	static float myMouseSensitivity;
 	static float myScrollDelta;
 };

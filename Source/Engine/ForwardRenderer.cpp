@@ -103,7 +103,7 @@ namespace SE
 		myContext->IASetIndexBuffer(Singleton<CSprite::Data>().myIndexBuffer, DXGI_FORMAT_R32_UINT, 0u);
 		myContext->IASetVertexBuffers(0u, 1u, &Singleton<CSprite::Data>().myVertexBuffer, &Singleton<CSprite::Data>().myStride, &Singleton<CSprite::Data>().myOffset);
 
-		Transform& ct = aCamera->GameObject().GetComponent<Transform>();
+		Transform& ct = *aCamera->GameObject().GetComponent<Transform>();
 		float4x4 cameraTransform = ct.GetRotationMatrix() * ct.GetTranslationMatrix();
 		myFrameBufferData.myCameraTransform = cameraTransform;
 		myFrameBufferData.myToCamera = float4x4::GetFastInverse(cameraTransform);
@@ -137,7 +137,7 @@ namespace SE
 			scale(2, 2) = size.y;
 
 			// get object transform in world space if it's a child
-			float4x4 t = sprite->GameObject().GetComponent<Transform>().GetTransform();
+			float4x4 t = sprite->GameObject().GetComponent<Transform>()->GetTransform();
 			float3 pos = t.GetPosition();
 			float2 offset = sprite->GetPosition();
 			pos += (t.GetRight() * offset.x) + (t.GetUp() * offset.y);
