@@ -67,9 +67,9 @@ namespace Game
 			return false;
 		}
 
+		ImGui::Begin("Profiler##Game");
 		Singleton<SE::Debug::CDebugProfiler>().Render();
-
-		//Singleton<JsonManager>().OnImGui();
+		ImGui::End();
 
 		return myIsRunning;
 	}

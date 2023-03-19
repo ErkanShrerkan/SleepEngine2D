@@ -252,6 +252,7 @@ void Input::Update(bool doUpdate)
 		myMousePosition.y = static_cast<float>(p.y);
 	}
 
+	// Scroll wheel state update 
 	int scroll = GetScrollInput();
 	bool fireScrollEvent = false;
 	switch (myScrollState)
@@ -262,13 +263,11 @@ void Input::Update(bool doUpdate)
 	case eScrollState::Neutral:
 		if (scroll > 0)
 		{
-			printf("Scroll up\n");
 			myScrollState = eScrollState::Up;
 			fireScrollEvent = true;
 		}
 		else if (scroll < 0)
 		{
-			printf("Scroll down\n");
 			myScrollState = eScrollState::Down;
 			fireScrollEvent = true;
 		}
@@ -283,6 +282,7 @@ void Input::Update(bool doUpdate)
 		break;
 	}
 
+	// Scroll wheel state change event dispatch
 	if (fireScrollEvent)
 	{
 		for (auto& scrollEvent : myScrollEvents)
@@ -307,6 +307,7 @@ void Input::Update(bool doUpdate)
 		}
 	}
 
+	// Button state event dispatch
 	for (auto& keyUpdate : myKeyUpdatesToDispatch)
 	{
 		uint uKey = keyUpdate.key;
@@ -327,21 +328,21 @@ void Input::Update(bool doUpdate)
 				break;
 			}
 
-			if (eventTriggered)
+			if (!eventTriggered)
+				continue;
+
+			for (auto& observerCallback : inputEvent.callbacks)
 			{
-				for (auto& observerCallback : inputEvent.callbacks)
+				if (myIsEditing)
 				{
-					if (myIsEditing)
-					{
-						if (observerCallback.observer->myIsObservingEditorInputs)
-						{
-							observerCallback.callback();
-						}
-					}
-					else
+					if (observerCallback.observer->myIsObservingEditorInputs)
 					{
 						observerCallback.callback();
 					}
+				}
+				else
+				{
+					observerCallback.callback();
 				}
 			}
 		}
@@ -407,8 +408,8 @@ void Input::RemoveEventObserver(InputObserver* anObserver)
 {
 	for (auto& inputEvent : myInputEvents)
 	{
-		printf("--------------------------------\n");
-		printf("Event callbacks: %i\n", (int)inputEvent.callbacks.size());
+		//printf("--------------------------------\n");
+		//printf("Event callbacks: %i\n", (int)inputEvent.callbacks.size());
 		inputEvent.callbacks.erase(
 			std::remove_if(inputEvent.callbacks.begin(), inputEvent.callbacks.end(),
 				[&](ObserverCallback& aCallback)
@@ -416,13 +417,13 @@ void Input::RemoveEventObserver(InputObserver* anObserver)
 					return aCallback.observer == anObserver;
 				}),
 			inputEvent.callbacks.end());
-		printf("Event callbacks after: %i\n", (int)inputEvent.callbacks.size());
+		//printf("Event callbacks after: %i\n", (int)inputEvent.callbacks.size());
 	}
 
 	for (auto& scrollEvent : myScrollEvents)
 	{
-		printf("--------------------------------\n");
-		printf("Event callbacks: %i\n", (int)scrollEvent.callbacks.size());
+		//printf("--------------------------------\n");
+		//printf("Event callbacks: %i\n", (int)scrollEvent.callbacks.size());
 		scrollEvent.callbacks.erase(
 			std::remove_if(scrollEvent.callbacks.begin(), scrollEvent.callbacks.end(),
 				[&](ObserverCallback& aCallback)
@@ -430,7 +431,7 @@ void Input::RemoveEventObserver(InputObserver* anObserver)
 					return aCallback.observer == anObserver;
 				}),
 			scrollEvent.callbacks.end());
-		printf("Event callbacks after: %i\n", (int)scrollEvent.callbacks.size());
+		//printf("Event callbacks after: %i\n", (int)scrollEvent.callbacks.size());
 	}
 }
 

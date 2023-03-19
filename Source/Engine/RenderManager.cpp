@@ -411,7 +411,6 @@ namespace SE
 	{
 		CommonUtilities::RefillVector<SE::CSprite*> sprites;
 		auto pos = Input::GetMousePos();
-		//myCursor->SetPosition(Singleton<GlobalSettings>().gameWindowRect.xy);
 		myCursor->SetPosition(pos);
 		if (!Input::GetLockedCursorState())
 			sprites.push_back(myCursor);

@@ -106,7 +106,7 @@ void Game::Editor::AddEntityComponent()
 		{
 			// can't add a component that already has been added
 			if (
-				//(componentID == myGM.GetID<EditorController>()) || 
+				(componentID == myGM.GetID<EditorController>()) || 
 				(entityComponents.find(componentID) != entityComponents.end())
 				)
 			{
@@ -286,7 +286,9 @@ void Game::Editor::Inspector()
 
 void Game::Editor::Profiler()
 {
+	ImGui::Begin("Profiler##Editor");
 	Singleton<SE::Debug::CDebugProfiler>().Render();
+	ImGui::End();
 }
 
 void Game::Editor::ContentBrowser()

@@ -21,8 +21,8 @@ void EditorController::Start()
 	ObserveInputEvent(eInputEvent::Shift, eInputState::Pressed, [&]() { this->ToggleShift(true); });
 	ObserveInputEvent(eInputEvent::Shift, eInputState::Released, [&]() { this->ToggleShift(false); });
 	ObserveInputEvent(eInputEvent::LMB, eInputState::Pressed, [&]() { this->Pick(); });
-	ObserveScrollEvent(eScrollState::Up, [&]() {this->ZoomIn(); });
-	ObserveScrollEvent(eScrollState::Down, [&]() {this->ZoomOut(); });
+	ObserveScrollEvent(eScrollState::Up, [&]() { this->ZoomIn(); });
+	ObserveScrollEvent(eScrollState::Down, [&]() { this->ZoomOut(); });
 
 	myCam = &GameObject().AddComponent<CameraComponent>(float2(16, 9), 1000.f);
 	GameObject().AddComponent<EntityPickingComponent>();
@@ -30,13 +30,13 @@ void EditorController::Start()
 
 void EditorController::Move()
 {
-	if (myMovement.LengthSqr() > 0)
-	{
-		myMovement.Normalize();
-		myMovement *= mySpeed * Singleton<Time>().deltaTime * (myShiftDown + 1);
-		GameObject().GetComponent<Transform>()->Move(myMovement, Transform::Space::Object);
-		myMovement = { 0, 0 };
-	}
+	if (myMovement.LengthSqr() == 0)
+		return;
+
+	myMovement.Normalize();
+	myMovement *= mySpeed * Singleton<Time>().deltaTime * (myShiftDown + 1);
+	GameObject().GetComponent<Transform>()->Move(myMovement, Transform::Space::Object);
+	myMovement = { 0, 0 };
 }
 
 void EditorController::MoveRight()
@@ -101,5 +101,5 @@ bool EditorController::MouseIsOverGameWindow()
 		pickPos.x <= 1.f &&
 		pickPos.y >= 0.f &&
 		pickPos.y <= 1.f
-	);
+		);
 }

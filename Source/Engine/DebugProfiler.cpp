@@ -108,7 +108,7 @@ namespace SE
 		void CDebugProfiler::Render()
 		{
 #ifdef _DEBUG
-			ImGui::Begin("Profiler");
+			//ImGui::Begin("Profiler");
 			{
 				ImGui::Separator();
 				ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(2, 2));
@@ -167,8 +167,8 @@ namespace SE
 					}
 				}
 				ImGui::PopStyleVar();
-				ImGui::End();
 			}
+			//ImGui::End();
 #endif // _DEBUG
 		}
 		void CDebugProfiler::IncrementDrawCallCount()

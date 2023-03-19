@@ -56,7 +56,7 @@ void GameManager::Init()
 	RegisterSystem<EntityPickingSystem>();
 
 	auto& entityPool = CreateEntity();
-	for (size_t i = 0; i < 1000; i++)
+	for (size_t i = 0; i < 100; i++)
 	{
 		auto& e = entityPool.CreateChild();
 		e.GetComponent<Transform>()->SetPosition({ Random::Float(-10'00.f, 10'00.f), Random::Float(-10'00.f, 10'00.f) });
