@@ -39,7 +39,6 @@ private:
 
 public:
     virtual void Start() override;
-    virtual void Update() override;
 
 private:
     float2 myScale = { 1, 1 };

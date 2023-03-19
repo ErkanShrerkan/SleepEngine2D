@@ -120,8 +120,3 @@ void Transform::Start()
 	Expose(myPosition, "Position", .25f);
 	Expose(myRotation, "Rotation", .1f, eBounds::Loop, { 0.f, 360.f });
 }
-
-void Transform::Update()
-{
-	//SetRotation(myRotation);
-}

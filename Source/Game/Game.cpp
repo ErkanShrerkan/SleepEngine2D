@@ -17,6 +17,7 @@
 #include "Expose.h"
 #include "Postmaster.h"
 #include <Game\Globals.h>
+#include <Engine\DebugProfiler.h>
 
 namespace Game
 {
@@ -65,6 +66,8 @@ namespace Game
 		{
 			return false;
 		}
+
+		Singleton<SE::Debug::CDebugProfiler>().Render();
 
 		//Singleton<JsonManager>().OnImGui();
 

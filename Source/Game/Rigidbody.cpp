@@ -9,10 +9,6 @@ Rigidbody::~Rigidbody()
 {
 }
 
-void Rigidbody::Update()
-{
-}
-
 void Rigidbody::Start()
 {
 }

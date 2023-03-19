@@ -10,11 +10,6 @@ Collider::~Collider()
 {
 }
 
-void Collider::Update()
-{
-	// set position to position relative to parent
-}
-
 void Collider::Start()
 {
 }

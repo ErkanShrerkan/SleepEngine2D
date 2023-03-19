@@ -19,7 +19,6 @@ public:
     float radius = 0;
 
 public:
-    virtual void Update() override;
     virtual void Start() override;
 };
 

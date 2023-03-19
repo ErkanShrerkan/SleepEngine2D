@@ -95,7 +95,7 @@ namespace SE
 		ID3D11Device* device = CEngine::GetInstance()->GetDXDevice();
 
 		D3D11_BUFFER_DESC bufferDesc = { 0 };
-		bufferDesc.ByteWidth = sizeof(SVertex) * static_cast<uint>(ourVerts.size());
+		bufferDesc.ByteWidth = sizeof(SVertex) * static_cast<uint>(ourVertIndex);
 		bufferDesc.Usage = D3D11_USAGE_IMMUTABLE;
 		bufferDesc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
 		D3D11_SUBRESOURCE_DATA vertexData = { 0 };
@@ -117,7 +117,7 @@ namespace SE
 		context->PSSetShader(ourPS, nullptr, 0);
 
 		context->Draw(ourVertIndex, 0);
-		Clear();
+		//Clear();
 	}
 
 	void CLineDrawer::Clear()

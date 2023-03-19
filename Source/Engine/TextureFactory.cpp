@@ -257,12 +257,12 @@ namespace SE
 			std::string modifiablePath = lowerCasePath;
 			texture = CreateTexture(modifiablePath);
 			myPool[modifiablePath] = texture;
-			printf("created texture %s\n", modifiablePath.c_str());
+			//printf("created texture %s\n", modifiablePath.c_str());
 		}
 		else
 		{
 			texture = myPool[lowerCasePath];
-			printf("loaded texture %s\n", lowerCasePath.c_str());
+			//printf("loaded texture %s\n", lowerCasePath.c_str());
 		}
 		return texture;
 	}

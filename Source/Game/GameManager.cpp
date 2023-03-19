@@ -47,6 +47,7 @@ void GameManager::Init()
 	RegisterComponent<PlayerController>("Player Controller");
 	RegisterComponent<CameraComponent>("Camera");
 	RegisterComponent<EntityPickingComponent>("Entity Picking");
+	RegisterComponent<Rigidbody>("Rigidbody");
 
 	RegisterSystem<EditorSystem>();
 	RegisterSystem<SpriteRenderSystem>();
@@ -55,7 +56,7 @@ void GameManager::Init()
 	RegisterSystem<EntityPickingSystem>();
 
 	auto& entityPool = CreateEntity();
-	for (size_t i = 0; i < 10; i++)
+	for (size_t i = 0; i < 1000; i++)
 	{
 		auto& e = entityPool.CreateChild();
 		e.GetComponent<Transform>()->SetPosition({ Random::Float(-10'00.f, 10'00.f), Random::Float(-10'00.f, 10'00.f) });
@@ -66,7 +67,7 @@ void GameManager::Init()
 		s.SetPivot({ .5f, .5f });
 		//s.SetSizeRelativeToImage({ .1f, .1f });
 
-		for (size_t j = 0; j < 10; j++)
+		for (size_t j = 0; j < 100; j++)
 		{
 			e.CreateChild();
 		}

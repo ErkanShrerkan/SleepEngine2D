@@ -87,8 +87,6 @@ public:
 		return myEntities;
 	}
 
-	void OnImGui();
-
 	template <typename ComponentType, typename... Args>
 	typename std::enable_if<
 		std::is_base_of<
@@ -141,13 +139,14 @@ private:
 		GetComponent(uint anEntityID)
 	{
 		auto& map = GetComponentMap<ComponentType>().map;
-		if (map.find(anEntityID) == map.end())
+		auto findIt = map.find(anEntityID);
+		if (findIt == map.end())
 		{
 			return nullptr;
 		}
 		else
 		{
-			return map.at(anEntityID);
+			return findIt->second;
 		}
 	}
 
