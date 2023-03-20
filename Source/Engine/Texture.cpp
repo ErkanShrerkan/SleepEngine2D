@@ -24,7 +24,7 @@ SE::CTexture::CTexture(const std::string& aFilePath)
 	{
 		/* Error Message */
 		perr("Error loading \"%s\" as a CTexture", aFilePath.c_str());
-		Helper::TextureHelper::LoadShaderResourceView(&myShaderResourceView, "Textures/Error/Albedo_c.dds");
+		Helper::TextureHelper::LoadShaderResourceView(&myShaderResourceView, "Assets/Textures/Error/Albedo_c.dds");
 	}
 
 	// Get size of image
@@ -58,7 +58,7 @@ SE::CTexture::CTexture(std::string& aFilePath)
 	{
 		/* Error Message */
 		perr("Error loading \"%s\" as a CTexture", aFilePath.c_str());
-		aFilePath = "Textures/Error/Albedo_c.dds";
+		aFilePath = "Assets/Textures/Error/Albedo_c.dds";
 		Helper::TextureHelper::LoadShaderResourceView(&myShaderResourceView, aFilePath);
 	}
 

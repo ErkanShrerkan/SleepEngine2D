@@ -52,15 +52,8 @@ void HandleTabbing(bool& isTabbed)
 {
 	HWND active = GetActiveWindow();
 	HWND foreground = GetForegroundWindow();
-	bool same = active == foreground/*!memcmp(&active, &foreground, sizeof(HWND))*/;
-	
+	bool same = active == foreground;
 	isTabbed = !same;
-
-	//if (isTabbed && same)
-	//{
-	//	isTabbed = false;
-	//}
-
 	Input::Update(!isTabbed);
 }
 
@@ -116,7 +109,7 @@ int WINAPI wWinMain(_In_ HINSTANCE hInstance,
 	MSG windowMessage = { 0 };
 
 	{
-		ShowCursor(false);
+		//ShowCursor(false);
 #if 0
 		SplashScreen* ss = new SplashScreen();
 		bool isSplashing = true;
@@ -163,7 +156,7 @@ int WINAPI wWinMain(_In_ HINSTANCE hInstance,
 	{
 		Input::Init();
 		Process* process = nullptr;
-		Singleton<GlobalSettings>().gameplayResolution = (currentProcess ? uint2(960/*640*/, 540/*480*/ /*360*/) : uint2(x, y));
+		Singleton<GlobalSettings>().gameplayResolution = (currentProcess ? uint2(960 / 2/*640*/, 540 / 2/*480*/ /*360*/) : uint2(x, y));
 		isRunning = engine->Restart();
 
 		if (currentProcess)

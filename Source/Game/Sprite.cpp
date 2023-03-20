@@ -82,7 +82,7 @@ void Sprite::DrawRect()
 	Debug::DrawLine2D(verts[3].xy, verts[1].xy, { 1, 1, 1, 1 }, true);
 }
 
-void Sprite::SetPosition(const Vector2f& aPosition)
+Sprite& Sprite::SetPosition(const Vector2f& aPosition)
 {
 	myPosition = aPosition;
 
@@ -92,9 +92,11 @@ void Sprite::SetPosition(const Vector2f& aPosition)
 	gridLockedPos = { (float)(int)gridLockedPos.x / res.x, (float)(int)gridLockedPos.y / res.y };
 
 	mySprite->SetPosition(gridLockedPos);
+
+	return *this;
 }
 
-void Sprite::SetSize(const Vector2f& aSize)
+Sprite& Sprite::SetSize(const Vector2f& aSize)
 {
 	mySize = aSize;
 
@@ -104,73 +106,97 @@ void Sprite::SetSize(const Vector2f& aSize)
 	//gridLockedSize = { (float)(int)gridLockedSize.x / res.x, (float)(int)gridLockedSize.y / res.y };
 
 	mySprite->SetSize(aSize);
+
+	return *this;
 }
 
-void Sprite::SetSizeRelativeToScreen(const Vector2f& aSize)
+Sprite& Sprite::SetSizeRelativeToScreen(const Vector2f& aSize)
 {
 	SetSize(aSize);
+
+	return *this;
 }
 
-void Sprite::SetSizeRelativeToImage(const Vector2f& aSize)
+Sprite& Sprite::SetSizeRelativeToImage(const Vector2f& aSize)
 {
 	mySize = GetNormalizedImageSize();
 	SetSize(mySize * aSize);
+
+	return *this;
 }
 
-void Sprite::SetSizeRelativeToAnotherImage(const float2& aSize, Sprite& aSprite)
+Sprite& Sprite::SetSizeRelativeToAnotherImage(const float2& aSize, Sprite& aSprite)
 {
 	mySize = aSprite.GetNormalizedImageSize();
 	SetSize(mySize * aSize);
+
+	return *this;
 }
 
-void Sprite::SetSizeRelativeToAnotherImage(const float2& aSize, Sprite* aSprite)
+Sprite& Sprite::SetSizeRelativeToAnotherImage(const float2& aSize, Sprite* aSprite)
 {
 	mySize = aSprite->GetNormalizedImageSize();
 	SetSize(mySize * aSize);
+
+	return *this;
 }
 
-void Sprite::SetWidthSizePreservedImageRatio(const float& aSize)
+Sprite& Sprite::SetWidthSizePreservedImageRatio(const float& aSize)
 {
 	float2 imgSize = GetImageSize();
 	float ratio = imgSize.y / imgSize.x;
 	SetSize({ aSize, aSize * ratio });
+
+	return *this;
 }
 
-void Sprite::SetHeightSizePreservedImageRatio(const float& aSize)
+Sprite& Sprite::SetHeightSizePreservedImageRatio(const float& aSize)
 {
 	float2 imgSize = GetImageSize();
 	float ratio = imgSize.x / imgSize.y;
 	SetSize({ aSize * ratio, aSize });
+
+	return *this;
 }
 
-void Sprite::SetColor(const Vector4f& aColor)
+Sprite& Sprite::SetColor(const Vector4f& aColor)
 {
 	mySprite->SetColor(aColor);
 	myColor = aColor;
+
+	return *this;
 }
 
-void Sprite::SetPivot(const Vector2f& aPivot)
+Sprite& Sprite::SetPivot(const Vector2f& aPivot)
 {
 	mySprite->SetPivot(aPivot);
 	myPivot = aPivot;
+
+	return *this;
 }
 
-void Sprite::SetRotation(const float& aRotation)
+Sprite& Sprite::SetRotation(const float& aRotation)
 {
 	myRotation = aRotation;
 	myRotation += myRotation > 360.f ? -360.f : (myRotation < 0.f ? 360.f : 0);
 	mySprite->SetRotation(aRotation);
+
+	return *this;
 }
 
-void Sprite::SetMask(const std::string& aFilePath)
+Sprite& Sprite::SetMask(const std::string& aFilePath)
 {
 	mySprite->SetMask(aFilePath.c_str());
+
+	return *this;
 }
 
-void Sprite::SetRect(const float4 aRect)
+Sprite& Sprite::SetRect(const float4 aRect)
 {
 	mySprite->SetRect(aRect);
 	myRect = aRect;
+
+	return *this;
 }
 
 void Sprite::Render()
@@ -185,14 +211,18 @@ void Sprite::Render()
 	}
 }
 
-void Sprite::SetShaderData(float someData)
+Sprite& Sprite::SetShaderData(float someData)
 {
 	mySprite->SetShaderData(someData);
+
+	return *this;
 }
 
-void Sprite::SetTexture(const std::string& aTexturePath)
+Sprite& Sprite::SetTexture(const std::string& aTexturePath)
 {
 	myTexture = aTexturePath;
+
+	return *this;
 }
 
 std::string Sprite::GetTextureName()

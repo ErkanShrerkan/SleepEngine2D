@@ -30,6 +30,7 @@ public:
 
 public:
 	std::string myName;
+	bool myIsEditorOnly;
 };
 
 template <
@@ -120,10 +121,13 @@ private:
 		std::is_base_of<
 		Component, ComponentType>::value,
 		void>::type
-		RegisterComponent(const std::string& aName)
+		RegisterComponent(const std::string& aName, bool isEditorOnly = false)
 	{
-		myComponentMaps[GetID<ComponentType>()] = new ComponentMap<ComponentType>();
-		myComponentMaps[GetID<ComponentType>()]->myName = aName;
+		uint id = GetID<ComponentType>();
+		auto& map = myComponentMaps[id];
+		map = new ComponentMap<ComponentType>();
+		map->myName = aName;
+		map->myIsEditorOnly = isEditorOnly;
 	}
 
 	Entity& CreateEntity();

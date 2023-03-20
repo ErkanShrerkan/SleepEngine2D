@@ -8,8 +8,8 @@
 SceneManager::SceneManager(GameManager* aGM)
 	: myGameManager(aGM)
 {
-	CreateDirectory(L"Scenes", NULL);
-	auto it = std::filesystem::recursive_directory_iterator{ "Scenes" };
+	CreateDirectory(L"Assets/Scenes", NULL);
+	auto it = std::filesystem::recursive_directory_iterator{ "Assets/Scenes" };
 	for (const auto& dir : it)
 	{
 		std::string entry(dir.path().string());

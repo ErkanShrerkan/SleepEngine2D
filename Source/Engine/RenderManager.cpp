@@ -123,7 +123,7 @@ namespace SE
 		CLineDrawer::Init();
 		CDebugDrawer::GetInstance().Init();
 
-		myCursor = CEngine::GetInstance()->GetContentLoader()->GetSpriteFactory().GetSprite(/*"textures/sprites/player/CharacterIdleFront.dds"*/"textures/cursor.dds");
+		myCursor = CEngine::GetInstance()->GetContentLoader()->GetSpriteFactory().GetSprite(/*"textures/sprites/player/CharacterIdleFront.dds"*/"assets/textures/cursor.dds");
 		//myCursor->isEngineDependent = true;
 		//myCursor->SetSizeRelativeToImage({ 640.f / 1920, 360.f / 1080 });
 		myCursor->SetSizeRelativeToImage({ .05f, .05f * (16.f / 9) });
@@ -412,7 +412,8 @@ namespace SE
 		CommonUtilities::RefillVector<SE::CSprite*> sprites;
 		auto pos = Input::GetMousePos();
 		myCursor->SetPosition(pos);
-		if (!Input::GetLockedCursorState())
+		myCursor->SetColor({ 0, 0, 0, 0 });
+		//if (!Input::GetLockedCursorState())
 			sprites.push_back(myCursor);
 
 		SetBlendState(E_BLENDSTATE_ALPHABLEND);
@@ -427,7 +428,7 @@ namespace SE
 		myFullscreenRenderer.Render(CFullscreenRenderer::EShader_AlphaBlend);
 
 		myBackBuffer.SetAsActiveTarget();
-		myFullscreenCopy.SetAsResourceOnSlot(0);
+		myFullscreen.SetAsResourceOnSlot(0);
 		myFullscreenRenderer.Render(CFullscreenRenderer::EShader_Copy);
 	}
 

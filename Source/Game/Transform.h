@@ -32,6 +32,7 @@ public:
     float4x4 GetScaleMatrix();
     float4x4 GetRotationMatrix();
     float4x4 GetTranslationMatrix();
+    float4x4 GetObjectSpaceTransform();
 
 private:
     void MoveObjectSpace(float2 aMovementVector);

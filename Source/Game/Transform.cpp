@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "Transform.h"
+#include "Entity.h"
 
 Transform::Transform()
 {
@@ -69,14 +70,11 @@ float2 Transform::GetRight()
 
 float4x4 Transform::GetTransform()
 {
-	// TODO: transform from parent space to world space 
-	float4x4 m;
-	float4x4 s = GetScaleMatrix();
-	float4x4 r = GetRotationMatrix();
-	float4x4 t = GetTranslationMatrix();
-
-	m = s * r * t;
-
+	float4x4 m = GetObjectSpaceTransform();
+	if (GameObject().GetParentID() != UINT_MAX)
+	{
+		m = m * GameObject().GetParent().GetComponent<Transform>()->GetTransform();
+	}
 	return m;
 }
 
@@ -100,6 +98,18 @@ float4x4 Transform::GetTranslationMatrix()
 	float4x4 t;
 	t.SetRow(4, { myPosition, 0, 1 });
 	return t;
+}
+
+float4x4 Transform::GetObjectSpaceTransform()
+{
+	float4x4 m;
+	float4x4 s = GetScaleMatrix();
+	float4x4 r = GetRotationMatrix();
+	float4x4 t = GetTranslationMatrix();
+
+	m = s * r * t;
+
+	return m;
 }
 
 void Transform::MoveObjectSpace(float2 aMovementVector)

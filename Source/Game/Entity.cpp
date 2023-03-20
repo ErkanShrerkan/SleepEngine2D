@@ -3,6 +3,9 @@
 
 Entity& Entity::GetParent()
 {
+	if (myParentID == UINT_MAX)
+		return *this;
+
 	return GetEntity(myParentID);
 }
 

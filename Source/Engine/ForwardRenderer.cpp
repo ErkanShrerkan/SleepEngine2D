@@ -104,7 +104,7 @@ namespace SE
 		myContext->IASetVertexBuffers(0u, 1u, &Singleton<CSprite::Data>().myVertexBuffer, &Singleton<CSprite::Data>().myStride, &Singleton<CSprite::Data>().myOffset);
 
 		Transform& ct = *aCamera->GameObject().GetComponent<Transform>();
-		float4x4 cameraTransform = ct.GetRotationMatrix() * ct.GetTranslationMatrix();
+		float4x4 cameraTransform = ct.GetTransform();//ct.GetRotationMatrix() * ct.GetTranslationMatrix();
 		myFrameBufferData.myCameraTransform = cameraTransform;
 		myFrameBufferData.myToCamera = float4x4::GetFastInverse(cameraTransform);
 		myFrameBufferData.myToProjection = aCamera->GetProjection();

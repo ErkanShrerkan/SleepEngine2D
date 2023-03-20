@@ -31,7 +31,7 @@ void PlayerController::Start()
 {
 	//GameObject().GetComponent<Transform>().SetPosition({ 0, 0 }/*{ float(rand() % 10000) / 10000.f, float(rand() % 10000) / 10000.f }*/);
 	auto& c = GameObject().AddComponent<Sprite>(/*"textures/sprites/white.dds"*//*"textures/sprites/tga/tgalogo_w.dds"*/);
-	c.SetTexture("textures/sprites/tga/tgalogo_w.dds");
+	c.SetTexture("assets/textures/sprites/tga/tgalogo_w.dds");
 	c.Reload();
 	c.SetPivot({ .5f, .5f });
 	c.SetSizeRelativeToImage({ .1f, .1f });

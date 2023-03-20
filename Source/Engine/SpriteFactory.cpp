@@ -141,7 +141,7 @@ namespace SE
 			InitFactory();
 
 		CTexture* texture = Singleton<CTextureFactory>().LoadTexture(aSpritePath.c_str());
-		CTexture* mask = Singleton<CTextureFactory>().LoadTexture("textures/maskdefault.dds");
+		CTexture* mask = Singleton<CTextureFactory>().LoadTexture("assets/textures/maskdefault.dds");
 
 		CSprite* sprite = new CSprite();
 		sprite->myTexture = texture;

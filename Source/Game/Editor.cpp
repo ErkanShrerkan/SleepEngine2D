@@ -8,6 +8,7 @@
 #include "Entity.h"
 #include "EditorController.h"
 #include "EntityPickingComponent.h"
+#include <Engine\TextureFactory.h>
 
 Game::Editor::~Editor()
 {
@@ -15,6 +16,7 @@ Game::Editor::~Editor()
 
 bool Game::Editor::Init()
 {
+	myCurrentPath = std::filesystem::relative("Assets");
 	Input::SetIsEditing(true);
 	myShowChildrenRecord[UINT_MAX] = true;
 	myGM.Init();
@@ -80,21 +82,18 @@ void Game::Editor::AddEntityComponent()
 		return;
 	}
 
-	if (ImGui::Button("Reload"))
-	{
-		if (ValidSelection())
-		{
-			for (auto& [id, component] : myGM.GetEntityComponents()[mySelectedEntity])
-			{
-				component->Reload();
-			}
-		}
-	};
-
 	std::set<uint> entityComponents;
 	for (auto& [componentID, component] : myGM.GetEntityComponents()[mySelectedEntity])
 	{
 		entityComponents.insert(componentID);
+	}
+
+	if (ImGui::Button("Reload") && ValidSelection())
+	{
+		for (auto& [id, component] : myGM.GetEntityComponents()[mySelectedEntity])
+		{
+			component->Reload();
+		}
 	}
 
 	ImGui::SameLine();
@@ -104,14 +103,9 @@ void Game::Editor::AddEntityComponent()
 		//ImGui::PushStyleColor()
 		for (auto& [componentID, map] : myGM.GetComponentMaps())
 		{
-			// can't add a component that already has been added
-			if (
-				(componentID == myGM.GetID<EditorController>()) || 
-				(entityComponents.find(componentID) != entityComponents.end())
-				)
-			{
+			// can't add a component that already has been added or is editor only
+			if (map->myIsEditorOnly || (entityComponents.find(componentID) != entityComponents.end()))
 				continue;
-			}
 
 			if (ImGui::MenuItem(map->GetName().c_str()))
 			{
@@ -134,15 +128,16 @@ void Game::Editor::AddEntity()
 			myGM.GetEntity(mySelectedEntity).AdoptChild(e.GetID());
 		}
 	}
-	if (ValidSelection())
+
+	if (!ValidSelection())
+		return;
+
+	ImGui::SameLine();
+	if (ImGui::Button("Remove"))
 	{
-		ImGui::SameLine();
-		if (ImGui::Button("Remove"))
-		{
-			myGM.MarkEntityForRemoval(mySelectedEntity);
-			mySelectedEntity = UINT_MAX;
-		};
-	}
+		myGM.MarkEntityForRemoval(mySelectedEntity);
+		mySelectedEntity = UINT_MAX;
+	};
 }
 
 void Game::Editor::SelectEntity()
@@ -295,7 +290,49 @@ void Game::Editor::ContentBrowser()
 {
 	ImGui::Begin("Content Browser");
 	{
+		auto base = std::filesystem::path("Assets");
+		if (myCurrentPath != base)
+		{
+			if (ImGui::Button("<-"))
+			{
+				myCurrentPath = myCurrentPath.parent_path();
+			}
+		}
 
+		ImGui::Columns(8);
+
+		auto it = std::filesystem::directory_iterator(myCurrentPath);
+		for (const auto& dir : it)
+		{
+			const auto& path = dir.path();
+			auto relativePath = std::filesystem::relative(path);
+			std::string fileName = relativePath.filename().string();
+			std::string entry(dir.path().string());
+			std::replace(entry.begin(), entry.end(), '\\', '/');
+			std::string ext = std::string(entry.end() - 4, entry.end());
+			bool isImage = (ext == ".dds");
+			ImVec2 imgSize = { 128, 128 };
+			if (isImage)
+			{
+				if (ImGui::ImageButton(Singleton<SE::CTextureFactory>().LoadTexture(path.string())->GetShaderResourceView(), imgSize))
+				{
+
+				}
+			}
+			else
+			{
+				if (ImGui::Button(fileName.c_str()))
+				{
+					if (dir.is_directory())
+					{
+						myCurrentPath /= path.filename();
+					}
+				}
+			}
+			ImGui::Text(fileName.c_str());
+
+			ImGui::NextColumn();
+		}
 	}
 	ImGui::End();
 }

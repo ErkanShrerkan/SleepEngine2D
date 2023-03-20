@@ -13,24 +13,24 @@ public:
 
 public:
     void DrawRect();
-    void SetPosition(const Vector2f& aPosition);
-    void SetSize(const Vector2f& aSize);
-    void SetSizeRelativeToScreen(const Vector2f& aSize);
-    void SetSizeRelativeToImage(const Vector2f& aSize);
-    void SetSizeRelativeToAnotherImage(const float2& aSize, Sprite& aSprite);
-    void SetSizeRelativeToAnotherImage(const float2& aSize, Sprite* aSprite);
-    void SetWidthSizePreservedImageRatio(const float& aSize);
-    void SetHeightSizePreservedImageRatio(const float& aSize);
-    void SetColor(const Vector4f& aColor);
-    void SetPivot(const Vector2f& aPivot);
-    void SetRotation(const float& aRotation);
-    void SetMask(const std::string& aFilePath);
-    void SetRect(const float4 aRect);
     void Render();
-    void SetIsScreenSpace(bool aToggle) { myIsScreenSpace = aToggle; }
-    void SetShaderType(SE::SpriteShaderType aType) { mySprite->SetShaderType(aType); }
-    void SetShaderData(float someData);
-    void SetTexture(const std::string& aTexturePath);
+    Sprite& SetPosition(const Vector2f& aPosition);
+    Sprite& SetSize(const Vector2f& aSize);
+    Sprite& SetSizeRelativeToScreen(const Vector2f& aSize);
+    Sprite& SetSizeRelativeToImage(const Vector2f& aSize);
+    Sprite& SetSizeRelativeToAnotherImage(const float2& aSize, Sprite& aSprite);
+    Sprite& SetSizeRelativeToAnotherImage(const float2& aSize, Sprite* aSprite);
+    Sprite& SetWidthSizePreservedImageRatio(const float& aSize);
+    Sprite& SetHeightSizePreservedImageRatio(const float& aSize);
+    Sprite& SetColor(const Vector4f& aColor);
+    Sprite& SetPivot(const Vector2f& aPivot);
+    Sprite& SetRotation(const float& aRotation);
+    Sprite& SetMask(const std::string& aFilePath);
+    Sprite& SetRect(const float4 aRect);
+    Sprite& SetIsScreenSpace(bool aToggle) { myIsScreenSpace = aToggle; }
+    Sprite& SetShaderType(SE::SpriteShaderType aType) { mySprite->SetShaderType(aType); }
+    Sprite& SetShaderData(float someData);
+    Sprite& SetTexture(const std::string& aTexturePath);
     std::string GetTextureName();
     bool GetSpace() { return myIsScreenSpace; }
     float GetShaderData() { return mySprite->GetShaderData(); }

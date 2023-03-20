@@ -39,14 +39,16 @@ GameManager::~GameManager()
 
 void GameManager::Init()
 {
+	// TODO: Implement Pixel Art Animation Texture Map Lookup Thing
+
 	// register components
-	RegisterComponent<EditorController>("Editor Controller");
+	RegisterComponent<EditorController>("Editor Controller", true);
+	RegisterComponent<EntityPickingComponent>("Entity Picking", true);
 	RegisterComponent<Sprite>("Sprite");
 	RegisterComponent<Collider>("Collider");
 	RegisterComponent<Transform>("Transform");
 	RegisterComponent<PlayerController>("Player Controller");
 	RegisterComponent<CameraComponent>("Camera");
-	RegisterComponent<EntityPickingComponent>("Entity Picking");
 	RegisterComponent<Rigidbody>("Rigidbody");
 
 	RegisterSystem<EditorSystem>();
@@ -61,7 +63,7 @@ void GameManager::Init()
 		auto& e = entityPool.CreateChild();
 		e.GetComponent<Transform>()->SetPosition({ Random::Float(-10'00.f, 10'00.f), Random::Float(-10'00.f, 10'00.f) });
 		//e.GetComponent<Transform>().SetScale({ .1f, .1f });
-		auto& s = e.AddComponent<Sprite>("textures/sprites/circle.dds");
+		auto& s = e.AddComponent<Sprite>("assets/textures/sprites/circle.dds");
 		s.SetColor({ Random::Float(0.f, 1.f), Random::Float(0.f, 1.f), Random::Float(0.f, 1.f), 1 });
 		s.SetWidthSizePreservedImageRatio(100);
 		s.SetPivot({ .5f, .5f });
@@ -73,7 +75,18 @@ void GameManager::Init()
 		}
 	}
 
-	CreateEntity().AddComponent<PlayerController>().GameObject().CreateChild().CreateChild().CreateChild().CreateChild().CreateChild().CreateChild().CreateChild();
+	CreateEntity().AddComponent<PlayerController>().GameObject().
+		CreateChild().
+		CreateChild().
+		CreateChild().
+		CreateChild().
+		CreateChild().
+		CreateChild().
+		CreateChild().
+		AddComponent<Sprite>("assets/textures/sprites/circle.dds").
+		SetWidthSizePreservedImageRatio(125).
+		SetColor({0, 1, 0, 1});
+
 	printe("GameManager Inited\n");
 }
 

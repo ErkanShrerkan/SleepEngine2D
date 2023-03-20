@@ -3,6 +3,7 @@
 #include "Observer.h"
 #include "Process.h"
 #include "GameManager.h"
+#include <filesystem>
 
 class EntityPickingComponent;
 namespace Game
@@ -49,6 +50,7 @@ namespace Game
 		std::map<uint, std::set<uint>> myEntityHierarchy;
 		bool myEntityHierarchyNeedsUpdating = false;
 		uint myEditorEntityID;
+		std::filesystem::path myCurrentPath;
 	};
 }
 
