@@ -436,6 +436,7 @@
     <None Include="Structs.hlsli">
       <Filter>Source Files\Engine\Shader</Filter>
     </None>
+    <None Include="cpp.hint" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Engine.rc">

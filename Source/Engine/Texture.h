@@ -32,8 +32,13 @@ namespace SE
         }
 
     private:
+        void LoadResource();
+
+    private:
         ID3D11ShaderResourceView* myShaderResourceView;
         float myWidth, myHeight, myMipLevels;
         unsigned myFormat;
+        std::string myFilePath;
+        bool myLoaded = false;
     };
 }

@@ -5,6 +5,11 @@
 #include "GameManager.h"
 #include <filesystem>
 
+namespace SE
+{
+	class CTexture;
+}
+
 class EntityPickingComponent;
 namespace Game
 {
@@ -51,6 +56,8 @@ namespace Game
 		bool myEntityHierarchyNeedsUpdating = false;
 		uint myEditorEntityID;
 		std::filesystem::path myCurrentPath;
+		std::unordered_map<std::string, sptr(SE::CTexture)> myAssetThumbnails;
+		bool myClearThumbnails = false;
 	};
 }
 

@@ -5,6 +5,7 @@
 #include "FullscreenTexture.h"
 #include "GBuffer.h"
 #include <unordered_map>
+#include <memory>
 
 struct ID3D11Texture2D;
 namespace SE
@@ -19,11 +20,11 @@ namespace SE
         CFullscreenTexture CreateShadowMap(const Vector2ui& aSize);
         CFullscreenTexture CreateFullscreenTexture(ID3D11Texture2D* const& aTexture);
         CGBuffer CreateGBuffer(const Vector2ui& aSize);
-        CTexture* LoadTexture(const std::string& aPath);
-        CTexture* CreateTexture(std::string& aPath);
+        sptr(CTexture) LoadTexture(const std::string& aPath);
+        sptr(CTexture) CreateTexture(std::string& aPath);
 
     private:
-
-        std::unordered_map<std::string, CTexture*> myPool;
+        // TODO: Fix weak_ptr or shared_ptr or sumn 
+        std::unordered_map<std::string, wptr(CTexture)> myPool;
     };
 }

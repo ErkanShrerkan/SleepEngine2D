@@ -54,11 +54,15 @@ namespace SE
 		float GetRotation();
 		float GetRotationRadian() { return myRotation; };
 		void Release();
-		CTexture* GetTexture() { return myTexture; }
+		sptr(CTexture) GetTexture() { return myTexture; }
 
 	private:
-		CTexture* myTexture;
-		CTexture* myMaskTexture;
+		void WaitIfTextureIsNotLoaded();
+		bool TextureResourceHasLoaded();
+
+	private:
+		sptr(CTexture) myTexture;
+		sptr(CTexture) myMaskTexture;
 		Vector2f mySize;
 		Vector2f myPosition;
 		Vector4f myColor = { 1, 1, 1, 1 };

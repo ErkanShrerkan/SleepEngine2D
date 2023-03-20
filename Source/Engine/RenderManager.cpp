@@ -455,7 +455,7 @@ namespace SE
 	void CRenderManager::CreateTextures()
 	{
 		Vector2ui res = Singleton<GlobalSettings>().gameplayResolution;////*{ 1920, 1080 };*/DX11::GetResolution();
-		CContentLoader* const& content = CEngine::GetInstance()->GetContentLoader();
+		CTextureFactory& factory = Singleton<CTextureFactory>();
 
 		myScaledBackBuffer.Release();
 		myIntermediateDepth.Release();
@@ -466,11 +466,11 @@ namespace SE
 		//DXGI_FORMAT hdrFormat = DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT;
 		//DXGI_FORMAT normalFormat = DXGI_FORMAT::DXGI_FORMAT_R8G8B8A8_UNORM;
 
-		myFullscreen = content->Load(DX11::GetResolution(), DXGI_FORMAT_R8G8B8A8_UNORM_SRGB);
-		myFullscreenCopy = content->Load(DX11::GetResolution(), DXGI_FORMAT_R8G8B8A8_UNORM_SRGB);
-		myGameWindow = content->Load(DX11::GetResolution(), DXGI_FORMAT_R8G8B8A8_UNORM_SRGB);
-		myScaledBackBuffer = content->Load(res, DXGI_FORMAT::DXGI_FORMAT_R8G8B8A8_UNORM_SRGB);
-		myIntermediateDepth = content->GetTextureFactory().CreateFullscreenDepth(res, DXGI_FORMAT_R32_TYPELESS);
+		myFullscreen = factory.CreateFullscreenTexture(DX11::GetResolution(), DXGI_FORMAT_R8G8B8A8_UNORM_SRGB);
+		myFullscreenCopy = factory.CreateFullscreenTexture(DX11::GetResolution(), DXGI_FORMAT_R8G8B8A8_UNORM_SRGB);
+		myGameWindow = factory.CreateFullscreenTexture(DX11::GetResolution(), DXGI_FORMAT_R8G8B8A8_UNORM_SRGB);
+		myScaledBackBuffer = factory.CreateFullscreenTexture(res, DXGI_FORMAT::DXGI_FORMAT_R8G8B8A8_UNORM_SRGB);
+		myIntermediateDepth = factory.CreateFullscreenDepth(res, DXGI_FORMAT_R32_TYPELESS);
 
 		Singleton<GlobalSettings>().gameViewTexture = &myGameWindow;
 	}

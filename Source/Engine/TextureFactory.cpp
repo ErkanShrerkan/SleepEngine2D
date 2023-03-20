@@ -13,10 +13,7 @@ namespace SE
 {
 	CTextureFactory::~CTextureFactory()
 	{
-		for (auto& [path, texture] : myPool)
-		{
-			delete texture;
-		}
+		myPool.clear();
 	}
 
 	CFullscreenTexture CTextureFactory::CreateFullscreenTexture(const Vector2ui& aSize, DXGI_FORMAT aFormat)
@@ -241,8 +238,21 @@ namespace SE
 		return returnBuffer;
 	}
 
-	CTexture* CTextureFactory::LoadTexture(const std::string& aPath)
+	sptr(CTexture) CTextureFactory::LoadTexture(const std::string& aPath)
 	{
+		for (auto iter = myPool.begin(); iter != myPool.end();)
+		{
+			if (iter->second.expired())
+			{
+				printf("Resource [%s] expired\n", iter->first.c_str());
+				iter = myPool.erase(iter);
+			}
+			else
+			{
+				++iter;
+			}
+		}
+
 		std::string cleanName(aPath);
 		std::replace(cleanName.begin(), cleanName.end(), '\\', '/');
 #pragma warning(disable:4244)
@@ -251,24 +261,33 @@ namespace SE
 		std::transform(cleanName.begin(), cleanName.end(), lowerCasePath.begin(), std::tolower);
 #pragma warning(default:4244)
 
-		CTexture* texture = nullptr;
+		std::string modifiablePath = lowerCasePath;
+		sptr(CTexture) texture;
 		if (myPool.find(lowerCasePath) == myPool.end())
 		{
-			std::string modifiablePath = lowerCasePath;
 			texture = CreateTexture(modifiablePath);
 			myPool[modifiablePath] = texture;
-			//printf("created texture %s\n", modifiablePath.c_str());
+			//printf("Resource [%s] created\n", lowerCasePath.c_str());
 		}
 		else
 		{
-			texture = myPool[lowerCasePath];
-			//printf("loaded texture %s\n", lowerCasePath.c_str());
+			if (myPool[lowerCasePath].expired())
+			{
+				myPool.erase(lowerCasePath);
+				texture = CreateTexture(modifiablePath);
+				myPool[modifiablePath] = texture;
+				//printf("Resource [%s] expired, creating it again\n", lowerCasePath.c_str());
+			}
+			else
+			{
+				texture = myPool[lowerCasePath].lock();
+				//printf("Resource [%s] loaded\n", lowerCasePath.c_str());
+			}
 		}
 		return texture;
 	}
-	CTexture* CTextureFactory::CreateTexture(std::string& aPath)
+	sptr(CTexture) CTextureFactory::CreateTexture(std::string& aPath)
 	{
-		// TODO: Move CTexture Constructor to this class
-		return new CTexture(aPath);
+		return std::make_shared<CTexture>(aPath);
 	}
 }

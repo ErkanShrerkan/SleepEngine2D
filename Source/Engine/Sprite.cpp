@@ -54,7 +54,7 @@ namespace SE
     }
     void CSprite::SetMask(const char* aFilePath)
     {
-        myMaskTexture = CEngine::GetInstance()->GetContentLoader()->Load<CTexture>(aFilePath);
+        myMaskTexture = Singleton<CTextureFactory>().LoadTexture(aFilePath);
     }
     void CSprite::SetRect(const float4 aRect)
     {
@@ -92,6 +92,7 @@ namespace SE
     }
     Vector2f CSprite::GetImageSize()
     {
+        WaitIfTextureIsNotLoaded();
         return Vector2f(myTexture->GetWidth(), myTexture->GetHeight());
     }
     Vector2f CSprite::GetNormalizedImageSize()
@@ -112,5 +113,24 @@ namespace SE
     void CSprite::Release()
     {
         SE::CEngine::GetInstance()->GetContentLoader()->GetSpriteFactory().ReleaseSprite(this);
+    }
+    void CSprite::WaitIfTextureIsNotLoaded()
+    {
+        if (TextureResourceHasLoaded())
+            return;
+
+        bool loaded = false;
+        while (!loaded)
+        {
+            Sleep(1);
+            if (TextureResourceHasLoaded())
+            {
+                loaded = true;
+            }
+        }
+    }
+    bool CSprite::TextureResourceHasLoaded()
+    {
+        return true;//myTexture->GetShaderResourceView();
     }
 }

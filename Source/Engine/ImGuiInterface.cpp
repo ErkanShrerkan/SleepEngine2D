@@ -243,7 +243,7 @@ namespace SE
 			//col.w = 1.f;
 		}
 		colors[ImGuiCol_Header] = ImColor(HexColor<0x6E6E6E4B>().value); 
-		colors[ImGuiCol_DockingEmptyBg] = ImColor(HexColor<0x285E1D85>().value);
+		colors[ImGuiCol_DockingEmptyBg] = ImColor(HexColor<0xD2D2D254>().value);
 		colors[ImGuiCol_PlotLines] = ImColor(HexColor<0x285E1D85>().value);
 		colors[ImGuiCol_PlotLinesHovered] = ImColor(HexColor<0x285E1D85>().value);
 		colors[ImGuiCol_PlotHistogram] = ImColor(HexColor<0x285E1D85>().value);

@@ -107,7 +107,6 @@ namespace SE
 
 	void CSpriteFactory::ReleaseSprite(CSprite* aSprite)
 	{
-		aSprite;
 		if (mySprites.find(aSprite) != mySprites.end())
 		{
 			mySprites.erase(aSprite);
@@ -140,8 +139,8 @@ namespace SE
 		if (!myHasInited)
 			InitFactory();
 
-		CTexture* texture = Singleton<CTextureFactory>().LoadTexture(aSpritePath.c_str());
-		CTexture* mask = Singleton<CTextureFactory>().LoadTexture("assets/textures/maskdefault.dds");
+		sptr(CTexture) texture = Singleton<CTextureFactory>().LoadTexture(aSpritePath.c_str());
+		sptr(CTexture) mask = Singleton<CTextureFactory>().LoadTexture("assets/textures/maskdefault.dds");
 
 		CSprite* sprite = new CSprite();
 		sprite->myTexture = texture;

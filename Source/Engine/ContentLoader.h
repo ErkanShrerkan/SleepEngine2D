@@ -55,11 +55,5 @@ namespace SE
 		return myLightFactory.CreateSpotLight();
 	}
 
-	// Load Texture
-	_MSE_LOAD_CONTENT(SE::CTexture, const char* aPath)
-	{
-		return myTextureFactory.LoadTexture(aPath);
-	}
-
 #undef _MSE_CONTENT_LOAD
 }

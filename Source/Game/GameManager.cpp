@@ -37,6 +37,8 @@ GameManager::~GameManager()
 	printe("GameManager Deleted\n");
 }
 
+#include <Engine\TextureFactory.h>
+
 void GameManager::Init()
 {
 	// TODO: Implement Pixel Art Animation Texture Map Lookup Thing
@@ -63,7 +65,7 @@ void GameManager::Init()
 		auto& e = entityPool.CreateChild();
 		e.GetComponent<Transform>()->SetPosition({ Random::Float(-10'00.f, 10'00.f), Random::Float(-10'00.f, 10'00.f) });
 		//e.GetComponent<Transform>().SetScale({ .1f, .1f });
-		auto& s = e.AddComponent<Sprite>("assets/textures/sprites/circle.dds");
+		auto& s = e.AddComponent<Sprite>(/*"assets/textures/black.dds"*/"assets/textures/sprites/circle.dds");
 		s.SetColor({ Random::Float(0.f, 1.f), Random::Float(0.f, 1.f), Random::Float(0.f, 1.f), 1 });
 		s.SetWidthSizePreservedImageRatio(100);
 		s.SetPivot({ .5f, .5f });
@@ -86,6 +88,11 @@ void GameManager::Init()
 		AddComponent<Sprite>("assets/textures/sprites/circle.dds").
 		SetWidthSizePreservedImageRatio(125).
 		SetColor({0, 1, 0, 1});
+
+	//for (size_t i = 0; i < 100000; i++)
+	//{
+	//	Singleton<SE::CTextureFactory>().LoadTexture("Assets/Textures/Sprites/UI/UI_Sheet.dds");
+	//}
 
 	printe("GameManager Inited\n");
 }

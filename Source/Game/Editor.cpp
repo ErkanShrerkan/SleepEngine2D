@@ -9,6 +9,7 @@
 #include "EditorController.h"
 #include "EntityPickingComponent.h"
 #include <Engine\TextureFactory.h>
+#include <Engine\Texture.h>
 
 Game::Editor::~Editor()
 {
@@ -34,6 +35,11 @@ bool Game::Editor::Update()
 	}
 
 	mySelectedEntityLastFrame = mySelectedEntity;
+	if (myClearThumbnails)
+	{
+		myAssetThumbnails.clear();
+		myClearThumbnails = false;
+	}
 	myGM.UpdateEntityRemoval();
 	myGM.UpdateSystems();
 	HandleSelection();
@@ -137,6 +143,7 @@ void Game::Editor::AddEntity()
 	{
 		myGM.MarkEntityForRemoval(mySelectedEntity);
 		mySelectedEntity = UINT_MAX;
+		myPicker->SetPickedEntityID(UINT_MAX);
 	};
 }
 
@@ -290,49 +297,115 @@ void Game::Editor::ContentBrowser()
 {
 	ImGui::Begin("Content Browser");
 	{
-		auto base = std::filesystem::path("Assets");
-		if (myCurrentPath != base)
+		ImGui::DockSpace(ImGui::GetID("CB"));
+		ImGui::Begin("Directories");
 		{
-			if (ImGui::Button("<-"))
-			{
-				myCurrentPath = myCurrentPath.parent_path();
-			}
-		}
+			/*auto it = std::filesystem::directory_iterator("Assets");
 
-		ImGui::Columns(8);
-
-		auto it = std::filesystem::directory_iterator(myCurrentPath);
-		for (const auto& dir : it)
-		{
-			const auto& path = dir.path();
-			auto relativePath = std::filesystem::relative(path);
-			std::string fileName = relativePath.filename().string();
-			std::string entry(dir.path().string());
-			std::replace(entry.begin(), entry.end(), '\\', '/');
-			std::string ext = std::string(entry.end() - 4, entry.end());
-			bool isImage = (ext == ".dds");
-			ImVec2 imgSize = { 128, 128 };
-			if (isImage)
+			for (const auto& dir : it)
 			{
-				if (ImGui::ImageButton(Singleton<SE::CTextureFactory>().LoadTexture(path.string())->GetShaderResourceView(), imgSize))
+				if (dir.is_directory())
 				{
-
-				}
-			}
-			else
-			{
-				if (ImGui::Button(fileName.c_str()))
-				{
-					if (dir.is_directory())
+					ImGui::PushID(ImGui::GetID(dir.path().string().c_str()));
+					ImGuiTreeNodeFlags nodeFlag = ImGuiTreeNodeFlags_Leaf;
+					if (mySelectedEntity == id)
 					{
-						myCurrentPath /= path.filename();
+						nodeFlag |= ImGuiTreeNodeFlags_Selected;
+					}
+
+					bool& showChildren = myShowChildrenRecord[id];
+					std::string label = myEntityHierarchy[id].empty() ? "   " : (showChildren ? " - " : " + ");
+					if (ImGui::Button(label.c_str()))
+					{
+						showChildren = !showChildren;
+					}
+					ImGui::SameLine();
+					if (ImGui::TreeNodeEx("Entities", nodeFlag, "%s_%u", "Entity", id))
+					{
+						if (ImGui::IsItemClicked())
+						{
+							mySelectedEntity = mySelectedEntity == id ? UINT_MAX : id;
+							myPicker->SetPickedEntityID(mySelectedEntity);
+						}
+						ImGui::PopID();
+						if (showChildren)
+						{
+							ListEntityRecursive(id);
+						}
+						ImGui::TreePop();
 					}
 				}
-			}
-			ImGui::Text(fileName.c_str());
-
-			ImGui::NextColumn();
+			}*/
 		}
+		ImGui::End();
+
+		ImGui::Begin("Assets");
+		ImGui::Text(myCurrentPath.string().c_str());
+		{
+			auto base = std::filesystem::path("Assets");
+			if (myCurrentPath != base)
+			{
+				if (ImGui::Button("  <-  "))
+				{
+					myCurrentPath = myCurrentPath.parent_path();
+					myClearThumbnails = true;
+				}
+			}
+
+			static float padding = 16;
+			static float imgSize = 128;
+			float cellSize = padding + imgSize;
+			float windowWidth = ImGui::GetContentRegionAvail().x;
+			int columnCount = (int)(windowWidth / cellSize);
+
+			ImGui::Columns(columnCount > 0 ? columnCount : 1, 0, false);
+
+			auto it = std::filesystem::directory_iterator(myCurrentPath);
+			for (const auto& dir : it)
+			{
+				const auto& dirPath = dir.path();
+				std::string path(dir.path().string());
+				std::replace(path.begin(), path.end(), '\\', '/');
+				std::string relativePath = std::string(path.substr(path.find_last_of('/') + 1, path.size()));
+				//auto relativePath = std::filesystem::relative(path, base);
+				std::string fileName = relativePath;
+
+				std::string ext = std::string(path.end() - 4, path.end());
+				bool isImage = /*false;*/(ext == ".dds");
+				ImVec2 imgSizeV = { imgSize, imgSize };
+				if (isImage)
+				{
+					if (myAssetThumbnails.find(path) == myAssetThumbnails.end())
+					{
+						myAssetThumbnails[path] = Singleton<SE::CTextureFactory>().LoadTexture(path);
+					}
+
+					//if (ImGui::ImageButton(myAssetThumbnails[path]->GetShaderResourceView(), imgSizeV))
+					if (ImGui::Button(fileName.c_str(), imgSizeV))
+					{
+
+					}
+				}
+				else
+				{
+					if (ImGui::Button(fileName.c_str(), imgSizeV))
+					{
+						if (dir.is_directory())
+						{
+							myCurrentPath /= dirPath.filename();
+							myClearThumbnails = true;
+						}
+					}
+				}
+				ImGui::Text(fileName.c_str());
+
+				ImGui::NextColumn();
+			}
+			ImGui::Columns(1);
+			ImGui::SliderFloat("Img Size", &imgSize, 16, 512);
+			ImGui::SliderFloat("Padding", &padding, 0, 128);
+		}
+		ImGui::End();
 	}
 	ImGui::End();
 }

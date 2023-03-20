@@ -2,6 +2,8 @@
 #include "Texture.h"
 #include "TextureHelper.h"
 #include <d3d11.h>
+#include <Engine\Async.h>
+#include <Engine\Engine.h>
 
 SE::CTexture::CTexture()
 	: myShaderResourceView(nullptr)
@@ -17,32 +19,9 @@ SE::CTexture::CTexture(const std::string& aFilePath)
 	, myHeight(0)
 	, myMipLevels(0)
 	, myFormat(0u)
+	, myFilePath(aFilePath)
 {
-	Helper::TextureHelper::LoadShaderResourceView(&myShaderResourceView, aFilePath);
-
-	if (myShaderResourceView == nullptr)
-	{
-		/* Error Message */
-		perr("Error loading \"%s\" as a CTexture", aFilePath.c_str());
-		Helper::TextureHelper::LoadShaderResourceView(&myShaderResourceView, "Assets/Textures/Error/Albedo_c.dds");
-	}
-
-	// Get size of image
-	ID3D11Resource* resource = nullptr;
-	myShaderResourceView->GetResource(&resource);
-
-	D3D11_TEXTURE2D_DESC description;
-	reinterpret_cast<ID3D11Texture2D*>(resource)->GetDesc(&description);
-
-	myWidth = static_cast<float>(description.Width);
-	myHeight = static_cast<float>(description.Height);
-	myMipLevels = static_cast<float>(description.MipLevels);
-	myFormat = static_cast<unsigned>(description.Format);
-
-	if (!(Math::IsPowerOfTwo(description.Width) && Math::IsPowerOfTwo(description.Height)))
-	{
-		pwarn("Texture is not power of two (%.fx%.f) \"%s\"", myWidth, myHeight, aFilePath.c_str());
-	}
+	LoadResource();
 }
 
 SE::CTexture::CTexture(std::string& aFilePath)
@@ -51,40 +30,28 @@ SE::CTexture::CTexture(std::string& aFilePath)
 	, myHeight(0)
 	, myMipLevels(0)
 	, myFormat(0u)
+	, myFilePath(aFilePath)
 {
-	Helper::TextureHelper::LoadShaderResourceView(&myShaderResourceView, aFilePath);
-
-	if (myShaderResourceView == nullptr)
-	{
-		/* Error Message */
-		perr("Error loading \"%s\" as a CTexture", aFilePath.c_str());
-		aFilePath = "Assets/Textures/Error/Albedo_c.dds";
-		Helper::TextureHelper::LoadShaderResourceView(&myShaderResourceView, aFilePath);
-	}
-
-	// Get size of image
-	ID3D11Resource* resource = nullptr;
-	myShaderResourceView->GetResource(&resource);
-
-	D3D11_TEXTURE2D_DESC description;
-	reinterpret_cast<ID3D11Texture2D*>(resource)->GetDesc(&description);
-
-	myWidth = static_cast<float>(description.Width);
-	myHeight = static_cast<float>(description.Height);
-	myMipLevels = static_cast<float>(description.MipLevels);
-	myFormat = static_cast<unsigned>(description.Format);
-
-	if (!(Math::IsPowerOfTwo(description.Width) && Math::IsPowerOfTwo(description.Height)))
-	{
-		pwarn("Texture is not power of two (%.fx%.f) \"%s\"", myWidth, myHeight, aFilePath.c_str());
-	}
+	LoadResource();
 }
 
 SE::CTexture::~CTexture()
 {
+	while (!myLoaded)
+	{
+		//Sleep(1);
+	}
+
 	if (myShaderResourceView)
-		myShaderResourceView->Release();
-	myShaderResourceView = nullptr;
+	{
+		//SE::CEngine::GetInstance()->GetDXDeviceContext()->ClearState();
+		//while (myShaderResourceView->Release() != 0)
+		//{
+		//}
+		printf("Texture [%s] deleted\n", myFilePath.c_str());
+	}
+
+	//myShaderResourceView = nullptr;
 }
 
 ID3D11ShaderResourceView* const SE::CTexture::GetShaderResourceView() const noexcept
@@ -109,4 +76,39 @@ ID3D11ShaderResourceView* SE::CTexture::StealShaderResource()
 
 	oldPointer->AddRef();
 	return oldPointer;
+}
+
+void SE::CTexture::LoadResource()
+{
+	Async<void> texLoader([&]
+		{
+			Helper::TextureHelper::LoadShaderResourceView(&myShaderResourceView, myFilePath);
+
+			if (myShaderResourceView == nullptr)
+			{
+				/* Error Message */
+				perr("Error loading \"%s\" as a CTexture", myFilePath.c_str());
+				myFilePath = "Assets/Textures/Error/Albedo_c.dds";
+				Helper::TextureHelper::LoadShaderResourceView(&myShaderResourceView, myFilePath);
+			}
+
+			// Get size of image
+			ID3D11Resource* resource = nullptr;
+			myShaderResourceView->GetResource(&resource);
+
+			D3D11_TEXTURE2D_DESC description;
+			reinterpret_cast<ID3D11Texture2D*>(resource)->GetDesc(&description);
+
+			myWidth = static_cast<float>(description.Width);
+			myHeight = static_cast<float>(description.Height);
+			myMipLevels = static_cast<float>(description.MipLevels);
+			myFormat = static_cast<unsigned>(description.Format);
+
+			if (!(Math::IsPowerOfTwo(description.Width) && Math::IsPowerOfTwo(description.Height)))
+			{
+				pwarn("Texture is not power of two (%.fx%.f) \"%s\"", myWidth, myHeight, myFilePath.c_str());
+			}
+
+			myLoaded = true;
+		});
 }

@@ -8,6 +8,8 @@
 #include "Globals.h"
 #include "Entity.h"
 #include <Game\Transform.h>
+#include <Engine\Async.h>
+#include <Engine\Texture.h>
 
 Sprite::Sprite(const std::string& aTexturePath)
 {
