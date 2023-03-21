@@ -313,6 +313,7 @@ namespace SE
 		myIntermediateDepth.ClearDepth();
 		myScaledBackBuffer.ClearTexture();
 		myGameWindow.ClearTexture();
+		myRGBTexture.ClearTexture();
 
 		myPostProcessingData.volumetricIndex = 0;
 
@@ -399,9 +400,13 @@ namespace SE
 			}
 		}
 
-		myGameWindow.SetAsActiveTarget();
+		myFullscreenCopy.SetAsActiveTarget();
 		myFullscreen.SetAsResourceOnSlot(0);
 		myFullscreenRenderer.Render(CFullscreenRenderer::EShader_ToRawColor);
+
+		myGameWindow.SetAsActiveTarget();
+		myFullscreenCopy.SetAsResourceOnSlot(0);
+		myFullscreenRenderer.Render(CFullscreenRenderer::EShader_LinearToGamma);
 		myFullscreen.SetAsActiveTarget();
 
 		CLineDrawer::Clear();
@@ -427,8 +432,13 @@ namespace SE
 		myScaledBackBuffer.SetAsResourceOnSlot(1);
 		myFullscreenRenderer.Render(CFullscreenRenderer::EShader_AlphaBlend);
 
+		// Conver from sRGB to RGB texture 
+		myRGBTexture.SetAsActiveTarget();
+		myFullscreenCopy.SetAsResourceOnSlot(0);
+		myFullscreenRenderer.Render(CFullscreenRenderer::EShader_GammaToLinear);
+
 		myBackBuffer.SetAsActiveTarget();
-		myFullscreen.SetAsResourceOnSlot(0);
+		myRGBTexture.SetAsResourceOnSlot(0);
 		myFullscreenRenderer.Render(CFullscreenRenderer::EShader_Copy);
 	}
 
@@ -462,6 +472,7 @@ namespace SE
 		myFullscreenCopy.Release();
 		myFullscreen.Release();
 		myGameWindow.Release();
+		myRGBTexture.Release();
 
 		//DXGI_FORMAT hdrFormat = DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT;
 		//DXGI_FORMAT normalFormat = DXGI_FORMAT::DXGI_FORMAT_R8G8B8A8_UNORM;
@@ -471,6 +482,7 @@ namespace SE
 		myGameWindow = factory.CreateFullscreenTexture(DX11::GetResolution(), DXGI_FORMAT_R8G8B8A8_UNORM_SRGB);
 		myScaledBackBuffer = factory.CreateFullscreenTexture(res, DXGI_FORMAT::DXGI_FORMAT_R8G8B8A8_UNORM_SRGB);
 		myIntermediateDepth = factory.CreateFullscreenDepth(res, DXGI_FORMAT_R32_TYPELESS);
+		myRGBTexture = factory.CreateFullscreenTexture(res, DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT);
 
 		Singleton<GlobalSettings>().gameViewTexture = &myGameWindow;
 	}

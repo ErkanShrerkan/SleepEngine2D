@@ -166,6 +166,29 @@ namespace SE
 		style->IndentSpacing = 12.f;
 #else
 		ImVec4* colors = ImGui::GetStyle().Colors;
+
+		colors[ImGuiCol_Header] = ImColor(HexColor<0x6E6E6E4B>().value);
+		colors[ImGuiCol_DockingEmptyBg] = ImColor(HexColor<0xD2D2D254>().value);
+		colors[ImGuiCol_PlotLines] = ImColor(HexColor<0x5CBC59C7>().value);
+		colors[ImGuiCol_PlotLinesHovered] = ImColor(HexColor<0x5CBC59C7>().value);
+		colors[ImGuiCol_PlotHistogram] = ImColor(HexColor<0x5CBC59C7>().value);
+		colors[ImGuiCol_PlotHistogramHovered] = ImColor(HexColor<0x5CBC59C7>().value);
+		colors[ImGuiCol_HeaderHovered] = ImColor(HexColor<0x5CBC59C7>().value); //ImColor(HexColor<0x285E1D85>().value);// Greenish
+		colors[ImGuiCol_SeparatorHovered] = ImColor(HexColor<0x7CFF78C7>().value); // Light Greenish
+		colors[ImGuiCol_HeaderActive] = ImColor(HexColor<0xD2D2D254>().value);
+		colors[ImGuiCol_FrameBg] = ImColor(HexColor<0x00000092>().value);
+		colors[ImGuiCol_FrameBgHovered] = ImVec4(0.19f, 0.19f, 0.19f, 0.54f);
+		colors[ImGuiCol_FrameBgActive] = ImVec4(0.20f, 0.22f, 0.23f, 1.00f);
+
+		for (size_t i = 0; i < ImGuiCol_COUNT; i++)
+		{
+			auto& col = colors[i];
+			col.x = pow(col.x, 1.f / 2.2f);
+			col.y = pow(col.y, 1.f / 2.2f);
+			col.z = pow(col.z, 1.f / 2.2f);
+			//col.w = 1.f;
+		}
+
 		colors[ImGuiCol_Text] = ImVec4(1.00f, 1.00f, 1.00f, 1.00f);
 		colors[ImGuiCol_TextDisabled] = ImVec4(0.50f, 0.50f, 0.50f, 1.00f);
 		colors[ImGuiCol_WindowBg] = ImVec4(0.10f, 0.10f, 0.10f, 1.00f);
@@ -233,28 +256,6 @@ namespace SE
 		style.GrabRounding = 3;
 		style.LogSliderDeadzone = 4;
 		style.TabRounding = 4;
-
-		for (size_t i = 0; i < ImGuiCol_COUNT; i++)
-		{
-			auto& col = colors[i];
-			col.x = pow(col.x, 2.2f);
-			col.y = pow(col.y, 2.2f);
-			col.z = pow(col.z, 2.2f);
-			//col.w = 1.f;
-		}
-		colors[ImGuiCol_Header] = ImColor(HexColor<0x6E6E6E4B>().value); 
-		colors[ImGuiCol_DockingEmptyBg] = ImColor(HexColor<0xD2D2D254>().value);
-		colors[ImGuiCol_PlotLines] = ImColor(HexColor<0x285E1D85>().value);
-		colors[ImGuiCol_PlotLinesHovered] = ImColor(HexColor<0x285E1D85>().value);
-		colors[ImGuiCol_PlotHistogram] = ImColor(HexColor<0x285E1D85>().value);
-		colors[ImGuiCol_PlotHistogramHovered] = ImColor(HexColor<0x285E1D85>().value);
-		colors[ImGuiCol_HeaderHovered] = ImColor(HexColor<0x285E1D85>().value);// Greenish
-		colors[ImGuiCol_SeparatorHovered] = ImColor(HexColor<0x7CFF78C7>().value);
-		colors[ImGuiCol_HeaderActive] = ImColor(HexColor<0xD2D2D254>().value);
-
-		colors[ImGuiCol_FrameBg] = ImColor(HexColor<0x00000092>().value);
-		colors[ImGuiCol_FrameBgHovered] = ImVec4(0.19f, 0.19f, 0.19f, 0.54f);
-		colors[ImGuiCol_FrameBgActive] = ImVec4(0.20f, 0.22f, 0.23f, 1.00f);
 #endif
 	}
 

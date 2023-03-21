@@ -375,7 +375,7 @@ void Game::Editor::GameWindow()
 		ImVec2 tl = { rect.x, rect.y };
 		ImVec2 br = { rect.z, rect.w };
 		ImColor col = { .2f, .2f, .2f, 1.f };
-		ImColor sideBarCol = { .0125f, .0125f, .0125f, 1.f };
+		ImColor sideBarCol = { .15f, .15f, .15f, 1.f };
 		ImVec2 posPlusWindowSize = { pos.x + windowSize.x, pos.y + windowSize.y + frameH };
 		ImGui::GetWindowDrawList()->AddRectFilled(pos, posPlusWindowSize, sideBarCol);
 		ImGui::Image((void*)Singleton<GlobalSettings>().gameViewTexture->GetSRV(), viewPortSize);
@@ -455,23 +455,27 @@ void Game::Editor::Assets()
 		auto it = std::filesystem::directory_iterator(myCurrentPath);
 		for (const auto& dir : it)
 		{
+			bool isDir = dir.is_directory();
 			const auto& dirPath = dir.path();
 			std::string path(dir.path().string());
 			std::replace(path.begin(), path.end(), '\\', '/');
+
+			if (isDir && path == "Assets/Textures/Editor")
+				continue;
+			
 			std::string relativePath = std::string(path.substr(path.find_last_of('/') + 1, path.size()));
-			//auto relativePath = std::filesystem::relative(path, base);
 			std::string fileName = relativePath;
 
 			std::string ext = std::string(path.end() - 4, path.end());
 			ImVec2 imgSizeV = { imgSize, imgSize };
-
-			bool isDir = dir.is_directory();
 			ID3D11ShaderResourceView* srv = nullptr;
 			// Set image based on type (can expand later)
 			if (isDir)
 			{
 				// load dir image
-				srv = nullptr;
+				std::string imgPath = "Assets/Textures/Editor/Folder.dds";
+				LoadThumbnail(imgPath);
+				srv = GetThumbnail(imgPath);
 			}
 			else if (ext == ".dds")
 			{
@@ -492,25 +496,20 @@ void Game::Editor::Assets()
 			ImGui::PushID(ImGui::GetID(fileName.c_str()));
 			if (ImGui::ImageButton(srv, imgSizeV))
 			{
-				printe("Button Clicked\n");
 				if (isDir)
 				{
 					myCurrentPath /= dirPath.filename();
 					myClearThumbnails = true;
-					printe("Folder Clicked\n");
 				}
 				else
 				{
-					printe("File Clicked\n");
 					// drag drop resource if texture or sumn
 					// maybe if file is a scene:
 					// save current scene -> load new scene
 				}
 			}
 			ImGui::PopID();
-
 			ImGui::TextWrapped(fileName.c_str());
-
 			ImGui::NextColumn();
 		}
 		//ImGui::Columns(1);

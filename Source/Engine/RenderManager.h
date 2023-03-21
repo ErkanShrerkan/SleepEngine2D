@@ -104,6 +104,7 @@ namespace SE
 		CFullscreenTexture myFullscreenCopy;
 		CFullscreenTexture myScaledBackBuffer;
 		CFullscreenTexture myGameWindow;
+		CFullscreenTexture myRGBTexture;
 
 		CFullscreenTexture myIntermediateDepth;
 

@@ -415,6 +415,12 @@
     <FxCompile Include="FullscreenPS-ToRawColor.hlsl">
       <Filter>Source Files\Engine\Shader\Effects\Post Processing</Filter>
     </FxCompile>
+    <FxCompile Include="FullscreenPS-GammaToLinear.hlsl">
+      <Filter>Source Files\Engine\Shader\Effects\Post Processing</Filter>
+    </FxCompile>
+    <FxCompile Include="FullscreenPS-LinearToGamma.hlsl">
+      <Filter>Source Files\Engine\Shader\Effects\Post Processing</Filter>
+    </FxCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="BRDFHelper.hlsli">

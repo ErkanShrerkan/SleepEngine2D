@@ -53,6 +53,8 @@ namespace SE
         shaderPaths[EShader_BilateralH        ] = "Shaders/FullscreenPS-BilateralH";
         shaderPaths[EShader_BilateralV        ] = "Shaders/FullscreenPS-BilateralV";
         shaderPaths[EShader_ToRawColor        ] = "Shaders/FullscreenPS-ToRawColor";
+        shaderPaths[EShader_GammaToLinear     ] = "Shaders/FullscreenPS-GammaToLinear";
+        shaderPaths[EShader_LinearToGamma     ] = "Shaders/FullscreenPS-LinearToGamma";
         for (uint i = 0u; i < EShader_Count; ++i)
         {
             Helper::ShaderHelper::CreatePixelShader(&myPixelShaders[i], shaderPaths[i]);

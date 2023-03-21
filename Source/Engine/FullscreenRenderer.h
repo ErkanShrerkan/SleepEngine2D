@@ -35,6 +35,8 @@ namespace SE
             EShader_BilateralH,
             EShader_BilateralV,
             EShader_ToRawColor,
+            EShader_GammaToLinear,
+            EShader_LinearToGamma,
 
 
             // Keep last, don't remove
