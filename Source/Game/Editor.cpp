@@ -311,126 +311,8 @@ void Game::Editor::ContentBrowser()
 	ImGui::Begin("Content Browser");
 	{
 		ImGui::DockSpace(ImGui::GetID("CB"));
-		ImGui::Begin("Directories");
-		{
-			/*auto it = std::filesystem::directory_iterator("Assets");
-
-			for (const auto& dir : it)
-			{
-				if (dir.is_directory())
-				{
-					ImGui::PushID(ImGui::GetID(dir.path().string().c_str()));
-					ImGuiTreeNodeFlags nodeFlag = ImGuiTreeNodeFlags_Leaf;
-					if (mySelectedEntity == id)
-					{
-						nodeFlag |= ImGuiTreeNodeFlags_Selected;
-					}
-
-					bool& showChildren = myShowChildrenRecord[id];
-					std::string label = myEntityHierarchy[id].empty() ? "   " : (showChildren ? " - " : " + ");
-					if (ImGui::Button(label.c_str()))
-					{
-						showChildren = !showChildren;
-					}
-					ImGui::SameLine();
-					if (ImGui::TreeNodeEx("Entities", nodeFlag, "%s_%u", "Entity", id))
-					{
-						if (ImGui::IsItemClicked())
-						{
-							mySelectedEntity = mySelectedEntity == id ? UINT_MAX : id;
-							myPicker->SetPickedEntityID(mySelectedEntity);
-						}
-						ImGui::PopID();
-						if (showChildren)
-						{
-							ListEntityRecursive(id);
-						}
-						ImGui::TreePop();
-					}
-				}
-			}*/
-		}
-		ImGui::End();
-
-		ImGui::Begin("Assets");
-		ImGui::Text(myCurrentPath.string().c_str());
-		{
-			auto base = std::filesystem::path("Assets");
-			if (myCurrentPath != base)
-			{
-				if (ImGui::Button("  <-  "))
-				{
-					myCurrentPath = myCurrentPath.parent_path();
-					myClearThumbnails = true;
-				}
-			}
-
-			static float padding = 16;
-			static float imgSize = 128;
-			float cellSize = padding + imgSize;
-			float windowWidth = ImGui::GetContentRegionAvail().x;
-			int columnCount = (int)(windowWidth / cellSize);
-
-			ImGui::Columns(columnCount > 0 ? columnCount : 1, 0, false);
-
-			auto it = std::filesystem::directory_iterator(myCurrentPath);
-			for (const auto& dir : it)
-			{
-				const auto& dirPath = dir.path();
-				std::string path(dir.path().string());
-				std::replace(path.begin(), path.end(), '\\', '/');
-				std::string relativePath = std::string(path.substr(path.find_last_of('/') + 1, path.size()));
-				//auto relativePath = std::filesystem::relative(path, base);
-				std::string fileName = relativePath;
-
-				std::string ext = std::string(path.end() - 4, path.end());
-				ImVec2 imgSizeV = { imgSize, imgSize };
-
-				bool isDir = dir.is_directory();
-				ID3D11ShaderResourceView* srv = nullptr;
-				// Set image based on type (can expand later)
-				if (isDir)
-				{
-
-				}
-				else if (ext == ".dds")
-				{
-					LoadThumbnail(path);
-					srv = GetThumbnail(path);
-				}
-				else if (ext == ".png")
-				{
-					//LoadThumbnail(path);
-					srv = nullptr;//GetThumbnail(path);
-				}
-				else
-				{
-					srv = nullptr;
-				}
-
-				if (ImGui::ImageButton(srv, imgSizeV))
-				{
-					if (isDir)
-					{
-						myCurrentPath /= dirPath.filename();
-						myClearThumbnails = true;
-					}
-					else
-					{
-
-					}
-				}
-
-				ImGui::TextWrapped(fileName.c_str());
-				//ImGui::Text();
-
-				ImGui::NextColumn();
-			}
-			//ImGui::Columns(1);
-			//ImGui::SliderFloat("Img Size", &imgSize, 16, 512);
-			//ImGui::SliderFloat("Padding", &padding, 0, 128);
-		}
-		ImGui::End();
+		DirectoryNavigator();
+		Assets();
 	}
 	ImGui::End();
 }
@@ -501,4 +383,139 @@ void Game::Editor::GameWindow()
 	}
 	ImGui::End();
 	ImGui::PopStyleVar();
+}
+
+void Game::Editor::DirectoryNavigator()
+{
+	ImGui::Begin("Directories");
+	{
+		/*auto it = std::filesystem::directory_iterator("Assets");
+
+		for (const auto& dir : it)
+		{
+			if (dir.is_directory())
+			{
+				ImGui::PushID(ImGui::GetID(dir.path().string().c_str()));
+				ImGuiTreeNodeFlags nodeFlag = ImGuiTreeNodeFlags_Leaf;
+				if (mySelectedEntity == id)
+				{
+					nodeFlag |= ImGuiTreeNodeFlags_Selected;
+				}
+
+				bool& showChildren = myShowChildrenRecord[id];
+				std::string label = myEntityHierarchy[id].empty() ? "   " : (showChildren ? " - " : " + ");
+				if (ImGui::Button(label.c_str()))
+				{
+					showChildren = !showChildren;
+				}
+				ImGui::SameLine();
+				if (ImGui::TreeNodeEx("Entities", nodeFlag, "%s_%u", "Entity", id))
+				{
+					if (ImGui::IsItemClicked())
+					{
+						mySelectedEntity = mySelectedEntity == id ? UINT_MAX : id;
+						myPicker->SetPickedEntityID(mySelectedEntity);
+					}
+					ImGui::PopID();
+					if (showChildren)
+					{
+						ListEntityRecursive(id);
+					}
+					ImGui::TreePop();
+				}
+			}
+		}*/
+	}
+	ImGui::End();
+}
+
+void Game::Editor::Assets()
+{
+	ImGui::Begin("Assets");
+	ImGui::Text(myCurrentPath.string().c_str());
+	{
+		auto base = std::filesystem::path("Assets");
+		if (myCurrentPath != base)
+		{
+			if (ImGui::Button("  <-  "))
+			{
+				myCurrentPath = myCurrentPath.parent_path();
+				myClearThumbnails = true;
+			}
+		}
+
+		static float padding = 16;
+		static float imgSize = 128;
+		float cellSize = padding + imgSize;
+		float windowWidth = ImGui::GetContentRegionAvail().x;
+		int columnCount = (int)(windowWidth / cellSize);
+
+		ImGui::Columns(columnCount > 0 ? columnCount : 1, 0, false);
+
+		auto it = std::filesystem::directory_iterator(myCurrentPath);
+		for (const auto& dir : it)
+		{
+			const auto& dirPath = dir.path();
+			std::string path(dir.path().string());
+			std::replace(path.begin(), path.end(), '\\', '/');
+			std::string relativePath = std::string(path.substr(path.find_last_of('/') + 1, path.size()));
+			//auto relativePath = std::filesystem::relative(path, base);
+			std::string fileName = relativePath;
+
+			std::string ext = std::string(path.end() - 4, path.end());
+			ImVec2 imgSizeV = { imgSize, imgSize };
+
+			bool isDir = dir.is_directory();
+			ID3D11ShaderResourceView* srv = nullptr;
+			// Set image based on type (can expand later)
+			if (isDir)
+			{
+				// load dir image
+				srv = nullptr;
+			}
+			else if (ext == ".dds")
+			{
+				LoadThumbnail(path);
+				srv = GetThumbnail(path);
+			}
+			else if (ext == ".png")
+			{
+				//LoadThumbnail(path);
+				srv = nullptr;//GetThumbnail(path);
+			}
+			else
+			{
+				// load misc image
+				srv = nullptr;
+			}
+
+			ImGui::PushID(ImGui::GetID(fileName.c_str()));
+			if (ImGui::ImageButton(srv, imgSizeV))
+			{
+				printe("Button Clicked\n");
+				if (isDir)
+				{
+					myCurrentPath /= dirPath.filename();
+					myClearThumbnails = true;
+					printe("Folder Clicked\n");
+				}
+				else
+				{
+					printe("File Clicked\n");
+					// drag drop resource if texture or sumn
+					// maybe if file is a scene:
+					// save current scene -> load new scene
+				}
+			}
+			ImGui::PopID();
+
+			ImGui::TextWrapped(fileName.c_str());
+
+			ImGui::NextColumn();
+		}
+		//ImGui::Columns(1);
+		//ImGui::SliderFloat("Img Size", &imgSize, 16, 512);
+		//ImGui::SliderFloat("Padding", &padding, 0, 128);
+	}
+	ImGui::End();
 }

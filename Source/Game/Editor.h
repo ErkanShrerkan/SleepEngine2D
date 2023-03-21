@@ -32,6 +32,8 @@ namespace Game
 		void ContentBrowser();
 		void Controls();
 		void GameWindow();
+		void DirectoryNavigator();
+		void Assets();
 
 		// Editor Functions
 		void AddEntityComponent();
