@@ -480,9 +480,9 @@ namespace SE
 		myFullscreen = factory.CreateFullscreenTexture(DX11::GetResolution(), DXGI_FORMAT_R8G8B8A8_UNORM_SRGB);
 		myFullscreenCopy = factory.CreateFullscreenTexture(DX11::GetResolution(), DXGI_FORMAT_R8G8B8A8_UNORM_SRGB);
 		myGameWindow = factory.CreateFullscreenTexture(DX11::GetResolution(), DXGI_FORMAT_R8G8B8A8_UNORM_SRGB);
+		myRGBTexture = factory.CreateFullscreenTexture(DX11::GetResolution(), DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT);
 		myScaledBackBuffer = factory.CreateFullscreenTexture(res, DXGI_FORMAT::DXGI_FORMAT_R8G8B8A8_UNORM_SRGB);
 		myIntermediateDepth = factory.CreateFullscreenDepth(res, DXGI_FORMAT_R32_TYPELESS);
-		myRGBTexture = factory.CreateFullscreenTexture(res, DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT);
 
 		Singleton<GlobalSettings>().gameViewTexture = &myGameWindow;
 	}
