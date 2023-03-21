@@ -45,7 +45,7 @@ SE::CTexture::~CTexture()
 	if (myShaderResourceView)
 	{
 		myShaderResourceView->Release();
-		printf("Texture [%s] deleted\n", myFilePath.c_str());
+		//printf("Texture [%s] deleted\n", myFilePath.c_str());
 	}
 }
 
