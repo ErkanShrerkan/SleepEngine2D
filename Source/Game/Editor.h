@@ -4,6 +4,7 @@
 #include "Process.h"
 #include "GameManager.h"
 #include <filesystem>
+#include <d3d11.h>
 
 namespace SE
 {
@@ -42,6 +43,9 @@ namespace Game
 		void BuildHierarchy();
 		void HandleSelection();
 
+		void LoadThumbnail(const std::string& anImgPath);
+		ID3D11ShaderResourceView* const GetThumbnail(const std::string& anImgPath) const noexcept;
+	
 	private:
 		GameManager myGM;
 		EntityPickingComponent* myPicker;

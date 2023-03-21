@@ -258,6 +258,19 @@ void Game::Editor::HandleSelection()
 	}
 }
 
+void Game::Editor::LoadThumbnail(const std::string& anImgPath)
+{
+	if (myAssetThumbnails.find(anImgPath) == myAssetThumbnails.end())
+	{
+		myAssetThumbnails[anImgPath] = Singleton<SE::CTextureFactory>().LoadTexture(anImgPath);
+	}
+}
+
+ID3D11ShaderResourceView* const Game::Editor::GetThumbnail(const std::string& anImgPath) const noexcept
+{
+	return myAssetThumbnails.at(anImgPath)->GetShaderResourceView();
+}
+
 void Game::Editor::SceneHierarchy()
 {
 	if (myGM.GetUpdateHierarchy())
@@ -371,39 +384,51 @@ void Game::Editor::ContentBrowser()
 				std::string fileName = relativePath;
 
 				std::string ext = std::string(path.end() - 4, path.end());
-				bool isImage = /*false;*/(ext == ".dds");
 				ImVec2 imgSizeV = { imgSize, imgSize };
-				if (isImage)
+
+				bool isDir = dir.is_directory();
+				ID3D11ShaderResourceView* srv = nullptr;
+				// Set image based on type (can expand later)
+				if (isDir)
 				{
-					if (myAssetThumbnails.find(path) == myAssetThumbnails.end())
-					{
-						myAssetThumbnails[path] = Singleton<SE::CTextureFactory>().LoadTexture(path);
-					}
 
-					//if (ImGui::ImageButton(myAssetThumbnails[path]->GetShaderResourceView(), imgSizeV))
-					if (ImGui::Button(fileName.c_str(), imgSizeV))
-					{
-
-					}
+				}
+				else if (ext == ".dds")
+				{
+					LoadThumbnail(path);
+					srv = GetThumbnail(path);
+				}
+				else if (ext == ".png")
+				{
+					//LoadThumbnail(path);
+					srv = nullptr;//GetThumbnail(path);
 				}
 				else
 				{
-					if (ImGui::Button(fileName.c_str(), imgSizeV))
+					srv = nullptr;
+				}
+
+				if (ImGui::ImageButton(srv, imgSizeV))
+				{
+					if (isDir)
 					{
-						if (dir.is_directory())
-						{
-							myCurrentPath /= dirPath.filename();
-							myClearThumbnails = true;
-						}
+						myCurrentPath /= dirPath.filename();
+						myClearThumbnails = true;
+					}
+					else
+					{
+
 					}
 				}
-				ImGui::Text(fileName.c_str());
+
+				ImGui::TextWrapped(fileName.c_str());
+				//ImGui::Text();
 
 				ImGui::NextColumn();
 			}
-			ImGui::Columns(1);
-			ImGui::SliderFloat("Img Size", &imgSize, 16, 512);
-			ImGui::SliderFloat("Padding", &padding, 0, 128);
+			//ImGui::Columns(1);
+			//ImGui::SliderFloat("Img Size", &imgSize, 16, 512);
+			//ImGui::SliderFloat("Padding", &padding, 0, 128);
 		}
 		ImGui::End();
 	}

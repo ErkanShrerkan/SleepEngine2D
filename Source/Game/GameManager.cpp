@@ -37,8 +37,6 @@ GameManager::~GameManager()
 	printe("GameManager Deleted\n");
 }
 
-#include <Engine\TextureFactory.h>
-
 void GameManager::Init()
 {
 	// TODO: Implement Pixel Art Animation Texture Map Lookup Thing
@@ -88,11 +86,6 @@ void GameManager::Init()
 		AddComponent<Sprite>("assets/textures/sprites/circle.dds").
 		SetWidthSizePreservedImageRatio(125).
 		SetColor({0, 1, 0, 1});
-
-	//for (size_t i = 0; i < 100000; i++)
-	//{
-	//	Singleton<SE::CTextureFactory>().LoadTexture("Assets/Textures/Sprites/UI/UI_Sheet.dds");
-	//}
 
 	printe("GameManager Inited\n");
 }

@@ -244,7 +244,7 @@ namespace SE
 		{
 			if (iter->second.expired())
 			{
-				printf("Resource [%s] expired\n", iter->first.c_str());
+				//printf("Resource [%s] expired\n", iter->first.c_str());
 				iter = myPool.erase(iter);
 			}
 			else

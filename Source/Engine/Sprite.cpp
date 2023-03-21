@@ -114,6 +114,7 @@ namespace SE
     {
         SE::CEngine::GetInstance()->GetContentLoader()->GetSpriteFactory().ReleaseSprite(this);
     }
+
     void CSprite::WaitIfTextureIsNotLoaded()
     {
         if (TextureResourceHasLoaded())
@@ -131,6 +132,6 @@ namespace SE
     }
     bool CSprite::TextureResourceHasLoaded()
     {
-        return true;//myTexture->GetShaderResourceView();
+        return /*true;*/myTexture->GetShaderResourceView();
     }
 }
