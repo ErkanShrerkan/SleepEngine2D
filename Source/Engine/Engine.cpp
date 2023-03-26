@@ -7,7 +7,6 @@
 #include "GraphicsEngine.h"
 #include "ContentLoader.h"
 #include "DebugProfiler.h"
-#include "Editor.h"
 // Shortcuts
 #include "DX11.h"
 #include "AudioEngine.h"
@@ -50,6 +49,7 @@ namespace SE
 	{
 		PIXBeginEvent(PIX_COLOR_INDEX(0), __FUNCTION__);
 
+		Singleton<SE::CTextureFactory>().Update();
 		myDeltaTime = aDeltaTime;
 
 		PIXEndEvent();

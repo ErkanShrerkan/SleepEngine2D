@@ -31,11 +31,12 @@ namespace SE
 
 	CEnvironmentLight* CLightFactory::CreateEnvironmentLight(const std::string& aPath)
 	{
+		aPath;
 		CEnvironmentLight* light = new CEnvironmentLight();
 
-		CTexture texture = CTexture(aPath);
-		light->myCubemap = texture.StealShaderResource();
-		light->myMipLevels = texture.GetMipLevels();
+		////CTexture texture = CTexture(aPath);
+		//light->myCubemap = texture.GetShaderResourceView();
+		//light->myMipLevels = texture.GetMipLevels();
 
 		std::shared_ptr<CCamera> cam = std::make_shared<CCamera>();
 		float w = 100'00;

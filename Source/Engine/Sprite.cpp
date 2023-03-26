@@ -117,21 +117,6 @@ namespace SE
 
     void CSprite::WaitIfTextureIsNotLoaded()
     {
-        if (TextureResourceHasLoaded())
-            return;
-
-        bool loaded = false;
-        while (!loaded)
-        {
-            Sleep(1);
-            if (TextureResourceHasLoaded())
-            {
-                loaded = true;
-            }
-        }
-    }
-    bool CSprite::TextureResourceHasLoaded()
-    {
-        return /*true;*/myTexture->GetShaderResourceView();
+        myTexture->WaitUntilResourceIsLoaded();
     }
 }

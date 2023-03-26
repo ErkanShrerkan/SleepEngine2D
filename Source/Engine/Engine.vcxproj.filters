@@ -119,9 +119,6 @@
     <ClInclude Include="AutoReleaser.h">
       <Filter>Source Files\Engine\Utilities\AutoReleaser</Filter>
     </ClInclude>
-    <ClInclude Include="Editor.h">
-      <Filter>Source Files\Engine\Debug</Filter>
-    </ClInclude>
     <ClInclude Include="CommonUtilities.h">
       <Filter>Source Files</Filter>
     </ClInclude>
@@ -247,9 +244,6 @@
     </ClCompile>
     <ClCompile Include="AutoReleaser.cpp">
       <Filter>Source Files\Engine\Utilities\AutoReleaser</Filter>
-    </ClCompile>
-    <ClCompile Include="Editor.cpp">
-      <Filter>Source Files\Engine\Debug</Filter>
     </ClCompile>
     <ClCompile Include="EnvironmentLight.cpp">
       <Filter>Source Files\Engine\Resource\Raw\Light</Filter>

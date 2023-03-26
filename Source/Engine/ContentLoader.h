@@ -16,16 +16,14 @@ namespace SE
 		template <class Resource, class ...Args>
 		Resource* Load(Args... someArguments);
 
-		CFullscreenTexture Load(const Vector2ui& aSize, DXGI_FORMAT aFormat);
-		CFullscreenTexture Load(ID3D11Texture2D* aTexture);
+		//CFullscreenTexture Load(const Vector2ui& aSize, DXGI_FORMAT aFormat);
+		//CFullscreenTexture Load(ID3D11Texture2D* aTexture);
 
 		SE::CLightFactory& GetLightFactory();
-		SE::CTextureFactory& GetTextureFactory();
 		SE::CSpriteFactory& GetSpriteFactory();
 
 	private:
 		SE::CLightFactory myLightFactory;
-		SE::CTextureFactory myTextureFactory;
 		SE::CSpriteFactory mySpriteFactory;
 	};
 

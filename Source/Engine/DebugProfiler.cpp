@@ -42,7 +42,7 @@ namespace SE
 	{
 		CDebugProfiler::CDebugProfiler()
 			: myClock()
-			, texture("Textures/art.dds")
+			//, texture("Textures/art.dds")
 			, myDrawCallCountSum(0)
 			, myDrawCallCount(0)
 		{
@@ -124,8 +124,6 @@ namespace SE
 					ImGui::Text("Avg FPS: %i", myAverageFPS);
 					ImGui::Text("Draw Calls: %i", myDrawCallCount);
 					ImGui::Text("Drawn Triangles: %i", myDrawnTriangles);
-
-					//ImGui::Image((ImTextureID)texture.GetShaderResourceView(), ImVec2(texture.GetWidth(), texture.GetWidth()));
 
 					ImGui::Text("Data Refresh Rate: %.3f seconds", myRefreshRate);
 

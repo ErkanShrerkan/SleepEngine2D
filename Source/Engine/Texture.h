@@ -1,44 +1,94 @@
 #pragma once
+#include <d3d11.h>
 //#include <string_view>
 //#include "AutoReleaser.h"
 
 struct ID3D11ShaderResourceView;
 namespace SE
 {
-    class CTexture
-    {
-    public:
-        CTexture();
-        CTexture(std::string& aFilePath);
-        CTexture(const std::string& aFilePath);
-        ~CTexture();
-        ID3D11ShaderResourceView* const GetShaderResourceView() const noexcept;
-        ID3D11ShaderResourceView* const* GetPointerToShaderResourceView() const;
-        void SetShaderResourceView(ID3D11ShaderResourceView* const aShaderResourceView);
-        // Calls AddRef on CTexture::myShaderResourceView, nullifies it, and returns its old value
-        ID3D11ShaderResourceView* StealShaderResource();
+	class CTextureResource
+	{
+	public:
+		CTextureResource()
+			: srv(nullptr)
+			, width(0)
+			, height(0)
+			, mipLevels(0)
+			, format(0u)
+			, loaded(false)
+		{}
 
-        inline constexpr const float GetWidth() const noexcept
-        {
-            return myWidth;
-        }
-        inline constexpr const float GetHeight() const noexcept
-        {
-            return myHeight;
-        }
-        inline constexpr const float GetMipLevels() const noexcept
-        {
-            return myMipLevels;
-        }
+		~CTextureResource()
+		{
+			while (!loaded)
+			{
+				Sleep(1);
+			}
 
-    private:
-        void LoadResource();
+			if (srv)
+			{
+				srv->Release();
+			}
+		}
 
-    private:
-        ID3D11ShaderResourceView* myShaderResourceView;
-        float myWidth, myHeight, myMipLevels;
-        unsigned myFormat;
-        std::string myFilePath;
-        bool myLoaded = false;
-    };
+	public:
+		ID3D11ShaderResourceView* srv;
+		float width, height, mipLevels;
+		unsigned format;
+		std::string filePath;
+		bool loaded;
+	};
+
+	struct STextureResourcePtr
+	{
+		sptr(CTextureResource) ptr;
+	};
+
+	class CTexture
+	{
+	public:
+		CTexture(sptr(STextureResourcePtr) aPtr);
+		~CTexture();
+		ID3D11ShaderResourceView* const GetShaderResourceView() const noexcept;
+		ID3D11ShaderResourceView* const* GetPointerToShaderResourceView() const;
+		
+		inline const float GetWidth() const noexcept
+		{
+			return myResource->ptr->width;
+		}
+		inline const float GetHeight() const noexcept
+		{
+			return myResource->ptr->height;
+		}
+		inline const float GetMipLevels() const noexcept
+		{
+			return myResource->ptr->mipLevels;
+		}
+
+		void WaitUntilResourceIsLoaded()
+		{
+			if (ResourceIsLoaded())
+				return;
+
+			bool loaded = false;
+			while (!loaded)
+			{
+				Sleep(1);
+				if (ResourceIsLoaded())
+				{
+					loaded = true;
+				}
+			}
+		}
+
+	private:
+		//void LoadResource();
+		const bool ResourceIsLoaded() const
+		{
+			return myResource->ptr.get() && myResource->ptr->loaded;
+		}
+
+	private:
+		sptr(STextureResourcePtr) myResource;
+	};
 }

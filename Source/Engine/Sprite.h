@@ -58,7 +58,6 @@ namespace SE
 
 	private:
 		void WaitIfTextureIsNotLoaded();
-		bool TextureResourceHasLoaded();
 
 	private:
 		sptr(CTexture) myTexture;

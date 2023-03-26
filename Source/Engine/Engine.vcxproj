@@ -203,7 +203,6 @@
     <ClInclude Include="DebugConsole.h" />
     <ClInclude Include="DebugProfiler.h" />
     <ClInclude Include="DX11.h" />
-    <ClInclude Include="Editor.h" />
     <ClInclude Include="EnvironmentLight.h" />
     <ClInclude Include="FullscreenRenderer.h" />
     <ClInclude Include="FullscreenTexture.h" />
@@ -249,7 +248,6 @@
     <ClCompile Include="DebugConsole.cpp" />
     <ClCompile Include="DebugProfiler.cpp" />
     <ClCompile Include="DX11.cpp" />
-    <ClCompile Include="Editor.cpp" />
     <ClCompile Include="EnvironmentLight.cpp" />
     <ClCompile Include="FullscreenRenderer.cpp" />
     <ClCompile Include="FullscreenTexture.cpp" />

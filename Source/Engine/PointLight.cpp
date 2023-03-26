@@ -11,7 +11,7 @@ namespace SE
         myShadowTextures.resize(4);
         for (int i = 0; i < 2; i++)
         {
-            myShadowTextures[i] = CEngine::GetInstance()->GetContentLoader()->GetTextureFactory().CreateShadowMap({ y, y });
+            myShadowTextures[i] = Singleton<CTextureFactory>().CreateShadowMap({y, y});
         }
     }
 

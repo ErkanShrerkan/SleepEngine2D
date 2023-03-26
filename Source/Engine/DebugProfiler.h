@@ -42,8 +42,6 @@ namespace SE
 
 			std::chrono::high_resolution_clock myClock;
 			std::chrono::high_resolution_clock::time_point myFirstTime;
-
-			CTexture texture;
 		};
 	}
 }

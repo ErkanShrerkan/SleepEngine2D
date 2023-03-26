@@ -266,8 +266,8 @@ namespace SE
 		SetSamplerState(ESamplerState::E_SAMPLERSTATE_ANISTROPIC_WRAP, 3);
 
 		CreateTextures();
-		CContentLoader* const& content = CEngine::GetInstance()->GetContentLoader();
-		myBackBuffer = content->Load(backBufferTexture);
+		//CContentLoader* const& content = CEngine::GetInstance()->GetContentLoader();
+		myBackBuffer = Singleton<CTextureFactory>().CreateFullscreenTexture(backBufferTexture);
 		Postmaster::GetInstance().Subscribe(this, eMessage::eUpdateResolution);
 		Postmaster::GetInstance().Subscribe(this, eMessage::eCullBack);
 		Postmaster::GetInstance().Subscribe(this, eMessage::eCullFront);

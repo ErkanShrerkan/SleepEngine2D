@@ -8,12 +8,19 @@
 
 #include "DX11.h"
 #include <algorithm>
+#include <Engine\Async.h>
+#include <Engine\TextureHelper.h>
 
 namespace SE
 {
+	CTextureFactory::CTextureFactory()
+	{
+	}
+
 	CTextureFactory::~CTextureFactory()
 	{
-		myPool.clear();
+		myShutdown = true;
+		myResourcePool.clear();
 	}
 
 	CFullscreenTexture CTextureFactory::CreateFullscreenTexture(const Vector2ui& aSize, DXGI_FORMAT aFormat)
@@ -46,6 +53,7 @@ namespace SE
 		textureResult.myShaderResourceView = shaderResourceView;
 		return textureResult;
 	}
+
 	CFullscreenTexture CTextureFactory::CreateFullscreenDepth(const Vector2ui& aSize, DXGI_FORMAT aFormat)
 	{
 		HRESULT result;
@@ -150,6 +158,7 @@ namespace SE
 		textureResult.myViewport = viewport;
 		return textureResult;
 	}
+
 	CFullscreenTexture CTextureFactory::CreateFullscreenTexture(ID3D11Texture2D* const& aTexture)
 	{
 		HRESULT result;
@@ -238,21 +247,25 @@ namespace SE
 		return returnBuffer;
 	}
 
-	sptr(CTexture) CTextureFactory::LoadTexture(const std::string& aPath)
+	void CTextureFactory::Update()
 	{
-		for (auto iter = myPool.begin(); iter != myPool.end();)
+		myMutex.lock();
+		for (auto iter = myResourcePool.begin(); iter != myResourcePool.end();)
 		{
 			if (iter->second.expired())
 			{
-				//printf("Resource [%s] expired\n", iter->first.c_str());
-				iter = myPool.erase(iter);
+				iter = myResourcePool.erase(iter);
 			}
 			else
 			{
 				++iter;
 			}
 		}
+		myMutex.unlock();
+	}
 
+	sptr(CTexture) CTextureFactory::LoadTexture(const std::string& aPath)
+	{
 		std::string cleanName(aPath);
 		std::replace(cleanName.begin(), cleanName.end(), '\\', '/');
 #pragma warning(disable:4244)
@@ -261,33 +274,100 @@ namespace SE
 		std::transform(cleanName.begin(), cleanName.end(), lowerCasePath.begin(), std::tolower);
 #pragma warning(default:4244)
 
-		std::string modifiablePath = lowerCasePath;
-		sptr(CTexture) texture;
-		if (myPool.find(lowerCasePath) == myPool.end())
+		sptr(STextureResourcePtr) resourcePtr = std::make_shared<STextureResourcePtr>();
+		sptr(CTexture) texture = std::make_shared<CTexture>(resourcePtr);
+
+		myMutex.lock();
+		auto it = myResourcePool.find(lowerCasePath);
+		if (it != myResourcePool.end() && !it->second.expired())
 		{
-			texture = CreateTexture(modifiablePath);
-			myPool[modifiablePath] = texture;
-			//printf("Resource [%s] created\n", lowerCasePath.c_str());
+			resourcePtr->ptr = it->second.lock();
+			myMutex.unlock();
+			return texture;
 		}
-		else
+		myMutex.unlock();
+
+		myMutex.lock();
+		myResourceLoadQueue.push({ resourcePtr, lowerCasePath });
+		myMutex.unlock();
+
+		if (!myLoading)
 		{
-			if (myPool[lowerCasePath].expired())
-			{
-				myPool.erase(lowerCasePath);
-				texture = CreateTexture(modifiablePath);
-				myPool[modifiablePath] = texture;
-				//printf("Resource [%s] expired, creating it again\n", lowerCasePath.c_str());
-			}
-			else
-			{
-				texture = myPool[lowerCasePath].lock();
-				//printf("Resource [%s] loaded\n", lowerCasePath.c_str());
-			}
+			myLoading = true;
+			Async<void> texLoader([&] {
+				while (!myResourceLoadQueue.empty())
+				{
+					myMutex.lock();
+					QueuedResource resource = myResourceLoadQueue.front();
+					myResourceLoadQueue.pop();
+					myMutex.unlock();
+
+					if (myResourcePool.find(resource.path) == myResourcePool.end())
+					{
+						LoadResource(resource);
+						continue;
+					}
+
+					if (myResourcePool.at(resource.path).expired())
+					{
+						myMutex.lock();
+						myResourcePool.erase(resource.path);
+						myMutex.unlock();
+
+						LoadResource(resource);
+					}
+					else
+					{
+						myMutex.lock();
+						resource.resourcePtr->ptr = myResourcePool.at(resource.path).lock();
+						myMutex.unlock();
+					}
+				}
+				myLoading = false;
+				});
 		}
+
 		return texture;
 	}
-	sptr(CTexture) CTextureFactory::CreateTexture(std::string& aPath)
+
+	void CTextureFactory::LoadResource(QueuedResource& aQueuedResource)
 	{
-		return std::make_shared<CTexture>(aPath);
+		aQueuedResource.resourcePtr->ptr = std::make_shared<CTextureResource>();
+		auto& srv = aQueuedResource.resourcePtr->ptr->srv;
+
+		Helper::TextureHelper::LoadShaderResourceView(&srv, aQueuedResource.path);
+
+		if (srv == nullptr)
+		{
+			/* Error Message */
+			perr("Error loading \"%s\" as a CTexture", aQueuedResource.path.c_str());
+			aQueuedResource.path = "Assets/Textures/Error/Albedo_c.dds";
+			Helper::TextureHelper::LoadShaderResourceView(&srv, aQueuedResource.path);
+		}
+
+		// Get size of image
+		ID3D11Resource* resource = nullptr;
+		srv->GetResource(&resource);
+
+		D3D11_TEXTURE2D_DESC description;
+		reinterpret_cast<ID3D11Texture2D*>(resource)->GetDesc(&description);
+		resource->Release();
+
+		sptr(CTextureResource) texture = aQueuedResource.resourcePtr->ptr;
+		texture->width = static_cast<float>(description.Width);
+		texture->height = static_cast<float>(description.Height);
+		texture->mipLevels = static_cast<float>(description.MipLevels);
+		texture->format = static_cast<unsigned>(description.Format);
+		texture->filePath = aQueuedResource.path;
+
+		if (!(Math::IsPowerOfTwo(description.Width) && Math::IsPowerOfTwo(description.Height)))
+		{
+			pwarn("Texture is not power of two (%.fx%.f) \"%s\"", texture->width, texture->height, texture->filePath.c_str());
+		}
+
+		myMutex.lock();
+		myResourcePool[texture->filePath] = texture;
+		texture->loaded = true;
+		myMutex.unlock();
 	}
 }
