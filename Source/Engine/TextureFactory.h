@@ -46,6 +46,5 @@ namespace SE
 
         std::mutex myMutex;
         std::atomic_bool myLoading = false;
-        std::atomic_bool myShutdown = false;
     };
 }

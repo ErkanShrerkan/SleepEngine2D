@@ -19,7 +19,6 @@ namespace SE
 
 	CTextureFactory::~CTextureFactory()
 	{
-		myShutdown = true;
 		myResourcePool.clear();
 	}
 
