@@ -82,7 +82,6 @@ namespace SE
 		}
 
 	private:
-		//void LoadResource();
 		const bool ResourceIsLoaded() const
 		{
 			return myResource->ptr.get() && myResource->ptr->loaded;

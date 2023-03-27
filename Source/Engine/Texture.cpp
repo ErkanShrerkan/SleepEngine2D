@@ -18,7 +18,7 @@ ID3D11ShaderResourceView* const SE::CTexture::GetShaderResourceView() const noex
 {
 	if (myResource->ptr)
 	{
-		return myResource->ptr->srv;// .Raw();
+		return myResource->ptr->srv;
 	}
 	else
 	{
@@ -30,7 +30,7 @@ ID3D11ShaderResourceView* const* SE::CTexture::GetPointerToShaderResourceView() 
 {
 	if (myResource->ptr)
 	{
-		return &myResource->ptr->srv;// .Raw();
+		return &myResource->ptr->srv;
 	}
 	else
 	{

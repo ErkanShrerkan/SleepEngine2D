@@ -290,41 +290,7 @@ namespace SE
 		myResourceLoadQueue.push({ resourcePtr, lowerCasePath });
 		myMutex.unlock();
 
-		if (!myLoading)
-		{
-			myLoading = true;
-			Async<void> texLoader([&] {
-				while (!myResourceLoadQueue.empty())
-				{
-					myMutex.lock();
-					QueuedResource resource = myResourceLoadQueue.front();
-					myResourceLoadQueue.pop();
-					myMutex.unlock();
-
-					if (myResourcePool.find(resource.path) == myResourcePool.end())
-					{
-						LoadResource(resource);
-						continue;
-					}
-
-					if (myResourcePool.at(resource.path).expired())
-					{
-						myMutex.lock();
-						myResourcePool.erase(resource.path);
-						myMutex.unlock();
-
-						LoadResource(resource);
-					}
-					else
-					{
-						myMutex.lock();
-						resource.resourcePtr->ptr = myResourcePool.at(resource.path).lock();
-						myMutex.unlock();
-					}
-				}
-				myLoading = false;
-				});
-		}
+		LoadIfNotLoading();
 
 		return texture;
 	}
@@ -368,5 +334,43 @@ namespace SE
 		myResourcePool[texture->filePath] = texture;
 		texture->loaded = true;
 		myMutex.unlock();
+	}
+
+	void CTextureFactory::LoadIfNotLoading()
+	{
+		if (myLoading)
+			return;
+
+		myLoading = true;
+		Async<void> texLoader([&] {
+			while (!myResourceLoadQueue.empty())
+			{
+				myMutex.lock();
+				QueuedResource resource = myResourceLoadQueue.front();
+				myResourceLoadQueue.pop();
+				myMutex.unlock();
+
+				// Resource is not loaded
+				if (myResourcePool.find(resource.path) == myResourcePool.end())
+				{
+					LoadResource(resource);
+					continue;
+				}
+
+				// Resource was loaded but expired
+				if (myResourcePool.at(resource.path).expired())
+				{
+					LoadResource(resource);
+				}
+				else
+				{
+					// Resource is loaded
+					myMutex.lock();
+					resource.resourcePtr->ptr = myResourcePool.at(resource.path).lock();
+					myMutex.unlock();
+				}
+			}
+			myLoading = false; 
+		});
 	}
 }

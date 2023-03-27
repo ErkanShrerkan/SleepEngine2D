@@ -38,7 +38,7 @@ namespace SE
         };
 
         void LoadResource(QueuedResource& aQueuedResource);
-
+        void LoadIfNotLoading();
     private:
 
         std::unordered_map<std::string, wptr(CTextureResource)> myResourcePool;
