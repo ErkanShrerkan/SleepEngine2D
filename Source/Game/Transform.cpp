@@ -58,14 +58,12 @@ float2 Transform::GetPosition()
 
 float2 Transform::GetUp()
 {
-	float4x4 m = GetTransform();
-	return m.GetUp().xy;
+	return GetTransform().GetUp().xy;
 }
 
 float2 Transform::GetRight()
 {
-	float4x4 m = GetTransform();
-	return m.GetRight().xy;
+	return GetTransform().GetRight().xy;
 }
 
 float4x4 Transform::GetTransform()
@@ -102,21 +100,16 @@ float4x4 Transform::GetTranslationMatrix()
 
 float4x4 Transform::GetObjectSpaceTransform()
 {
-	float4x4 m;
 	float4x4 s = GetScaleMatrix();
 	float4x4 r = GetRotationMatrix();
 	float4x4 t = GetTranslationMatrix();
-
-	m = s * r * t;
-
-	return m;
+	return s * r * t;
 }
 
 void Transform::MoveObjectSpace(float2 aMovementVector)
 {
-	float4x4 r = GetRotationMatrix();
-	auto rmv = r * float4(aMovementVector, 0, 1);
-	SetPosition(myPosition + rmv.xy);
+	float4 rotatedMovementVector = GetRotationMatrix() * float4(aMovementVector, 0, 1);
+	SetPosition(myPosition + rotatedMovementVector.xy);
 }
 
 void Transform::MoveWorldSpace(float2 aMovementVector)

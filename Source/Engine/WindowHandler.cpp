@@ -1,6 +1,8 @@
 #include "pch.h"
 #include "WindowHandler.h"
 #include <Game\Postmaster.h>
+#include <Engine/Input.h>
+#include <Game\Globals.h>
 
 #include <stdio.h>
 
@@ -19,16 +21,56 @@ namespace SE
 			return TRUE;
 		}
 
-		if (uMsg == WM_DESTROY || uMsg == WM_CLOSE)
-		{
-			Postmaster::GetInstance().SendMail(eMessage::eQuitGame);
-			return 0;
-		}
-		else if (uMsg == WM_CREATE)
+		//if (uMsg == WM_DESTROY || uMsg == WM_CLOSE)
+		//{
+		//	//Postmaster::GetInstance().SendMail(eMessage::eQuitGame);
+		//	return 0;
+		//}
+		if (uMsg == WM_CREATE)
 		{
 			CREATESTRUCT* createStruct = reinterpret_cast<CREATESTRUCT*>(lParam);
 			windowHandler = reinterpret_cast<CWindowHandler*>(createStruct->lpCreateParams);
 		}
+		else if (uMsg == WM_MOUSEWHEEL)
+		{
+			MSG msg = { 0 };
+			msg.wParam = wParam;
+			Input::HandleScrollEvent(msg);
+		}
+		else if (uMsg == WM_SIZE/* || uMsg == WM_SIZING*/)
+		{
+			//RECT rect = { 0 };
+
+			//GetWindowRect(hwnd, &rect);
+
+			//uint x = GetSystemMetrics(SM_CXSCREEN);
+			//uint y = GetSystemMetrics(SM_CYSCREEN);
+
+			//TITLEBARINFO tbi = { 0 };
+			//tbi.cbSize = sizeof(TITLEBARINFO);
+			//if (GetTitleBarInfo(hwnd, &tbi))
+			//{
+			//	windowHandler->myWindowData.width = tbi.rcTitleBar.right - tbi.rcTitleBar.left;
+			//	windowHandler->myWindowData.height = rect.bottom - rect.top - tbi.rcTitleBar.top - tbi.rcTitleBar.bottom;
+			//}
+			//else
+			//{
+			//	windowHandler->myWindowData.width = rect.right - rect.left;
+			//	windowHandler->myWindowData.height = rect.bottom - rect.top;
+			//}
+
+
+			//Singleton<GlobalSettings>().windowRect =
+			//{
+			//	(float)rect.left / x,
+			//	(float)rect.top / y,
+			//	(float)rect.right / x,
+			//	(float)rect.bottom / y
+			//};
+
+			//Postmaster::GetInstance().SendMail(eMessage::eUpdateResolution);
+		}
+
 		return DefWindowProc(hwnd, uMsg, wParam, lParam);
 	}
 
@@ -65,10 +107,10 @@ namespace SE
 		windowClass.style = CS_VREDRAW | CS_HREDRAW | CS_OWNDC;
 		windowClass.lpfnWndProc = CWindowHandler::WinProc;
 		windowClass.hCursor = LoadCursor(nullptr, IDC_ARROW);
-		windowClass.lpszClassName = L"StEngine";
+		windowClass.lpszClassName = L"SleepEngine";
 		RegisterClass(&windowClass);
 
-		myWindowHandle = CreateWindow(L"StEngine", myWindowData.title,
+		myWindowHandle = CreateWindow(L"SleepEngine", myWindowData.title,
 			//WS_OVERLAPPEDWINDOW | WS_POPUP | WS_VISIBLE,
 			/*WS_OVERLAPPEDWINDOW |*/ WS_POPUP | WS_VISIBLE,
 			myWindowData.x, myWindowData.y, myWindowData.width, myWindowData.height,

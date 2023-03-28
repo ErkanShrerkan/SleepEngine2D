@@ -14,15 +14,15 @@ void EditorController::Start()
 {
 	myIsObservingEditorInputs = true;
 	eInputState ph = eInputState::Pressed | eInputState::Held;
-	ObserveInputEvent(eInputEvent::Up, ph, [&]() { this->MoveUp(); });
-	ObserveInputEvent(eInputEvent::Down, ph, [&]() { this->MoveDown(); });
-	ObserveInputEvent(eInputEvent::Left, ph, [&]() { this->MoveLeft(); });
-	ObserveInputEvent(eInputEvent::Right, ph, [&]() { this->MoveRight(); });
+	ObserveInputEvent(eInputEvent::Up, ph, [&]() { this->MoveInput({0, 1}); });
+	ObserveInputEvent(eInputEvent::Down, ph, [&]() { this->MoveInput({0, -1}); });
+	ObserveInputEvent(eInputEvent::Left, ph, [&]() { this->MoveInput({-1, 0}); });
+	ObserveInputEvent(eInputEvent::Right, ph, [&]() { this->MoveInput({1, 0}); });
 	ObserveInputEvent(eInputEvent::Shift, eInputState::Pressed, [&]() { this->ToggleShift(true); });
 	ObserveInputEvent(eInputEvent::Shift, eInputState::Released, [&]() { this->ToggleShift(false); });
 	ObserveInputEvent(eInputEvent::LMB, eInputState::Pressed, [&]() { this->Pick(); });
-	ObserveScrollEvent(eScrollState::Up, [&]() { this->ZoomIn(); });
-	ObserveScrollEvent(eScrollState::Down, [&]() { this->ZoomOut(); });
+	ObserveScrollEvent(eScrollState::Up, [&]() { this->Zoom(-100); });
+	ObserveScrollEvent(eScrollState::Down, [&]() { this->Zoom(100); });
 
 	myCam = &GameObject().AddComponent<CameraComponent>(float2(16, 9), 1000.f);
 	GameObject().AddComponent<EntityPickingComponent>();
@@ -34,48 +34,23 @@ void EditorController::Move()
 		return;
 
 	myMovement.Normalize();
-	myMovement *= mySpeed * Singleton<Time>().deltaTime * (myShiftDown + 1);
+	myMovement *= (mySpeed + (mySpeed * myShiftDown * (myShiftMult - 1.f))) * Singleton<Time>().deltaTime;
 	GameObject().GetComponent<Transform>()->Move(myMovement, Transform::Space::Object);
 	myMovement = { 0, 0 };
 }
 
-void EditorController::MoveRight()
+void EditorController::MoveInput(float2 aMovement)
 {
-	myMovement.x += 1;
+	myMovement += aMovement;
 }
 
-void EditorController::MoveLeft()
-{
-	myMovement.x -= 1;
-}
-
-void EditorController::MoveUp()
-{
-	myMovement.y += 1;
-}
-
-void EditorController::MoveDown()
-{
-	myMovement.y -= 1;
-}
-
-void EditorController::ZoomOut()
+void EditorController::Zoom(float aZoomValue)
 {
 	if (!MouseIsOverGameWindow())
 		return;
 
-	float newZoom = myCam->GetZoom() + (100 * (myShiftDown + 1));
-	myCam->SetZoom(newZoom);
-}
-
-void EditorController::ZoomIn()
-{
-	if (!MouseIsOverGameWindow())
-		return;
-
-	float newZoom = myCam->GetZoom() - (100 * (myShiftDown + 1));
-	newZoom = newZoom < 0 ? 0 : newZoom;
-	myCam->SetZoom(newZoom);
+	float newZoom = myCam->GetZoom() + (aZoomValue + (aZoomValue * myShiftDown * (myShiftMult - 1.f)));
+	myCam->SetZoom(newZoom < 0 ? 0 : newZoom);
 }
 
 void EditorController::Pick()

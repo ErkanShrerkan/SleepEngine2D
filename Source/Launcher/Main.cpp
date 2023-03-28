@@ -57,18 +57,19 @@ void HandleTabbing(bool& isTabbed)
 	Input::Update(!isTabbed);
 }
 
-void MessagePeek(MSG& aMSG)
+bool MessagePeek(MSG& aMSG)
 {
 	while (PeekMessage(&aMSG, 0, 0, 0, PM_REMOVE))
 	{
 		TranslateMessage(&aMSG);
 		DispatchMessage(&aMSG);
 
-		if (aMSG.message == WM_MOUSEWHEEL)
+		if (aMSG.message == WM_DESTROY || aMSG.message == WM_CLOSE)
 		{
-			Input::HandleScrollEvent(aMSG);
+			return false;
 		}
 	}
+	return true;
 }
 
 int WINAPI wWinMain(_In_ HINSTANCE hInstance,
@@ -83,8 +84,8 @@ int WINAPI wWinMain(_In_ HINSTANCE hInstance,
 	SE::CEngine::SEngineParameters engineParameters{};
 	engineParameters.window.x = 0;
 	engineParameters.window.y = 0;
-	unsigned int x = GetSystemMetrics(SM_CXSCREEN);
-	unsigned int y = GetSystemMetrics(SM_CYSCREEN);
+	uint x = /*1920;*/GetSystemMetrics(SM_CXSCREEN);
+	uint y = /*uint(x * (9.f / 16));*/GetSystemMetrics(SM_CYSCREEN);
 	engineParameters.window.width = static_cast<int>(x);
 	engineParameters.window.height = static_cast<int>(y);
 	engineParameters.window.title = L"Mire";
@@ -93,6 +94,8 @@ int WINAPI wWinMain(_In_ HINSTANCE hInstance,
 	engineParameters.clearColor = { .1f, .1f, .1f, 1.f };
 
 	Singleton<JsonManager>().InitDocument("Data/Config.json");
+	//x = GetSystemMetrics(SM_CXSCREEN);
+	//y = GetSystemMetrics(SM_CYSCREEN);
 	Singleton<GlobalSettings>().windowResolution = { x, y };
 
 	// Start the Engine
@@ -149,20 +152,19 @@ int WINAPI wWinMain(_In_ HINSTANCE hInstance,
 	bool isRunning = true;
 	bool isProcessing = true;
 	bool isTabbed = false;
-
 	bool currentProcess = false;
 
 	while (isRunning)
 	{
 		Input::Init();
-		Process* process = nullptr;
+		sptr(Process) process;
 		Singleton<GlobalSettings>().gameplayResolution = (currentProcess ? uint2(960 / 2/*640*/, 540 / 2/*480*/ /*360*/) : uint2(x, y));
 		isRunning = engine->Restart();
 
 		if (currentProcess)
-			process = new Game::Game();
+			process = std::make_shared<Game::Game>();
 		else
-			process = new Game::Editor();
+			process = std::make_shared<Game::Editor>();
 
 		if (!process->Init())
 			return 0xbeef;
@@ -171,7 +173,7 @@ int WINAPI wWinMain(_In_ HINSTANCE hInstance,
 		while (isProcessing && isRunning)
 		{
 			PIXBeginEvent(PIX_COLOR_INDEX(64), __FUNCTION__);
-			MessagePeek(windowMessage);
+			isRunning = MessagePeek(windowMessage);
 			HandleTabbing(isTabbed);
 
 			engine->BeginFrame();
@@ -192,7 +194,7 @@ int WINAPI wWinMain(_In_ HINSTANCE hInstance,
 			}
 		}
 
-		delete process;
+		//delete process;
 		currentProcess = !currentProcess;
 		Input::DeInit();
 	}
