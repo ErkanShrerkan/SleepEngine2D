@@ -239,6 +239,7 @@
     <ClCompile Include="ExposedComponent.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameManager.cpp" />
+    <ClCompile Include="Globals.cpp" />
     <ClCompile Include="InputDispatcher.cpp" />
     <ClCompile Include="JsonManager.cpp" />
     <ClCompile Include="Level.cpp" />

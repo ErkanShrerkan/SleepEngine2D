@@ -4,6 +4,7 @@
 #include <Windows.h>
 #include "GraphicsEngine.h"
 #include "Engine.h"
+#include <Game/Globals.h>
 #include <algorithm>
 
 eScrollState Input::myScrollState;
@@ -186,11 +187,8 @@ Vector2f Input::GetMousePos()
 {
 	POINT p;
 	GetCursorPos(&p);
-	RECT rect = {};
-	HWND handle = GetActiveWindow();
-	GetWindowRect(handle, &rect);
-	ScreenToClient(handle, &p);
-	return Vector2f{ (float)p.x / (rect.right - rect.left), (float)p.y / (rect.bottom - rect.top) };
+	auto res = Singleton<GlobalSettings>().screenResolution;
+	return Vector2f{ (float)p.x / res.x, (float)p.y / res.y };
 }
 
 Vector2f Input::GetClampedMousePos()

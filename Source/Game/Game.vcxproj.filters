@@ -237,6 +237,9 @@
     <ClCompile Include="EntityPickingSystem.cpp">
       <Filter>Source Files\Game\ECS\Systems</Filter>
     </ClCompile>
+    <ClCompile Include="Globals.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

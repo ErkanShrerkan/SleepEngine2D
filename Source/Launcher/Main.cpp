@@ -64,7 +64,7 @@ bool MessagePeek(MSG& aMSG)
 		TranslateMessage(&aMSG);
 		DispatchMessage(&aMSG);
 
-		if (aMSG.message == WM_DESTROY || aMSG.message == WM_CLOSE)
+		if (aMSG.message == WM_QUIT)
 		{
 			return false;
 		}
@@ -84,8 +84,8 @@ int WINAPI wWinMain(_In_ HINSTANCE hInstance,
 	SE::CEngine::SEngineParameters engineParameters{};
 	engineParameters.window.x = 0;
 	engineParameters.window.y = 0;
-	uint x = /*1920;*/GetSystemMetrics(SM_CXSCREEN);
-	uint y = /*uint(x * (9.f / 16));*/GetSystemMetrics(SM_CYSCREEN);
+	uint x = uint((float)GetSystemMetrics(SM_CXSCREEN) * .8f);
+	uint y = uint((float)GetSystemMetrics(SM_CYSCREEN) * .8f);
 	engineParameters.window.width = static_cast<int>(x);
 	engineParameters.window.height = static_cast<int>(y);
 	engineParameters.window.title = L"Mire";
@@ -93,19 +93,23 @@ int WINAPI wWinMain(_In_ HINSTANCE hInstance,
 	//engineParameters.clearColor = { 64.f / 255.f, 127.f / 255.f, 1.f, 1.f };
 	engineParameters.clearColor = { .1f, .1f, .1f, 1.f };
 
-	Singleton<JsonManager>().InitDocument("Data/Config.json");
+	//Singleton<JsonManager>().InitDocument("Data/Config.json");
 	//x = GetSystemMetrics(SM_CXSCREEN);
 	//y = GetSystemMetrics(SM_CYSCREEN);
-	Singleton<GlobalSettings>().windowResolution = { x, y };
+	auto& gs = Singleton<GlobalSettings>();
+	gs.gameplayResolution = { 640, /*480*/ 360 };
+	gs.windowResolution = { x, y };
+	gs.gameWindowRect = { 0.f, 0.f, (float)x, (float)y };
+	gs.windowRect = { 0.f, 0.f, (float)x, (float)y };
+	gs.screenResolution = { (uint)GetSystemMetrics(SM_CXSCREEN), (uint)GetSystemMetrics(SM_CYSCREEN) };
 
 	// Start the Engine
-	if (!SE::CEngine::GetInstance()->Start(engineParameters))
+	SE::CEngine* engine = SE::CEngine::GetInstance();
+	if (!engine->Start(engineParameters))
 	{
 		/* Error, could not start the engine */
 		return 0xdead;
 	}
-	SE::CEngine* engine = SE::CEngine::GetInstance();
-
 
 	Timer timer;
 	timer.Update();
@@ -140,7 +144,7 @@ int WINAPI wWinMain(_In_ HINSTANCE hInstance,
 			engine->EndFrame();
 
 			isSplashing = ss->GetState() != SplashScreen::eState::Over;
-		}
+}
 		delete ss;
 #endif // RELEASE
 	}
@@ -194,7 +198,6 @@ int WINAPI wWinMain(_In_ HINSTANCE hInstance,
 			}
 		}
 
-		//delete process;
 		currentProcess = !currentProcess;
 		Input::DeInit();
 	}

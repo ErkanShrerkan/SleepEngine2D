@@ -23,6 +23,8 @@ namespace SE
 
 		void BeginFrame(const Vector4f& aClearColor);
 		void EndFrame();
+		void ReleaseBackBuffer();
+		bool InitBackBuffer();
 
 		ID3D11DeviceContext* const& GetContext() const;
 		ID3D11Device* const& GetDevice() const;
@@ -30,9 +32,9 @@ namespace SE
 
 	private:
 
-		AutoReleaser<IDXGISwapChain> mySwapChain;
-		AutoReleaser<ID3D11Device> myDevice;
-		AutoReleaser<ID3D11DeviceContext> myContext;
-		AutoReleaser<ID3D11RenderTargetView> myBackBuffer;
+		IDXGISwapChain* mySwapChain;
+		ID3D11Device* myDevice;
+		ID3D11DeviceContext* myContext;
+		ID3D11RenderTargetView* myBackBuffer;
 	};
 }

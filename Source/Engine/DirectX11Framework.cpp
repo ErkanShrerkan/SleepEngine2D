@@ -35,10 +35,7 @@ namespace SE
 		{
 			myContext->Release();
 		}
-		//if (myBackBuffer != nullptr)
-		//{
-		//	myBackBuffer->Release();
-		//}
+		ReleaseBackBuffer();
 
 		printf("framework deleted\n");
 	}
@@ -80,7 +77,7 @@ namespace SE
 		DXGI_ADAPTER_DESC usingAdapterDesc;
 		size_t mostMem = 0;
 
-		#pragma warning(disable:4477)
+#pragma warning(disable:4477)
 		// 'printf_s' : format string ... requires an argument of type ...
 		printf("----------------------------------------------------\n");
 		printf_s("Found %i graphic cards\n", myAdapterDescs.size());
@@ -91,11 +88,11 @@ namespace SE
 			size_t memory = desc.DedicatedVideoMemory / 1024 / 1024;
 			std::wstring name = desc.Description;
 
-			#pragma warning(disable:4244)
+#pragma warning(disable:4244)
 			// 'argument' : conversion from 'wchar_t' to 'const _Elem', possible loss of data <xstring:2575>
 			std::string cname = std::string(name.begin(), name.end());
 			printf("- %s : %i MiB\n", cname.c_str(), memory);
-			#pragma warning(default:4244)
+#pragma warning(default:4244)
 
 			if (memory > mostMem)
 			{
@@ -106,14 +103,14 @@ namespace SE
 		}
 		{
 			std::wstring name = usingAdapterDesc.Description;
-			#pragma warning(disable:4244)
+#pragma warning(disable:4244)
 			// 'argument' : conversion from 'wchar_t' to 'const _Elem', possible loss of data <xstring:2575>
 			std::string cname = std::string(name.begin(), name.end());
 			printf("Using graphic card: %s\n", cname.c_str());
-			#pragma warning(default:4244)
+#pragma warning(default:4244)
 		}
 		printf("----------------------------------------------------\n");
-		#pragma warning(default:4477)
+#pragma warning(default:4477)
 
 		//// Enumerate the primary adapter output (monitor).
 		//IDXGIOutput* pOutput = nullptr;
@@ -178,7 +175,7 @@ namespace SE
 		swapChainDescription.BufferDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;
 		swapChainDescription.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
 		swapChainDescription.OutputWindow = aWindowHandler->GetWindowHandle();
-		swapChainDescription.SampleDesc.Count = 1;	
+		swapChainDescription.SampleDesc.Count = 1;
 		swapChainDescription.Windowed = true;
 
 		int2 numDenum;
@@ -196,24 +193,17 @@ namespace SE
 			&swapChainDescription, &mySwapChain, &myDevice, nullptr, &myContext);
 		if (FAILED(result)) { /* Error message here */ return false; }
 
-		ID3D11Texture2D* backbufferTexture;
-		result = mySwapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), reinterpret_cast<void**>(&backbufferTexture));
-		if (FAILED(result)) { /* Error message here */ return false; }
-
-		result = myDevice->CreateRenderTargetView(backbufferTexture, nullptr, &myBackBuffer);
-		if (FAILED(result)) { /* Error message here */ return false; }
-
-		result = backbufferTexture->Release();
-		if (FAILED(result)) { /* Error message here */ return false; }
-
-		printf("framework deleted\n");
+		if (!InitBackBuffer())
+		{
+			return false;
+		};
 
 		return true;
 	}
 
 	void CDirectX11Framework::BeginFrame(const Vector4f& aClearColor)
 	{
-		myContext->ClearRenderTargetView(myBackBuffer.Raw(), &aClearColor.x);
+		myContext->ClearRenderTargetView(myBackBuffer, &aClearColor.x);
 		//myContext->ClearDepthStencilView(myDepthBuffer.Raw(), D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
 	}
 
@@ -223,17 +213,43 @@ namespace SE
 		mySwapChain->Present(0, 0);
 	}
 
-	ID3D11DeviceContext *const& CDirectX11Framework::GetContext() const
+	void CDirectX11Framework::ReleaseBackBuffer()
 	{
-		return myContext.Raw();
+		if (myBackBuffer != nullptr)
+		{
+			myBackBuffer->Release();
+		}
 	}
 
-	ID3D11Device *const& CDirectX11Framework::GetDevice() const
+	bool CDirectX11Framework::InitBackBuffer()
 	{
-		return myDevice.Raw();
+		ReleaseBackBuffer();
+
+		HRESULT result;
+		ID3D11Texture2D* backbufferTexture;
+		result = mySwapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), reinterpret_cast<void**>(&backbufferTexture));
+		if (FAILED(result)) { return false; }
+
+		result = myDevice->CreateRenderTargetView(backbufferTexture, nullptr, &myBackBuffer);
+		if (FAILED(result)) { return false; }
+
+		result = backbufferTexture->Release();
+		if (FAILED(result)) { return false; }
+
+		return true;
+	}
+
+	ID3D11DeviceContext* const& CDirectX11Framework::GetContext() const
+	{
+		return myContext;
+	}
+
+	ID3D11Device* const& CDirectX11Framework::GetDevice() const
+	{
+		return myDevice;
 	}
 	ID3D11RenderTargetView* const& CDirectX11Framework::GetBackBuffer() const
 	{
-		return myBackBuffer.Raw();
+		return myBackBuffer;
 	}
 }

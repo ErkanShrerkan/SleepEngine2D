@@ -26,7 +26,7 @@ void EntityPickingSystem::Update()
 		picker->myShouldPick = false;
 
 		float2 pickPos = picker->myPickPos;
-		float4 gameRect = Singleton<GlobalSettings>().gameWindowRect;
+		float4 gameRect = Singleton<GlobalSettings>().GetGameWindowNormalised();
 
 		pickPos -= gameRect.xy;
 		gameRect.zw -= gameRect.xy;

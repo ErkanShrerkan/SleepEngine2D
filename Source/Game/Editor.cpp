@@ -342,7 +342,11 @@ void Game::Editor::GameWindow()
 	if (ImGui::Begin("Game Window"))
 	{
 		uint2 res = Singleton<GlobalSettings>().gameplayResolution;
-		uint2 windowRes = Singleton<GlobalSettings>().windowResolution;
+		float4 windowRect = Singleton<GlobalSettings>().windowRect;
+		uint2 windowRes = {
+			uint(windowRect.z - windowRect.x),
+			uint(windowRect.w - windowRect.y) };
+
 		float ratio = (float)res.x / res.y;
 		float frameH = ImGui::GetFrameHeight();
 		ImVec2 windowSize = ImGui::GetContentRegionAvail();
@@ -364,12 +368,13 @@ void Game::Editor::GameWindow()
 		ImGui::SetCursorPos(cursorPos);
 		cursorPos.x += pos.x;
 		cursorPos.y += pos.y;
+		float4 wRect = Singleton<GlobalSettings>().GetWindowNormalised();
 		Singleton<GlobalSettings>().gameWindowRect =
 		{
-			((cursorPos.x / windowRes.x)),
-			((cursorPos.y / windowRes.y)),
-			((cursorPos.x + viewPortSize.x) / windowRes.x),
-			((cursorPos.y + viewPortSize.y) / windowRes.y),
+			cursorPos.x,
+			cursorPos.y,
+			cursorPos.x + viewPortSize.x,
+			cursorPos.y + viewPortSize.y,
 		};
 		float4 rect = Singleton<GlobalSettings>().gameWindowRect;
 		ImVec2 tl = { rect.x, rect.y };
@@ -380,6 +385,13 @@ void Game::Editor::GameWindow()
 		ImGui::GetWindowDrawList()->AddRectFilled(pos, posPlusWindowSize, sideBarCol);
 		ImGui::Image((void*)Singleton<GlobalSettings>().gameViewTexture->GetSRV(), viewPortSize);
 		ImGui::GetWindowDrawList()->AddRect(tl, br, col);
+		Singleton<GlobalSettings>().gameWindowRect +=
+		{
+			windowRect.x,
+			windowRect.y,
+			windowRect.x,
+			windowRect.y
+		};
 	}
 	ImGui::End();
 	ImGui::PopStyleVar();
@@ -462,7 +474,7 @@ void Game::Editor::Assets()
 
 			if (isDir && path == "Assets/Textures/Editor")
 				continue;
-			
+
 			std::string relativePath = std::string(path.substr(path.find_last_of('/') + 1, path.size()));
 			std::string fileName = relativePath;
 

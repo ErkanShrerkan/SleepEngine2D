@@ -3,8 +3,8 @@
 #include <Game\Postmaster.h>
 #include <Engine/Input.h>
 #include <Game\Globals.h>
-
 #include <stdio.h>
+#include <dwmapi.h>
 
 // ImGui Input Hijacking
 #include <ImGui\imgui_impl_win32.h>
@@ -21,11 +21,12 @@ namespace SE
 			return TRUE;
 		}
 
-		//if (uMsg == WM_DESTROY || uMsg == WM_CLOSE)
-		//{
-		//	//Postmaster::GetInstance().SendMail(eMessage::eQuitGame);
-		//	return 0;
-		//}
+		if (uMsg == WM_DESTROY || uMsg == WM_CLOSE)
+		{
+			//Postmaster::GetInstance().SendMail(eMessage::eQuitGame);
+			//return 0;
+			PostQuitMessage(0);
+		}
 		if (uMsg == WM_CREATE)
 		{
 			CREATESTRUCT* createStruct = reinterpret_cast<CREATESTRUCT*>(lParam);
@@ -37,41 +38,28 @@ namespace SE
 			msg.wParam = wParam;
 			Input::HandleScrollEvent(msg);
 		}
-		else if (uMsg == WM_SIZE/* || uMsg == WM_SIZING*/)
+		else if (uMsg == WM_MOVE || uMsg == WM_MOVING)
 		{
-			//RECT rect = { 0 };
-
-			//GetWindowRect(hwnd, &rect);
-
-			//uint x = GetSystemMetrics(SM_CXSCREEN);
-			//uint y = GetSystemMetrics(SM_CYSCREEN);
-
-			//TITLEBARINFO tbi = { 0 };
-			//tbi.cbSize = sizeof(TITLEBARINFO);
-			//if (GetTitleBarInfo(hwnd, &tbi))
-			//{
-			//	windowHandler->myWindowData.width = tbi.rcTitleBar.right - tbi.rcTitleBar.left;
-			//	windowHandler->myWindowData.height = rect.bottom - rect.top - tbi.rcTitleBar.top - tbi.rcTitleBar.bottom;
-			//}
-			//else
-			//{
-			//	windowHandler->myWindowData.width = rect.right - rect.left;
-			//	windowHandler->myWindowData.height = rect.bottom - rect.top;
-			//}
-
-
-			//Singleton<GlobalSettings>().windowRect =
-			//{
-			//	(float)rect.left / x,
-			//	(float)rect.top / y,
-			//	(float)rect.right / x,
-			//	(float)rect.bottom / y
-			//};
-
-			//Postmaster::GetInstance().SendMail(eMessage::eUpdateResolution);
+			windowHandler->UpdatePosition(
+				{ 
+					(uint)(int)(short)LOWORD(lParam), 
+					(uint)(int)(short)HIWORD(lParam) 
+				});
+		}
+		else if (uMsg == WM_SIZE || uMsg == WM_SIZING)
+		{
+			windowHandler->UpdateRect();
+		}
+		else if (uMsg == WM_EXITSIZEMOVE)
+		{
+			windowHandler->OnExitSizeMove();
+		}
+		else
+		{
+			return DefWindowProc(hwnd, uMsg, wParam, lParam);
 		}
 
-		return DefWindowProc(hwnd, uMsg, wParam, lParam);
+		return 0;
 	}
 
 	CWindowHandler::CWindowHandler()
@@ -111,8 +99,10 @@ namespace SE
 		RegisterClass(&windowClass);
 
 		myWindowHandle = CreateWindow(L"SleepEngine", myWindowData.title,
-			//WS_OVERLAPPEDWINDOW | WS_POPUP | WS_VISIBLE,
-			/*WS_OVERLAPPEDWINDOW |*/ WS_POPUP | WS_VISIBLE,
+			WS_OVERLAPPEDWINDOW |
+			WS_POPUP |
+			WS_VISIBLE |
+			0u,
 			myWindowData.x, myWindowData.y, myWindowData.width, myWindowData.height,
 			nullptr, nullptr, nullptr, this);
 
@@ -139,5 +129,64 @@ namespace SE
 	const int CWindowHandler::GetHeight() const
 	{
 		return myWindowData.height;
+	}
+
+	void CWindowHandler::UpdateRect()
+	{
+		if (!myWindowHandle)
+			return;
+
+		RECT rect, frame, border;
+
+		GetWindowRect(myWindowHandle, &rect);
+		DwmGetWindowAttribute(myWindowHandle, DWMWA_EXTENDED_FRAME_BOUNDS, &frame, sizeof(RECT));
+
+		// border
+		border.left = frame.left - rect.left;
+		border.top = frame.top - rect.top;
+		border.right = rect.right - frame.right;
+		border.bottom = rect.bottom - frame.bottom;
+
+		// rect without borders
+		rect.left += border.left + 1;
+		rect.top += border.top + 1;
+		rect.right -= border.right + 1;
+		rect.bottom -= border.bottom * 2 + 1;
+
+		TITLEBARINFO tbi = { 0 };
+		tbi.cbSize = sizeof(TITLEBARINFO);
+		if (GetTitleBarInfo(myWindowHandle, &tbi))
+		{
+			// move rect down
+			int titleBarHeight = tbi.rcTitleBar.bottom - tbi.rcTitleBar.top;
+			rect.top += titleBarHeight;
+		}
+
+		// rect dimensions
+		myWindowData.width = rect.right - rect.left;
+		myWindowData.height = rect.bottom - rect.top;
+
+		Singleton<GlobalSettings>().windowRect =
+		{
+			(float)rect.left,
+			(float)rect.top,
+			(float)rect.right,
+			(float)rect.bottom
+		};
+	}
+
+	void CWindowHandler::UpdatePosition(uint2 aPos)
+	{
+		myWindowData.x = aPos.x;
+		myWindowData.y = aPos.y;
+		UpdateRect();
+	}
+
+	void CWindowHandler::OnExitSizeMove()
+	{
+		auto rect = Singleton<GlobalSettings>().windowRect;
+		//printf("x:%f, y:%f, z:%f, w:%f\n", rect.x, rect.y, rect.z, rect.w);
+		//printf("x:%f, y:%f\n", (float)myWindowData.x, (float)myWindowData.y);
+		Postmaster::GetInstance().SendMail(eMessage::eUpdateResolution);
 	}
 }

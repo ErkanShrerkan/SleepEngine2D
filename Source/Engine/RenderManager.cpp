@@ -102,6 +102,7 @@ namespace SE
 	//#define DELTA_TIME CEngine::GetInstance()->GetDeltaTime();
 	bool CRenderManager::Init(CDirectX11Framework* aFramework)
 	{
+		myFrameWorkRef = aFramework;
 		myPostProcessingData.shallowWaterColor = float3(37.f / 255, 114.f / 255, 17.f / 255);
 		myPostProcessingData.deepWaterColor = float3(24.f / 255, 47.f / 255, 8.f / 255);
 		myPostProcessingData.waterBorderColor = float3(153.f / 255, 175.f / 255, 147.f / 255);
@@ -127,14 +128,6 @@ namespace SE
 		//myCursor->isEngineDependent = true;
 		//myCursor->SetSizeRelativeToImage({ 640.f / 1920, 360.f / 1080 });
 		myCursor->SetSizeRelativeToImage({ .05f, .05f * (16.f / 9) });
-		ID3D11Resource* backBufferResource = nullptr;
-		aFramework->GetBackBuffer()->GetResource(&backBufferResource);
-		ID3D11Texture2D* backBufferTexture = reinterpret_cast<ID3D11Texture2D*>(backBufferResource);
-		if (!backBufferTexture)
-		{
-			/* Error Message */
-			return false;
-		}
 
 		HRESULT result;
 		D3D11_BUFFER_DESC bufferDesc = { 0 };
@@ -267,7 +260,6 @@ namespace SE
 
 		CreateTextures();
 		//CContentLoader* const& content = CEngine::GetInstance()->GetContentLoader();
-		myBackBuffer = Singleton<CTextureFactory>().CreateFullscreenTexture(backBufferTexture);
 		Postmaster::GetInstance().Subscribe(this, eMessage::eUpdateResolution);
 		Postmaster::GetInstance().Subscribe(this, eMessage::eCullBack);
 		Postmaster::GetInstance().Subscribe(this, eMessage::eCullFront);
@@ -473,14 +465,24 @@ namespace SE
 		myFullscreen.Release();
 		myGameWindow.Release();
 		myRGBTexture.Release();
+		myBackBuffer.Release();
+
+		ID3D11Resource* backBufferResource = nullptr;
+		myFrameWorkRef->InitBackBuffer();
+		myFrameWorkRef->GetBackBuffer()->GetResource(&backBufferResource);
+		ID3D11Texture2D* backBufferTexture = reinterpret_cast<ID3D11Texture2D*>(backBufferResource);
 
 		//DXGI_FORMAT hdrFormat = DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT;
 		//DXGI_FORMAT normalFormat = DXGI_FORMAT::DXGI_FORMAT_R8G8B8A8_UNORM;
 
-		myFullscreen = factory.CreateFullscreenTexture(DX11::GetResolution(), DXGI_FORMAT_R8G8B8A8_UNORM_SRGB);
-		myFullscreenCopy = factory.CreateFullscreenTexture(DX11::GetResolution(), DXGI_FORMAT_R8G8B8A8_UNORM_SRGB);
-		myGameWindow = factory.CreateFullscreenTexture(DX11::GetResolution(), DXGI_FORMAT_R8G8B8A8_UNORM_SRGB);
-		myRGBTexture = factory.CreateFullscreenTexture(DX11::GetResolution(), DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT);
+		auto rect = Singleton<GlobalSettings>().windowRect;
+		uint2 rectRes = { uint(rect.z - rect.x), uint(rect.w - rect.y) };
+
+		myBackBuffer = factory.CreateFullscreenTexture(backBufferTexture);
+		myFullscreen = factory.CreateFullscreenTexture(rectRes, DXGI_FORMAT_R8G8B8A8_UNORM_SRGB);
+		myFullscreenCopy = factory.CreateFullscreenTexture(rectRes, DXGI_FORMAT_R8G8B8A8_UNORM_SRGB);
+		myGameWindow = factory.CreateFullscreenTexture(rectRes, DXGI_FORMAT_R8G8B8A8_UNORM_SRGB);
+		myRGBTexture = factory.CreateFullscreenTexture(rectRes, DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT);
 		myScaledBackBuffer = factory.CreateFullscreenTexture(res, DXGI_FORMAT::DXGI_FORMAT_R8G8B8A8_UNORM_SRGB);
 		myIntermediateDepth = factory.CreateFullscreenDepth(res, DXGI_FORMAT_R32_TYPELESS);
 

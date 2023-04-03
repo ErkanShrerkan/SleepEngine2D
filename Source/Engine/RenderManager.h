@@ -115,6 +115,7 @@ namespace SE
 
 		PostProcessingData myPostProcessingData;
 		ID3D11Buffer* myPostProcessingBuffer = nullptr;
+		CDirectX11Framework* myFrameWorkRef;
 
 		bool myDrawLines = true;
 

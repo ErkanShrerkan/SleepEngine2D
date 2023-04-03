@@ -27,6 +27,11 @@ namespace SE
 		const int GetHeight() const;
 
 	private:
+		void UpdateRect();
+		void UpdatePosition(uint2 aPos);
+		void OnExitSizeMove();
+
+	private:
 		SWindowData myWindowData;
 		HWND myWindowHandle;
 	};
