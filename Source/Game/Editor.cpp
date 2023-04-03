@@ -89,14 +89,15 @@ void Game::Editor::AddEntityComponent()
 	}
 
 	std::set<uint> entityComponents;
-	for (auto& [componentID, component] : myGM.GetEntityComponents()[mySelectedEntity])
+	auto& ec = myGM.GetEntityComponents()[mySelectedEntity];
+	for (auto& [componentID, component] : ec)
 	{
 		entityComponents.insert(componentID);
 	}
 
 	if (ImGui::Button("Reload") && ValidSelection())
 	{
-		for (auto& [id, component] : myGM.GetEntityComponents()[mySelectedEntity])
+		for (auto& [id, component] : ec)
 		{
 			component->Reload();
 		}

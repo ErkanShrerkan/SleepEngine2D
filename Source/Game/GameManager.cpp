@@ -12,7 +12,6 @@
 
 GameManager::GameManager()
 {
-	//myShowChildrenRecord[UINT_MAX] = true;
 	mySceneManager = new SceneManager(this);
 }
 
@@ -21,15 +20,16 @@ GameManager::~GameManager()
 	for (auto& [id, entity] : myEntities)
 	{
 		delete entity;
-		for (auto& [type, pointer] : myEntityComponents[id])
-		{
-			myComponentMaps[type]->DeleteComponentFromEntity(id);
-		}
 	}
 
 	for (auto& [id, mcm] : myComponentMaps)
 	{
 		delete mcm;
+	}
+
+	for (auto& system : mySystems) 
+	{
+		delete system;
 	}
 
 	delete mySceneManager;
@@ -85,7 +85,7 @@ void GameManager::Init()
 		CreateChild().
 		AddComponent<Sprite>("assets/textures/sprites/circle.dds").
 		SetWidthSizePreservedImageRatio(125).
-		SetColor({0, 1, 0, 1});
+		SetColor({ 0, 1, 0, 1 });
 
 	printe("GameManager Inited\n");
 }
@@ -139,7 +139,6 @@ void GameManager::RemoveEntity(uint anEntityID)
 	{
 		myComponentMaps[componentID]->DeleteComponentFromEntity(anEntityID);
 	}
-
 	myEntityComponents.erase(anEntityID);
 
 	UpdateHierarchy();

@@ -26,6 +26,8 @@ namespace SE
 		const int GetWidth() const;
 		const int GetHeight() const;
 
+		void InitRects();
+
 	private:
 		void UpdateRect();
 		void UpdatePosition(uint2 aPos);

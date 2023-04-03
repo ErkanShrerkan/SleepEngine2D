@@ -12,6 +12,7 @@ namespace Game
 {
 	class Editor;
 }
+
 class SceneManager;
 class GameManager;
 class Entity;
@@ -22,7 +23,8 @@ public:
 	virtual ~IComponentMap() = default;
 	virtual void DeleteComponentFromEntity(uint anEntity) = 0;
 	virtual void UpdateComponents() = 0;
-	virtual void AddComponent(uint anEntity, GameManager& aGameManager) = 0;
+	virtual void* RegisterNewComponent(uint anEntity) = 0;
+	virtual void AddComponent(uint anEntity, GameManager& aGM) = 0;
 	std::string GetName()
 	{
 		return myName;
@@ -95,21 +97,18 @@ public:
 		ComponentType&>::type
 		AddComponent(uint anEntityID, Args&&... someArgs)
 	{
-		ComponentType* component = nullptr;
-		auto& entityComponents = myEntityComponents[anEntityID];
+		//ComponentType* component = nullptr;
 		uint componentID = GetID<ComponentType>();
+		auto& entityComponents = myEntityComponents[anEntityID];
 
 		if (entityComponents.find(componentID) != entityComponents.end())
-		{
-			component = static_cast<ComponentType*>(myEntityComponents[anEntityID][componentID]);
-			return *component;
-		}
+			return *static_cast<ComponentType*>(myEntityComponents[anEntityID][componentID]);
 
-		ComponentMap<ComponentType>& cm = GetComponentMap<ComponentType>();
-		component = new ComponentType(std::forward<Args>(someArgs)...);
 		Entity* entity = myEntities[anEntityID];
+		ComponentType* component = reinterpret_cast<ComponentType*>(GetComponentMap<ComponentType>().RegisterNewComponent(anEntityID));
+		*component = ComponentType(std::forward<Args>(someArgs)...);
 		component->SetEntity(entity);
-		cm.map.insert(std::make_pair(anEntityID, component));
+
 		entityComponents[componentID] = component;
 		component->Start();
 		return *component;
@@ -150,7 +149,7 @@ private:
 		}
 		else
 		{
-			return findIt->second;
+			return &findIt->second;
 		}
 	}
 
@@ -161,7 +160,7 @@ private:
 		void>::type
 		RegisterSystem()
 	{
-		mySystems.push_back(reinterpret_cast<System*>(new SystemType(this)));
+		mySystems.push_back(new SystemType(this));
 	}
 
 private:
@@ -186,7 +185,6 @@ private:
 	void UpdateHierarchy(bool aBool = true);
 	bool GetUpdateHierarchy() { return myEntityHierarchyNeedsUpdating; }
 
-	//std::unordered_map<uint, Entity*>& GetEntities() { return myEntities; }
 	std::unordered_map<uint, std::unordered_map<uint, Component*>>& GetEntityComponents() { return myEntityComponents; }
 	std::unordered_map<uint, IComponentMap*>& GetComponentMaps() { return myComponentMaps; }
 private:
@@ -201,15 +199,18 @@ template <
 	class ComponentMap : public IComponentMap
 {
 public:
-	std::unordered_map<uint, ComponentType*> map;
+	std::unordered_map<uint, ComponentType> map;
+
+public:
+	~ComponentMap()
+	{
+	}
+
 	virtual void DeleteComponentFromEntity(uint anEntity) override
 	{
 		if (map.find(anEntity) == map.end())
 			return;
 
-		// deletes the component pointer
-		delete map[anEntity];
-		// removes the entity entry in the map
 		map.erase(anEntity);
 	}
 
@@ -221,12 +222,22 @@ public:
 
 		for (auto& [entity, component] : map)
 		{
-			component->Update();
+			component.Update();
 		}
 	}
 
-	virtual void AddComponent(uint anEntity, GameManager& aGameManager) override
+	virtual void* RegisterNewComponent(uint anEntity) override
 	{
-		aGameManager.AddComponent<ComponentType>(anEntity);
+		auto findIt = map.find(anEntity);
+		if (findIt != map.end())
+			return &(findIt->second);
+
+		return  reinterpret_cast<void*>(&map[anEntity]);
+	}
+
+	virtual void AddComponent(uint anEntity, GameManager& aGM) override
+	{
+		aGM.AddComponent<ComponentType>(anEntity);
+		return;
 	}
 };

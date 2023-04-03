@@ -11,7 +11,7 @@ void EditorSystem::Update()
 {
 	for (auto& [entity, component] : myGameManager->GetComponentMap<EditorController>().map)
 	{
-		component->Move();
+		component.Move();
 		Entity& object = myGameManager->GetEntity(entity);
 		auto picker = object.GetComponent<EntityPickingComponent>();
 		float2 mPos = Input::GetMousePos();

@@ -20,12 +20,12 @@ void EntityPickingSystem::Update()
 		pickerEntity = &myGameManager->GetEntity(entityID);
 		cam = pickerEntity->GetComponent<CameraComponent>();
 
-		if (!cam || !picker->myShouldPick)
+		if (!cam || !picker.myShouldPick)
 			continue;
 
-		picker->myShouldPick = false;
+		picker.myShouldPick = false;
 
-		float2 pickPos = picker->myPickPos;
+		float2 pickPos = picker.myPickPos;
 		float4 gameRect = Singleton<GlobalSettings>().GetGameWindowNormalised();
 
 		pickPos -= gameRect.xy;
@@ -72,7 +72,7 @@ void EntityPickingSystem::Update()
 			Debug::DrawCircle(ePos, worldDist, true);
 			if ((ePos - pickPos).LengthSqr() < transformDistThresh)
 			{
-				picker->SetPickedEntityID(id);
+				picker.SetPickedEntityID(id);
 				picked = true;
 				printf("Entity Picked: %i\n", id);
 				break;
@@ -80,6 +80,6 @@ void EntityPickingSystem::Update()
 		}
 
 		if (!picked)
-			picker->SetPickedEntityID(UINT_MAX);
+			picker.SetPickedEntityID(UINT_MAX);
 	}
 }

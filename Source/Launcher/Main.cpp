@@ -13,6 +13,7 @@
 #include <Engine\WindowHandler.h>
 #include <Engine\SplashScreen.h>
 #include <Engine\TextureHelper.h>
+#include <Engine\WindowHandler.h>
 
 using namespace CommonUtilities;
 
@@ -93,9 +94,6 @@ int WINAPI wWinMain(_In_ HINSTANCE hInstance,
 	//engineParameters.clearColor = { 64.f / 255.f, 127.f / 255.f, 1.f, 1.f };
 	engineParameters.clearColor = { .1f, .1f, .1f, 1.f };
 
-	//Singleton<JsonManager>().InitDocument("Data/Config.json");
-	//x = GetSystemMetrics(SM_CXSCREEN);
-	//y = GetSystemMetrics(SM_CYSCREEN);
 	auto& gs = Singleton<GlobalSettings>();
 	gs.gameplayResolution = { 640, /*480*/ 360 };
 	gs.windowResolution = { x, y };
@@ -110,6 +108,7 @@ int WINAPI wWinMain(_In_ HINSTANCE hInstance,
 		/* Error, could not start the engine */
 		return 0xdead;
 	}
+	engine->GetGraphicsEngine()->GetWindowHandler().InitRects();
 
 	Timer timer;
 	timer.Update();

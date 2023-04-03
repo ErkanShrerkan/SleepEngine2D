@@ -76,11 +76,11 @@ void CollisionSystem::Update()
 		//}
 
 		float2 objectPos = myGameManager->GetEntity(entity0).GetComponent<Transform>()->GetPosition();
-		objectPos += component0->pos;
+		objectPos += component0.pos;
 
 		float2 firstPoint = { 0, 0 };
 		float2 lastPoint = { 0, 0 };
-		float r = component0->radius;
+		float r = component0.radius;
 		bool first = true;
 		for (float a = 0; a <= 2 * 3.1415927f; a += /*2 * */.31415927f)
 		{

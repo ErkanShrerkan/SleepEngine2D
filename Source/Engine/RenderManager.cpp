@@ -335,7 +335,7 @@ namespace SE
 			// picks first best available camera, might fix later
 			if (!cameraMap.map.empty())
 			{
-				mainCam = cameraMap.map.begin()->second;
+				mainCam = &cameraMap.map.begin()->second;
 			}
 		}
 

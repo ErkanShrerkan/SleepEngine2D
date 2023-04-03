@@ -20,17 +20,17 @@ namespace SE
 		{
 			return TRUE;
 		}
+		if (uMsg == WM_CREATE)
+		{
+			CREATESTRUCT* createStruct = reinterpret_cast<CREATESTRUCT*>(lParam);
+			windowHandler = reinterpret_cast<CWindowHandler*>(createStruct->lpCreateParams);
+		}
 
 		if (uMsg == WM_DESTROY || uMsg == WM_CLOSE)
 		{
 			//Postmaster::GetInstance().SendMail(eMessage::eQuitGame);
 			//return 0;
 			PostQuitMessage(0);
-		}
-		if (uMsg == WM_CREATE)
-		{
-			CREATESTRUCT* createStruct = reinterpret_cast<CREATESTRUCT*>(lParam);
-			windowHandler = reinterpret_cast<CWindowHandler*>(createStruct->lpCreateParams);
 		}
 		else if (uMsg == WM_MOUSEWHEEL)
 		{
@@ -54,12 +54,8 @@ namespace SE
 		{
 			windowHandler->OnExitSizeMove();
 		}
-		else
-		{
-			return DefWindowProc(hwnd, uMsg, wParam, lParam);
-		}
 
-		return 0;
+		return DefWindowProc(hwnd, uMsg, wParam, lParam);
 	}
 
 	CWindowHandler::CWindowHandler()
@@ -131,6 +127,13 @@ namespace SE
 		return myWindowData.height;
 	}
 
+	void CWindowHandler::InitRects()
+	{
+		UpdatePosition({ 0u, 0u });
+		UpdateRect();
+		OnExitSizeMove();
+	}
+
 	void CWindowHandler::UpdateRect()
 	{
 		if (!myWindowHandle)
@@ -184,7 +187,7 @@ namespace SE
 
 	void CWindowHandler::OnExitSizeMove()
 	{
-		auto rect = Singleton<GlobalSettings>().windowRect;
+		//auto rect = Singleton<GlobalSettings>().windowRect;
 		//printf("x:%f, y:%f, z:%f, w:%f\n", rect.x, rect.y, rect.z, rect.w);
 		//printf("x:%f, y:%f\n", (float)myWindowData.x, (float)myWindowData.y);
 		Postmaster::GetInstance().SendMail(eMessage::eUpdateResolution);

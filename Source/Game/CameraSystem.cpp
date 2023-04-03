@@ -8,6 +8,6 @@ void CameraSystem::Update()
 {
 	for (auto& [entity, component] : myGameManager->GetComponentMap<CameraComponent>().map)
 	{
-		component->UpdateProjection();
+		component.UpdateProjection();
 	}
 }
