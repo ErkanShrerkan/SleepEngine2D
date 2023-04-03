@@ -151,10 +151,10 @@ namespace SE
 		border.bottom = rect.bottom - frame.bottom;
 
 		// rect without borders
-		rect.left += border.left + 1;
-		rect.top += border.top + 1;
-		rect.right -= border.right + 1;
-		rect.bottom -= border.bottom * 2 + 1;
+		rect.left += border.left + 2;
+		rect.top += border.top + 2;
+		rect.right -= border.right + 2;
+		rect.bottom -= border.bottom * 2 + 2;
 
 		TITLEBARINFO tbi = { 0 };
 		tbi.cbSize = sizeof(TITLEBARINFO);
