@@ -104,7 +104,6 @@
     <ClInclude Include="Collider.h">
       <Filter>Source Files\Game\ECS\Components</Filter>
     </ClInclude>
-    <ClInclude Include="CircleCollider.h" />
     <ClInclude Include="ComponentInclude.h">
       <Filter>Source Files\Game\ECS\Components</Filter>
     </ClInclude>
@@ -194,9 +193,6 @@
     </ClCompile>
     <ClCompile Include="Collider.cpp">
       <Filter>Source Files\Game\ECS\Components</Filter>
-    </ClCompile>
-    <ClCompile Include="CircleCollider.cpp">
-      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Transform.cpp">
       <Filter>Source Files\Game\ECS\Components</Filter>

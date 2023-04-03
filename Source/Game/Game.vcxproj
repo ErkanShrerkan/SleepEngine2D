@@ -182,7 +182,6 @@
   <ItemGroup>
     <ClInclude Include="CameraComponent.h" />
     <ClInclude Include="CameraSystem.h" />
-    <ClInclude Include="CircleCollider.h" />
     <ClInclude Include="Collider.h" />
     <ClInclude Include="CollisionSystem.h" />
     <ClInclude Include="Component.h" />
@@ -226,7 +225,6 @@
   <ItemGroup>
     <ClCompile Include="CameraComponent.cpp" />
     <ClCompile Include="CameraSystem.cpp" />
-    <ClCompile Include="CircleCollider.cpp" />
     <ClCompile Include="Collider.cpp" />
     <ClCompile Include="CollisionSystem.cpp" />
     <ClCompile Include="Component.cpp" />

@@ -89,7 +89,7 @@ int WINAPI wWinMain(_In_ HINSTANCE hInstance,
 	uint y = uint((float)GetSystemMetrics(SM_CYSCREEN) * .8f);
 	engineParameters.window.width = static_cast<int>(x);
 	engineParameters.window.height = static_cast<int>(y);
-	engineParameters.window.title = L"Mire";
+	engineParameters.window.title = L"Sleep Engine 2D";
 	engineParameters.clearColor = { 1.0f, .85f, .66f, 1.f };
 	//engineParameters.clearColor = { 64.f / 255.f, 127.f / 255.f, 1.f, 1.f };
 	engineParameters.clearColor = { .1f, .1f, .1f, 1.f };
