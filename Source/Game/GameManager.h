@@ -35,11 +35,9 @@ public:
 	bool myIsEditorOnly;
 };
 
-template <
-	typename ComponentType,
-	typename std::enable_if<
-	std::is_base_of<
-	Component, ComponentType>::value>::type* = nullptr>
+template <typename ComponentType, typename std::enable_if<
+	std::is_base_of<Component, ComponentType>
+	::value>::type* = nullptr>
 	class ComponentMap;
 
 class GameManager
@@ -59,10 +57,7 @@ public:
 	/// <typeparam name="ComponentType"></typeparam>
 	/// <returns></returns>
 	template <class ComponentType>
-	typename std::enable_if
-		<std::is_base_of
-		<Component, ComponentType>::value,
-		uint>::type
+	EnableFunctionIfTypeIsDerived(Component, ComponentType, uint)
 		GetID()
 	{
 		uint count = myIDCounter++;
@@ -71,10 +66,7 @@ public:
 	}
 
 	template <typename ComponentType>
-	typename std::enable_if<
-		std::is_base_of<
-		Component, ComponentType>::value,
-		ComponentMap<ComponentType>&>::type
+	EnableFunctionIfTypeIsDerived(Component, ComponentType, ComponentMap<ComponentType>&)
 		GetComponentMap()
 	{
 		return *static_cast<ComponentMap<ComponentType>*>(myComponentMaps[GetID<ComponentType>()]);
@@ -91,10 +83,7 @@ public:
 	}
 
 	template <typename ComponentType, typename... Args>
-	typename std::enable_if<
-		std::is_base_of<
-		Component, ComponentType>::value,
-		ComponentType&>::type
+	EnableFunctionIfTypeIsDerived(Component, ComponentType, ComponentType&)
 		AddComponent(uint anEntityID, Args&&... someArgs)
 	{
 		//ComponentType* component = nullptr;
@@ -116,10 +105,7 @@ public:
 
 private:
 	template <typename ComponentType>
-	typename std::enable_if<
-		std::is_base_of<
-		Component, ComponentType>::value,
-		void>::type
+	EnableFunctionIfTypeIsDerived(Component, ComponentType, void)
 		RegisterComponent(const std::string& aName, bool isEditorOnly = false)
 	{
 		uint id = GetID<ComponentType>();
@@ -135,10 +121,7 @@ private:
 	void UnLoadAll();
 
 	template <typename ComponentType>
-	typename std::enable_if<
-		std::is_base_of
-		<Component, ComponentType>::value,
-		ComponentType*>::type
+	EnableFunctionIfTypeIsDerived(Component, ComponentType, ComponentType*)
 		GetComponent(uint anEntityID)
 	{
 		auto& map = GetComponentMap<ComponentType>().map;
@@ -154,10 +137,7 @@ private:
 	}
 
 	template <typename SystemType>
-	typename std::enable_if
-		<std::is_base_of
-		<System, SystemType>::value,
-		void>::type
+	EnableFunctionIfTypeIsDerived(System, SystemType, void)
 		RegisterSystem()
 	{
 		mySystems.push_back(new SystemType(this));

@@ -1,33 +1,26 @@
 #pragma once
 #include <ThirdParty\ImGui\imgui.h>
 
-class ExposableString
-{
-public:
-	ExposableString();
-	ExposableString(const std::string& aString);
-	ExposableString(uint aSize);
-	void SetString(const std::string& aString);
-	void SetSize(uint aSize);
-	uint GetSize();
-	std::string GetString();
-	char* operator[](uint anIndex);
+class Component;
 
-private:
-	std::vector<char> buf;
-};
-
-class ExposedComponent
+namespace Expose
 {
-public:
-	void OnImGui(const std::string& aName);
-	void Update()
+	class ExposableString
 	{
-		// TODO: Fix variable update here
-	}
-	bool HasExposedVariables() { return !myExposedVariables.empty(); }
+	public:
+		ExposableString();
+		ExposableString(const std::string& aString);
+		ExposableString(uint aSize);
+		void SetString(const std::string& aString);
+		void SetSize(uint aSize);
+		uint GetSize();
+		std::string GetString();
+		char* operator[](uint anIndex);
 
-protected:
+	private:
+		std::vector<char> buf;
+	};
+
 	enum class ePickMode
 	{
 		Drag,
@@ -41,41 +34,6 @@ protected:
 		Clamp
 	};
 
-protected:
-	void Expose(
-		bool& aVariable, 
-		const std::string& aName);
-	void Expose(
-		float& aVariable,
-		const std::string& aName,
-		float aSensitivity,
-		eBounds aBoundsType = eBounds::None,
-		float2 someBounds = { 0, 100 });
-	void Expose(
-		float2& aVariable,
-		const std::string& aName,
-		float aSensitivity,
-		eBounds aBoundsType = eBounds::None,
-		float2 someBounds = { 0, 100 });
-	void Expose(
-		float3& aVariable,
-		const std::string& aName,
-		float aSensitivity,
-		ePickMode aPickMode = ePickMode::Color,
-		eBounds aBoundsType = eBounds::None,
-		float2 someBounds = { 0, 100 });
-	void Expose(
-		float4& aVariable,
-		const std::string& aName,
-		float aSensitivity,
-		ePickMode aPickMode = ePickMode::Color,
-		eBounds aBoundsType = eBounds::None,
-		float2 someBounds = { 0, 100 });
-	void Expose(
-		ExposableString& aVariable, 
-		const std::string& aName);
-
-private:
 	enum class eDataFormat
 	{
 		Bool,
@@ -83,27 +41,36 @@ private:
 		Vec2,
 		Vec3,
 		Vec4,
-		String
+		String,
+		ComponentRef,
 	};
 
-	class ExposedVariable
+	class IExposed
 	{
 	public:
-		void OnImGui();
+		virtual ~IExposed() = default;
+		virtual void OnImGui() = 0;
 
 	public:
 		std::string name;
 		eDataFormat format;
 		ePickMode pickMode;
 		eBounds boundsType = eBounds::None;
-		void* adr;
 		float2 bounds;
 		float sensitivity;
+	};
+
+	class ExposedVariable : public IExposed
+	{
+	public:
+		~ExposedVariable();
+		void OnImGui() override;
+
+	public:
+		void* adr;
 
 	private:
 		float InBoundsValue(float aValue);
-
-	protected:
 		void Bool();
 		void Scalar();
 		void Vec2();
@@ -112,7 +79,69 @@ private:
 		void String();
 	};
 
-private:
-	std::vector<ExposedVariable> myExposedVariables;
-};
+	template<typename ComponentType>
+	class ExposedComponentRef : public IExposed
+	{
+	public:
+		~ExposedComponentRef();
+		void OnImGui() override;
 
+	public:
+		void* adr;
+
+	private:
+		void ComponentRef();
+	};
+}
+
+class ExposedComponent
+{
+public:
+	virtual ~ExposedComponent();
+	void OnImGui(const std::string& aName);
+	void Update() { /*TODO: Fix variable update here*/ }
+	bool HasExposedVariables() { return !myExposedVariables.empty(); }
+
+protected:
+	void Expose(
+		bool& aVariable,
+		const std::string& aName);
+	void Expose(
+		float& aVariable,
+		const std::string& aName,
+		float aSensitivity,
+		Expose::eBounds aBoundsType = Expose::eBounds::None,
+		float2 someBounds = { 0, 100 });
+	void Expose(
+		float2& aVariable,
+		const std::string& aName,
+		float aSensitivity,
+		Expose::eBounds aBoundsType = Expose::eBounds::None,
+		float2 someBounds = { 0, 100 });
+	void Expose(
+		float3& aVariable,
+		const std::string& aName,
+		float aSensitivity,
+		Expose::ePickMode aPickMode = Expose::ePickMode::Color,
+		Expose::eBounds aBoundsType = Expose::eBounds::None,
+		float2 someBounds = { 0, 100 });
+	void Expose(
+		float4& aVariable,
+		const std::string& aName,
+		float aSensitivity,
+		Expose::ePickMode aPickMode = Expose::ePickMode::Color,
+		Expose::eBounds aBoundsType = Expose::eBounds::None,
+		float2 someBounds = { 0, 100 });
+	void Expose(
+		Expose::ExposableString& aVariable,
+		const std::string& aName);
+
+	template <typename ComponentType>
+	EnableFunctionIfTypeIsDerived(Component, ComponentType, void)
+		Expose(
+			ComponentType*& aComponentRef,
+			const std::string& aName);
+
+private:
+	std::vector<sptr(Expose::IExposed)> myExposedVariables;
+};

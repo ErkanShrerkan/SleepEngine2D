@@ -44,6 +44,7 @@ void PlayerController::Start()
 	ObserveInputEvent(eInputEvent::Interact, eInputState::Released, [&]() { this->ToggleMovement(); });
 
 	Expose(mySpeed, "Speed", 10.f);
+	Expose(myTransformRef, "Transform Ref Test");
 }
 
 void PlayerController::MoveRight()

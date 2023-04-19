@@ -51,7 +51,7 @@ private:
 
 private:
     // not proud of this sprite setup but it's very low priority to fix
-    ExposableString myTexture;
+    Expose::ExposableString myTexture;
     float4 myColor = { 1, 1, 1, 1 };
     float4 myRect = { 0, 0, 1, 1 };
     float2 mySize;

@@ -35,6 +35,7 @@ public:
 	uint GetID();
 	uint GetParentID();
 	std::vector<uint> GetChildrenIDs();
+	GameManager& GetGameManager() { return *myGameManager; }
 
 private:
 	void ForceAbandon(uint aParentID, uint aChildID);

@@ -1,5 +1,6 @@
 #pragma once
 #include "Component.h"
+#include "Transform.h"
 
 class PlayerController : public Component, public InputObserver
 {
@@ -19,6 +20,7 @@ private:
     void ToggleMovement();
 
 private:
+    Transform* myTransformRef;
     float2 myMovement;
     float mySpeed = 500;
     bool myCanMove = false;

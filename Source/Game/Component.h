@@ -10,6 +10,7 @@ class Component : public ExposedComponent
 	friend class GameManager;
 public:
 	Component(){}
+	~Component(){ /*printf("\nCOMPONENT DELETED\n");*/ }
 	Entity& GameObject();
 	virtual void Update(){};
 	virtual void Start() = 0;
