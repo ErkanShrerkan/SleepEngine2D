@@ -168,7 +168,10 @@ private:
 		void OnImGui()
 		{
 			ImGui::AlignTextToFramePadding();
+			ImGui::Text("  ");
+			ImGui::SameLine();
 			ImGui::Text(name.c_str());
+			ImGui::TableSetColumnIndex(1);
 			ImGui::SetNextItemWidth(-FLT_MIN);
 			switch (format)
 			{
@@ -320,12 +323,21 @@ public:
 
 		if (open)
 		{
-			for (auto& variable : myExposedVariables)
+			ImGui::BeginTable("values", 2);
+			ImGui::TableNextRow();
+			for (int i = 0; i < myExposedVariables.size(); i++)
 			{
+				auto& variable = myExposedVariables[i];
 				ImGui::PushID(&variable);
+				ImGui::TableSetColumnIndex(0);
 				variable.OnImGui();
+				if (i != myExposedVariables.size() - 1)
+				{
+					ImGui::TableNextRow();
+				}
 				ImGui::PopID();
 			}
+			ImGui::EndTable();
 			ImGui::TreePop();
 		}
 	}
