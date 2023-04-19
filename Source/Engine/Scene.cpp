@@ -50,6 +50,7 @@ namespace SE
 	{
 		return mySprites;
 	}
+
 	CommonUtilities::RefillVector<Sprite*>& CScene::GetSSSprites()
 	{
 		return mySSSprites;
