@@ -56,7 +56,6 @@ void Game::Editor::RecieveMessage(eMessage aMessage)
 void Game::Editor::OnImGui()
 {
 	ImGui::DockSpaceOverViewport();
-	//ImGui::PushStyleColor(ImGuiCol_Button, { .1f, .1f, .1f, 1 });
 	ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(2, 2));
 
 	BlackScreen();
@@ -68,7 +67,6 @@ void Game::Editor::OnImGui()
 	Controls();
 	GameWindow();
 
-	//ImGui::PopStyleColor();
 	ImGui::PopStyleVar();
 }
 
@@ -107,7 +105,6 @@ void Game::Editor::AddEntityComponent()
 	ImGui::PushID("Component Combo");
 	if (ImGui::BeginCombo("", "Add Component"))
 	{
-		//ImGui::PushStyleColor()
 		for (auto& [componentID, map] : myGM.GetComponentMaps())
 		{
 			// can't add a component that already has been added or is editor only
@@ -199,13 +196,12 @@ void Game::Editor::ListEntityRecursive(uint anID)
 			showChildren = !showChildren;
 		}
 		ImGui::SameLine();
+		// change to display entity name in future
 		if (ImGui::TreeNodeEx("Entities", nodeFlag, "%s_%u", "Entity", id))
 		{
-			if (ImGui::IsItemClicked())
-			{
-				mySelectedEntity = mySelectedEntity == id ? UINT_MAX : id;
-				myPicker->SetPickedEntityID(mySelectedEntity);
-			}
+			bool hovered = ImGui::IsItemHovered();
+			HandleHierarchySelection(id, hovered);
+
 			ImGui::PopID();
 			if (showChildren)
 			{
@@ -256,6 +252,37 @@ void Game::Editor::HandleSelection()
 				myShowChildrenRecord[parent] = true;
 			}
 		}
+	}
+}
+
+void Game::Editor::HandleHierarchySelection(uint anID, bool isHovered)
+{
+	if (!isHovered)
+	{
+		if (myInitiallySelectedEntity == anID)
+		{
+			myInitiallySelectedEntity = UINT_MAX;
+			myHoversInitiallySelectedEntity = false;
+		}
+		return;
+	}
+
+	if (Input::GetInputReleased(eInputEvent::LMB))
+	{
+		if (!myHoversInitiallySelectedEntity)
+		{
+			myInitiallySelectedEntity = UINT_MAX;
+			return;
+		}
+
+		mySelectedEntity = mySelectedEntity == myInitiallySelectedEntity ? UINT_MAX : myInitiallySelectedEntity;
+		myPicker->SetPickedEntityID(mySelectedEntity);
+	}
+	else if (Input::GetInputPressed(eInputEvent::LMB))
+	{
+		// handle potential drag n drop
+		myInitiallySelectedEntity = anID;
+		myHoversInitiallySelectedEntity = true;
 	}
 }
 
@@ -389,9 +416,9 @@ void Game::Editor::GameWindow()
 		Singleton<GlobalSettings>().gameWindowRect +=
 		{
 			windowRect.x,
-			windowRect.y,
-			windowRect.x,
-			windowRect.y
+				windowRect.y,
+				windowRect.x,
+				windowRect.y
 		};
 	}
 	ImGui::End();

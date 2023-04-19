@@ -44,6 +44,7 @@ namespace Game
 		bool ValidSelection();
 		void BuildHierarchy();
 		void HandleSelection();
+		void HandleHierarchySelection(uint anID, bool isHovered);
 
 		void LoadThumbnail(const std::string& anImgPath);
 		ID3D11ShaderResourceView* const GetThumbnail(const std::string& anImgPath) const noexcept;
@@ -51,18 +52,19 @@ namespace Game
 	private:
 		GameManager myGM;
 		EntityPickingComponent* myPicker;
-
 		bool myDisplay = true;
 
 		// Editor control variables
-		uint mySelectedEntity = UINT_MAX;
-		uint mySelectedEntityLastFrame = UINT_MAX;
-		std::unordered_map<uint, bool> myShowChildrenRecord;
-		std::map<uint, std::set<uint>> myEntityHierarchy;
-		bool myEntityHierarchyNeedsUpdating = false;
-		uint myEditorEntityID;
 		std::filesystem::path myCurrentPath;
 		std::unordered_map<std::string, sptr(SE::CTexture)> myAssetThumbnails;
+		std::unordered_map<uint, bool> myShowChildrenRecord;
+		std::map<uint, std::set<uint>> myEntityHierarchy;
+		uint mySelectedEntity = UINT_MAX;
+		uint mySelectedEntityLastFrame = UINT_MAX;
+		uint myInitiallySelectedEntity = UINT_MAX;
+		uint myEditorEntityID;
+		bool myEntityHierarchyNeedsUpdating = false;
+		bool myHoversInitiallySelectedEntity = false;
 		bool myClearThumbnails = false;
 	};
 }

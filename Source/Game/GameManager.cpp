@@ -51,6 +51,7 @@ void GameManager::Init()
 	RegisterComponent<CameraComponent>("Camera");
 	RegisterComponent<Rigidbody>("Rigidbody");
 
+	// register systems
 	RegisterSystem<EditorSystem>();
 	RegisterSystem<SpriteRenderSystem>();
 	RegisterSystem<CollisionSystem>();
