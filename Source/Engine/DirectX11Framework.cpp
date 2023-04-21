@@ -35,7 +35,9 @@ namespace SE
 		{
 			myContext->Release();
 		}
+
 		ReleaseBackBuffer();
+		ClearState();
 
 		printf("framework deleted\n");
 	}
@@ -223,9 +225,14 @@ namespace SE
 
 	bool CDirectX11Framework::InitBackBuffer()
 	{
-		ReleaseBackBuffer();
-
 		HRESULT result;
+
+		ReleaseBackBuffer();
+		ClearState();
+
+		result = mySwapChain->ResizeBuffers(0u, 0u, 0u, DXGI_FORMAT_UNKNOWN, 0u);
+		if (FAILED(result)) { return false; }
+
 		ID3D11Texture2D* backbufferTexture;
 		result = mySwapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), reinterpret_cast<void**>(&backbufferTexture));
 		if (FAILED(result)) { return false; }
@@ -237,6 +244,17 @@ namespace SE
 		if (FAILED(result)) { return false; }
 
 		return true;
+	}
+
+	void CDirectX11Framework::ClearState()
+	{
+		myContext->ClearState();
+		ID3D11CommandList* cl;
+		myContext->FinishCommandList(false, &cl);
+		if (cl)
+		{
+			cl->Release();
+		}
 	}
 
 	ID3D11DeviceContext* const& CDirectX11Framework::GetContext() const

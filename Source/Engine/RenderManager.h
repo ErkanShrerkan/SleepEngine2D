@@ -14,36 +14,20 @@ namespace SE
 	class CRenderManager : public Observer
 	{
 	public:
-		struct PostProcessingData
-		{
-			float3 shallowWaterColor;
-			float waterLevel;
-			float3 deepWaterColor;
-			float refractionIndex;
-			float3 waterBorderColor;
-			float refractionStrength;
-			uint2 screenResolution;
-			uint2 gameResolution;
-			float borderThreshhold;
-			float TimePI;
-			float deltaTime;
-			float fogDensity;
-			float3 fogColor;
-			float fogMult;
-			float fogOffset;
-			float godRaySampleDistance;
-			float godRayFalloff;
-			float godRayScatterProbability;
-			float alphaThreshold;
-			int config;
-			float mainCamNearPlane;
-			float elapsedTime;
-			float emissiveMult;
-			float bloomMult;
-			int volumetricIndex;
-			float y;
-		};
+		struct PostProcessingData;
 
+	public:
+		~CRenderManager();
+
+		bool Restart();
+		bool Init(CDirectX11Framework* aFramework);
+		void RenderFrame();
+		void DrawCursor();
+		void Update();
+		void RecieveMessage(eMessage aMsg) override;
+		PostProcessingData& GetPPD() { return myPostProcessingData; }
+
+	public:
 		enum EBlendState
 		{
 			E_BLENDSTATE_DISABLE,
@@ -81,21 +65,46 @@ namespace SE
 			E_SAMPLERSTATE_COUNT
 		};
 
-		~CRenderManager();
-
-		bool Restart();
-		bool Init(CDirectX11Framework* aFramework);
-		void RenderFrame();
-		void DrawCursor();
-		void RecieveMessage(eMessage aMsg) override;
+		struct PostProcessingData
+		{
+			float3 shallowWaterColor;
+			float waterLevel;
+			float3 deepWaterColor;
+			float refractionIndex;
+			float3 waterBorderColor;
+			float refractionStrength;
+			uint2 screenResolution;
+			uint2 gameResolution;
+			float borderThreshhold;
+			float TimePI;
+			float deltaTime;
+			float fogDensity;
+			float3 fogColor;
+			float fogMult;
+			float fogOffset;
+			float godRaySampleDistance;
+			float godRayFalloff;
+			float godRayScatterProbability;
+			float alphaThreshold;
+			int config;
+			float mainCamNearPlane;
+			float elapsedTime;
+			float emissiveMult;
+			float bloomMult;
+			int volumetricIndex;
+			float y;
+		};
 
 	private:
+		void ActuallyRestart();
 		void CreateTextures();
+		void BindSamplerStates();
+		void SetBlendState(EBlendState aBlendState);
+		void SetDepthStencilState(EDepthStencilState aStencilState);
+		void SetRasterizerState(ERasterizerState aRasterizerState);
+		void SetSamplerState(ESamplerState aSamplerState, int aSlot = 0);
 
-		int myRenderLayer = 0;
-
-		CSprite* myCursor;
-
+	private:
 		CForwardRenderer myForwardRenderer;
 		CFullscreenRenderer myFullscreenRenderer;
 
@@ -113,18 +122,14 @@ namespace SE
 		std::array<ID3D11RasterizerState*, E_RASTERIZERSTATE_COUNT> myRasterizerStates;
 		std::array<ID3D11SamplerState*, E_SAMPLERSTATE_COUNT> mySamplerStates;
 
+		CSprite* myCursor;
+
 		PostProcessingData myPostProcessingData;
 		ID3D11Buffer* myPostProcessingBuffer = nullptr;
 		CDirectX11Framework* myFrameWorkRef;
 
+		int myRenderLayer = 0;
 		bool myDrawLines = true;
-
-		void SetBlendState(EBlendState aBlendState);
-		void SetDepthStencilState(EDepthStencilState aStencilState);
-		void SetRasterizerState(ERasterizerState aRasterizerState);
-		void SetSamplerState(ESamplerState aSamplerState, int aSlot = 0);
-	public:
-
-		PostProcessingData& GetPPD() { return myPostProcessingData; }
+		bool myRestartNextFrame = false;
 	};
 }

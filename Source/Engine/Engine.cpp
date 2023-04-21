@@ -50,6 +50,7 @@ namespace SE
 		PIXBeginEvent(PIX_COLOR_INDEX(0), __FUNCTION__);
 
 		Singleton<SE::CTextureFactory>().Update();
+		myGraphicsEngine->Update();
 		myDeltaTime = aDeltaTime;
 
 		PIXEndEvent();

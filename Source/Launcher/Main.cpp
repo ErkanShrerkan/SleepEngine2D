@@ -82,33 +82,40 @@ int WINAPI wWinMain(_In_ HINSTANCE hInstance,
 
 	InitConsole();
 
-	SE::CEngine::SEngineParameters engineParameters{};
-	engineParameters.window.x = 0;
-	engineParameters.window.y = 0;
+	SE::CEngine* engine = SE::CEngine::GetInstance();
 	uint x = uint((float)GetSystemMetrics(SM_CXSCREEN) * .8f);
 	uint y = uint((float)GetSystemMetrics(SM_CYSCREEN) * .8f);
-	engineParameters.window.width = static_cast<int>(x);
-	engineParameters.window.height = static_cast<int>(y);
-	engineParameters.window.title = L"Sleep Engine 2D";
-	engineParameters.clearColor = { 1.0f, .85f, .66f, 1.f };
-	//engineParameters.clearColor = { 64.f / 255.f, 127.f / 255.f, 1.f, 1.f };
-	engineParameters.clearColor = { .1f, .1f, .1f, 1.f };
 
-	auto& gs = Singleton<GlobalSettings>();
-	gs.gameplayResolution = { 640, /*480*/ 360 };
-	gs.windowResolution = { x, y };
-	gs.gameWindowRect = { 0.f, 0.f, (float)x, (float)y };
-	gs.windowRect = { 0.f, 0.f, (float)x, (float)y };
-	gs.screenResolution = { (uint)GetSystemMetrics(SM_CXSCREEN), (uint)GetSystemMetrics(SM_CYSCREEN) };
-
-	// Start the Engine
-	SE::CEngine* engine = SE::CEngine::GetInstance();
-	if (!engine->Start(engineParameters))
 	{
-		/* Error, could not start the engine */
-		return 0xdead;
+		SE::CEngine::SEngineParameters engineParameters{};
+		engineParameters.window.x = 0;
+		engineParameters.window.y = 0;
+		engineParameters.window.width = static_cast<int>(x);
+		engineParameters.window.height = static_cast<int>(y);
+		engineParameters.window.title = L"Sleep Engine 2D";
+		engineParameters.clearColor = { 1.0f, .85f, .66f, 1.f };
+		//engineParameters.clearColor = { 64.f / 255.f, 127.f / 255.f, 1.f, 1.f };
+		engineParameters.clearColor = { .1f, .1f, .1f, 1.f };
+
+		auto& gs = Singleton<GlobalSettings>();
+		gs.gameplayResolution = { 640, /*480*/ 360 };
+		gs.windowResolution = { x, y };
+		gs.gameWindowRect = { 0.f, 0.f, (float)x, (float)y };
+		gs.windowRect = { 0.f, 0.f, (float)x, (float)y };
+		gs.screenResolution = 
+		{ 
+			(uint)GetSystemMetrics(SM_CXSCREEN), 
+			(uint)GetSystemMetrics(SM_CYSCREEN) 
+		};
+
+		// Start the Engine
+		if (!engine->Start(engineParameters))
+		{
+			/* Error, could not start the engine */
+			return 0xdead;
+		}
+		engine->GetGraphicsEngine()->GetWindowHandler().InitRects();
 	}
-	engine->GetGraphicsEngine()->GetWindowHandler().InitRects();
 
 	Timer timer;
 	timer.Update();
@@ -143,7 +150,7 @@ int WINAPI wWinMain(_In_ HINSTANCE hInstance,
 			engine->EndFrame();
 
 			isSplashing = ss->GetState() != SplashScreen::eState::Over;
-}
+		}
 		delete ss;
 #endif // RELEASE
 	}
@@ -157,11 +164,15 @@ int WINAPI wWinMain(_In_ HINSTANCE hInstance,
 	bool isTabbed = false;
 	bool currentProcess = false;
 
+	// TODO: make splash screen a process
 	while (isRunning)
 	{
 		Input::Init();
 		sptr(Process) process;
-		Singleton<GlobalSettings>().gameplayResolution = (currentProcess ? uint2(960 / 2/*640*/, 540 / 2/*480*/ /*360*/) : uint2(x, y));
+
+		Singleton<GlobalSettings>().gameplayResolution =
+			(currentProcess ? uint2(960 / 2/*640*/, 540 / 2/*480*/ /*360*/) : uint2(x, y));
+
 		isRunning = engine->Restart();
 
 		if (currentProcess)

@@ -95,7 +95,7 @@ namespace SE
 
 	bool CRenderManager::Restart()
 	{
-		CreateTextures();
+		myRestartNextFrame = true;
 		return true;
 	}
 
@@ -209,7 +209,7 @@ namespace SE
 		def.DepthClipEnable = true;
 		result = device->CreateRasterizerState(&def, &myRasterizerStates[E_RASTERIZERSTATE_DEFAULT]);
 		assert(SUCCEEDED(result));
-		SetRasterizerState(ERasterizerState::E_RASTERIZERSTATE_DEFAULT);
+		//SetRasterizerState(ERasterizerState::E_RASTERIZERSTATE_DEFAULT);
 		//myRasterizerStates[E_RASTERIZERSTATE_DEFAULT] = nullptr;
 
 		D3D11_SAMPLER_DESC pointSampleDesc = {};
@@ -253,13 +253,6 @@ namespace SE
 
 		mySamplerStates[E_SAMPLERSTATE_TRILINEAR] = nullptr;
 
-		SetSamplerState(ESamplerState::E_SAMPLERSTATE_TRILINEAR, 0);
-		SetSamplerState(ESamplerState::E_SAMPLERSTATE_TRILINEAR_WRAP, 1);
-		SetSamplerState(ESamplerState::E_SAMPLERSTATE_POINT, 2);
-		SetSamplerState(ESamplerState::E_SAMPLERSTATE_ANISTROPIC_WRAP, 3);
-
-		CreateTextures();
-		//CContentLoader* const& content = CEngine::GetInstance()->GetContentLoader();
 		Postmaster::GetInstance().Subscribe(this, eMessage::eUpdateResolution);
 		Postmaster::GetInstance().Subscribe(this, eMessage::eCullBack);
 		Postmaster::GetInstance().Subscribe(this, eMessage::eCullFront);
@@ -272,7 +265,7 @@ namespace SE
 		myPostProcessingData.gameResolution.x = gres.x;
 		myPostProcessingData.gameResolution.y = gres.y;
 
-		SetRasterizerState(ERasterizerState::E_RASTERIZERSTATE_CULLNONE);
+		ActuallyRestart();
 
 		printe("render manager inited\n");
 		return true;
@@ -434,12 +427,21 @@ namespace SE
 		myFullscreenRenderer.Render(CFullscreenRenderer::EShader_Copy);
 	}
 
+	void CRenderManager::Update()
+	{
+		if (myRestartNextFrame)
+		{
+			ActuallyRestart();
+			myRestartNextFrame = false;
+		}
+	}
+
 	void CRenderManager::RecieveMessage(eMessage aMsg)
 	{
 		switch (aMsg)
 		{
 		case eMessage::eUpdateResolution:
-			CreateTextures();
+			Restart();
 			break;
 		case eMessage::eCullBack:
 			SetRasterizerState(ERasterizerState::E_RASTERIZERSTATE_DEFAULT);
@@ -452,6 +454,13 @@ namespace SE
 		default:
 			break;
 		}
+	}
+
+	void CRenderManager::ActuallyRestart()
+	{
+		CreateTextures();
+		BindSamplerStates();
+		SetRasterizerState(ERasterizerState::E_RASTERIZERSTATE_CULLNONE);
 	}
 
 	void CRenderManager::CreateTextures()
@@ -487,6 +496,14 @@ namespace SE
 		myIntermediateDepth = factory.CreateFullscreenDepth(res, DXGI_FORMAT_R32_TYPELESS);
 
 		Singleton<GlobalSettings>().gameViewTexture = &myGameWindow;
+	}
+
+	void CRenderManager::BindSamplerStates()
+	{
+		SetSamplerState(ESamplerState::E_SAMPLERSTATE_TRILINEAR, 0);
+		SetSamplerState(ESamplerState::E_SAMPLERSTATE_TRILINEAR_WRAP, 1);
+		SetSamplerState(ESamplerState::E_SAMPLERSTATE_POINT, 2);
+		SetSamplerState(ESamplerState::E_SAMPLERSTATE_ANISTROPIC_WRAP, 3);
 	}
 
 	void CRenderManager::SetBlendState(EBlendState aBlendState)

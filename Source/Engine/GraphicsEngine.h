@@ -18,6 +18,7 @@ namespace SE
 		void BeginFrame();
 		void RenderFrame();
 		void EndFrame();
+		void Update();
 
 		CDirectX11Framework& GetFramework();
 		CWindowHandler& GetWindowHandler();

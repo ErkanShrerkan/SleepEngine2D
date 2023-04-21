@@ -62,10 +62,10 @@ namespace SE
 	private:
 		sptr(CTexture) myTexture;
 		sptr(CTexture) myMaskTexture;
-		Vector2f mySize;
-		Vector2f myPosition;
 		Vector4f myColor = { 1, 1, 1, 1 };
 		float4 myRect;
+		Vector2f mySize;
+		Vector2f myPosition;
 		float2 myPivot;
 		float myRotation;
 		float myData;

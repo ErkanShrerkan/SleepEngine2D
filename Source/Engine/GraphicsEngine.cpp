@@ -79,6 +79,11 @@ namespace SE
 		PIXEndEvent();
 	}
 
+	void CGraphicsEngine::Update()
+	{
+		myRenderer.Update();
+	}
+
 	CDirectX11Framework& CGraphicsEngine::GetFramework()
 	{
 		return myFramework;

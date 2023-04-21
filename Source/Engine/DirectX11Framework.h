@@ -25,13 +25,13 @@ namespace SE
 		void EndFrame();
 		void ReleaseBackBuffer();
 		bool InitBackBuffer();
+		void ClearState();
 
 		ID3D11DeviceContext* const& GetContext() const;
 		ID3D11Device* const& GetDevice() const;
 		ID3D11RenderTargetView* const& GetBackBuffer() const;
 
 	private:
-
 		IDXGISwapChain* mySwapChain;
 		ID3D11Device* myDevice;
 		ID3D11DeviceContext* myContext;

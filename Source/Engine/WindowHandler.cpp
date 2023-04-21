@@ -5,6 +5,7 @@
 #include <Game\Globals.h>
 #include <stdio.h>
 #include <dwmapi.h>
+#include "Async.h"
 
 // ImGui Input Hijacking
 #include <ImGui\imgui_impl_win32.h>
@@ -41,9 +42,9 @@ namespace SE
 		else if (uMsg == WM_MOVE || uMsg == WM_MOVING)
 		{
 			windowHandler->UpdatePosition(
-				{ 
-					(uint)(int)(short)LOWORD(lParam), 
-					(uint)(int)(short)HIWORD(lParam) 
+				{
+					(uint)(int)(short)LOWORD(lParam),
+					(uint)(int)(short)HIWORD(lParam)
 				});
 		}
 		else if (uMsg == WM_SIZE || uMsg == WM_SIZING)
@@ -53,6 +54,27 @@ namespace SE
 		else if (uMsg == WM_EXITSIZEMOVE)
 		{
 			windowHandler->OnExitSizeMove();
+		}
+		else if (uMsg == WM_SYSCOMMAND && (wParam == SC_RESTORE || wParam == SC_MAXIMIZE))
+		{
+			bool finished = false;
+			Async<void> delayedResponse([&]
+				{
+					Sleep(1);
+					windowHandler->UpdateRect();
+					windowHandler->UpdatePosition(
+						{
+							(uint)(int)(short)LOWORD(lParam),
+							(uint)(int)(short)HIWORD(lParam)
+						});
+					windowHandler->OnExitSizeMove();
+					finished = true;
+				});
+
+			while (!finished)
+			{
+				Sleep(1);
+			}
 		}
 
 		return DefWindowProc(hwnd, uMsg, wParam, lParam);
