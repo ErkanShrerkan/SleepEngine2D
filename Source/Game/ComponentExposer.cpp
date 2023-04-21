@@ -145,18 +145,23 @@ namespace Expose
 	void ExposedComponentRef::OnImGui()
 	{
 		PrepareImGui();
-		//ComponentRef(((ComponentTypeStorage*)componentType).type);
 		editFunc(*this);
 	}
 
 	void ExposedComponentRef::EditComponentRef(const std::string& aComponentName)
 	{
-		ExposableString es;
+		ExposableString es(32);
 		auto& component = GetComponentPtr();
 		if (!component)
 		{
-			es.SetString("(None)" + aComponentName);
-			ImGui::InputText("", es[0], es.GetSize());
+			std::string label = "(None)" + aComponentName;
+			ImGui::InputTextWithHint("", label.c_str(), es[0], es.GetSize(), ImGuiInputTextFlags_ReadOnly);
+		}
+		else
+		{
+			std::string id = std::to_string(component->GameObject().GetID());
+			std::string label("(" + id + ")" + aComponentName);
+			ImGui::InputText("", es[0], es.GetSize(), ImGuiInputTextFlags_ReadOnly);
 		}
 	}
 
@@ -169,22 +174,6 @@ namespace Expose
 	{
 		return myGameManager.GetComponentTypeNameByID(anID);
 	}
-
-	//template<typename ComponentType>
-	//EnableFunctionIfTypeIsDerived(IComponent, ComponentType, void)
-	//	ExposedComponentRef::EditComponentRef()
-	//{
-	//	//static_assert(std::is_base_of<IComponent, ComponentType>::value, "NOT A COMPONENT");
-	//	auto& gm = GetGameManagerFromComponentRef();
-
-	//	std::string componentName = gm.GetComponentMap<ComponentType>().GetName();
-	//	ExposableString es;
-	//	if (!component)
-	//	{
-	//		es.SetString("(None)" + componentName);
-	//		ImGui::InputText("", es[0], es.GetSize());
-	//	}
-	//}
 
 	ExposedVariable::~ExposedVariable()
 	{
