@@ -185,6 +185,7 @@
     <ClInclude Include="Collider.h" />
     <ClInclude Include="CollisionSystem.h" />
     <ClInclude Include="Component.h" />
+    <ClInclude Include="ComponentIDManager.h" />
     <ClInclude Include="ComponentInclude.h" />
     <ClInclude Include="Editor.h" />
     <ClInclude Include="EditorController.h" />
@@ -194,11 +195,12 @@
     <ClInclude Include="EntityPickingComponent.h" />
     <ClInclude Include="EntityPickingSystem.h" />
     <ClInclude Include="Expose.h" />
-    <ClInclude Include="ExposedComponent.h" />
+    <ClInclude Include="ComponentExposer.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameManager.h" />
     <ClInclude Include="Globals.h" />
+    <ClInclude Include="IComponent.h" />
     <ClInclude Include="InputDispatcher.h" />
     <ClInclude Include="JsonExposedTemplate.h" />
     <ClInclude Include="JsonExposedType.h" />
@@ -228,13 +230,14 @@
     <ClCompile Include="Collider.cpp" />
     <ClCompile Include="CollisionSystem.cpp" />
     <ClCompile Include="Component.cpp" />
+    <ClCompile Include="ComponentIDManager.cpp" />
     <ClCompile Include="Editor.cpp" />
     <ClCompile Include="EditorController.cpp" />
     <ClCompile Include="EditorSystem.cpp" />
     <ClCompile Include="Entity.cpp" />
     <ClCompile Include="EntityPickingComponent.cpp" />
     <ClCompile Include="EntityPickingSystem.cpp" />
-    <ClCompile Include="ExposedComponent.cpp" />
+    <ClCompile Include="ComponentExposer.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameManager.cpp" />
     <ClCompile Include="Globals.cpp" />

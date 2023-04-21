@@ -1,6 +1,12 @@
 #pragma once
 #include "Component.h"
-#include "Transform.h"
+
+class Transform;
+
+class TestClass
+{
+    int nuthin;
+};
 
 class PlayerController : public Component, public InputObserver
 {

@@ -3,10 +3,12 @@
 #include <typeindex>
 #include <unordered_map>
 #include <map>
-#include "Component.h"
-#include "System.h"
 #include <type_traits>
 #include <set>
+
+#include "ComponentIDManager.h"
+#include "Component.h"
+#include "System.h"
 
 namespace Game
 {
@@ -25,7 +27,8 @@ public:
 	virtual void UpdateComponents() = 0;
 	virtual void* RegisterNewComponent(uint anEntity) = 0;
 	virtual void AddComponent(uint anEntity, GameManager& aGM) = 0;
-	std::string GetName()
+	
+	const std::string& GetName()
 	{
 		return myName;
 	}
@@ -60,9 +63,7 @@ public:
 	EnableFunctionIfTypeIsDerived(Component, ComponentType, uint)
 		GetID()
 	{
-		uint count = myIDCounter++;
-		static uint componentId = count;
-		return componentId;
+		return Singleton<ComponentIDManager>().GetID<ComponentType>();
 	}
 
 	template <typename ComponentType>
@@ -70,6 +71,11 @@ public:
 		GetComponentMap()
 	{
 		return *static_cast<ComponentMap<ComponentType>*>(myComponentMaps[GetID<ComponentType>()]);
+	}
+
+	const std::string& GetComponentTypeNameByID(uint anID)
+	{
+		return myComponentMaps[anID]->GetName();
 	}
 
 	Entity& GetEntity(uint anEntityID)
@@ -145,7 +151,6 @@ private:
 
 private:
 	uint myNextEntityID = 0;
-	uint myIDCounter = 0;
 
 	std::unordered_map<uint, Entity*> myEntities;
 	// myEntityComponents is just a register to quickly access all the entity's components

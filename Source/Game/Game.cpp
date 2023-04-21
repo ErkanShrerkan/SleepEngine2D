@@ -19,6 +19,8 @@
 #include <Game\Globals.h>
 #include <Engine\DebugProfiler.h>
 
+#include <ThirdParty\ImGui\imgui.h>
+
 namespace Game
 {
 	Game::~Game()

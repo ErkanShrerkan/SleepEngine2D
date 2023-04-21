@@ -168,7 +168,7 @@ void Game::Editor::ModifyValues()
 	{
 		{
 			ImGui::PushID(id);
-			component->OnImGui(myGM.GetComponentMaps()[id]->myName);
+			component->GetComponentExposer()->OnImGui(myGM.GetComponentMaps()[id]->myName);
 			ImGui::PopID();
 		}
 	}

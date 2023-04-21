@@ -21,7 +21,7 @@ void Sprite::Start()
 	mySprite = SE::CEngine::GetInstance()->GetContentLoader()->GetSpriteFactory().GetSprite(myTexture.GetString());
 	mySize = mySprite->GetSize();
 	Expose(myTexture, "Texture");
-	Expose(myRotation, "Rotation", .1f, Expose::eBounds::Loop, { 0.f, 360.f });
+	Expose(myRotation, "Rotation", .1f, Expose::eBounds::Loop, float2(0.f, 360.f));
 	Expose(myPosition, "Offset", .25f);
 	Expose(mySize, "Size", .25f);
 	Expose(myPivot, "Pivot", .01f);

@@ -121,5 +121,5 @@ void Transform::Start()
 {
 	Expose(myScale, "Scale", .1f);
 	Expose(myPosition, "Position", .25f);
-	Expose(myRotation, "Rotation", .1f, Expose::eBounds::Loop, { 0.f, 360.f });
+	Expose(myRotation, "Rotation", .1f, Expose::eBounds::Loop, float2(0.f, 360.f));
 }

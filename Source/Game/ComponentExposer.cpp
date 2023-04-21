@@ -1,51 +1,53 @@
 #include "pch.h"
-#include "ExposedComponent.h"
-#include "Component.h"
+#include <ThirdParty\ImGui\imgui.h>
+#include "ComponentExposer.h"
+//#include "Component.h"
+#include "GameManager.h"
 #include "Entity.h"
+
+ExposableString::ExposableString()
+{
+	SetSize(128);
+}
+
+ExposableString::ExposableString(const std::string& aString)
+{
+	SetSize(128);
+	SetString(aString);
+}
+
+ExposableString::ExposableString(uint aSize)
+{
+	SetSize(aSize);
+}
+
+void ExposableString::SetString(const std::string& aString)
+{
+	strncpy_s(&buf[0], buf.size(), aString.data(), buf.size() - 1);
+}
+
+void ExposableString::SetSize(uint aSize)
+{
+	buf.resize(aSize);
+}
+
+uint ExposableString::GetSize()
+{
+	return (uint)buf.size();
+}
+
+std::string ExposableString::GetString()
+{
+	return std::string(&buf[0]);
+}
+
+char* ExposableString::operator[](uint anIndex)
+{
+	return &buf[anIndex];
+}
 
 namespace Expose
 {
-	ExposableString::ExposableString()
-	{
-		SetSize(128);
-	}
-
-	ExposableString::ExposableString(const std::string& aString)
-	{
-		SetSize(128);
-		SetString(aString);
-	}
-
-	ExposableString::ExposableString(uint aSize)
-	{
-		SetSize(aSize);
-	}
-
-	void ExposableString::SetString(const std::string& aString)
-	{
-		strncpy_s(&buf[0], buf.size(), aString.data(), buf.size() - 1);
-	}
-
-	void ExposableString::SetSize(uint aSize)
-	{
-		buf.resize(aSize);
-	}
-
-	uint ExposableString::GetSize()
-	{
-		return (uint)buf.size();
-	}
-
-	std::string ExposableString::GetString()
-	{
-		return std::string(&buf[0]);
-	}
-
-	char* ExposableString::operator[](uint anIndex)
-	{
-		return &buf[anIndex];
-	}
-
 	float ExposedVariable::InBoundsValue(float aValue)
 	{
 		float returnVal = aValue;
@@ -63,18 +65,18 @@ namespace Expose
 		return returnVal;
 	}
 
-	void ExposedVariable::Bool()
+	void ExposedVariable::EditBool()
 	{
 		ImGui::Checkbox("", (bool*)adr);
 	}
 
-	void ExposedVariable::Scalar()
+	void ExposedVariable::EditScalar()
 	{
 		ImGui::DragFloat("", (float*)adr, sensitivity);
 		*(float*)adr = InBoundsValue(*(float*)adr);
 	}
 
-	void ExposedVariable::Vec2()
+	void ExposedVariable::EditVec2()
 	{
 		ImGui::DragFloat2("", (float*)adr, sensitivity);
 		float2& f2 = *(float2*)adr;
@@ -82,7 +84,7 @@ namespace Expose
 		f2.y = InBoundsValue(f2.y);
 	}
 
-	void ExposedVariable::Vec3()
+	void ExposedVariable::EditVec3()
 	{
 		float3& f3 = *(float3*)adr;
 		switch (pickMode)
@@ -101,7 +103,7 @@ namespace Expose
 		}
 	}
 
-	void ExposedVariable::Vec4()
+	void ExposedVariable::EditVec4()
 	{
 		float4& f4 = *(float4*)adr;
 		switch (pickMode)
@@ -121,72 +123,61 @@ namespace Expose
 		}
 	}
 
-	void ExposedVariable::String()
+	void ExposedVariable::EditString()
 	{
 		ExposableString& es = *(ExposableString*)adr;
 		ImGui::InputText("", es[0], es.GetSize());
 	}
 
-	template<typename ComponentType>
-	ExposedComponentRef<ComponentType>::~ExposedComponentRef()
+	void IExposed::PrepareImGui()
 	{
+		ImGui::AlignTextToFramePadding();
+		ImGui::Text("  ");
+		ImGui::SameLine();
+		ImGui::Text(name.c_str());
+		ImGui::TableSetColumnIndex(1);
+		ImGui::SetNextItemWidth(-FLT_MIN);
 	}
 
-	template<typename ComponentType>
-	void ExposedComponentRef<ComponentType>::OnImGui()
+	ExposedComponentRef::ExposedComponentRef(GameManager* aGameManager)
+		: myGameManager(*aGameManager) { }
+
+	void ExposedComponentRef::OnImGui()
 	{
+		PrepareImGui();
+		//ComponentRef(((ComponentTypeStorage*)componentType).type);
+		editFunc(*this);
 	}
 
-	template<typename ComponentType>
-	void ExposedComponentRef<ComponentType>::ComponentRef()
+	void ExposedComponentRef::EditComponentRef(const std::string& aComponentName)
 	{
-		static_assert(std::is_base_of<Component, ComponentType>::value, "NOT A COMPONENT");
-		Component*& component = *(ComponentType**)adr;
-		auto& gm = component->GameObject().GetGameManager();
-		std::string componentName = gm.GetComponentMap<ComponentType>().GetName();
 		ExposableString es;
+		auto& component = GetComponentPtr();
 		if (!component)
 		{
-			es.SetString("(None)" + componentName);
+			es.SetString("(None)" + aComponentName);
 			ImGui::InputText("", es[0], es.GetSize());
 		}
 	}
 
-	//void ExposedVariable::ComponentRef()
-	//{
-	//	Component*& component = *(Component**)adr;
-	//	auto& gm = component->GameObject().GetGameManager();
-	//	std::string componentName = gm.GetComponentMap<VariableType>().GetName();
-	//	ExposableString es;
-	//	if (!component)
-	//	{
-	//		es.SetString("(None)" + componentName);
-	//		ImGui::InputText("", es[0], es.GetSize());
-	//	}
-	//}
+	Component*& ExposedComponentRef::GetComponentPtr()
+	{
+		return *(Component**)adr;
+	}
 
-	//template<class VariableType>
-	//inline typename std::enable_if<std::is_base_of<Component, VariableType>::value, void>::type
-	//	ExposedVariable<VariableType>::ComponentRef()
-	//{
-	//	Component*& component = *(Component**)adr;
-	//	auto& gm = component->GameObject().GetGameManager();
-	//	std::string componentName = gm.GetComponentMap<VariableType>().GetName();
-	//	ExposableString es;
-	//	if (!component)
-	//	{
-	//		es.SetString("(None)" + componentName);
-	//		ImGui::InputText("", es[0], es.GetSize());
-	//	}
-	//}
+	const std::string& ExposedComponentRef::GetComponentName(uint anID)
+	{
+		return myGameManager.GetComponentTypeNameByID(anID);
+	}
 
-	//template <class VariableType, class VT = VariableType>
-	//typename std::enable_if<std::is_base_of<Component, VariableType>::value, void>::type
-	//ExposedVariable<VariableType>::ComponentRef()
+	//template<typename ComponentType>
+	//EnableFunctionIfTypeIsDerived(IComponent, ComponentType, void)
+	//	ExposedComponentRef::EditComponentRef()
 	//{
-	//	Component*& component = *(Component**)adr;
-	//	auto& gm = component->GameObject().GetGameManager();
-	//	std::string componentName = gm.GetComponentMap<VariableType>().GetName();
+	//	//static_assert(std::is_base_of<IComponent, ComponentType>::value, "NOT A COMPONENT");
+	//	auto& gm = GetGameManagerFromComponentRef();
+
+	//	std::string componentName = gm.GetComponentMap<ComponentType>().GetName();
 	//	ExposableString es;
 	//	if (!component)
 	//	{
@@ -202,27 +193,21 @@ namespace Expose
 
 	void ExposedVariable::OnImGui()
 	{
-		ImGui::AlignTextToFramePadding();
-		ImGui::Text("  ");
-		ImGui::SameLine();
-		ImGui::Text(name.c_str());
-		ImGui::TableSetColumnIndex(1);
-		ImGui::SetNextItemWidth(-FLT_MIN);
+		PrepareImGui();
 		switch (format)
 		{
-		case eDataFormat::Bool:	Bool();	break;
-		case eDataFormat::Scalar: Scalar();	break;
-		case eDataFormat::Vec2:	Vec2();	break;
-		case eDataFormat::Vec3:	Vec3();	break;
-		case eDataFormat::Vec4:	Vec4();	break;
-		case eDataFormat::String: String();	break;
-			//case eDataFormat::ComponentRef: ComponentRef(); break;
+		case eDataFormat::Bool:	EditBool();	break;
+		case eDataFormat::Scalar: EditScalar();	break;
+		case eDataFormat::Vec2:	EditVec2();	break;
+		case eDataFormat::Vec3:	EditVec3();	break;
+		case eDataFormat::Vec4:	EditVec4();	break;
+		case eDataFormat::String: EditString();	break;
 		default: break;
 		}
 	}
 }
 
-void ExposedComponent::Expose(
+void ComponentExposer::Expose(
 	bool& aVariable,
 	const std::string& aName)
 {
@@ -237,7 +222,7 @@ void ExposedComponent::Expose(
 	myExposedVariables.push_back(ev);
 }
 
-void ExposedComponent::Expose(
+void ComponentExposer::Expose(
 	float& aVariable,
 	const std::string& aName,
 	float aSensitivity,
@@ -259,7 +244,7 @@ void ExposedComponent::Expose(
 	myExposedVariables.push_back(ev);
 }
 
-void ExposedComponent::Expose(
+void ComponentExposer::Expose(
 	float2& aVariable,
 	const std::string& aName,
 	float aSensitivity,
@@ -281,7 +266,7 @@ void ExposedComponent::Expose(
 	myExposedVariables.push_back(ev);
 }
 
-void ExposedComponent::Expose(
+void ComponentExposer::Expose(
 	float3& aVariable,
 	const std::string& aName,
 	float aSensitivity,
@@ -304,7 +289,7 @@ void ExposedComponent::Expose(
 	myExposedVariables.push_back(ev);
 }
 
-void ExposedComponent::Expose(
+void ComponentExposer::Expose(
 	float4& aVariable,
 	const std::string& aName,
 	float aSensitivity,
@@ -327,8 +312,8 @@ void ExposedComponent::Expose(
 	myExposedVariables.push_back(ev);
 }
 
-void ExposedComponent::Expose(
-	Expose::ExposableString& aVariable,
+void ComponentExposer::Expose(
+	ExposableString& aVariable,
 	const std::string& aName)
 {
 	sptr(Expose::ExposedVariable) ev =
@@ -342,42 +327,17 @@ void ExposedComponent::Expose(
 	myExposedVariables.push_back(ev);
 }
 
-//template <typename ComponentType>
-//EnableFunctionIfTypeIsDerived(Component, ComponentType, void)
-//ExposedComponent::Expose(
-//	ComponentType*& aComponentRef,
-//	const std::string& aName)
-//{
-//	//static_assert(std::is_base_of<Component, ComponentType>::value, "NOT A COMPONENT");
-//	
-//	aComponentRef = nullptr;
-//	sptr(Expose::ExposedComponentRef<ComponentType>) ev =
-//		std::make_shared<Expose::ExposedComponentRef<ComponentType>>();
-//
-//	auto& evr = *ev;
-//	evr.adr = &aComponentRef;
-//	evr.format = Expose::eDataFormat::ComponentRef;
-//	evr.name = aName;
-//
-//	myExposedVariables.push_back(ev);
-//}
-
-template<typename ComponentType>
-EnableFunctionIfTypeIsDerived(Component, ComponentType, void)
-ExposedComponent::Expose(
-	ComponentType*& aComponentRef, 
-	const std::string& aName)
-{
-	aComponentRef;
-	aName;
-}
-
-ExposedComponent::~ExposedComponent()
+ComponentExposer::~ComponentExposer()
 {
 	/*printe("EXPOSED COMPONENT DELETED\n");*/
 }
 
-void ExposedComponent::OnImGui(const std::string& aName)
+void ComponentExposer::SetGameManager(GameManager* aGameManager)
+{
+	myGameManager = aGameManager;
+}
+
+void ComponentExposer::OnImGui(const std::string& aName)
 {
 	ImGui::Separator();
 	ImGui::AlignTextToFramePadding();
@@ -403,11 +363,12 @@ void ExposedComponent::OnImGui(const std::string& aName)
 			auto& variable = myExposedVariables[i];
 			ImGui::PushID(&variable);
 			ImGui::TableSetColumnIndex(0);
+
 			variable->OnImGui();
+
 			if (i != myExposedVariables.size() - 1)
-			{
 				ImGui::TableNextRow();
-			}
+
 			ImGui::PopID();
 		}
 		ImGui::EndTable();

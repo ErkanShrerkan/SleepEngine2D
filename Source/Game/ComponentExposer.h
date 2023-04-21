@@ -1,26 +1,29 @@
 #pragma once
-#include <ThirdParty\ImGui\imgui.h>
+#include <functional>
+#include "IComponent.h"
+#include "ComponentIDManager.h"
 
+class GameManager;
 class Component;
+
+class ExposableString
+{
+public:
+	ExposableString();
+	ExposableString(const std::string& aString);
+	ExposableString(uint aSize);
+	void SetString(const std::string& aString);
+	void SetSize(uint aSize);
+	uint GetSize();
+	std::string GetString();
+	char* operator[](uint anIndex);
+
+private:
+	std::vector<char> buf;
+};
 
 namespace Expose
 {
-	class ExposableString
-	{
-	public:
-		ExposableString();
-		ExposableString(const std::string& aString);
-		ExposableString(uint aSize);
-		void SetString(const std::string& aString);
-		void SetSize(uint aSize);
-		uint GetSize();
-		std::string GetString();
-		char* operator[](uint anIndex);
-
-	private:
-		std::vector<char> buf;
-	};
-
 	enum class ePickMode
 	{
 		Drag,
@@ -50,6 +53,7 @@ namespace Expose
 	public:
 		virtual ~IExposed() = default;
 		virtual void OnImGui() = 0;
+		void PrepareImGui();
 
 	public:
 		std::string name;
@@ -67,57 +71,78 @@ namespace Expose
 		void OnImGui() override;
 
 	public:
-		void* adr;
+		void* adr = nullptr;
 
 	private:
 		float InBoundsValue(float aValue);
-		void Bool();
-		void Scalar();
-		void Vec2();
-		void Vec3();
-		void Vec4();
-		void String();
+		void EditBool();
+		void EditScalar();
+		void EditVec2();
+		void EditVec3();
+		void EditVec4();
+		void EditString();
 	};
 
-	template<typename ComponentType>
 	class ExposedComponentRef : public IExposed
 	{
 	public:
-		~ExposedComponentRef();
+		ExposedComponentRef() = delete;
+		ExposedComponentRef(GameManager* aGameManager);
+
 		void OnImGui() override;
 
+		template<typename ComponentType>
+		EnableFunctionIfTypeIsDerived(IComponent, ComponentType, void)
+			StartEditComponentRef()
+		{
+			auto& idManager = Singleton<ComponentIDManager>();
+			uint componentID = idManager.GetID<ComponentType>();
+			const std::string& componentName = GetComponentName(componentID);
+			EditComponentRef(componentName);
+		}
+
 	public:
-		void* adr;
+		void* adr = nullptr;
+		std::function<void(ExposedComponentRef&)> editFunc;
+	
+	private:	
+		void EditComponentRef(const std::string& aComponentName);
+		Component*& GetComponentPtr();
+		const std::string& GetComponentName(uint anID);
 
 	private:
-		void ComponentRef();
+		GameManager& myGameManager;
 	};
 }
 
-class ExposedComponent
+class ComponentExposer
 {
 public:
-	virtual ~ExposedComponent();
+	~ComponentExposer();
+
+	void SetGameManager(GameManager* aGameManager);
 	void OnImGui(const std::string& aName);
 	void Update() { /*TODO: Fix variable update here*/ }
 	bool HasExposedVariables() { return !myExposedVariables.empty(); }
 
-protected:
 	void Expose(
 		bool& aVariable,
 		const std::string& aName);
+
 	void Expose(
 		float& aVariable,
 		const std::string& aName,
 		float aSensitivity,
 		Expose::eBounds aBoundsType = Expose::eBounds::None,
 		float2 someBounds = { 0, 100 });
+
 	void Expose(
 		float2& aVariable,
 		const std::string& aName,
 		float aSensitivity,
 		Expose::eBounds aBoundsType = Expose::eBounds::None,
 		float2 someBounds = { 0, 100 });
+
 	void Expose(
 		float3& aVariable,
 		const std::string& aName,
@@ -125,6 +150,7 @@ protected:
 		Expose::ePickMode aPickMode = Expose::ePickMode::Color,
 		Expose::eBounds aBoundsType = Expose::eBounds::None,
 		float2 someBounds = { 0, 100 });
+
 	void Expose(
 		float4& aVariable,
 		const std::string& aName,
@@ -132,16 +158,31 @@ protected:
 		Expose::ePickMode aPickMode = Expose::ePickMode::Color,
 		Expose::eBounds aBoundsType = Expose::eBounds::None,
 		float2 someBounds = { 0, 100 });
+
 	void Expose(
-		Expose::ExposableString& aVariable,
+		ExposableString& aVariable,
 		const std::string& aName);
 
 	template <typename ComponentType>
-	EnableFunctionIfTypeIsDerived(Component, ComponentType, void)
+	EnableFunctionIfTypeIsDerived(IComponent, ComponentType, void)
 		Expose(
 			ComponentType*& aComponentRef,
-			const std::string& aName);
+			const std::string& aName)
+	{
+		aComponentRef = nullptr;
+		sptr(Expose::ExposedComponentRef) ecr =
+			std::make_shared<Expose::ExposedComponentRef>(myGameManager);
+
+		auto& ecrr = *ecr;
+		ecrr.adr = &aComponentRef;
+		ecrr.format = Expose::eDataFormat::ComponentRef;
+		ecrr.name = aName;
+		ecrr.editFunc = [&](Expose::ExposedComponentRef& ecr) { ecr.StartEditComponentRef<ComponentType>(); };
+		
+		myExposedVariables.push_back(ecr);
+	}
 
 private:
 	std::vector<sptr(Expose::IExposed)> myExposedVariables;
+	GameManager* myGameManager;
 };
