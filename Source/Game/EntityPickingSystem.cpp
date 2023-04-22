@@ -74,7 +74,7 @@ void EntityPickingSystem::Update()
 			{
 				picker.SetPickedEntityID(id);
 				picked = true;
-				printf("Entity Picked: %i\n", id);
+				//printf("Entity Picked: %i\n", id);
 				break;
 			}
 		}

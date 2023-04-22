@@ -12,29 +12,16 @@
 
 GameManager::GameManager()
 {
-	mySceneManager = new SceneManager(this);
+	mySceneManager = std::make_shared<SceneManager>(this);
 }
 
 GameManager::~GameManager()
 {
-	for (auto& [id, entity] : myEntities)
-	{
-		delete entity;
-	}
-
-	for (auto& [id, mcm] : myComponentMaps)
-	{
-		delete mcm;
-	}
-
-	for (auto& system : mySystems) 
-	{
-		delete system;
-	}
-
-	delete mySceneManager;
-
-	printe("GameManager Deleted\n");
+	//for (auto& [id, entity] : myEntities)
+	//{
+	//	delete entity;
+	//}
+	//printe("GameManager Deleted\n");
 }
 
 void GameManager::Init()
@@ -88,7 +75,7 @@ void GameManager::Init()
 		SetWidthSizePreservedImageRatio(125).
 		SetColor({ 0, 1, 0, 1 });
 
-	printe("GameManager Inited\n");
+	printe("GameManager [INITED]\n");
 }
 
 void GameManager::Update()
@@ -121,7 +108,7 @@ void GameManager::Update()
 Entity& GameManager::CreateEntity()
 {
 	uint id = myNextEntityID++;
-	myEntities[id] = new Entity(id, this);
+	myEntities[id] = std::make_shared<Entity>(id, this);
 	Entity& entity = *myEntities[id];
 	entity.AddComponent<Transform>();
 	UpdateHierarchy();
@@ -130,9 +117,7 @@ Entity& GameManager::CreateEntity()
 
 void GameManager::RemoveEntity(uint anEntityID)
 {
-	// deletes the entity
-	delete myEntities[anEntityID];
-	// removes the entity entry
+	// removes the entity
 	myEntities.erase(anEntityID);
 
 	// delete and remove the entity's components

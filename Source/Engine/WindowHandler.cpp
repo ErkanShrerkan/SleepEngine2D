@@ -82,11 +82,12 @@ namespace SE
 
 	CWindowHandler::~CWindowHandler()
 	{
-		Postmaster::GetInstance().UnSubscribe(this, eMessage::e960x540);
-		Postmaster::GetInstance().UnSubscribe(this, eMessage::e1280x720);
-		Postmaster::GetInstance().UnSubscribe(this, eMessage::e1600x900);
-		Postmaster::GetInstance().UnSubscribe(this, eMessage::e1920x1080);
-		Postmaster::GetInstance().UnSubscribe(this, eMessage::e2560x1440);
+		Postmaster& pm = Postmaster::GetInstance();
+		pm.UnSubscribe(this, eMessage::e960x540);
+		pm.UnSubscribe(this, eMessage::e1280x720);
+		pm.UnSubscribe(this, eMessage::e1600x900);
+		pm.UnSubscribe(this, eMessage::e1920x1080);
+		pm.UnSubscribe(this, eMessage::e2560x1440);
 	}
 
 	void CWindowHandler::RecieveMessage(eMessage aMsg)
@@ -123,11 +124,12 @@ namespace SE
 
 	void CWindowHandler::InitSubscribtions()
 	{
-		Postmaster::GetInstance().Subscribe(this, eMessage::e960x540);
-		Postmaster::GetInstance().Subscribe(this, eMessage::e1280x720);
-		Postmaster::GetInstance().Subscribe(this, eMessage::e1600x900);
-		Postmaster::GetInstance().Subscribe(this, eMessage::e1920x1080);
-		Postmaster::GetInstance().Subscribe(this, eMessage::e2560x1440);
+		Postmaster& pm = Postmaster::GetInstance();
+		pm.Subscribe(this, eMessage::e960x540);
+		pm.Subscribe(this, eMessage::e1280x720);
+		pm.Subscribe(this, eMessage::e1600x900);
+		pm.Subscribe(this, eMessage::e1920x1080);
+		pm.Subscribe(this, eMessage::e2560x1440);
 	}
 
 	HWND& CWindowHandler::GetWindowHandle()

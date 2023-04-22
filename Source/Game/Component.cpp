@@ -13,7 +13,7 @@ Entity& Component::GameObject()
 	return *myEntity;
 }
 
-void Component::SetEntity(Entity* anEntity)
+void Component::SetEntity(sptr(Entity) anEntity)
 {
 	myEntity = anEntity;
 	myExposer->SetGameManager(&myEntity->GetGameManager());

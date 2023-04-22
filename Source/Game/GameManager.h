@@ -27,7 +27,7 @@ public:
 	virtual void UpdateComponents() = 0;
 	virtual void* RegisterNewComponent(uint anEntity) = 0;
 	virtual void AddComponent(uint anEntity, GameManager& aGM) = 0;
-	
+
 	const std::string& GetName()
 	{
 		return myName;
@@ -70,7 +70,7 @@ public:
 	EnableFunctionIfTypeIsDerived(Component, ComponentType, ComponentMap<ComponentType>&)
 		GetComponentMap()
 	{
-		return *static_cast<ComponentMap<ComponentType>*>(myComponentMaps[GetID<ComponentType>()]);
+		return *static_cast<ComponentMap<ComponentType>*>(myComponentMaps[GetID<ComponentType>()].get());
 	}
 
 	const std::string& GetComponentTypeNameByID(uint anID)
@@ -83,7 +83,7 @@ public:
 		return *myEntities.at(anEntityID);
 	}
 
-	std::unordered_map<uint, Entity*>& GetEntities()
+	std::unordered_map<uint, sptr(Entity)>& GetEntities()
 	{
 		return myEntities;
 	}
@@ -92,15 +92,21 @@ public:
 	EnableFunctionIfTypeIsDerived(Component, ComponentType, ComponentType&)
 		AddComponent(uint anEntityID, Args&&... someArgs)
 	{
-		//ComponentType* component = nullptr;
 		uint componentID = GetID<ComponentType>();
 		auto& entityComponents = myEntityComponents[anEntityID];
+		void* newComponent = nullptr;
 
 		if (entityComponents.find(componentID) != entityComponents.end())
-			return *static_cast<ComponentType*>(myEntityComponents[anEntityID][componentID]);
+		{
+			auto& components = myEntityComponents[anEntityID];
+			newComponent = components[componentID];
+			return *(ComponentType*)newComponent;
+		}
 
-		Entity* entity = myEntities[anEntityID];
-		ComponentType* component = reinterpret_cast<ComponentType*>(GetComponentMap<ComponentType>().RegisterNewComponent(anEntityID));
+		sptr(Entity) entity = myEntities[anEntityID];
+		auto& cm = GetComponentMap<ComponentType>();
+		newComponent = cm.RegisterNewComponent(anEntityID);
+		ComponentType* component = (ComponentType*)newComponent;
 		*component = ComponentType(std::forward<Args>(someArgs)...);
 		component->SetEntity(entity);
 
@@ -116,7 +122,7 @@ private:
 	{
 		uint id = GetID<ComponentType>();
 		auto& map = myComponentMaps[id];
-		map = new ComponentMap<ComponentType>();
+		map = std::make_shared<ComponentMap<ComponentType>>();
 		map->myName = aName;
 		map->myIsEditorOnly = isEditorOnly;
 	}
@@ -146,22 +152,22 @@ private:
 	EnableFunctionIfTypeIsDerived(System, SystemType, void)
 		RegisterSystem()
 	{
-		mySystems.push_back(new SystemType(this));
+		mySystems.push_back(std::make_shared<SystemType>(this));
 	}
 
 private:
 	uint myNextEntityID = 0;
 
-	std::unordered_map<uint, Entity*> myEntities;
+	std::unordered_map<uint, sptr(Entity)> myEntities;
 	// myEntityComponents is just a register to quickly access all the entity's components
 	// first key is the entity's ID, and the second key is the component's ID
 	std::unordered_map<uint, std::unordered_map<uint, Component*>> myEntityComponents;
 	// IComponentMap is in charge of cleaning up component pointers
 	// key is the component's ID
-	std::unordered_map<uint, IComponentMap*> myComponentMaps;
-	std::vector<System*> mySystems;
+	std::unordered_map<uint, sptr(IComponentMap)> myComponentMaps;
+	std::vector<sptr(System)> mySystems;
 	std::set<uint> myEntitiesToRemove;
-	SceneManager* mySceneManager;
+	sptr(SceneManager) mySceneManager;
 
 private:
 	void UpdateEntityRemoval();
@@ -171,7 +177,7 @@ private:
 	bool GetUpdateHierarchy() { return myEntityHierarchyNeedsUpdating; }
 
 	std::unordered_map<uint, std::unordered_map<uint, Component*>>& GetEntityComponents() { return myEntityComponents; }
-	std::unordered_map<uint, IComponentMap*>& GetComponentMaps() { return myComponentMaps; }
+	std::unordered_map<uint, sptr(IComponentMap)>& GetComponentMaps() { return myComponentMaps; }
 private:
 	bool myEntityHierarchyNeedsUpdating = true;
 };
@@ -187,9 +193,7 @@ public:
 	std::unordered_map<uint, ComponentType> map;
 
 public:
-	~ComponentMap()
-	{
-	}
+	~ComponentMap(){}
 
 	virtual void DeleteComponentFromEntity(uint anEntity) override
 	{

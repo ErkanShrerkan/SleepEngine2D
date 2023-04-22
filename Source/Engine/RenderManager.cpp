@@ -267,7 +267,7 @@ namespace SE
 
 		ActuallyRestart();
 
-		printe("render manager inited\n");
+		printe("RenderManager [INITED]\n");
 		return true;
 	}
 

@@ -26,9 +26,9 @@ protected:
 	}
 
 private:
-	void SetEntity(Entity* anEntity);
+	void SetEntity(sptr(Entity) anEntity);
 
 private:
-	Entity* myEntity = nullptr;
+	sptr(Entity) myEntity;
 	sptr(ComponentExposer) myExposer;
 };
