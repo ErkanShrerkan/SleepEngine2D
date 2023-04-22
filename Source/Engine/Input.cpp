@@ -183,6 +183,13 @@ bool Input::GetInputDown(eInputEvent anInput)
 	return pc;
 }
 
+float2 Input::GetMousePixelPos()
+{
+	POINT p;
+	GetCursorPos(&p);
+	return Vector2f{ (float)p.x, (float)p.y };
+}
+
 Vector2f Input::GetMousePos()
 {
 	POINT p;

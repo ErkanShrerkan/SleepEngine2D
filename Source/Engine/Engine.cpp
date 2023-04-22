@@ -5,6 +5,7 @@
 #define USE_PIX 1
 #include "pix3.h"
 #include "GraphicsEngine.h"
+#include "WindowHandler.h"
 #include "ContentLoader.h"
 #include "DebugProfiler.h"
 // Shortcuts
@@ -131,6 +132,11 @@ namespace SE
 	CContentLoader* const& CEngine::GetContentLoader()
 	{
 		return myContentLoader;
+	}
+
+	CWindowHandler& CEngine::GetWindowHandler()
+	{
+		return myGraphicsEngine->GetWindowHandler();
 	}
 
 	bool CEngine::InternalStart()

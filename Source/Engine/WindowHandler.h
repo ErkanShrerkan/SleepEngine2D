@@ -32,9 +32,13 @@ namespace SE
 		void UpdateRect();
 		void UpdatePosition(uint2 aPos);
 		void OnExitSizeMove();
+		void OnMouseMove() { myMouseMoved = true; }
+		void OnMaximizeAndRestore(LPARAM lParam);
+		void OnScroll(WPARAM wParam);
 
 	private:
 		SWindowData myWindowData;
 		HWND myWindowHandle;
+		bool myMouseMoved = false;
 	};
 }

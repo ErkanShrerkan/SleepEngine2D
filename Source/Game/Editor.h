@@ -34,17 +34,24 @@ namespace Game
 		void GameWindow();
 		void DirectoryNavigator();
 		void Assets();
+		void EditorDockSpace();
+
+		// Debug
+		void DebugDrawRect();
+		void DebugDrawMousePos();
 
 		// Editor Functions
+		bool ValidSelection();
 		void AddEntityComponent();
 		void AddEntity();
 		void SelectEntity();
 		void ModifyValues();
 		void ListEntityRecursive(uint anID);
-		bool ValidSelection();
 		void BuildHierarchy();
 		void HandleSelection();
 		void HandleHierarchySelection(uint anID, bool isHovered);
+		void CheckClearThumbnails();
+		void InternalUpdate();
 
 		void LoadThumbnail(const std::string& anImgPath);
 		ID3D11ShaderResourceView* const GetThumbnail(const std::string& anImgPath) const noexcept;

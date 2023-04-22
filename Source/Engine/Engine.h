@@ -64,6 +64,7 @@ namespace SE
 		ID3D11DeviceContext* const& GetDXDeviceContext() const;
 		CGraphicsEngine* const& GetGraphicsEngine();
 		CContentLoader* const& GetContentLoader();
+		CWindowHandler& GetWindowHandler();
 		float GetDeltaTime() { return myDeltaTime; };
 		void SetGameManagerRef(GameManager* aGameManagerRef) { myGMptr = aGameManagerRef; }
 		GameManager& GetGameManager()

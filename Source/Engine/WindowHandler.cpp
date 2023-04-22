@@ -21,60 +21,54 @@ namespace SE
 		{
 			return TRUE;
 		}
+
 		if (uMsg == WM_CREATE)
 		{
 			CREATESTRUCT* createStruct = reinterpret_cast<CREATESTRUCT*>(lParam);
 			windowHandler = reinterpret_cast<CWindowHandler*>(createStruct->lpCreateParams);
 		}
 
-		if (uMsg == WM_DESTROY || uMsg == WM_CLOSE)
+		switch (uMsg)
 		{
-			//Postmaster::GetInstance().SendMail(eMessage::eQuitGame);
-			//return 0;
+		case WM_DESTROY:
+		case WM_CLOSE:
 			PostQuitMessage(0);
-		}
-		else if (uMsg == WM_MOUSEWHEEL)
-		{
-			MSG msg = { 0 };
-			msg.wParam = wParam;
-			Input::HandleScrollEvent(msg);
-		}
-		else if (uMsg == WM_MOVE || uMsg == WM_MOVING)
-		{
+			break;
+
+		case WM_MOUSEWHEEL:
+			windowHandler->OnScroll(wParam);
+			break;
+
+		case WM_MOVE:
+		case WM_MOVING:
 			windowHandler->UpdatePosition(
 				{
 					(uint)(int)(short)LOWORD(lParam),
 					(uint)(int)(short)HIWORD(lParam)
 				});
-		}
-		else if (uMsg == WM_SIZE || uMsg == WM_SIZING)
-		{
-			windowHandler->UpdateRect();
-		}
-		else if (uMsg == WM_EXITSIZEMOVE)
-		{
-			windowHandler->OnExitSizeMove();
-		}
-		else if (uMsg == WM_SYSCOMMAND && (wParam == SC_RESTORE || wParam == SC_MAXIMIZE))
-		{
-			bool finished = false;
-			Async<void> delayedResponse([&]
-				{
-					Sleep(1);
-					windowHandler->UpdateRect();
-					windowHandler->UpdatePosition(
-						{
-							(uint)(int)(short)LOWORD(lParam),
-							(uint)(int)(short)HIWORD(lParam)
-						});
-					windowHandler->OnExitSizeMove();
-					finished = true;
-				});
+			break;
 
-			while (!finished)
+		case WM_SIZE:
+		case WM_SIZING:
+			windowHandler->UpdateRect();
+			break;
+
+		case WM_EXITSIZEMOVE:
+			windowHandler->OnExitSizeMove();
+			break;
+
+		case WM_SYSCOMMAND:
+			if (wParam == SC_RESTORE || wParam == SC_MAXIMIZE)
 			{
-				Sleep(1);
+				windowHandler->OnMaximizeAndRestore(lParam);
 			}
+			break;
+
+		case WM_MOUSEMOVE:
+			windowHandler->OnMouseMove();
+			break;
+
+		default: break;
 		}
 
 		return DefWindowProc(hwnd, uMsg, wParam, lParam);
@@ -173,10 +167,9 @@ namespace SE
 		border.bottom = rect.bottom - frame.bottom;
 
 		// rect without borders
-		rect.left += border.left + 2;
-		rect.top += border.top + 2;
+		rect.left += border.left;
 		rect.right -= border.right + 2;
-		rect.bottom -= border.bottom * 2 + 2;
+		rect.bottom -= border.bottom + (border.top > 0 ? border.top : border.bottom + 2);
 
 		TITLEBARINFO tbi = { 0 };
 		tbi.cbSize = sizeof(TITLEBARINFO);
@@ -213,5 +206,34 @@ namespace SE
 		//printf("x:%f, y:%f, z:%f, w:%f\n", rect.x, rect.y, rect.z, rect.w);
 		//printf("x:%f, y:%f\n", (float)myWindowData.x, (float)myWindowData.y);
 		Postmaster::GetInstance().SendMail(eMessage::eUpdateResolution);
+	}
+
+	void CWindowHandler::OnMaximizeAndRestore(LPARAM lParam)
+	{
+		bool finished = false;
+		Async<void> delayedResponse([&]
+			{
+				Sleep(10);
+				UpdateRect();
+				UpdatePosition(
+					{
+						(uint)(int)(short)LOWORD(lParam),
+						(uint)(int)(short)HIWORD(lParam)
+					});
+				OnExitSizeMove();
+				finished = true;
+			});
+
+		while (!finished)
+		{
+			Sleep(1);
+		}
+	}
+
+	void CWindowHandler::OnScroll(WPARAM wParam)
+	{
+		MSG msg = { 0 };
+		msg.wParam = wParam;
+		Input::HandleScrollEvent(msg);
 	}
 }

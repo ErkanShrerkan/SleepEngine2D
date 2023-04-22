@@ -8,7 +8,10 @@
 #include "Entity.h"
 #include "EditorController.h"
 #include "EntityPickingComponent.h"
+
 #include <Engine\TextureFactory.h>
+#include <Engine\GraphicsEngine.h>
+#include <Engine\WindowHandler.h>
 #include <Engine\Texture.h>
 
 Game::Editor::~Editor()
@@ -24,26 +27,15 @@ bool Game::Editor::Init()
 	myEditorEntityID = myGM.CreateEntity().AddComponent<EditorController>().GameObject().GetID();
 	myPicker = myGM.GetEntity(myEditorEntityID).GetComponent<EntityPickingComponent>();
 	SE::CEngine::GetInstance()->SetGameManagerRef(&myGM);
+
 	return true;
 }
 
 bool Game::Editor::Update()
 {
-	if (Input::GetInputReleased(eInputEvent::F4))
-	{
-		myIsRunning = false;
-	}
+	myIsRunning = !Input::GetInputReleased(eInputEvent::F4);
 
-	mySelectedEntityLastFrame = mySelectedEntity;
-	if (myClearThumbnails)
-	{
-		myAssetThumbnails.clear();
-		myClearThumbnails = false;
-	}
-	myGM.UpdateEntityRemoval();
-	myGM.UpdateSystems();
-	HandleSelection();
-	OnImGui();
+	InternalUpdate();
 
 	return myIsRunning;
 }
@@ -59,6 +51,8 @@ void Game::Editor::OnImGui()
 	ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(2, 2));
 
 	BlackScreen();
+	HandleSelection();
+	EditorDockSpace();
 	ImGui::ShowDemoWindow();
 	Profiler();
 	SceneHierarchy();
@@ -297,6 +291,26 @@ void Game::Editor::LoadThumbnail(const std::string& anImgPath)
 ID3D11ShaderResourceView* const Game::Editor::GetThumbnail(const std::string& anImgPath) const noexcept
 {
 	return myAssetThumbnails.at(anImgPath)->GetShaderResourceView();
+}
+
+void Game::Editor::CheckClearThumbnails()
+{
+	mySelectedEntityLastFrame = mySelectedEntity;
+	if (myClearThumbnails)
+	{
+		myAssetThumbnails.clear();
+		myClearThumbnails = false;
+	}
+}
+
+void Game::Editor::InternalUpdate()
+{
+	CheckClearThumbnails();
+
+	myGM.UpdateEntityRemoval();
+	myGM.UpdateSystems();
+
+	OnImGui();
 }
 
 void Game::Editor::SceneHierarchy()
@@ -555,6 +569,37 @@ void Game::Editor::Assets()
 		//ImGui::Columns(1);
 		//ImGui::SliderFloat("Img Size", &imgSize, 16, 512);
 		//ImGui::SliderFloat("Padding", &padding, 0, 128);
+	}
+	ImGui::End();
+}
+
+void Game::Editor::DebugDrawRect()
+{
+	auto rect = Singleton<GlobalSettings>().windowRect;
+	ImVec2 tl = { 0, 0 };
+	ImVec2 br = { rect.z - rect.x, rect.w - rect.y };
+	ImColor col = { 1.f, 0.f, 0.f, 1.f };
+	ImGui::GetForegroundDrawList()->AddRect(tl, br, col);
+}
+
+void Game::Editor::DebugDrawMousePos()
+{
+	auto pos = Input::GetMousePixelPos();
+	auto rect = Singleton<GlobalSettings>().windowRect;
+	pos -= {rect.x, rect.y};
+	ImVec2 tl = { pos.x + 15, pos.y + 15 };
+	ImVec2 br = { pos.x, pos.y };
+	ImColor col = { 1.f, 0.f, 0.f, 1.f };
+	ImGui::GetForegroundDrawList()->AddRectFilled(tl, br, col);
+}
+
+void Game::Editor::EditorDockSpace()
+{
+	ImGui::Begin("Sleep Engine 2D", 0, ImGuiWindowFlags_NoMove);
+	{
+		ImGui::DockSpace(ImGui::GetID("SE2D"));
+		//DebugDrawRect();
+		//DebugDrawMousePos();
 	}
 	ImGui::End();
 }

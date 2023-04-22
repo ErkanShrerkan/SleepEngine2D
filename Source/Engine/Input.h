@@ -30,6 +30,7 @@ public:
 	static bool GetInputHeld(eInputEvent anInput);
 	static bool GetInputReleased(eInputEvent anInput);
 	static bool GetInputDown(eInputEvent anInput);
+	static float2 GetMousePixelPos();
 	static float2 GetMousePos();
 	static Vector2f GetMouseDelta();
 	static float2 GetClampedMousePos();

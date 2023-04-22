@@ -120,9 +120,10 @@ int WINAPI wWinMain(_In_ HINSTANCE hInstance,
 	Timer timer;
 	timer.Update();
 	MSG windowMessage = { 0 };
+		
+	//ShowCursor(false);
 
 	{
-		//ShowCursor(false);
 #if 0
 		SplashScreen* ss = new SplashScreen();
 		bool isSplashing = true;
