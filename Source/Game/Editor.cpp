@@ -13,6 +13,7 @@
 #include <Engine\GraphicsEngine.h>
 #include <Engine\WindowHandler.h>
 #include <Engine\Texture.h>
+#include <Engine\LineDrawer.h>
 
 Game::Editor::~Editor()
 {
@@ -60,6 +61,7 @@ void Game::Editor::OnImGui()
 	ContentBrowser();
 	Controls();
 	GameWindow();
+	DrawWorldGrid();
 
 	ImGui::PopStyleVar();
 }
@@ -311,6 +313,20 @@ void Game::Editor::InternalUpdate()
 	myGM.UpdateSystems();
 
 	OnImGui();
+}
+
+void Game::Editor::DrawWorldGrid()
+{
+	float meter = 100;
+	float2 res = { 100 * meter, 100 * meter };
+	for (float x = -res.x; x < res.x; x += meter)
+	{
+		Debug::DrawLine2D({ x, -res.x }, { x, res.x }, { 1, 1, 1, .125f });
+	}
+	for (float y = -res.y; y < res.y; y += meter)
+	{
+		Debug::DrawLine2D({ -res.y, y }, { res.y, y }, { 1, 1, 1, .125f });
+	}
 }
 
 void Game::Editor::SceneHierarchy()

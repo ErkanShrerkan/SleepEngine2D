@@ -52,6 +52,7 @@ namespace Game
 		void HandleHierarchySelection(uint anID, bool isHovered);
 		void CheckClearThumbnails();
 		void InternalUpdate();
+		void DrawWorldGrid();
 
 		void LoadThumbnail(const std::string& anImgPath);
 		ID3D11ShaderResourceView* const GetThumbnail(const std::string& anImgPath) const noexcept;

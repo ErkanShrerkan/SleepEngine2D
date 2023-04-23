@@ -30,12 +30,13 @@ public:
 	Entity& GetChild(uint anID);
 	Entity& GetEntity(uint anID);
 	Entity& CreateEntity();
-	void MarkForRemoval();
-	void RemoveChild(uint anID);
+	GameManager& GetGameManager() { return *myGameManager; }
+	std::vector<uint> GetChildrenIDs();
 	uint GetID();
 	uint GetParentID();
-	std::vector<uint> GetChildrenIDs();
-	GameManager& GetGameManager() { return *myGameManager; }
+	void MarkForRemoval();
+	void RemoveChild(uint anID);
+	bool HasParent();
 
 private:
 	void ForceAbandon(uint aParentID, uint aChildID);

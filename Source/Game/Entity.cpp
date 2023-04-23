@@ -74,6 +74,11 @@ void Entity::RemoveChild(uint anID)
 	child.MarkForRemoval();
 }
 
+bool Entity::HasParent()
+{
+	return myParentID != UINT_MAX;
+}
+
 uint Entity::GetID()
 {
 	return myID;

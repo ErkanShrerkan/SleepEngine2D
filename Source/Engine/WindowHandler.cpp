@@ -212,7 +212,7 @@ namespace SE
 
 	void CWindowHandler::OnMaximizeAndRestore(LPARAM lParam)
 	{
-		bool finished = false;
+		std::atomic_bool finished = false;
 		Async<void> delayedResponse([&]
 			{
 				Sleep(10);

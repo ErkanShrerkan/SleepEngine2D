@@ -6,7 +6,7 @@ VertexToPixel_LineDrawer main(VertexInput_LineDrawer input)
     VertexToPixel_LineDrawer returnValue;
     
     float2 pos = float2(0, 0);
-    if(input.mySpace > .5)
+    if(input.mySpace < .5)
     {
         float4 vertexWorldPosition = input.myPosition;
         float4 vertexViewPosition = mul(myToCamera, vertexWorldPosition);

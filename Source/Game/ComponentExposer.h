@@ -177,7 +177,10 @@ public:
 		ecrr.adr = &aComponentRef;
 		ecrr.format = Expose::eDataFormat::ComponentRef;
 		ecrr.name = aName;
-		ecrr.editFunc = [&](Expose::ExposedComponentRef& ecr) { ecr.StartEditComponentRef<ComponentType>(); };
+		ecrr.editFunc = [&](Expose::ExposedComponentRef& ecr) 
+		{ 
+			ecr.StartEditComponentRef<ComponentType>(); 
+		};
 		
 		myExposedVariables.push_back(ecr);
 	}

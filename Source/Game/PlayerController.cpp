@@ -24,7 +24,7 @@ void PlayerController::Update()
 		GameObject().GetComponent<Transform>()->Move(myMovement, Transform::Space::Object);
 		myMovement = { 0, 0 };
 	}
-	Debug::DrawCircle(GameObject().GetComponent<Transform>()->GetPosition(), 50, true);
+	Debug::DrawCircle(GameObject().GetComponent<Transform>()->GetPosition(), 50);
 }
 
 void PlayerController::Start()

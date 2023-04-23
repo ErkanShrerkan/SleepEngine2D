@@ -94,15 +94,7 @@ void GameManager::Update()
 	//	Debug::DrawLine2D({ 0, (float)y / res.y }, { 1, (float)y / res.y }, { 1, 1, 1, .0125f });
 	//}
 
-	int2 res = { 100, 100 };
-	for (int x = -res.x; x < res.x; x++)
-	{
-		Debug::DrawLine2D({ x * 100.f, -res.x * 100.f }, { x * 100.f, res.x * 100.f }, { 1, 1, 1, .0125f }, true);
-	}
-	for (int y = -res.y; y < res.y; y++)
-	{
-		Debug::DrawLine2D({ -res.y * 100.f, y * 100.f }, { res.y * 100.f, y * 100.f }, { 1, 1, 1, .0125f }, true);
-	}
+	//Debug::DrawLine2D({ 0, 0 }, { 100, 100 }, { 1, 1, 1, 1 });
 }
 
 Entity& GameManager::CreateEntity()
@@ -133,7 +125,7 @@ void GameManager::RemoveEntity(uint anEntityID)
 void GameManager::MarkEntityForRemoval(uint anEntityID)
 {
 	Entity& e = GetEntity(anEntityID);
-	if (e.GetParentID() != UINT_MAX)
+	if (e.HasParent())
 	{
 		e.GetParent().AbandonChild(anEntityID);
 	}
