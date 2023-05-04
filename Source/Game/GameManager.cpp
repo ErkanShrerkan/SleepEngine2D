@@ -12,7 +12,6 @@
 
 GameManager::GameManager()
 {
-	mySceneManager = std::make_shared<SceneManager>(this);
 }
 
 GameManager::~GameManager()
@@ -26,6 +25,8 @@ GameManager::~GameManager()
 
 void GameManager::Init()
 {
+	mySceneManager = std::make_shared<SceneManager>(this);
+
 	// TODO: Implement Pixel Art Animation Texture Map Lookup Thing
 
 	// register components
@@ -97,6 +98,25 @@ void GameManager::Update()
 	//Debug::DrawLine2D({ 0, 0 }, { 100, 100 }, { 1, 1, 1, 1 });
 }
 
+void GameManager::RemoveRefsToComponent(Component* aComponent)
+{
+	auto it = myRegisteredComponentRefs.find(aComponent);
+	if (it == myRegisteredComponentRefs.end())
+		return;
+
+	for (void** ref : it->second)
+	{
+		*ref = nullptr;
+	}
+
+	myRegisteredComponentRefs.erase(aComponent);
+}
+
+void GameManager::RegisterComponentRef(void** aRefAddress, Component* aReferencedComponent)
+{
+	myRegisteredComponentRefs[aReferencedComponent].insert(aRefAddress);
+}
+
 Entity& GameManager::CreateEntity()
 {
 	uint id = myNextEntityID++;
@@ -115,6 +135,7 @@ void GameManager::RemoveEntity(uint anEntityID)
 	// delete and remove the entity's components
 	for (auto& [componentID, component] : myEntityComponents[anEntityID])
 	{
+		RemoveRefsToComponent(component);
 		myComponentMaps[componentID]->DeleteComponentFromEntity(anEntityID);
 	}
 	myEntityComponents.erase(anEntityID);

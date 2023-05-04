@@ -80,6 +80,6 @@ void EntityPickingSystem::Update()
 		}
 
 		if (!picked)
-			picker.SetPickedEntityID(UINT_MAX);
+			picker.SetPickedEntityID(NULL_ENTITY);
 	}
 }

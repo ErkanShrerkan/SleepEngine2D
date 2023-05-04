@@ -67,9 +67,9 @@ namespace Game
 		std::unordered_map<std::string, sptr(SE::CTexture)> myAssetThumbnails;
 		std::unordered_map<uint, bool> myShowChildrenRecord;
 		std::map<uint, std::set<uint>> myEntityHierarchy;
-		uint mySelectedEntity = UINT_MAX;
-		uint mySelectedEntityLastFrame = UINT_MAX;
-		uint myInitiallySelectedEntity = UINT_MAX;
+		uint mySelectedEntity = NULL_ENTITY;
+		uint mySelectedEntityLastFrame = NULL_ENTITY;
+		uint myInitiallySelectedEntity = NULL_ENTITY;
 		uint myEditorEntityID;
 		bool myEntityHierarchyNeedsUpdating = false;
 		bool myHoversInitiallySelectedEntity = false;

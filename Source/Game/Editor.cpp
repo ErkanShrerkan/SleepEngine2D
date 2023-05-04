@@ -3,8 +3,9 @@
 #include <Engine/Input.h>
 #include <ImGui/imgui.h>
 #include <Engine\Engine.h>
-#include "Globals.h"
 #include <Engine\DebugProfiler.h>
+
+#include "Globals.h"
 #include "Entity.h"
 #include "EditorController.h"
 #include "EntityPickingComponent.h"
@@ -21,13 +22,14 @@ Game::Editor::~Editor()
 
 bool Game::Editor::Init()
 {
-	myCurrentPath = std::filesystem::relative("Assets");
 	Input::SetIsEditing(true);
-	myShowChildrenRecord[UINT_MAX] = true;
 	myGM.Init();
+	SE::CEngine::GetInstance()->SetGameManagerRef(&myGM);
+
+	myShowChildrenRecord[ENTITY_HIERARCHY_ROOT] = true;
+	myCurrentPath = std::filesystem::relative("Assets");
 	myEditorEntityID = myGM.CreateEntity().AddComponent<EditorController>().GameObject().GetID();
 	myPicker = myGM.GetEntity(myEditorEntityID).GetComponent<EntityPickingComponent>();
-	SE::CEngine::GetInstance()->SetGameManagerRef(&myGM);
 
 	return true;
 }
@@ -136,8 +138,8 @@ void Game::Editor::AddEntity()
 	if (ImGui::Button("Remove"))
 	{
 		myGM.MarkEntityForRemoval(mySelectedEntity);
-		mySelectedEntity = UINT_MAX;
-		myPicker->SetPickedEntityID(UINT_MAX);
+		mySelectedEntity = NULL_ENTITY;
+		myPicker->SetPickedEntityID(NULL_ENTITY);
 	};
 }
 
@@ -146,7 +148,7 @@ void Game::Editor::SelectEntity()
 	// List object hierarchy
 	if (ImGui::BeginListBox("", { ImGui::GetContentRegionAvail().x, ImGui::GetContentRegionAvail().y }))
 	{
-		ListEntityRecursive(UINT_MAX);
+		ListEntityRecursive(ENTITY_HIERARCHY_ROOT);
 		ImGui::EndListBox();
 	}
 }
@@ -210,7 +212,7 @@ void Game::Editor::ListEntityRecursive(uint anID)
 
 bool Game::Editor::ValidSelection()
 {
-	return mySelectedEntity != UINT_MAX;
+	return mySelectedEntity != INVALID_ENTITY;
 }
 
 void Game::Editor::BuildHierarchy()
@@ -237,7 +239,7 @@ void Game::Editor::HandleSelection()
 		{
 			uint id = mySelectedEntity;
 			std::vector<uint> trace;
-			while (id != UINT_MAX)
+			while (id != INVALID_ENTITY)
 			{
 				id = myGM.GetEntity(id).GetParentID();
 				trace.push_back(id);
@@ -257,8 +259,16 @@ void Game::Editor::HandleHierarchySelection(uint anID, bool isHovered)
 	{
 		if (myInitiallySelectedEntity == anID)
 		{
-			myInitiallySelectedEntity = UINT_MAX;
+			myInitiallySelectedEntity = NULL_ENTITY;
 			myHoversInitiallySelectedEntity = false;
+			
+			// handle drag n drop
+			if (ImGui::BeginDragDropSource(ImGuiDragDropFlags_None))
+			{
+				ImGui::SetDragDropPayload("DRAG_ENTITY_REF", &anID, sizeof(uint));
+				ImGui::Text("Ref %s", std::to_string(anID).c_str());
+				ImGui::EndDragDropSource();
+			}
 		}
 		return;
 	}
@@ -267,16 +277,16 @@ void Game::Editor::HandleHierarchySelection(uint anID, bool isHovered)
 	{
 		if (!myHoversInitiallySelectedEntity)
 		{
-			myInitiallySelectedEntity = UINT_MAX;
+			myInitiallySelectedEntity = NULL_ENTITY;
 			return;
 		}
 
-		mySelectedEntity = mySelectedEntity == myInitiallySelectedEntity ? UINT_MAX : myInitiallySelectedEntity;
+		mySelectedEntity = mySelectedEntity == myInitiallySelectedEntity ? NULL_ENTITY : myInitiallySelectedEntity;
 		myPicker->SetPickedEntityID(mySelectedEntity);
 	}
 	else if (Input::GetInputPressed(eInputEvent::LMB))
 	{
-		// handle potential drag n drop
+
 		myInitiallySelectedEntity = anID;
 		myHoversInitiallySelectedEntity = true;
 	}
@@ -311,6 +321,7 @@ void Game::Editor::InternalUpdate()
 
 	myGM.UpdateEntityRemoval();
 	myGM.UpdateSystems();
+	//myGM.UpdateComponents();
 
 	OnImGui();
 }

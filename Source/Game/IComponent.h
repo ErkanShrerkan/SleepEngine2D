@@ -1,2 +1,6 @@
 #pragma once
+#define INVALID_ENTITY UINT_MAX
+#define NULL_ENTITY INVALID_ENTITY
+#define ENTITY_HIERARCHY_ROOT INVALID_ENTITY
+
 class IComponent { };

@@ -43,7 +43,7 @@ private:
 
 private:
 	uint myID;
-	uint myParentID = UINT_MAX;
+	uint myParentID = NULL_ENTITY;
 	std::vector<uint> myChildren;
 	GameManager* myGameManager;
 };

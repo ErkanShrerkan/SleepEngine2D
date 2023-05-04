@@ -148,26 +148,47 @@ namespace Expose
 		editFunc(*this);
 	}
 
-	void ExposedComponentRef::EditComponentRef(const std::string& aComponentName)
+	void ExposedComponentRef::EditComponentRef()
 	{
+		AcceptDragDropPayLoad();
 		ExposableString es(32);
 		auto& component = GetComponentPtr();
 		if (!component)
 		{
-			std::string label = "(None)" + aComponentName;
+			std::string label = "(None) " + componentName;
 			ImGui::InputTextWithHint("", label.c_str(), es[0], es.GetSize(), ImGuiInputTextFlags_ReadOnly);
+			AcceptDragDropPayLoad();
 		}
 		else
 		{
 			std::string id = std::to_string(component->GameObject().GetID());
-			std::string label("(" + id + ")" + aComponentName);
+			std::string label("(" + id + ") " + componentName);
+			es.SetString(label);
 			ImGui::InputText("", es[0], es.GetSize(), ImGuiInputTextFlags_ReadOnly);
+			AcceptDragDropPayLoad();
 		}
 	}
 
 	Component*& ExposedComponentRef::GetComponentPtr()
 	{
 		return *(Component**)adr;
+	}
+
+	void ExposedComponentRef::AcceptDragDropPayLoad()
+	{
+		if (!ImGui::BeginDragDropTarget())
+			return;
+
+		if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("DRAG_ENTITY_REF"))
+		{
+			IM_ASSERT(payload->DataSize == sizeof(uint));
+			uint entity = *(const uint*)payload->Data;
+			Component* componentPtr = myGameManager.GetComponentsFromEntity(entity).at(componentID);
+			*adr = componentPtr;
+			myGameManager.RegisterComponentRef(adr, componentPtr);
+		}
+
+		ImGui::EndDragDropTarget();
 	}
 
 	const std::string& ExposedComponentRef::GetComponentName(uint anID)

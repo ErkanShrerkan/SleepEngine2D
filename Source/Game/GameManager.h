@@ -115,6 +115,14 @@ public:
 		return *component;
 	}
 
+	std::unordered_map<uint, Component*>& GetComponentsFromEntity(uint anEntityID)
+	{
+		return myEntityComponents.at(anEntityID);
+	}
+
+	void RemoveRefsToComponent(Component* aComponent);
+	void RegisterComponentRef(void** aRefAddress, Component* aReferencedComponent);
+
 private:
 	template <typename ComponentType>
 	EnableFunctionIfTypeIsDerived(Component, ComponentType, void)
@@ -165,6 +173,9 @@ private:
 	// IComponentMap is in charge of cleaning up component pointers
 	// key is the component's ID
 	std::unordered_map<uint, sptr(IComponentMap)> myComponentMaps;
+
+	std::unordered_map<Component*, std::set<void**>> myRegisteredComponentRefs;
+
 	std::vector<sptr(System)> mySystems;
 	std::set<uint> myEntitiesToRemove;
 	sptr(SceneManager) mySceneManager;

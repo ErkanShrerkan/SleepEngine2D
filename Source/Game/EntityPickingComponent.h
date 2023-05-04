@@ -16,7 +16,7 @@ public:
 
 private:
 	float2 myPickPos;
-	uint myPickedEntityID = UINT_MAX;
+	uint myPickedEntityID = NULL_ENTITY;
 	bool myShouldPick = false;
 };
 

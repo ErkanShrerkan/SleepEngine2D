@@ -95,20 +95,22 @@ namespace Expose
 		EnableFunctionIfTypeIsDerived(IComponent, ComponentType, void)
 			StartEditComponentRef()
 		{
-			auto& idManager = Singleton<ComponentIDManager>();
-			uint componentID = idManager.GetID<ComponentType>();
-			const std::string& componentName = GetComponentName(componentID);
-			EditComponentRef(componentName);
+			EditComponentRef();
 		}
 
+		const std::string& GetComponentName(uint anID);
+
 	public:
-		void* adr = nullptr;
+		void** adr = nullptr;
+		uint entityID = INVALID_ENTITY;
+		uint componentID = NULL;
+		std::string componentName = "NULL";
 		std::function<void(ExposedComponentRef&)> editFunc;
 	
 	private:	
-		void EditComponentRef(const std::string& aComponentName);
+		void EditComponentRef();
 		Component*& GetComponentPtr();
-		const std::string& GetComponentName(uint anID);
+		void AcceptDragDropPayLoad();
 
 	private:
 		GameManager& myGameManager;
@@ -174,12 +176,17 @@ public:
 			std::make_shared<Expose::ExposedComponentRef>(myGameManager);
 
 		auto& ecrr = *ecr;
-		ecrr.adr = &aComponentRef;
+		ecrr.adr = (void**)&aComponentRef;
 		ecrr.format = Expose::eDataFormat::ComponentRef;
 		ecrr.name = aName;
+
+		auto& idManager = Singleton<ComponentIDManager>();
+		ecrr.componentID = idManager.GetID<ComponentType>();
+		ecrr.componentName = ecrr.GetComponentName(ecrr.componentID);
+
 		ecrr.editFunc = [&](Expose::ExposedComponentRef& ecr) 
 		{ 
-			ecr.StartEditComponentRef<ComponentType>(); 
+			ecr.StartEditComponentRef<ComponentType>();
 		};
 		
 		myExposedVariables.push_back(ecr);

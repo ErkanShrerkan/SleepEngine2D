@@ -47,7 +47,7 @@ Entity& Entity::AbandonChild(uint anID)
 			}),
 		myChildren.end());
 	Entity& e = GetEntity(anID);
-	e.myParentID = UINT_MAX;
+	e.myParentID = NULL_ENTITY;
 	myGameManager->UpdateHierarchy();
 	return e;
 }
@@ -76,7 +76,7 @@ void Entity::RemoveChild(uint anID)
 
 bool Entity::HasParent()
 {
-	return myParentID != UINT_MAX;
+	return myParentID != NULL_ENTITY;
 }
 
 uint Entity::GetID()
@@ -111,7 +111,7 @@ void Entity::MarkForRemoval()
 
 void Entity::ForceAbandon(uint aParentID, uint aChildID)
 {
-	if (aParentID == UINT_MAX)
+	if (aParentID == NULL_ENTITY)
 		return;
 
 	GetEntity(aParentID).AbandonChild(aChildID);
