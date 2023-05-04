@@ -20,6 +20,9 @@ public:
 	std::string GetScenePath(const std::string& aSceneName);
 
 private:
+	void FormatEntityComponentsForSaving();
+
+private:
 	std::string myActiveScene = "";
 	uptr(JsonDocument) mySceneDoc;
 	GameManager* myGameManager;
