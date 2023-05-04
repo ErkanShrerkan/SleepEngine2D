@@ -28,7 +28,7 @@ JsonManager::~JsonManager()
 
 void JsonManager::InitDocument(const std::string& aConfigFilePath)
 {
-	myJsonDocument = new JsonDocument(aConfigFilePath);
+	myJsonDocument = new JsonDocument();
 	myConfigFile = aConfigFilePath;
 }
 

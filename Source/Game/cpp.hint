@@ -9,3 +9,4 @@
 #define EnableFunctionIfTypeIsDerivedDefinition(Base, Derived, ReturnType)
 #define sptr(x)
 #define wptr(x)
+#define uptr(x)

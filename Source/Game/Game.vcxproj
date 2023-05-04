@@ -187,6 +187,7 @@
     <ClInclude Include="Component.h" />
     <ClInclude Include="ComponentIDManager.h" />
     <ClInclude Include="ComponentInclude.h" />
+    <ClInclude Include="DynamicStringBuffer.h" />
     <ClInclude Include="Editor.h" />
     <ClInclude Include="EditorController.h" />
     <ClInclude Include="EditorSystem.h" />
@@ -231,6 +232,7 @@
     <ClCompile Include="CollisionSystem.cpp" />
     <ClCompile Include="Component.cpp" />
     <ClCompile Include="ComponentIDManager.cpp" />
+    <ClCompile Include="DynamicStringBuffer.cpp" />
     <ClCompile Include="Editor.cpp" />
     <ClCompile Include="EditorController.cpp" />
     <ClCompile Include="EditorSystem.cpp" />

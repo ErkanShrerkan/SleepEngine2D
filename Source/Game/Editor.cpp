@@ -350,6 +350,13 @@ void Game::Editor::SceneHierarchy()
 
 	ImGui::Begin("Scene Hierarchy");
 	{
+		ImGui::Text("Scene");
+		ImGui::SameLine();
+		if (ImGui::Button("Save"))
+		{
+			myGM.SaveScene();
+		}
+
 		ImGui::Text("Game Objects");
 		ImGui::SameLine();
 		AddEntity();
@@ -400,6 +407,7 @@ void Game::Editor::Controls()
 		if (ImGui::Button("Play"))
 		{
 			myIsRunning = false;
+			myGM.SaveScene();
 		}
 	}
 	ImGui::End();

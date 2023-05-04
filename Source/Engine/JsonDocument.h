@@ -5,8 +5,13 @@
 class JsonDocument
 {
 public:
-    JsonDocument(const std::string& aJsonFile);
+    JsonDocument();
+
+    bool ParseFile(const std::string& aJsonFile);
     void SaveToFile(const std::string& aJsonFile, bool aSavePretty = false);
+
+    void SetUInt(const std::string& aSource, uint aValue);
+    uint GetUInt(const std::string& aSource);
 
     void SetFloat(const std::string& aSource, float aValue);
     float GetFloat(const std::string& aSource, float aDefaultValue = 0.0f);
@@ -18,6 +23,10 @@ public:
     {
         return myDocument;
     }
+
 private:
     rapidjson::Document myDocument;
+    std::string myTempArrayName;
+    rapidjson::Value myTempArrayObj;
+    rapidjson::Value myTempArray;
 };

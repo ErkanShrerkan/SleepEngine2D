@@ -25,7 +25,6 @@ GameManager::~GameManager()
 
 void GameManager::Init()
 {
-	mySceneManager = std::make_shared<SceneManager>(this);
 
 	// TODO: Implement Pixel Art Animation Texture Map Lookup Thing
 
@@ -45,6 +44,9 @@ void GameManager::Init()
 	RegisterSystem<CollisionSystem>();
 	RegisterSystem<CameraSystem>();
 	RegisterSystem<EntityPickingSystem>();
+
+	mySceneManager = std::make_shared<SceneManager>(this);
+	mySceneManager->LoadScene();
 
 	auto& entityPool = CreateEntity();
 	for (size_t i = 0; i < 100; i++)
@@ -96,6 +98,21 @@ void GameManager::Update()
 	//}
 
 	//Debug::DrawLine2D({ 0, 0 }, { 100, 100 }, { 1, 1, 1, 1 });
+}
+
+void GameManager::SaveScene()
+{
+	mySceneManager->SaveScene();
+}
+
+void GameManager::SaveSceneAs(const std::string& aSceneName)
+{
+	mySceneManager->SaveSceneAs(aSceneName);
+}
+
+void GameManager::LoadScene(const std::string& aSceneName)
+{
+	mySceneManager->LoadScene(aSceneName);
 }
 
 void GameManager::RemoveRefsToComponent(Component* aComponent)
@@ -161,8 +178,9 @@ void GameManager::UnLoadAll()
 {
 	for (auto& [id, entity] : myEntities)
 	{
-		entity->MarkForRemoval();
+		MarkEntityForRemoval(id);
 	}
+	UpdateEntityRemoval();
 }
 
 void GameManager::UpdateEntityRemoval()

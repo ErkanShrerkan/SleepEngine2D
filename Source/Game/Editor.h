@@ -3,6 +3,7 @@
 #include "Observer.h"
 #include "Process.h"
 #include "GameManager.h"
+#include "DynamicStringBuffer.h"
 #include <filesystem>
 #include <d3d11.h>
 
@@ -64,6 +65,7 @@ namespace Game
 
 		// Editor control variables
 		std::filesystem::path myCurrentPath;
+		DynamicStringBuffer mySceneLabel;
 		std::unordered_map<std::string, sptr(SE::CTexture)> myAssetThumbnails;
 		std::unordered_map<uint, bool> myShowChildrenRecord;
 		std::map<uint, std::set<uint>> myEntityHierarchy;

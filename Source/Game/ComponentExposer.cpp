@@ -5,47 +5,6 @@
 #include "GameManager.h"
 #include "Entity.h"
 
-ExposableString::ExposableString()
-{
-	SetSize(128);
-}
-
-ExposableString::ExposableString(const std::string& aString)
-{
-	SetSize(128);
-	SetString(aString);
-}
-
-ExposableString::ExposableString(uint aSize)
-{
-	SetSize(aSize);
-}
-
-void ExposableString::SetString(const std::string& aString)
-{
-	strncpy_s(&buf[0], buf.size(), aString.data(), buf.size() - 1);
-}
-
-void ExposableString::SetSize(uint aSize)
-{
-	buf.resize(aSize);
-}
-
-uint ExposableString::GetSize()
-{
-	return (uint)buf.size();
-}
-
-std::string ExposableString::GetString()
-{
-	return std::string(&buf[0]);
-}
-
-char* ExposableString::operator[](uint anIndex)
-{
-	return &buf[anIndex];
-}
-
 namespace Expose
 {
 	float ExposedVariable::InBoundsValue(float aValue)

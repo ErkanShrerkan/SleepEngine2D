@@ -51,8 +51,14 @@ class GameManager
 public:
 	GameManager();
 	~GameManager();
+
 	void Init();
 	void Update();
+
+	// Scene Manager Interface
+	void SaveScene();
+	void SaveSceneAs(const std::string& aSceneName);
+	void LoadScene(const std::string& aSceneName);
 
 	/// <summary>
 	/// Gets ID of component classes only

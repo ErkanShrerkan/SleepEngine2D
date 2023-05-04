@@ -8,21 +8,12 @@
 #include <rapidjson/prettywriter.h>
 #include <filesystem>
 
-JsonDocument::JsonDocument(const std::string& aJsonFile)
+JsonDocument::JsonDocument()
 {
-    //// Load ENTIRE file into RAM before parsing
-    //std::ofstream wf(aJsonFile.c_str(), std::ios::out);
-    //wf.close();
+}
 
-    //std::ifstream file{ std::string(aJsonFile) };
-    //std::string content{ std::istreambuf_iterator<char>(file), std::istreambuf_iterator<char>() };
-    //file.close();
-
-    //if (content.empty())
-    //{
-    //    return;
-    //}
-
+bool JsonDocument::ParseFile(const std::string& aJsonFile)
+{
     std::filesystem::path dataPath(std::filesystem::current_path() / L"Data");
     std::filesystem::create_directory(dataPath);
     std::string jsonPath(dataPath.string() + "/" + aJsonFile);
@@ -43,8 +34,10 @@ JsonDocument::JsonDocument(const std::string& aJsonFile)
 
     if (error)
     {
-        // handle error
+        myDocument.SetObject();
     }
+
+    return error;
 }
 
 void JsonDocument::SaveToFile(const std::string& aJsonFile, bool aSavePretty)
@@ -64,6 +57,17 @@ void JsonDocument::SaveToFile(const std::string& aJsonFile, bool aSavePretty)
     std::ofstream file{ std::string(aJsonFile) };
     file << buffer.GetString();
     file.close();
+}
+
+void JsonDocument::SetUInt(const std::string& aSource, uint aValue)
+{
+    rapidjson::Pointer(aSource.c_str()).Set(myDocument, aValue);
+}
+
+uint JsonDocument::GetUInt(const std::string& aSource)
+{
+    auto jint = rapidjson::Pointer(aSource.c_str()).Get(myDocument);
+    return jint ? jint->GetUint() : UINT_MAX;
 }
 
 void JsonDocument::SetFloat(const std::string& aSource, float aValue)

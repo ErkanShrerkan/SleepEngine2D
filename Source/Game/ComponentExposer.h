@@ -2,25 +2,12 @@
 #include <functional>
 #include "IComponent.h"
 #include "ComponentIDManager.h"
+#include "DynamicStringBuffer.h"
+
+typedef DynamicStringBuffer ExposableString;
 
 class GameManager;
 class Component;
-
-class ExposableString
-{
-public:
-	ExposableString();
-	ExposableString(const std::string& aString);
-	ExposableString(uint aSize);
-	void SetString(const std::string& aString);
-	void SetSize(uint aSize);
-	uint GetSize();
-	std::string GetString();
-	char* operator[](uint anIndex);
-
-private:
-	std::vector<char> buf;
-};
 
 namespace Expose
 {
