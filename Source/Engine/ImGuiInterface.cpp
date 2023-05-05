@@ -7,6 +7,9 @@
 #include <ImGui\imgui_impl_win32.h>
 #include <ImGui\imgui_impl_dx11.h>
 
+//ImGuizmo
+#include <ImGuizmo\ImGuizmo.h>
+
 namespace SE
 {
 	// Easy HEX to normalised RGB values
@@ -264,6 +267,7 @@ namespace SE
 		ImGui_ImplDX11_NewFrame();
 		ImGui_ImplWin32_NewFrame();
 		ImGui::NewFrame();
+		ImGuizmo::BeginFrame();
 	}
 
 	void CImGuiInterface::EndFrame()

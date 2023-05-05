@@ -418,57 +418,7 @@ void Game::Editor::GameWindow()
 	ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0, 0));
 	if (ImGui::Begin("Game Window"))
 	{
-		uint2 res = Singleton<GlobalSettings>().gameplayResolution;
-		float4 windowRect = Singleton<GlobalSettings>().windowRect;
-		uint2 windowRes = {
-			uint(windowRect.z - windowRect.x),
-			uint(windowRect.w - windowRect.y) };
-
-		float ratio = (float)res.x / res.y;
-		float frameH = ImGui::GetFrameHeight();
-		ImVec2 windowSize = ImGui::GetContentRegionAvail();
-		ImVec2 viewPortSize = windowSize;
-		ImVec2 pos = ImGui::GetWindowPos();
-		ImVec2 cursorPos;
-		// too wide
-		if (windowSize.x * 1.f / ratio > windowSize.y)
-		{
-			cursorPos = { (windowSize.x - (ratio * windowSize.y)) * 0.5f, frameH };
-			viewPortSize.x = ratio * windowSize.y;
-		}
-		// too narrow
-		else
-		{
-			cursorPos = { 0, frameH + ((windowSize.y - (windowSize.x * 1.f / ratio)) * 0.5f) };
-			viewPortSize.y = windowSize.x * 1.f / ratio;
-		}
-		ImGui::SetCursorPos(cursorPos);
-		cursorPos.x += pos.x;
-		cursorPos.y += pos.y;
-		float4 wRect = Singleton<GlobalSettings>().GetWindowNormalised();
-		Singleton<GlobalSettings>().gameWindowRect =
-		{
-			cursorPos.x,
-			cursorPos.y,
-			cursorPos.x + viewPortSize.x,
-			cursorPos.y + viewPortSize.y,
-		};
-		float4 rect = Singleton<GlobalSettings>().gameWindowRect;
-		ImVec2 tl = { rect.x, rect.y };
-		ImVec2 br = { rect.z, rect.w };
-		ImColor col = { .2f, .2f, .2f, 1.f };
-		ImColor sideBarCol = { .15f, .15f, .15f, 1.f };
-		ImVec2 posPlusWindowSize = { pos.x + windowSize.x, pos.y + windowSize.y + frameH };
-		ImGui::GetWindowDrawList()->AddRectFilled(pos, posPlusWindowSize, sideBarCol);
-		ImGui::Image((void*)Singleton<GlobalSettings>().gameViewTexture->GetSRV(), viewPortSize);
-		ImGui::GetWindowDrawList()->AddRect(tl, br, col);
-		Singleton<GlobalSettings>().gameWindowRect +=
-		{
-			windowRect.x,
-				windowRect.y,
-				windowRect.x,
-				windowRect.y
-		};
+		RenderViewport();
 	}
 	ImGui::End();
 	ImGui::PopStyleVar();
@@ -637,4 +587,78 @@ void Game::Editor::EditorDockSpace()
 		//DebugDrawMousePos();
 	}
 	ImGui::End();
+}
+
+void Game::Editor::RenderViewport()
+{
+	float2 viewportSize = CalculateGameWindowRect();
+	RenderGameTextureToRect(viewportSize);
+}
+
+float2 Game::Editor::CalculateGameWindowRect()
+{
+	uint2 res = Singleton<GlobalSettings>().gameplayResolution;
+	float4 windowRect = Singleton<GlobalSettings>().windowRect;
+	uint2 windowRes = {
+		uint(windowRect.z - windowRect.x),
+		uint(windowRect.w - windowRect.y) 
+	};
+
+	float ratio = (float)res.x / res.y;
+	float frameH = ImGui::GetFrameHeight();
+	ImVec2 windowSize = ImGui::GetContentRegionAvail();
+	ImVec2 viewportSize = windowSize;
+	ImVec2 pos = ImGui::GetWindowPos();
+	ImVec2 cursorPos;
+	// too wide
+	if (windowSize.x * 1.f / ratio > windowSize.y)
+	{
+		cursorPos = { (windowSize.x - (ratio * windowSize.y)) * 0.5f, frameH };
+		viewportSize.x = ratio * windowSize.y;
+	}
+	// too narrow
+	else
+	{
+		cursorPos = { 0, frameH + ((windowSize.y - (windowSize.x * 1.f / ratio)) * 0.5f) };
+		viewportSize.y = windowSize.x * 1.f / ratio;
+	}
+	ImGui::SetCursorPos(cursorPos);
+	cursorPos.x += pos.x;
+	cursorPos.y += pos.y;
+	float4 wRect = Singleton<GlobalSettings>().GetWindowNormalised();
+	Singleton<GlobalSettings>().gameWindowRect =
+	{
+		cursorPos.x,
+		cursorPos.y,
+		cursorPos.x + viewportSize.x,
+		cursorPos.y + viewportSize.y,
+	};
+
+	return *reinterpret_cast<float2*>(&viewportSize);
+}
+
+void Game::Editor::RenderGameTextureToRect(float2 aviewportSize)
+{
+	float4 windowRect = Singleton<GlobalSettings>().windowRect;
+	ImVec2 windowSize = ImGui::GetContentRegionAvail();
+	ImVec2 pos = ImGui::GetWindowPos();
+	float frameH = ImGui::GetFrameHeight();
+
+	float4 rect = Singleton<GlobalSettings>().gameWindowRect;
+	ImVec2 tl = { rect.x, rect.y };
+	ImVec2 br = { rect.z, rect.w };
+	ImColor col = { .2f, .2f, .2f, 1.f };
+	ImColor sideBarCol = { .15f, .15f, .15f, 1.f };
+	ImVec2 posPlusWindowSize = { pos.x + windowSize.x, pos.y + windowSize.y + frameH };
+	ImGui::GetWindowDrawList()->AddRectFilled(pos, posPlusWindowSize, sideBarCol);
+	ImVec2 viewportSize = { aviewportSize.x, aviewportSize.y };
+	ImGui::Image((void*)Singleton<GlobalSettings>().gameViewTexture->GetSRV(), viewportSize);
+	ImGui::GetWindowDrawList()->AddRect(tl, br, col);
+	Singleton<GlobalSettings>().gameWindowRect +=
+	{
+			windowRect.x,
+			windowRect.y,
+			windowRect.x,
+			windowRect.y
+	};
 }

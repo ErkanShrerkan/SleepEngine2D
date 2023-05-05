@@ -36,6 +36,9 @@ namespace Game
 		void DirectoryNavigator();
 		void Assets();
 		void EditorDockSpace();
+		void RenderViewport();
+		float2 CalculateGameWindowRect();
+		void RenderGameTextureToRect(float2 aViewPortSize);
 
 		// Debug
 		void DebugDrawRect();

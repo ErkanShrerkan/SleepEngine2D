@@ -134,7 +134,7 @@
       <ObjectFileOutput>$(OutDir)..\Content\Shaders\%(Filename).cso</ObjectFileOutput>
     </FxCompile>
     <Lib>
-      <AdditionalDependencies>CommonUtilities_$(Configuration).lib;DirectXTK_$(Configuration).lib;ImGui_$(Configuration).lib;zlibstatic_$(Configuration).lib;LowLevel_static_64.lib;LowLevelAABB_static_64.lib;LowLevelDynamics_static_64.lib;PhysX_64.lib;PhysXCharacterKinematic_static_64.lib;PhysXCommon_64.lib;PhysXCooking_64.lib;PhysXExtensions_static_64.lib;PhysXFoundation_64.lib;PhysXPvdSDK_static_64.lib;PhysXTask_static_64.lib;PhysXVehicle_static_64.lib;SceneQuery_static_64.lib;SimulationController_static_64.lib</AdditionalDependencies>
+      <AdditionalDependencies>CommonUtilities_$(Configuration).lib;DirectXTK_$(Configuration).lib;ImGui_$(Configuration).lib;ImGuizmo_$(Configuration).lib;zlibstatic_$(Configuration).lib;LowLevel_static_64.lib;LowLevelAABB_static_64.lib;LowLevelDynamics_static_64.lib;PhysX_64.lib;PhysXCharacterKinematic_static_64.lib;PhysXCommon_64.lib;PhysXCooking_64.lib;PhysXExtensions_static_64.lib;PhysXFoundation_64.lib;PhysXPvdSDK_static_64.lib;PhysXTask_static_64.lib;PhysXVehicle_static_64.lib;SceneQuery_static_64.lib;SimulationController_static_64.lib</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(SolutionDir)..\Lib\PhysX\$(Configuration);$(SolutionDir)..\Lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
@@ -187,7 +187,7 @@
       <ObjectFileOutput>$(OutDir)..\Content\Shaders\%(Filename).cso</ObjectFileOutput>
     </FxCompile>
     <Lib>
-      <AdditionalDependencies>CommonUtilities_$(Configuration).lib;DirectXTK_$(Configuration).lib;ImGui_$(Configuration).lib;zlibstatic_$(Configuration).lib;LowLevel_static_64.lib;LowLevelAABB_static_64.lib;LowLevelDynamics_static_64.lib;PhysX_64.lib;PhysXCharacterKinematic_static_64.lib;PhysXCommon_64.lib;PhysXCooking_64.lib;PhysXExtensions_static_64.lib;PhysXFoundation_64.lib;PhysXPvdSDK_static_64.lib;PhysXTask_static_64.lib;PhysXVehicle_static_64.lib;SceneQuery_static_64.lib;SimulationController_static_64.lib</AdditionalDependencies>
+      <AdditionalDependencies>CommonUtilities_$(Configuration).lib;DirectXTK_$(Configuration).lib;ImGui_$(Configuration).lib;ImGuizmo_$(Configuration).lib;zlibstatic_$(Configuration).lib;LowLevel_static_64.lib;LowLevelAABB_static_64.lib;LowLevelDynamics_static_64.lib;PhysX_64.lib;PhysXCharacterKinematic_static_64.lib;PhysXCommon_64.lib;PhysXCooking_64.lib;PhysXExtensions_static_64.lib;PhysXFoundation_64.lib;PhysXPvdSDK_static_64.lib;PhysXTask_static_64.lib;PhysXVehicle_static_64.lib;SceneQuery_static_64.lib;SimulationController_static_64.lib</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(SolutionDir)..\Lib\PhysX\$(Configuration);$(SolutionDir)..\Lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
