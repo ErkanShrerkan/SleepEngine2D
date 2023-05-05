@@ -31,6 +31,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ThirdParty", "ThirdParty", 
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ImGui", "ThirdParty\ImGui\ImGui.vcxproj", "{0027C8C1-572A-4C1E-A958-4A5C58C523C0}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ImGuizmo", "ThirdParty\ImGuizmo\ImGuizmo.vcxproj", "{908BCE83-0F77-46A3-BF04-239860273273}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -87,6 +89,14 @@ Global
 		{0027C8C1-572A-4C1E-A958-4A5C58C523C0}.Release|x64.Build.0 = Release|x64
 		{0027C8C1-572A-4C1E-A958-4A5C58C523C0}.Release|x86.ActiveCfg = Release|Win32
 		{0027C8C1-572A-4C1E-A958-4A5C58C523C0}.Release|x86.Build.0 = Release|Win32
+		{908BCE83-0F77-46A3-BF04-239860273273}.Debug|x64.ActiveCfg = Debug|x64
+		{908BCE83-0F77-46A3-BF04-239860273273}.Debug|x64.Build.0 = Debug|x64
+		{908BCE83-0F77-46A3-BF04-239860273273}.Debug|x86.ActiveCfg = Debug|Win32
+		{908BCE83-0F77-46A3-BF04-239860273273}.Debug|x86.Build.0 = Debug|Win32
+		{908BCE83-0F77-46A3-BF04-239860273273}.Release|x64.ActiveCfg = Release|x64
+		{908BCE83-0F77-46A3-BF04-239860273273}.Release|x64.Build.0 = Release|x64
+		{908BCE83-0F77-46A3-BF04-239860273273}.Release|x86.ActiveCfg = Release|Win32
+		{908BCE83-0F77-46A3-BF04-239860273273}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -94,6 +104,7 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{133DD431-B5CB-43AA-98EC-2DECB01063FD} = {2CD33362-F3FB-4363-B151-1F34FA90137F}
 		{0027C8C1-572A-4C1E-A958-4A5C58C523C0} = {2CD33362-F3FB-4363-B151-1F34FA90137F}
+		{908BCE83-0F77-46A3-BF04-239860273273} = {2CD33362-F3FB-4363-B151-1F34FA90137F}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {E3DFD7FE-54AC-4710-B293-624BD476BD17}
