@@ -39,4 +39,7 @@
 #Folders
 Temp/
 */.vs/
+*/ThirdParty/ImGuizmo/bin/
+*/ThirdParty/ImGuizmo/example/
+*/ThirdParty/ImGuizmo/vcpkg-example/
 /ThirdParty/

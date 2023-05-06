@@ -14,7 +14,8 @@ public:
     Transform();
     ~Transform();
 
-    void SetPosition(float2 aPos);
+    virtual void Start() override;
+
     /// <summary>
     /// Moves the Transform relative to its position
     /// </summary>
@@ -23,7 +24,9 @@ public:
     void Move(float2 aMovementVector, Space aSpace = Space::World);
     void Rotate(float aRotaionInDegrees);
     void SetRotation(float aRotationInDegrees);
+    void SetPosition(float2 aPos);
     void SetScale(float2 aScale);
+    float GetRotation();
     float2 GetScale();
     float2 GetPosition();
     float2 GetUp();
@@ -33,13 +36,12 @@ public:
     float4x4 GetRotationMatrix();
     float4x4 GetTranslationMatrix();
     float4x4 GetObjectSpaceTransform();
+    float4x4 GetParentWorldSpaceTransform();
 
 private:
     void MoveObjectSpace(float2 aMovementVector);
     void MoveWorldSpace(float2 aMovementVector);
-
-public:
-    virtual void Start() override;
+    void InBoundsRotation();
 
 private:
     float2 myScale = { 1, 1 };

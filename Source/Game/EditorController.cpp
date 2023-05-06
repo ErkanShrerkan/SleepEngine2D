@@ -61,7 +61,7 @@ void EditorController::Pick()
 bool EditorController::MouseIsOverGameWindow()
 {
 	float2 pickPos = Input::GetMousePos();
-	float4 gameRect = Singleton<GlobalSettings>().GetGameWindowNormalised();
+	float4 gameRect = Singleton<GlobalSettings>().GetGameScreenNormalised();
 
 	pickPos -= gameRect.xy;
 	gameRect.zw -= gameRect.xy;

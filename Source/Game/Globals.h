@@ -6,6 +6,7 @@ struct GlobalSettings
 {
 public:
 	float4 GetGameWindowNormalised();
+	float4 GetGameScreenNormalised();
 	float4 GetWindowNormalised();
 
 public:
@@ -13,6 +14,7 @@ public:
 	uint2 windowResolution = { 1920, 1080 };
 	uint2 screenResolution = { 1920, 1080 };
 	float4 gameWindowRect = { 16, 16, 32, 32 };
+	float4 gameScreenRect = { 16, 16, 32, 32 };
 	float4 windowRect = { 16, 16, 32, 32 };
 	SE::CFullscreenTexture* gameViewTexture;
 };

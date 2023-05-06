@@ -13,6 +13,18 @@ float4 GlobalSettings::GetGameWindowNormalised()
     return normalised;
 }
 
+float4 GlobalSettings::GetGameScreenNormalised()
+{
+    float4 normalised =
+    {
+         gameScreenRect.x / (float)screenResolution.x,
+         gameScreenRect.y / (float)screenResolution.y,
+         gameScreenRect.z / (float)screenResolution.x,
+         gameScreenRect.w / (float)screenResolution.y
+    };
+    return normalised;
+}
+
 float4 GlobalSettings::GetWindowNormalised()
 {
     float4 normalised =

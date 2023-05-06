@@ -37,6 +37,7 @@ namespace Game
 		void Assets();
 		void EditorDockSpace();
 		void RenderViewport();
+		void RenderGizmos();
 		float2 CalculateGameWindowRect();
 		void RenderGameTextureToRect(float2 aViewPortSize);
 
@@ -57,6 +58,7 @@ namespace Game
 		void CheckClearThumbnails();
 		void InternalUpdate();
 		void DrawWorldGrid();
+		void InvalidateSelectionIfInvalid();
 
 		void LoadThumbnail(const std::string& anImgPath);
 		ID3D11ShaderResourceView* const GetThumbnail(const std::string& anImgPath) const noexcept;

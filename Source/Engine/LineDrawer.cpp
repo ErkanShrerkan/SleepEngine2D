@@ -65,27 +65,6 @@ namespace SE
 			return;
 
 		auto& context = CEngine::GetInstance()->GetDXDeviceContext();
-		//context->IASetPrimitiveTopology(D3D10_PRIMITIVE_TOPOLOGY_LINELIST);
-		//context->IASetInputLayout(ourIL);
-		//uint stride = sizeof(SVertex);
-		//uint offset = 0;
-		//context->IASetVertexBuffers(0, 1, &ourLineBuffer, &stride, &offset);
-		//context->IASetIndexBuffer(nullptr, DXGI_FORMAT_UNKNOWN, 0u);
-		//
-		//context->VSSetShader(ourVS, nullptr, 0u);
-		//context->PSSetShader(ourPS, nullptr, 0u);
-		//context->DrawInstanced(3, ourLineIndex, 0, 0);
-
-		//D3D11_MAPPED_SUBRESOURCE bufferData = { 0 };
-		//ZeroMemory(&bufferData, sizeof(D3D11_MAPPED_SUBRESOURCE));
-		//HRESULT result = context->Map(ourVertBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &bufferData);
-		//if (FAILED(result))
-		//{
-		//	ourVertIndex = 0;
-		//	return;
-		//}
-		//memcpy(bufferData.pData, &ourVerts[0], sizeof(SVertex) * ourVertIndex);
-		//context->Unmap(ourVertBuffer, 0);
 
 		if (ourVertBuffer)
 		{
@@ -117,7 +96,6 @@ namespace SE
 		context->PSSetShader(ourPS, nullptr, 0);
 
 		context->Draw(ourVertIndex, 0);
-		//Clear();
 	}
 
 	void CLineDrawer::Clear()

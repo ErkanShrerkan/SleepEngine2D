@@ -1,20 +1,29 @@
 #include "pch.h"
+#include "Globals.h"
 #include "Editor.h"
-#include <Engine/Input.h>
-#include <ImGui/imgui.h>
+
+// Engine
+#include <Engine\Input.h>
 #include <Engine\Engine.h>
 #include <Engine\DebugProfiler.h>
-
-#include "Globals.h"
-#include "Entity.h"
-#include "EditorController.h"
-#include "EntityPickingComponent.h"
-
 #include <Engine\TextureFactory.h>
 #include <Engine\GraphicsEngine.h>
 #include <Engine\WindowHandler.h>
 #include <Engine\Texture.h>
 #include <Engine\LineDrawer.h>
+
+// ECS
+#include "Entity.h"
+#include "EditorController.h"
+#include "EntityPickingComponent.h"
+#include "Transform.h"
+#include "CameraComponent.h"
+
+// ImGui
+#include <ImGui\imgui.h>
+
+// ImGuizmo
+#include <ImGuizmo\ImGuizmo.h>
 
 Game::Editor::~Editor()
 {
@@ -63,7 +72,7 @@ void Game::Editor::OnImGui()
 	ContentBrowser();
 	Controls();
 	GameWindow();
-	DrawWorldGrid();
+	//DrawWorldGrid();
 
 	ImGui::PopStyleVar();
 }
@@ -231,25 +240,49 @@ void Game::Editor::BuildHierarchy()
 
 void Game::Editor::HandleSelection()
 {
-	uint pickedID = myPicker->GetPickedEntityID();
-	if (pickedID != mySelectedEntityLastFrame)
-	{
-		mySelectedEntity = pickedID;
-		if (ValidSelection())
-		{
-			uint id = mySelectedEntity;
-			std::vector<uint> trace;
-			while (id != INVALID_ENTITY)
-			{
-				id = myGM.GetEntity(id).GetParentID();
-				trace.push_back(id);
-			}
+	mySelectedEntityLastFrame = mySelectedEntity;
 
-			for (auto& parent : trace)
-			{
-				myShowChildrenRecord[parent] = true;
-			}
-		}
+	uint pickedID = myPicker->GetPickedEntityID();
+	if (pickedID == mySelectedEntityLastFrame)
+		return;
+
+	if (ImGuizmo::IsOver() || ImGuizmo::IsUsing())
+	{
+		myPicker->SetPickedEntityID(mySelectedEntity);
+		return;
+	}
+
+	mySelectedEntity = pickedID;
+
+	if (!ValidSelection())
+		return;
+
+	uint id = mySelectedEntity;
+	std::vector<uint> trace;
+	while (id != INVALID_ENTITY)
+	{
+		id = myGM.GetEntity(id).GetParentID();
+		trace.push_back(id);
+	}
+
+	for (auto& parent : trace)
+	{
+		myShowChildrenRecord[parent] = true;
+	}
+
+	//myPicker->SetPickedEntityID(NULL_ENTITY);
+}
+
+void Game::Editor::InvalidateSelectionIfInvalid()
+{
+	if (!ValidSelection())
+		return;
+
+	auto& entities = myGM.GetEntities();
+	auto it = entities.find(mySelectedEntity);
+	if (it == entities.end())
+	{
+		mySelectedEntity = INVALID_ENTITY;
 	}
 }
 
@@ -261,7 +294,7 @@ void Game::Editor::HandleHierarchySelection(uint anID, bool isHovered)
 		{
 			myInitiallySelectedEntity = NULL_ENTITY;
 			myHoversInitiallySelectedEntity = false;
-			
+
 			// handle drag n drop
 			if (ImGui::BeginDragDropSource(ImGuiDragDropFlags_None))
 			{
@@ -307,7 +340,6 @@ ID3D11ShaderResourceView* const Game::Editor::GetThumbnail(const std::string& an
 
 void Game::Editor::CheckClearThumbnails()
 {
-	mySelectedEntityLastFrame = mySelectedEntity;
 	if (myClearThumbnails)
 	{
 		myAssetThumbnails.clear();
@@ -322,6 +354,8 @@ void Game::Editor::InternalUpdate()
 	myGM.UpdateEntityRemoval();
 	myGM.UpdateSystems();
 	//myGM.UpdateComponents();
+
+	InvalidateSelectionIfInvalid();
 
 	OnImGui();
 }
@@ -419,6 +453,7 @@ void Game::Editor::GameWindow()
 	if (ImGui::Begin("Game Window"))
 	{
 		RenderViewport();
+		RenderGizmos();
 	}
 	ImGui::End();
 	ImGui::PopStyleVar();
@@ -595,13 +630,69 @@ void Game::Editor::RenderViewport()
 	RenderGameTextureToRect(viewportSize);
 }
 
+void Game::Editor::RenderGizmos()
+{
+	ImGuizmo::SetOrthographic(true);
+	ImGuizmo::SetDrawlist();
+
+	auto& gs = Singleton<GlobalSettings>();
+	float4 wRect = gs.windowRect;
+	float4 rect = gs.gameWindowRect;
+	float w = rect.z - rect.x;
+	float h = rect.w - rect.y;
+
+	ImGuizmo::SetRect(rect.x, rect.y, w, h);
+	//ImVec2 tl = { rect.x, rect.y };
+	//ImVec2 br = { rect.z, rect.w };
+	//ImGui::GetWindowDrawList()->AddRect(tl, br, ImColor(0.f, .5f, .125f, 1.f));
+
+	CameraComponent& cam = *myGM.GetComponent<CameraComponent>(myEditorEntityID);
+	float* cameraView = float4x4::GetFastInverse(myGM.GetComponent<Transform>(myEditorEntityID)->GetTransform()).Raw();
+	float* cameraProjection = cam.GetProjection().Raw();
+
+	if (!ValidSelection())
+		return;
+
+	Transform& transform = *myGM.GetComponent<Transform>(mySelectedEntity);
+	float4x4 objectMatrix = transform.GetTransform();
+	float4x4 deltaMatrix;
+
+	float3 matrixTranslation;//(transform.GetPosition(), 0);
+	float3 matrixRotation;//(0, 0, transform.GetRotation());
+	float3 matrixScale;//(transform.GetScale(), 1);
+
+	//ImGuizmo::RecomposeMatrixFromComponents(&matrixTranslation.x, &matrixRotation.x, &matrixScale.x, matrix);
+	ImGuizmo::Manipulate(
+		cameraView,
+		cameraProjection,
+		ImGuizmo::UNIVERSAL,
+		ImGuizmo::WORLD,
+		objectMatrix.Raw(),
+		deltaMatrix.Raw(),
+		NULL
+	);
+
+	// TODO: fix bug related to rotating children
+	float4x4 objectSpaceTransformation = transform.GetObjectSpaceTransform() * deltaMatrix;
+
+	ImGuizmo::DecomposeMatrixToComponents(
+		objectSpaceTransformation.Raw(),
+		&matrixTranslation.x,
+		&matrixRotation.x,
+		&matrixScale.x);
+
+	transform.SetPosition(matrixTranslation.xy);
+	transform.SetRotation(matrixRotation.z);
+	transform.SetScale(matrixScale.xy);
+}
+
 float2 Game::Editor::CalculateGameWindowRect()
 {
 	uint2 res = Singleton<GlobalSettings>().gameplayResolution;
 	float4 windowRect = Singleton<GlobalSettings>().windowRect;
 	uint2 windowRes = {
 		uint(windowRect.z - windowRect.x),
-		uint(windowRect.w - windowRect.y) 
+		uint(windowRect.w - windowRect.y)
 	};
 
 	float ratio = (float)res.x / res.y;
@@ -625,7 +716,6 @@ float2 Game::Editor::CalculateGameWindowRect()
 	ImGui::SetCursorPos(cursorPos);
 	cursorPos.x += pos.x;
 	cursorPos.y += pos.y;
-	float4 wRect = Singleton<GlobalSettings>().GetWindowNormalised();
 	Singleton<GlobalSettings>().gameWindowRect =
 	{
 		cursorPos.x,
@@ -639,26 +729,28 @@ float2 Game::Editor::CalculateGameWindowRect()
 
 void Game::Editor::RenderGameTextureToRect(float2 aviewportSize)
 {
-	float4 windowRect = Singleton<GlobalSettings>().windowRect;
+	auto& gs = Singleton<GlobalSettings>();
+	float4 windowRect = gs.windowRect;
+	float4 rect = gs.gameWindowRect;
 	ImVec2 windowSize = ImGui::GetContentRegionAvail();
 	ImVec2 pos = ImGui::GetWindowPos();
 	float frameH = ImGui::GetFrameHeight();
 
-	float4 rect = Singleton<GlobalSettings>().gameWindowRect;
 	ImVec2 tl = { rect.x, rect.y };
 	ImVec2 br = { rect.z, rect.w };
 	ImColor col = { .2f, .2f, .2f, 1.f };
 	ImColor sideBarCol = { .15f, .15f, .15f, 1.f };
 	ImVec2 posPlusWindowSize = { pos.x + windowSize.x, pos.y + windowSize.y + frameH };
-	ImGui::GetWindowDrawList()->AddRectFilled(pos, posPlusWindowSize, sideBarCol);
 	ImVec2 viewportSize = { aviewportSize.x, aviewportSize.y };
-	ImGui::Image((void*)Singleton<GlobalSettings>().gameViewTexture->GetSRV(), viewportSize);
+
+	ImGui::GetWindowDrawList()->AddRectFilled(pos, posPlusWindowSize, sideBarCol);
+	ImGui::Image((void*)gs.gameViewTexture->GetSRV(), viewportSize);
 	ImGui::GetWindowDrawList()->AddRect(tl, br, col);
-	Singleton<GlobalSettings>().gameWindowRect +=
-	{
-			windowRect.x,
-			windowRect.y,
-			windowRect.x,
-			windowRect.y
-	};
+
+	gs.gameScreenRect = rect + float4(
+		windowRect.x,
+		windowRect.y,
+		windowRect.x,
+		windowRect.y
+	);
 }

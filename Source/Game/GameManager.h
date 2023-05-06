@@ -152,14 +152,8 @@ private:
 	{
 		auto& map = GetComponentMap<ComponentType>().map;
 		auto findIt = map.find(anEntityID);
-		if (findIt == map.end())
-		{
-			return nullptr;
-		}
-		else
-		{
-			return &findIt->second;
-		}
+
+		return findIt == map.end() ? nullptr : &findIt->second;
 	}
 
 	template <typename SystemType>

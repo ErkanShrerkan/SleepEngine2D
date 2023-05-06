@@ -14,6 +14,7 @@ void EntityPickingSystem::Update()
 
 	CameraComponent* cam = nullptr;
 	Entity* pickerEntity = nullptr;
+	auto& gs = Singleton<GlobalSettings>();
 
 	for (auto& [entityID, picker] : map)
 	{
@@ -26,7 +27,7 @@ void EntityPickingSystem::Update()
 		picker.myShouldPick = false;
 
 		float2 pickPos = picker.myPickPos;
-		float4 gameRect = Singleton<GlobalSettings>().GetGameWindowNormalised();
+		float4 gameRect = gs.GetGameScreenNormalised();
 
 		pickPos -= gameRect.xy;
 		gameRect.zw -= gameRect.xy;
@@ -53,7 +54,7 @@ void EntityPickingSystem::Update()
 		pickPos.x *= zoom * ratio * .5f;
 		pickPos.y *= zoom * .5f;
 
-		pickPos += pickerEntity->GetComponent<Transform>()->GetPosition();
+		pickPos += pickerEntity->GetComponent<Transform>()->GetTransform().GetPosition().xy;
 
 		float worldDist = zoom / 20.f;
 		float transformDistThresh = worldDist;
@@ -64,7 +65,7 @@ void EntityPickingSystem::Update()
 		bool picked = false;
 		for (auto& [id, entity] : myGameManager->GetEntities())
 		{
-			float2 ePos = entity->GetComponent<Transform>()->GetPosition();
+			float2 ePos = entity->GetComponent<Transform>()->GetTransform().GetPosition().xy;
 
 			if (pickerEntity->GetID() == id || (ePos - pickPos).LengthSqr() > zoom * zoom)
 				continue;

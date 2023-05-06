@@ -32,18 +32,23 @@ void Transform::Move(float2 aMovementVector, Space aSpace)
 
 void Transform::Rotate(float aRotaionInDegrees)
 {
-	SetRotation(myRotation + aRotaionInDegrees);
+	SetRotation(GetRotation() + aRotaionInDegrees);
 }
 
 void Transform::SetRotation(float aRotationInDegrees)
 {
-	myRotation = aRotationInDegrees;
-	myRotation += myRotation > 360.f ? -360.f : (myRotation < 0.f ? 360.f : 0);
+	myRotation = -aRotationInDegrees;
+	InBoundsRotation();
 }
 
 void Transform::SetScale(float2 aScale)
 {
 	myScale = aScale;
+}
+
+float Transform::GetRotation()
+{
+	return -myRotation;
 }
 
 float2 Transform::GetScale()
@@ -68,12 +73,7 @@ float2 Transform::GetRight()
 
 float4x4 Transform::GetTransform()
 {
-	float4x4 m = GetObjectSpaceTransform();
-	if (GameObject().GetParentID() != UINT_MAX)
-	{
-		m = m * GameObject().GetParent().GetComponent<Transform>()->GetTransform();
-	}
-	return m;
+	return GetObjectSpaceTransform() * GetParentWorldSpaceTransform();
 }
 
 float4x4 Transform::GetScaleMatrix()
@@ -88,7 +88,7 @@ float4x4 Transform::GetScaleMatrix()
 
 float4x4 Transform::GetRotationMatrix()
 {
-	return float4x4::CreateRotationAroundZ(Math::DegreeToRadian(-myRotation));
+	return float4x4::CreateRotationAroundZ(Math::DegreeToRadian(GetRotation()));
 }
 
 float4x4 Transform::GetTranslationMatrix()
@@ -106,6 +106,20 @@ float4x4 Transform::GetObjectSpaceTransform()
 	return s * r * t;
 }
 
+float4x4 Transform::GetParentWorldSpaceTransform()
+{
+	float4x4 m;
+	auto& object = GameObject();
+	if (object.HasParent())
+	{
+		auto& transform = *object.GetParent().GetComponent<Transform>();
+
+		m = transform.GetObjectSpaceTransform();
+		m *= transform.GetParentWorldSpaceTransform();
+	}
+	return m;
+}
+
 void Transform::MoveObjectSpace(float2 aMovementVector)
 {
 	float4 rotatedMovementVector = GetRotationMatrix() * float4(aMovementVector, 0, 1);
@@ -115,6 +129,11 @@ void Transform::MoveObjectSpace(float2 aMovementVector)
 void Transform::MoveWorldSpace(float2 aMovementVector)
 {
 	SetPosition(myPosition + aMovementVector);
+}
+
+void Transform::InBoundsRotation()
+{
+	myRotation += myRotation > 360.f ? -360.f : (myRotation < 0.f ? 360.f : 0);
 }
 
 void Transform::Start()
