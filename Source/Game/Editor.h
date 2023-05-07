@@ -1,9 +1,9 @@
 #pragma once
 #include "Observer.h"
-#include "Observer.h"
 #include "Process.h"
 #include "GameManager.h"
 #include "DynamicStringBuffer.h"
+#include <Engine\Input.h>
 #include <filesystem>
 #include <d3d11.h>
 
@@ -15,13 +15,32 @@ namespace SE
 class EntityPickingComponent;
 namespace Game
 {
-	class Editor : public Observer, public Process
+	class Editor : 
+		public Observer, 
+		public Process, 
+		public InputObserver
 	{
 	public:
 		~Editor();
 		virtual bool Init() override;
 		virtual bool Update() override;
 		void RecieveMessage(eMessage aMessage) override;
+
+	private:
+		// Not using ImGuizmo enums to minimize dependency 
+		enum class eTransformOperation
+		{
+			None,
+			Scale,
+			Rotate,
+			Translate,
+		};
+
+		enum class eTransformSpace
+		{
+			Local,
+			World,
+		};
 
 	private:
 		// ImGui
@@ -59,10 +78,12 @@ namespace Game
 		void InternalUpdate();
 		void DrawWorldGrid();
 		void InvalidateSelectionIfInvalid();
+		void SetTransformOperation(eTransformOperation anOperation);
+		void SetTransformSpace(eTransformSpace aSpace);
 
 		void LoadThumbnail(const std::string& anImgPath);
 		ID3D11ShaderResourceView* const GetThumbnail(const std::string& anImgPath) const noexcept;
-	
+
 	private:
 		GameManager myGM;
 		EntityPickingComponent* myPicker;
@@ -78,9 +99,12 @@ namespace Game
 		uint mySelectedEntityLastFrame = NULL_ENTITY;
 		uint myInitiallySelectedEntity = NULL_ENTITY;
 		uint myEditorEntityID;
+		eTransformOperation myOperation = eTransformOperation::Translate;
+		eTransformSpace mySpace = eTransformSpace::World;
 		bool myEntityHierarchyNeedsUpdating = false;
 		bool myHoversInitiallySelectedEntity = false;
 		bool myClearThumbnails = false;
+		bool myIsTransforming = false;
 	};
 }
 

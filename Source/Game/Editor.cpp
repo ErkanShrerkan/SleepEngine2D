@@ -34,11 +34,18 @@ bool Game::Editor::Init()
 	Input::SetIsEditing(true);
 	myGM.Init();
 	SE::CEngine::GetInstance()->SetGameManagerRef(&myGM);
+	myIsObservingEditorInputs = true;
 
 	myShowChildrenRecord[ENTITY_HIERARCHY_ROOT] = true;
 	myCurrentPath = std::filesystem::relative("Assets");
 	myEditorEntityID = myGM.CreateEntity().AddComponent<EditorController>().GameObject().GetID();
 	myPicker = myGM.GetEntity(myEditorEntityID).GetComponent<EntityPickingComponent>();
+
+	eInputState state = eInputState::Pressed;
+	ObserveInputEvent(eInputEvent::Q, state, [&]() { this->SetTransformOperation(eTransformOperation::None); });
+	ObserveInputEvent(eInputEvent::W, state, [&]() { this->SetTransformOperation(eTransformOperation::Translate); });
+	ObserveInputEvent(eInputEvent::E, state, [&]() { this->SetTransformOperation(eTransformOperation::Rotate); });
+	ObserveInputEvent(eInputEvent::R, state, [&]() { this->SetTransformOperation(eTransformOperation::Scale); });
 
 	return true;
 }
@@ -284,6 +291,16 @@ void Game::Editor::InvalidateSelectionIfInvalid()
 	{
 		mySelectedEntity = INVALID_ENTITY;
 	}
+}
+
+void Game::Editor::SetTransformOperation(eTransformOperation anOperation)
+{
+	myOperation = anOperation;
+}
+
+void Game::Editor::SetTransformSpace(eTransformSpace aSpace)
+{
+	mySpace = aSpace;
 }
 
 void Game::Editor::HandleHierarchySelection(uint anID, bool isHovered)
@@ -644,13 +661,13 @@ void Game::Editor::RenderGizmos()
 	float h = rect.w - rect.y;
 
 	ImGuizmo::SetRect(rect.x, rect.y, w, h);
-	//ImVec2 tl = { rect.x, rect.y };
-	//ImVec2 br = { rect.z, rect.w };
-	//ImGui::GetWindowDrawList()->AddRect(tl, br, ImColor(0.f, .5f, .125f, 1.f));
+	ImVec2 tl = { rect.x, rect.y };
+	ImVec2 br = { rect.z, rect.w };
+	ImGui::GetWindowDrawList()->AddRect(tl, br, ImColor(0.f, .5f, .125f, 1.f));
 
-	//CameraComponent& cam = *myGM.GetComponent<CameraComponent>(myEditorEntityID);
-	//float* cameraView = float4x4::GetFastInverse(myGM.GetComponent<Transform>(myEditorEntityID)->GetTransform()).Raw();
-	//float* cameraProjection = cam.GetProjection().Raw();
+	CameraComponent& cam = *myGM.GetComponent<CameraComponent>(myEditorEntityID);
+	float* cameraView = float4x4::GetFastInverse(myGM.GetComponent<Transform>(myEditorEntityID)->GetTransform()).Raw();
+	float* cameraProjection = cam.GetProjection().Raw();
 
 	if (!ValidSelection())
 		return;
@@ -658,54 +675,119 @@ void Game::Editor::RenderGizmos()
 	Transform& transform = *myGM.GetComponent<Transform>(mySelectedEntity);
 
 	// if no parent then identity
-	//float4x4 parentMatrix = transform.GetParentWorldSpaceTransform();
-	float4x4 originalObjectMatrix = transform.GetTransform();
-	float4x4 objectMatrix = originalObjectMatrix;
-	float4x4 deltaMatrix;
+	float4x4 tParentWorld = transform.GetParentWorldSpaceTransform();
+	float4x4 tLocal = transform.GetObjectSpaceTransform();
+	float4x4 tWorldOriginal = tLocal * tParentWorld;
+	float4x4 tWorld = tWorldOriginal;
+	float4x4 tDelta;
+	static float2 ogt = {};
+	static float2 ogs = {};
+	static float ogr = {};
+	float3 t, r, s;
 
-	float3 matrixTranslation;
-	float3 matrixRotation;
-	float3 matrixScale;
-
-	//ImGuizmo::Manipulate(
-	//	cameraView,
-	//	cameraProjection,
-	//	ImGuizmo::UNIVERSAL,
-	//	ImGuizmo::WORLD,
-	//	objectMatrix.Raw(),
-	//	deltaMatrix.Raw(),
-	//	NULL
-	//);
+	ImGuizmo::OPERATION op = ImGuizmo::UNIVERSAL;
+	switch (myOperation)
+	{
+	case eTransformOperation::None:
+		return;
+	case eTransformOperation::Scale:
+		op = ImGuizmo::SCALE;
+		break;
+	case eTransformOperation::Rotate:
+		op = ImGuizmo::ROTATE;
+		break;
+	case eTransformOperation::Translate:
+		op = ImGuizmo::TRANSLATE;
+		break;
+	default:
+		break;
+	}
 
 	// TODO: fix bug related to rotating children
 
-	//float4x4 m = originalObjectMatrix;
-	//ImGui::Begin("Transform Debug");
+	float4x4 m = tWorld;
+	ImGui::Begin("Transform Debug");
+	{
+		ImGui::DragFloat3("R", &m.GetRight().x);
+		ImGui::DragFloat3("U", &m.GetUp().x);
+		ImGui::DragFloat3("F", &m.GetForward().x);
+		ImGui::DragFloat3("P", &m.GetPosition().x);
+	}
+	ImGui::End();
+
+	//ImGuizmo::DecomposeMatrixToComponents(tLocal.Raw(), &t.x, &r.x, &s.x);
+		//if (transform.GameObject().HasParent())
+		//{
+		//	tWorld = tWorld * tWorldOriginal.FastInverse();
+		//}
+		//ImGuizmo::DecomposeMatrixToComponents(tWorld.Raw(), &t.x, &r.x, &s.x);
+
+	ImGuizmo::Manipulate(
+		cameraView,
+		cameraProjection,
+		op,
+		ImGuizmo::WORLD,
+		tWorld.Raw(),
+		tDelta.Raw(),
+		NULL
+	);
+
+	bool isUsing = ImGuizmo::IsUsing();
+
+	if (!isUsing)
+	{
+		myIsTransforming = false;
+		return;
+	}
+	//else if (!myIsTransforming)
 	//{
-	//	ImGui::DragFloat3("R", &m.GetRight().x);
-	//	ImGui::DragFloat3("U", &m.GetUp().x);
-	//	ImGui::DragFloat3("F", &m.GetForward().x);
-	//	ImGui::DragFloat3("P", &m.GetPosition().x);
+	//	myIsTransforming = true;
+	//	ogt = 
 	//}
-	//ImGui::End();
 
-	//Entity& go = myGM.GetEntity(mySelectedEntity);
-	//if (go.HasParent())
+	//tLocal *= tDelta;
+	//tWorld *= tParentWorld.FastInverse();
+
+	switch (myOperation)
+	{
+	case eTransformOperation::Scale:
+		tLocal *= tDelta;
+		transform.SetScale(tLocal);
+		//transform.SetPosition(tLocal);
+		break;
+	case eTransformOperation::Rotate:
+		//transform.SetPosition(tLocal);
+		//tDelta = tWorld * tWorldOriginal.FastInverse();
+		//tLocal *= tDelta;
+		//tWorld *= tParentWorld.FastInverse();
+		transform.SetRotation(tWorld);
+		//transform.SetPosition(tLocal);
+		break;
+	case eTransformOperation::Translate:
+		tWorld.Normalize();
+		tWorld *= tWorldOriginal.FastInverse();
+		//tWorld *= tLocal.FastInverse();
+		tLocal *= tWorld;
+		//tLocal *= tDelta;
+		transform.SetPosition(tLocal);
+		break;
+	}
+
+	//switch (myOperation)
 	//{
-	//	objectMatrix *= float4x4::GetFastInverse(originalObjectMatrix);
+	//case eTransformOperation::Scale:
+	//	transform.SetTransform(tWorld);
+	//	break;
+	//case eTransformOperation::Rotate:
+	//	transform.SetTransform(tWorld);
+	//	transform.SetPosition(tLocal);
+	//	break;
+	//case eTransformOperation::Translate:
+	//	transform.SetTransform(tWorld);
+	//	break;
 	//}
 
-	//originalObjectMatrix *= deltaMatrix;
-
-	//ImGuizmo::DecomposeMatrixToComponents(
-	//	originalObjectMatrix.Raw(),
-	//	&matrixTranslation.x,
-	//	&matrixRotation.x,
-	//	&matrixScale.x);
-
-	//transform.SetPosition(matrixTranslation.xy);
-	//transform.SetRotation(matrixRotation.z);
-	//transform.SetScale(matrixScale.xy);
+	//transform.SetTransform(tLocal);
 }
 
 float2 Game::Editor::CalculateGameWindowRect()

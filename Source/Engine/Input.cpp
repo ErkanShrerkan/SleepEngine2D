@@ -113,6 +113,11 @@ void Input::Init()
 	ET[(uint)eInputEvent::Two] = { '2' };
 	ET[(uint)eInputEvent::Three] = { '3' };
 
+	ET[(uint)eInputEvent::Q] = { 'Q' };
+	ET[(uint)eInputEvent::W] = { 'W' };
+	ET[(uint)eInputEvent::E] = { 'E' };
+	ET[(uint)eInputEvent::R] = { 'R' };
+
 	// add registered keys to keyboard
 	for (auto& keys : ET)
 	{

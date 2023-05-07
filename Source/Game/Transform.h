@@ -23,6 +23,10 @@ public:
     /// <param name="aSpace">: The space in wich aMovementVecor exists</param>
     void Move(float2 aMovementVector, Space aSpace = Space::World);
     void Rotate(float aRotaionInDegrees);
+    void SetTransform(const float4x4& aMatrix);
+    void SetScale(const float4x4& aMatrix);
+    void SetRotation(const float4x4& aMatrix);
+    void SetPosition(const float4x4& aMatrix);
     void SetRotation(float aRotationInDegrees);
     void SetPosition(float2 aPos);
     void SetScale(float2 aScale);

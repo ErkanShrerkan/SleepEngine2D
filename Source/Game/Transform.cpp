@@ -35,6 +35,32 @@ void Transform::Rotate(float aRotaionInDegrees)
 	SetRotation(GetRotation() + aRotaionInDegrees);
 }
 
+void Transform::SetTransform(const float4x4& aMatrix)
+{
+	SetScale(aMatrix);
+	SetRotation(aMatrix);
+	SetPosition(aMatrix);
+}
+
+void Transform::SetScale(const float4x4& aMatrix)
+{
+	SetScale({ aMatrix.GetRight().Length(), aMatrix.GetUp().Length() });
+}
+
+void Transform::SetRotation(const float4x4& aMatrix)
+{
+	float2 rV = { aMatrix(1, 2), aMatrix(1, 1) };
+	rV.Normalize();
+	float rad = atan2f(rV.x, rV.y);
+	float deg = Math::RadianToDegree(rad);
+	SetRotation(deg);
+}
+
+void Transform::SetPosition(const float4x4& aMatrix)
+{
+	SetPosition(aMatrix.GetPosition().xy);
+}
+
 void Transform::SetRotation(float aRotationInDegrees)
 {
 	myRotation = -aRotationInDegrees;

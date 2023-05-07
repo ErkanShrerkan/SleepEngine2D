@@ -72,6 +72,10 @@ enum class eInputEvent : uint
 	ScrollDown,
 	MMB,
 	Shift,
+	Q,
+	W,
+	E,
+	R,
 
 	COUNT
 };
