@@ -73,7 +73,13 @@ float2 Transform::GetRight()
 
 float4x4 Transform::GetTransform()
 {
-	return GetObjectSpaceTransform() * GetParentWorldSpaceTransform();
+	float4x4 m = GetObjectSpaceTransform();
+	Entity& go = GameObject();
+	if (!go.HasParent())
+		return m;
+
+	m *= GetParentWorldSpaceTransform();
+	return m;
 }
 
 float4x4 Transform::GetScaleMatrix()
@@ -108,16 +114,12 @@ float4x4 Transform::GetObjectSpaceTransform()
 
 float4x4 Transform::GetParentWorldSpaceTransform()
 {
-	float4x4 m;
-	auto& object = GameObject();
-	if (object.HasParent())
-	{
-		auto& transform = *object.GetParent().GetComponent<Transform>();
+	Entity& go = GameObject();
+	if (!go.HasParent())
+		return float4x4();
 
-		m = transform.GetObjectSpaceTransform();
-		m *= transform.GetParentWorldSpaceTransform();
-	}
-	return m;
+	Transform& t = *go.GetParent().GetComponent<Transform>();
+	return t.GetTransform();
 }
 
 void Transform::MoveObjectSpace(float2 aMovementVector)

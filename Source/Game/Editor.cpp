@@ -72,7 +72,7 @@ void Game::Editor::OnImGui()
 	ContentBrowser();
 	Controls();
 	GameWindow();
-	//DrawWorldGrid();
+	DrawWorldGrid();
 
 	ImGui::PopStyleVar();
 }
@@ -372,6 +372,8 @@ void Game::Editor::DrawWorldGrid()
 	{
 		Debug::DrawLine2D({ -res.y, y }, { res.y, y }, { 1, 1, 1, .125f });
 	}
+
+	Debug::DrawCircle({ 0.f, 0.f }, 50);
 }
 
 void Game::Editor::SceneHierarchy()
@@ -646,44 +648,64 @@ void Game::Editor::RenderGizmos()
 	//ImVec2 br = { rect.z, rect.w };
 	//ImGui::GetWindowDrawList()->AddRect(tl, br, ImColor(0.f, .5f, .125f, 1.f));
 
-	CameraComponent& cam = *myGM.GetComponent<CameraComponent>(myEditorEntityID);
-	float* cameraView = float4x4::GetFastInverse(myGM.GetComponent<Transform>(myEditorEntityID)->GetTransform()).Raw();
-	float* cameraProjection = cam.GetProjection().Raw();
+	//CameraComponent& cam = *myGM.GetComponent<CameraComponent>(myEditorEntityID);
+	//float* cameraView = float4x4::GetFastInverse(myGM.GetComponent<Transform>(myEditorEntityID)->GetTransform()).Raw();
+	//float* cameraProjection = cam.GetProjection().Raw();
 
 	if (!ValidSelection())
 		return;
 
 	Transform& transform = *myGM.GetComponent<Transform>(mySelectedEntity);
-	float4x4 objectMatrix = transform.GetTransform();
+
+	// if no parent then identity
+	//float4x4 parentMatrix = transform.GetParentWorldSpaceTransform();
+	float4x4 originalObjectMatrix = transform.GetTransform();
+	float4x4 objectMatrix = originalObjectMatrix;
 	float4x4 deltaMatrix;
 
-	float3 matrixTranslation;//(transform.GetPosition(), 0);
-	float3 matrixRotation;//(0, 0, transform.GetRotation());
-	float3 matrixScale;//(transform.GetScale(), 1);
+	float3 matrixTranslation;
+	float3 matrixRotation;
+	float3 matrixScale;
 
-	//ImGuizmo::RecomposeMatrixFromComponents(&matrixTranslation.x, &matrixRotation.x, &matrixScale.x, matrix);
-	ImGuizmo::Manipulate(
-		cameraView,
-		cameraProjection,
-		ImGuizmo::UNIVERSAL,
-		ImGuizmo::WORLD,
-		objectMatrix.Raw(),
-		deltaMatrix.Raw(),
-		NULL
-	);
+	//ImGuizmo::Manipulate(
+	//	cameraView,
+	//	cameraProjection,
+	//	ImGuizmo::UNIVERSAL,
+	//	ImGuizmo::WORLD,
+	//	objectMatrix.Raw(),
+	//	deltaMatrix.Raw(),
+	//	NULL
+	//);
 
 	// TODO: fix bug related to rotating children
-	float4x4 objectSpaceTransformation = transform.GetObjectSpaceTransform() * deltaMatrix;
 
-	ImGuizmo::DecomposeMatrixToComponents(
-		objectSpaceTransformation.Raw(),
-		&matrixTranslation.x,
-		&matrixRotation.x,
-		&matrixScale.x);
+	//float4x4 m = originalObjectMatrix;
+	//ImGui::Begin("Transform Debug");
+	//{
+	//	ImGui::DragFloat3("R", &m.GetRight().x);
+	//	ImGui::DragFloat3("U", &m.GetUp().x);
+	//	ImGui::DragFloat3("F", &m.GetForward().x);
+	//	ImGui::DragFloat3("P", &m.GetPosition().x);
+	//}
+	//ImGui::End();
 
-	transform.SetPosition(matrixTranslation.xy);
-	transform.SetRotation(matrixRotation.z);
-	transform.SetScale(matrixScale.xy);
+	//Entity& go = myGM.GetEntity(mySelectedEntity);
+	//if (go.HasParent())
+	//{
+	//	objectMatrix *= float4x4::GetFastInverse(originalObjectMatrix);
+	//}
+
+	//originalObjectMatrix *= deltaMatrix;
+
+	//ImGuizmo::DecomposeMatrixToComponents(
+	//	originalObjectMatrix.Raw(),
+	//	&matrixTranslation.x,
+	//	&matrixRotation.x,
+	//	&matrixScale.x);
+
+	//transform.SetPosition(matrixTranslation.xy);
+	//transform.SetRotation(matrixRotation.z);
+	//transform.SetScale(matrixScale.xy);
 }
 
 float2 Game::Editor::CalculateGameWindowRect()

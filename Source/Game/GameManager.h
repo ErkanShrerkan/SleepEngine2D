@@ -76,7 +76,7 @@ public:
 	EnableFunctionIfTypeIsDerived(Component, ComponentType, ComponentMap<ComponentType>&)
 		GetComponentMap()
 	{
-		return *static_cast<ComponentMap<ComponentType>*>(myComponentMaps[GetID<ComponentType>()].get());
+		return *static_cast<ComponentMap<ComponentType>*>(myComponentMaps.at(GetID<ComponentType>()).get());
 	}
 
 	const std::string& GetComponentTypeNameByID(uint anID)
