@@ -2,10 +2,8 @@
 #include <vector>
 #include <d3d11.h>
 
-
 namespace SE
 {
-
 	class CLineDrawer
 	{
 		struct SVertex
@@ -43,4 +41,6 @@ namespace Debug
 {
 	void DrawLine2D(float2 aStart, float2 anEnd, float4 aCol = { 1, 1, 1, 1 }, bool aIsScreenSpace = false);
 	void DrawCircle(float2 aCenter, float aRadius, bool aIsScreenSpace = false);
+	void DrawTransformNormalized(float4x4 aTransform);
+	void DrawTransform(const float4x4& aTransform);
 }

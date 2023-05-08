@@ -34,7 +34,7 @@ namespace CommonUtilities
 		// Static function to get a hacked version of inverse. Works only on rotation with translation matrices
 		static Matrix4x4<T> GetFastInverse(const Matrix4x4<T>& aMatrixToFastInverse);
 		Matrix4x4<T> FastInverse();
-		void Normalize();
+		Matrix4x4<T>& Normalize();
 
 		static const Matrix4x4<T> IdentityMatrix;
 
@@ -253,11 +253,12 @@ namespace CommonUtilities
 	}
 
 	template<class T>
-	inline void Matrix4x4<T>::Normalize()
+	inline Matrix4x4<T>& Matrix4x4<T>::Normalize()
 	{
 		GetRow(1).Normalize();
 		GetRow(2).Normalize();
 		GetRow(3).Normalize();
+		return *this;
 	}
 
 	template<class T>

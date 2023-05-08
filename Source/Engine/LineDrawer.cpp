@@ -150,4 +150,20 @@ namespace Debug
 		}
 		DrawLine2D({ aCenter.x + lastPoint.x, aCenter.y + lastPoint.y }, { firstPoint.x + aCenter.x, aCenter.y + firstPoint.y }, { 1, 1, 1, 1 }, aIsScreenSpace);
 	}
+
+	void DrawTransformNormalized(float4x4 aTransform)
+	{
+		aTransform.Normalize();
+		DrawTransform(aTransform);
+	}
+
+	void DrawTransform(const float4x4& aTransform)
+	{
+		float2 pos = aTransform.GetPosition().xy;
+		float2 up = aTransform.GetUp().xy * 100.f;
+		float2 right = aTransform.GetRight().xy * 100.f;
+
+		DrawLine2D(pos, pos + right, { 1.f, 0.f, 0.f, 1.f });
+		DrawLine2D(pos, pos + up, { 0.f, 1.f, 0.f, 1.f });
+	}
 }

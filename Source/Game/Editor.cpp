@@ -675,14 +675,13 @@ void Game::Editor::RenderGizmos()
 	Transform& transform = *myGM.GetComponent<Transform>(mySelectedEntity);
 
 	// if no parent then identity
-	float4x4 tParentWorld = transform.GetParentWorldSpaceTransform();
-	float4x4 tLocal = transform.GetObjectSpaceTransform();
+	float4x4 tParentWorld = transform.GetParentWorldSpaceTransform().Normalize();
+	float4x4 tLocal = transform.GetObjectSpaceTransform().Normalize();
 	float4x4 tWorldOriginal = tLocal * tParentWorld;
 	float4x4 tWorld = tWorldOriginal;
 	float4x4 tDelta;
-	static float2 ogt = {};
-	static float2 ogs = {};
-	static float ogr = {};
+	static float4x4 tManipulated;
+	static Transform unalteredTransform;
 	float3 t, r, s;
 
 	ImGuizmo::OPERATION op = ImGuizmo::UNIVERSAL;
@@ -705,15 +704,15 @@ void Game::Editor::RenderGizmos()
 
 	// TODO: fix bug related to rotating children
 
-	float4x4 m = tWorld;
-	ImGui::Begin("Transform Debug");
-	{
-		ImGui::DragFloat3("R", &m.GetRight().x);
-		ImGui::DragFloat3("U", &m.GetUp().x);
-		ImGui::DragFloat3("F", &m.GetForward().x);
-		ImGui::DragFloat3("P", &m.GetPosition().x);
-	}
-	ImGui::End();
+	//float4x4 m = tWorld;
+	//ImGui::Begin("Transform Debug");
+	//{
+	//	ImGui::DragFloat3("R", &m.GetRight().x);
+	//	ImGui::DragFloat3("U", &m.GetUp().x);
+	//	ImGui::DragFloat3("F", &m.GetForward().x);
+	//	ImGui::DragFloat3("P", &m.GetPosition().x);
+	//}
+	//ImGui::End();
 
 	//ImGuizmo::DecomposeMatrixToComponents(tLocal.Raw(), &t.x, &r.x, &s.x);
 		//if (transform.GameObject().HasParent())
@@ -722,72 +721,71 @@ void Game::Editor::RenderGizmos()
 		//}
 		//ImGuizmo::DecomposeMatrixToComponents(tWorld.Raw(), &t.x, &r.x, &s.x);
 
+
+	if (!myIsTransforming)
+	{
+		tManipulated = tWorld;
+	}
+
 	ImGuizmo::Manipulate(
 		cameraView,
 		cameraProjection,
 		op,
 		ImGuizmo::WORLD,
-		tWorld.Raw(),
+		tManipulated.Raw(),
 		tDelta.Raw(),
 		NULL
 	);
 
 	bool isUsing = ImGuizmo::IsUsing();
-
 	if (!isUsing)
 	{
-		myIsTransforming = false;
-		return;
-	}
-	//else if (!myIsTransforming)
-	//{
-	//	myIsTransforming = true;
-	//	ogt = 
-	//}
+		if (!myIsTransforming)
+			return;
 
-	//tLocal *= tDelta;
-	//tWorld *= tParentWorld.FastInverse();
+		myIsTransforming = false;
+
+		// Can apply final here
+	}
+	else if (!myIsTransforming)
+	{
+		// Just started transformation
+		myIsTransforming = true;
+		tManipulated = tWorld;
+		tManipulated.Normalize();
+		unalteredTransform = transform;
+	}
+	else if (myIsTransforming)
+	{
+		Debug::DrawTransform(tManipulated);
+		tDelta = tManipulated * tWorld.FastInverse();
+		tDelta *= tLocal;
+		Debug::DrawTransform(tDelta * tParentWorld);
+	}
 
 	switch (myOperation)
 	{
 	case eTransformOperation::Scale:
-		tLocal *= tDelta;
-		transform.SetScale(tLocal);
-		//transform.SetPosition(tLocal);
+		transform.SetScale(tManipulated);
+		transform.SetScale(transform.GetScale() * unalteredTransform.GetScale());
+		transform.SetRotation(unalteredTransform.GetRotation());
+		transform.SetPosition(unalteredTransform.GetPosition());
 		break;
 	case eTransformOperation::Rotate:
-		//transform.SetPosition(tLocal);
-		//tDelta = tWorld * tWorldOriginal.FastInverse();
-		//tLocal *= tDelta;
-		//tWorld *= tParentWorld.FastInverse();
-		transform.SetRotation(tWorld);
-		//transform.SetPosition(tLocal);
+		tDelta = tManipulated * tWorld.FastInverse();
+		tDelta *= tLocal;
+		transform.SetScale(unalteredTransform.GetScale());
+		transform.SetRotation(tDelta);
+		transform.SetPosition(unalteredTransform.GetPosition());
 		break;
 	case eTransformOperation::Translate:
-		tWorld.Normalize();
-		tWorld *= tWorldOriginal.FastInverse();
-		//tWorld *= tLocal.FastInverse();
-		tLocal *= tWorld;
-		//tLocal *= tDelta;
-		transform.SetPosition(tLocal);
+		tDelta = tManipulated * tWorld.FastInverse();
+		tDelta *= tLocal;
+		transform.SetScale(unalteredTransform.GetScale());
+		transform.SetRotation(unalteredTransform.GetRotation());
+		transform.SetPosition(tDelta);
 		break;
 	}
-
-	//switch (myOperation)
-	//{
-	//case eTransformOperation::Scale:
-	//	transform.SetTransform(tWorld);
-	//	break;
-	//case eTransformOperation::Rotate:
-	//	transform.SetTransform(tWorld);
-	//	transform.SetPosition(tLocal);
-	//	break;
-	//case eTransformOperation::Translate:
-	//	transform.SetTransform(tWorld);
-	//	break;
-	//}
-
-	//transform.SetTransform(tLocal);
 }
 
 float2 Game::Editor::CalculateGameWindowRect()
