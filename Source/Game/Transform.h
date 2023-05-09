@@ -48,8 +48,8 @@ private:
     void InBoundsRotation();
 
 private:
-    float2 myScale = { 1, 1 };
-    float2 myPosition;
-    float myRotation = 0;
+    float2 myScale = { 1.f, 1.f };
+    float2 myPosition = { 0.f, 0.f };
+    float myRotation = 0.f;
 };
 

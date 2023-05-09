@@ -675,14 +675,11 @@ void Game::Editor::RenderGizmos()
 	Transform& transform = *myGM.GetComponent<Transform>(mySelectedEntity);
 
 	// if no parent then identity
-	float4x4 tParentWorld = transform.GetParentWorldSpaceTransform().Normalize();
-	float4x4 tLocal = transform.GetObjectSpaceTransform().Normalize();
-	float4x4 tWorldOriginal = tLocal * tParentWorld;
-	float4x4 tWorld = tWorldOriginal;
-	float4x4 tDelta;
-	static float4x4 tManipulated;
+	float4x4 tParentWorld = transform.GetParentWorldSpaceTransform();
+	float4x4 tLocal = transform.GetObjectSpaceTransform();
+	float4x4 tWorld = tLocal * tParentWorld;
+	static float4x4 tNewWorld;
 	static Transform unalteredTransform;
-	float3 t, r, s;
 
 	ImGuizmo::OPERATION op = ImGuizmo::UNIVERSAL;
 	switch (myOperation)
@@ -702,29 +699,9 @@ void Game::Editor::RenderGizmos()
 		break;
 	}
 
-	// TODO: fix bug related to rotating children
-
-	//float4x4 m = tWorld;
-	//ImGui::Begin("Transform Debug");
-	//{
-	//	ImGui::DragFloat3("R", &m.GetRight().x);
-	//	ImGui::DragFloat3("U", &m.GetUp().x);
-	//	ImGui::DragFloat3("F", &m.GetForward().x);
-	//	ImGui::DragFloat3("P", &m.GetPosition().x);
-	//}
-	//ImGui::End();
-
-	//ImGuizmo::DecomposeMatrixToComponents(tLocal.Raw(), &t.x, &r.x, &s.x);
-		//if (transform.GameObject().HasParent())
-		//{
-		//	tWorld = tWorld * tWorldOriginal.FastInverse();
-		//}
-		//ImGuizmo::DecomposeMatrixToComponents(tWorld.Raw(), &t.x, &r.x, &s.x);
-
-
 	if (!myIsTransforming)
 	{
-		tManipulated = tWorld;
+		tNewWorld = tWorld;
 	}
 
 	ImGuizmo::Manipulate(
@@ -732,8 +709,7 @@ void Game::Editor::RenderGizmos()
 		cameraProjection,
 		op,
 		ImGuizmo::WORLD,
-		tManipulated.Raw(),
-		tDelta.Raw(),
+		tNewWorld.Raw(),
 		NULL
 	);
 
@@ -745,46 +721,34 @@ void Game::Editor::RenderGizmos()
 
 		myIsTransforming = false;
 
-		// Can apply final here
+		// Can apply final transformation here
 	}
 	else if (!myIsTransforming)
 	{
 		// Just started transformation
 		myIsTransforming = true;
-		tManipulated = tWorld;
-		tManipulated.Normalize();
+		tNewWorld = tWorld;
+		tNewWorld.Normalize();
 		unalteredTransform = transform;
 	}
 	else if (myIsTransforming)
 	{
-		Debug::DrawTransform(tManipulated);
-		tDelta = tManipulated * tWorld.FastInverse();
-		tDelta *= tLocal;
-		Debug::DrawTransform(tDelta * tParentWorld);
-	}
-
-	switch (myOperation)
-	{
-	case eTransformOperation::Scale:
-		transform.SetScale(tManipulated);
-		transform.SetScale(transform.GetScale() * unalteredTransform.GetScale());
-		transform.SetRotation(unalteredTransform.GetRotation());
-		transform.SetPosition(unalteredTransform.GetPosition());
-		break;
-	case eTransformOperation::Rotate:
-		tDelta = tManipulated * tWorld.FastInverse();
-		tDelta *= tLocal;
-		transform.SetScale(unalteredTransform.GetScale());
-		transform.SetRotation(tDelta);
-		transform.SetPosition(unalteredTransform.GetPosition());
-		break;
-	case eTransformOperation::Translate:
-		tDelta = tManipulated * tWorld.FastInverse();
-		tDelta *= tLocal;
-		transform.SetScale(unalteredTransform.GetScale());
-		transform.SetRotation(unalteredTransform.GetRotation());
-		transform.SetPosition(tDelta);
-		break;
+		// Transforming
+		//Debug::DrawTransform(tNewWorld);
+		tLocal = tNewWorld * float4x4::Transpose(tParentWorld.Inverse());
+		transform.SetTransform(unalteredTransform.GetObjectSpaceTransform());
+		switch (myOperation)
+		{
+		case eTransformOperation::Scale:
+			transform.SetScale(tLocal);
+			break;
+		case eTransformOperation::Rotate:
+			transform.SetRotation(tLocal);
+			break;
+		case eTransformOperation::Translate:
+			transform.SetPosition(tLocal);
+			break;
+		}
 	}
 }
 
