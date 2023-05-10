@@ -694,8 +694,7 @@ void Game::Editor::RenderGizmos()
 
 	// if no parent then identity
 	float4x4 tParentWorld = transform.GetParentWorldSpaceTransform();
-	float4x4 tLocal = transform.GetObjectSpaceTransform();
-	float4x4 tWorld = tLocal * tParentWorld;
+	float4x4 tWorld = transform.GetObjectSpaceTransform() * tParentWorld;
 	static float4x4 tParentWorldInverseTranspose;
 	static float4x4 tNewWorld;
 	static Transform unalteredTransform;
@@ -724,29 +723,14 @@ void Game::Editor::RenderGizmos()
 	{
 		// Just started transformation
 		myIsTransforming = true;
-
 		tParentWorldInverseTranspose = float4x4::Transpose(tParentWorld.Inverse());
 		tNewWorld = tWorld;
 		unalteredTransform = transform;
-		//tNewWorld.Normalize();
 		return;
 	}
 
 	//Debug::DrawTransform(tNewWorld);
-	tLocal = tNewWorld * tParentWorldInverseTranspose;
-	transform.SetTransform(unalteredTransform.GetObjectSpaceTransform());
-	switch (myOperation)
-	{
-	case eTransformOperation::Scale:
-		transform.SetScale(tLocal);
-		break;
-	case eTransformOperation::Rotate:
-		transform.SetRotation(tLocal);
-		break;
-	case eTransformOperation::Translate:
-		transform.SetPosition(tLocal);
-		break;
-	}
+	transform.SetTransform(tNewWorld * tParentWorldInverseTranspose);
 }
 
 float2 Game::Editor::CalculateGameWindowRect()
