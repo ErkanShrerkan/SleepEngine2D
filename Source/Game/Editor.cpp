@@ -672,15 +672,6 @@ void Game::Editor::RenderGizmos()
 	if (!ValidSelection())
 		return;
 
-	Transform& transform = *myGM.GetComponent<Transform>(mySelectedEntity);
-
-	// if no parent then identity
-	float4x4 tParentWorld = transform.GetParentWorldSpaceTransform();
-	float4x4 tLocal = transform.GetObjectSpaceTransform();
-	float4x4 tWorld = tLocal * tParentWorld;
-	static float4x4 tNewWorld;
-	static Transform unalteredTransform;
-
 	ImGuizmo::OPERATION op = ImGuizmo::UNIVERSAL;
 	switch (myOperation)
 	{
@@ -699,6 +690,16 @@ void Game::Editor::RenderGizmos()
 		break;
 	}
 
+	Transform& transform = *myGM.GetComponent<Transform>(mySelectedEntity);
+
+	// if no parent then identity
+	float4x4 tParentWorld = transform.GetParentWorldSpaceTransform();
+	float4x4 tLocal = transform.GetObjectSpaceTransform();
+	float4x4 tWorld = tLocal * tParentWorld;
+	static float4x4 tParentWorldInverseTranspose;
+	static float4x4 tNewWorld;
+	static Transform unalteredTransform;
+
 	if (!myIsTransforming)
 	{
 		tNewWorld = tWorld;
@@ -713,42 +714,38 @@ void Game::Editor::RenderGizmos()
 		NULL
 	);
 
-	bool isUsing = ImGuizmo::IsUsing();
-	if (!isUsing)
+	if (!ImGuizmo::IsUsing())
 	{
-		if (!myIsTransforming)
-			return;
-
 		myIsTransforming = false;
-
-		// Can apply final transformation here
+		return;
 	}
-	else if (!myIsTransforming)
+
+	if (!myIsTransforming)
 	{
 		// Just started transformation
 		myIsTransforming = true;
+
+		tParentWorldInverseTranspose = float4x4::Transpose(tParentWorld.Inverse());
 		tNewWorld = tWorld;
-		tNewWorld.Normalize();
 		unalteredTransform = transform;
+		//tNewWorld.Normalize();
+		return;
 	}
-	else if (myIsTransforming)
+
+	//Debug::DrawTransform(tNewWorld);
+	tLocal = tNewWorld * tParentWorldInverseTranspose;
+	transform.SetTransform(unalteredTransform.GetObjectSpaceTransform());
+	switch (myOperation)
 	{
-		// Transforming
-		//Debug::DrawTransform(tNewWorld);
-		tLocal = tNewWorld * float4x4::Transpose(tParentWorld.Inverse());
-		transform.SetTransform(unalteredTransform.GetObjectSpaceTransform());
-		switch (myOperation)
-		{
-		case eTransformOperation::Scale:
-			transform.SetScale(tLocal);
-			break;
-		case eTransformOperation::Rotate:
-			transform.SetRotation(tLocal);
-			break;
-		case eTransformOperation::Translate:
-			transform.SetPosition(tLocal);
-			break;
-		}
+	case eTransformOperation::Scale:
+		transform.SetScale(tLocal);
+		break;
+	case eTransformOperation::Rotate:
+		transform.SetRotation(tLocal);
+		break;
+	case eTransformOperation::Translate:
+		transform.SetPosition(tLocal);
+		break;
 	}
 }
 
