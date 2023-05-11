@@ -1,6 +1,6 @@
 #pragma once
 
-enum class eInputState
+enum class eInputState : short
 {
 	Null		= 0,
 	Neutral		= 1 << 0,
@@ -9,7 +9,7 @@ enum class eInputState
 	Released	= 1 << 3
 };
 
-enum class eScrollState : uint
+enum class eScrollState : char
 {
 	Null,
 	Neutral,

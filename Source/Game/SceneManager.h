@@ -23,8 +23,8 @@ private:
 	void FormatEntityComponentsForSaving();
 
 private:
-	std::string myActiveScene = "";
-	uptr(JsonDocument) mySceneDoc;
 	GameManager* myGameManager;
+	uptr(JsonDocument) mySceneDoc;
+	std::string myActiveScene = "";
 };
 

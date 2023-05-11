@@ -28,7 +28,7 @@ namespace Game
 
 	private:
 		// Not using ImGuizmo enums to minimize dependency 
-		enum class eTransformOperation
+		enum class eTransformOperation : char
 		{
 			None,
 			Scale,
@@ -36,7 +36,7 @@ namespace Game
 			Translate,
 		};
 
-		enum class eTransformSpace
+		enum class eTransformSpace : char
 		{
 			Local,
 			World,
@@ -85,26 +85,25 @@ namespace Game
 		ID3D11ShaderResourceView* const GetThumbnail(const std::string& anImgPath) const noexcept;
 
 	private:
-		GameManager myGM;
-		EntityPickingComponent* myPicker;
-		bool myDisplay = true;
-
 		// Editor control variables
-		std::filesystem::path myCurrentPath;
-		DynamicStringBuffer mySceneLabel;
-		std::unordered_map<std::string, sptr(SE::CTexture)> myAssetThumbnails;
-		std::unordered_map<uint, bool> myShowChildrenRecord;
-		std::map<uint, std::set<uint>> myEntityHierarchy;
-		uint mySelectedEntity = NULL_ENTITY;
-		uint mySelectedEntityLastFrame = NULL_ENTITY;
-		uint myInitiallySelectedEntity = NULL_ENTITY;
-		uint myEditorEntityID;
 		eTransformOperation myOperation = eTransformOperation::Translate;
 		eTransformSpace mySpace = eTransformSpace::World;
 		bool myEntityHierarchyNeedsUpdating = false;
 		bool myHoversInitiallySelectedEntity = false;
 		bool myClearThumbnails = false;
 		bool myIsTransforming = false;
+		bool myDisplay = true;
+		uint mySelectedEntity = NULL_ENTITY;
+		uint mySelectedEntityLastFrame = NULL_ENTITY;
+		uint myInitiallySelectedEntity = NULL_ENTITY;
+		uint myEditorEntityID;
+		EntityPickingComponent* myPicker;
+		std::map<uint, std::set<uint>> myEntityHierarchy;
+		DynamicStringBuffer mySceneLabel;
+		std::filesystem::path myCurrentPath;
+		std::unordered_map<uint, bool> myShowChildrenRecord;
+		std::unordered_map<std::string, sptr(SE::CTexture)> myAssetThumbnails;
+		GameManager myGM;
 	};
 }
 

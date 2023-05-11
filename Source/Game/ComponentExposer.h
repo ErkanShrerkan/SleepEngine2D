@@ -11,20 +11,20 @@ class Component;
 
 namespace Expose
 {
-	enum class ePickMode
+	enum class ePickMode : char
 	{
 		Drag,
 		Color
 	};
 
-	enum class eBounds
+	enum class eBounds : char 
 	{
 		None,
 		Loop,
 		Clamp
 	};
 
-	enum class eDataFormat
+	enum class eDataFormat : char
 	{
 		Bool,
 		Scalar,
@@ -43,12 +43,12 @@ namespace Expose
 		void PrepareImGui();
 
 	public:
-		std::string name;
 		eDataFormat format;
 		ePickMode pickMode;
 		eBounds boundsType = eBounds::None;
-		float2 bounds;
 		float sensitivity;
+		float2 bounds;
+		std::string name;
 	};
 
 	class ExposedVariable : public IExposed
@@ -180,6 +180,6 @@ public:
 	}
 
 private:
-	std::vector<sptr(Expose::IExposed)> myExposedVariables;
 	GameManager* myGameManager;
+	std::vector<sptr(Expose::IExposed)> myExposedVariables;
 };

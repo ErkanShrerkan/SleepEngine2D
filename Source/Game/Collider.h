@@ -15,8 +15,8 @@ public:
 
     bool isRigidBody = false;
 
-    float2 pos;
     float radius = 0;
+    float2 pos;
 
 public:
     virtual void Start() override;

@@ -4,7 +4,7 @@
 class Transform : public Component
 {
 public:
-    enum class Space
+    enum class Space : char
     {
         World,
         Object,

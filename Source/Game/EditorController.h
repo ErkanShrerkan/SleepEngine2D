@@ -20,11 +20,11 @@ private:
     bool MouseIsOverGameWindow();
 
 private:
-    CameraComponent* myCam = nullptr;
-    float2 myMovement;
-    float mySpeed = 500;
-    float myShiftMult = 2;
     bool myCanMove = false;
     bool myShiftDown = false;
+    float mySpeed = 500;
+    float myShiftMult = 2;
+    float2 myMovement;
+    CameraComponent* myCam = nullptr;
 };
 

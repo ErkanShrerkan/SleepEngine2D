@@ -122,18 +122,18 @@ private:
 	~Input();
 
 private:
-	static eScrollState myScrollState;
-	static Vector2f myMousePosition;
-	static Vector2f myMouseDelta;
-	static std::vector<KeyUpdate> myKeyUpdatesToDispatch;
-	static std::vector<InputEvent> myInputEvents;
-	static std::vector<ScrollEvent> myScrollEvents;
-	// event is index for myEventTriggers
-	static std::vector<std::vector<uint>> myEventTriggers;
 	static bool myLockCursor;
 	static bool myInvertedY;
 	static bool myDragIsActive;
 	static bool myIsEditing;
+	static eScrollState myScrollState;
 	static float myMouseSensitivity;
 	static float myScrollDelta;
+	static Vector2f myMousePosition;
+	static Vector2f myMouseDelta;
+	// event is index for myEventTriggers
+	static std::vector<std::vector<uint>> myEventTriggers;
+	static std::vector<KeyUpdate> myKeyUpdatesToDispatch;
+	static std::vector<InputEvent> myInputEvents;
+	static std::vector<ScrollEvent> myScrollEvents;
 };

@@ -15,8 +15,8 @@ public:
 	void Pick();
 
 private:
-	float2 myPickPos;
-	uint myPickedEntityID = NULL_ENTITY;
 	bool myShouldPick = false;
+	uint myPickedEntityID = NULL_ENTITY;
+	float2 myPickPos;
 };
 

@@ -51,18 +51,16 @@ private:
 
 private:
     // not proud of this sprite setup but it's very low priority to fix
-    ExposableString myTexture;
-    float4 myColor = { 1, 1, 1, 1 };
-    float4 myRect = { 0, 0, 1, 1 };
-    float2 mySize;
-    float2 myPosition;
-    float2 myPivot;
-    float myRotation = 0;
     bool myIsScreenSpace = false;
     bool myRender = true;
     bool myDrawRect = false;
-
-private:
+    float myRotation = 0;
+    float2 mySize;
+    float2 myPosition;
+    float2 myPivot;
+    float4 myColor = { 1, 1, 1, 1 };
+    float4 myRect = { 0, 0, 1, 1 };
     SE::CSprite* mySprite;
+    ExposableString myTexture;
 };
 

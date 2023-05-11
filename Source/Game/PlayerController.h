@@ -26,9 +26,9 @@ private:
     void ToggleMovement();
 
 private:
-    Transform* myTransformRef;
-    float2 myMovement;
-    float mySpeed = 500;
     bool myCanMove = false;
+    float mySpeed = 500;
+    float2 myMovement;
+    Transform* myTransformRef;
 };
 

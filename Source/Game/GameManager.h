@@ -34,8 +34,8 @@ public:
 	}
 
 public:
-	std::string myName;
 	bool myIsEditorOnly;
+	std::string myName;
 };
 
 template <typename ComponentType, typename std::enable_if<
@@ -189,6 +189,7 @@ private:
 
 	std::unordered_map<uint, std::unordered_map<uint, Component*>>& GetEntityComponents() { return myEntityComponents; }
 	std::unordered_map<uint, sptr(IComponentMap)>& GetComponentMaps() { return myComponentMaps; }
+
 private:
 	bool myEntityHierarchyNeedsUpdating = true;
 };

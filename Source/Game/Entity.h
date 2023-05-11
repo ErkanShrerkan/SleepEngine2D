@@ -44,6 +44,6 @@ private:
 private:
 	uint myID;
 	uint myParentID = NULL_ENTITY;
-	std::vector<uint> myChildren;
 	GameManager* myGameManager;
+	std::vector<uint> myChildren;
 };

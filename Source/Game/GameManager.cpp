@@ -47,23 +47,23 @@ void GameManager::Init()
 	mySceneManager = std::make_shared<SceneManager>(this);
 	mySceneManager->LoadScene();
 
-	//auto& entityPool = CreateEntity();
-	//for (size_t i = 0; i < 100; i++)
-	//{
-	//	auto& e = entityPool.CreateChild();
-	//	e.GetComponent<Transform>()->SetPosition({ Random::Float(-10'00.f, 10'00.f), Random::Float(-10'00.f, 10'00.f) });
-	//	//e.GetComponent<Transform>().SetScale({ .1f, .1f });
-	//	auto& s = e.AddComponent<Sprite>(/*"assets/textures/black.dds"*/"assets/textures/sprites/circle.dds");
-	//	s.SetColor({ Random::Float(0.f, 1.f), Random::Float(0.f, 1.f), Random::Float(0.f, 1.f), 1 });
-	//	s.SetWidthSizePreservedImageRatio(100);
-	//	s.SetPivot({ .5f, .5f });
-	//	//s.SetSizeRelativeToImage({ .1f, .1f });
+	auto& entityPool = CreateEntity();
+	for (size_t i = 0; i < 100; i++)
+	{
+		auto& e = entityPool.CreateChild();
+		e.GetComponent<Transform>()->SetPosition({ Random::Float(-10'00.f, 10'00.f), Random::Float(-10'00.f, 10'00.f) });
+		//e.GetComponent<Transform>().SetScale({ .1f, .1f });
+		auto& s = e.AddComponent<Sprite>(/*"assets/textures/black.dds"*/"assets/textures/sprites/circle.dds");
+		s.SetColor({ Random::Float(0.f, 1.f), Random::Float(0.f, 1.f), Random::Float(0.f, 1.f), 1 });
+		s.SetWidthSizePreservedImageRatio(100);
+		s.SetPivot({ .5f, .5f });
+		//s.SetSizeRelativeToImage({ .1f, .1f });
 
-	//	for (size_t j = 0; j < 100; j++)
-	//	{
-	//		e.CreateChild();
-	//	}
-	//}
+		for (size_t j = 0; j < 100; j++)
+		{
+			e.CreateChild();
+		}
+	}
 
 	CreateEntity().AddComponent<PlayerController>().GameObject().
 		CreateChild().

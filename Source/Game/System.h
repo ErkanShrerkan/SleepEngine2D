@@ -15,7 +15,7 @@ public:
 	virtual void Update() = 0;
 
 protected:
-    std::vector<std::type_info> myComponentTypes;
 	GameManager* myGameManager;
+    std::vector<std::type_info> myComponentTypes;
 };
 

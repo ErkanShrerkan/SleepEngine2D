@@ -69,39 +69,39 @@ std::vector<KeyUpdate> Keyboard::Update()
 			if (IS_KEY_DOWN(key))
 			{
 				state = eInputState::Pressed;
-				keyUpdates.push_back({ key, eInputState::Pressed});
+				keyUpdates.push_back({ eInputState::Pressed, key});
 			}
 			else
 			{
-				keyUpdates.push_back({ key, eInputState::Neutral });
+				keyUpdates.push_back({ eInputState::Neutral, key });
 			}
 			break;
 		case eInputState::Pressed:
 			if (!(IS_KEY_DOWN(key)))
 			{
 				state = eInputState::Released;
-				keyUpdates.push_back({ key, eInputState::Released });
+				keyUpdates.push_back({ eInputState::Released, key });
 			}
 			else
 			{
 				state = eInputState::Held;
-				keyUpdates.push_back({ key, eInputState::Held });
+				keyUpdates.push_back({ eInputState::Held, key });
 			}
 			break;
 		case eInputState::Held:
 			if (!(IS_KEY_DOWN(key)))
 			{
 				state = eInputState::Released;
-				keyUpdates.push_back({ key, eInputState::Released });
+				keyUpdates.push_back({ eInputState::Released, key });
 			}
 			else
 			{
-				keyUpdates.push_back({ key, eInputState::Held });
+				keyUpdates.push_back({ eInputState::Held, key });
 			}
 			break;
 		case eInputState::Released:
 			state = eInputState::Neutral; 
-			keyUpdates.push_back({ key, eInputState::Neutral });
+			keyUpdates.push_back({ eInputState::Neutral, key });
 			break;
 		}
 	}

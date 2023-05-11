@@ -18,8 +18,8 @@ public:
     void SetZoom(float aZoom) { myZoom = aZoom; };
 
 private:
-    float4x4 myProjection;
-    float2 myAspectRatio = { 1, 1 };
     float myZoom = 1000;
+    float2 myAspectRatio = { 1, 1 };
+    float4x4 myProjection;
 };
 

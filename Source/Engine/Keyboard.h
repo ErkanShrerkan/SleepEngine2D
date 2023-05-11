@@ -15,8 +15,8 @@ struct Key
 
 struct KeyUpdate
 {
-	uint key;
 	eInputState state;
+	uint key;
 };
 
 class Keyboard
