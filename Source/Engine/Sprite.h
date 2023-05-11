@@ -4,7 +4,7 @@ struct ID3D11VertexShader;
 struct ID3D11InputLayout;
 namespace SE
 {
-	enum class SpriteShaderType
+	enum class SpriteShaderType : short
 	{
 		eNone,
 		eFisheye,
@@ -60,16 +60,16 @@ namespace SE
 		void WaitIfTextureIsNotLoaded();
 
 	private:
-		sptr(CTexture) myTexture;
-		sptr(CTexture) myMaskTexture;
-		Vector4f myColor = { 1, 1, 1, 1 };
-		float4 myRect;
-		Vector2f mySize;
-		Vector2f myPosition;
-		float2 myPivot;
+		SpriteShaderType myShaderType = SpriteShaderType::eNone;
 		float myRotation;
 		float myData;
-		SpriteShaderType myShaderType = SpriteShaderType::eNone;
+		float4 myColor = { 1, 1, 1, 1 };
+		float4 myRect;
+		float2 mySize;
+		float2 myPosition;
+		float2 myPivot;
+		sptr(CTexture) myTexture;
+		sptr(CTexture) myMaskTexture;
 
 	private:
 		struct Data

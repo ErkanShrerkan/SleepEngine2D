@@ -32,11 +32,11 @@ namespace SE
 		}
 
 	public:
-		ID3D11ShaderResourceView* srv;
-		float width, height, mipLevels;
-		unsigned format;
-		std::string filePath;
 		bool loaded;
+		unsigned format;
+		float width, height, mipLevels;
+		ID3D11ShaderResourceView* srv;
+		std::string filePath;
 	};
 
 	struct STextureResourcePtr

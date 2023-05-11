@@ -165,19 +165,16 @@ private:
 
 private:
 	uint myNextEntityID = 0;
-
+	std::set<uint> myEntitiesToRemove;
 	std::unordered_map<uint, sptr(Entity)> myEntities;
-	// myEntityComponents is just a register to quickly access all the entity's components
-	// first key is the entity's ID, and the second key is the component's ID
-	std::unordered_map<uint, std::unordered_map<uint, Component*>> myEntityComponents;
 	// IComponentMap is in charge of cleaning up component pointers
 	// key is the component's ID
 	std::unordered_map<uint, sptr(IComponentMap)> myComponentMaps;
-
+	// myEntityComponents is just a register to quickly access all the entity's components
+	// first key is the entity's ID, and the second key is the component's ID
+	std::unordered_map<uint, std::unordered_map<uint, Component*>> myEntityComponents;
 	std::unordered_map<Component*, std::set<void**>> myRegisteredComponentRefs;
-
 	std::vector<sptr(System)> mySystems;
-	std::set<uint> myEntitiesToRemove;
 	sptr(SceneManager) mySceneManager;
 
 private:
