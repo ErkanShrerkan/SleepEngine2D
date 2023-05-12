@@ -306,6 +306,78 @@ void Game::Editor::SetTransformSpace(eTransformSpace aSpace)
 	mySpace = aSpace;
 }
 
+void Game::Editor::RegisterNewProjectFile(
+	tinyxml2::XMLElement* anElement,
+	const std::string& aCategory,
+	const std::string& aType,
+	const std::string& anAttribute,
+	const std::string& aFileName)
+{
+	tinyxml2::XMLElement* element = anElement->FirstChildElement(aCategory.c_str());
+	tinyxml2::XMLElement* type = nullptr;
+	bool success = false;
+	for (size_t i = 0; i < 10; i++)
+	{
+		type = element->FirstChildElement(aType.c_str());
+		if (type)
+		{
+			type = element->InsertNewChildElement(aType.c_str());
+			success = true;
+			break;
+		}
+		element = element->NextSiblingElement(aCategory.c_str());
+	}
+
+	if (!success)
+		return;
+
+	type->SetAttribute(anAttribute.c_str(), aFileName.c_str());
+	element->InsertEndChild(type);
+}
+
+void Game::Editor::LoadXMLFile(tinyxml2::XMLDocument& aDoc, const std::string& aPath)
+{
+	std::ifstream inputFile(aPath);
+	if (!inputFile.is_open())
+	{
+		printe("ERROR LOADING PROJ FILE\n");
+		return;
+	}
+	std::string line;
+	std::string xmlContent;
+	while (getline(inputFile, line))
+	{
+		xmlContent += line;
+	}
+	inputFile.close();
+	if (aDoc.Parse(xmlContent.c_str()) != tinyxml2::XML_SUCCESS)
+	{
+		printe("ERROR PARSING PROJ FILE\n");
+		return;
+	}
+}
+
+void Game::Editor::SaveXMLFile(tinyxml2::XMLDocument& aDoc, const std::string& aPath)
+{
+	std::ofstream outputFile(aPath);
+	if (!outputFile.is_open())
+	{
+		printe("ERROR WRITING PROJ FILE\n");
+		return;
+	}
+	tinyxml2::XMLPrinter printer;
+	aDoc.Print(&printer);
+	outputFile << printer.CStr();
+	outputFile.close();
+}
+
+void Game::Editor::WriteTextFile(const std::string& aPath, const std::string& someContent)
+{
+	std::ofstream file(aPath);
+	file << someContent;
+	file.close();
+}
+
 void Game::Editor::HandleHierarchySelection(uint anID, bool isHovered)
 {
 	if (!isHovered)
@@ -401,111 +473,59 @@ void Game::Editor::GenerateSystem()
 	static DynamicStringBuffer systemName(32);
 	ImGui::InputText("System Name", systemName[0], systemName.GetSize());
 
-	if (ImGui::Button("Create System"))
+	if (!ImGui::Button("Create System"))
+		return;
+
+	std::string name = systemName.GetString();
+
+	if (name.empty())
+		return;
+
+	systemName.SetString("");
+
+	std::string path = "../Source/Game/";
+	std::string headerFileName = name + ".h";
+	std::string sourceFileName = name + ".cpp";
+
+	std::string headerContent = R"DELIM(#pragma once
+#include "System.h"
+
+class )DELIM" + name + R"DELIM( : public System
+{
+public:
+	)DELIM" + name + R"DELIM((GameManager* aGM)
+		: System::System(aGM)
 	{
-		std::string name = systemName.GetString();
-		std::string path = "../Source/Game/";
-		std::string headerFileName = name + ".h";
-		std::string sourceFileName = name + ".cpp";
 
-		std::ofstream headerFile(path + headerFileName);
-		headerFile << "#pragma once\n"
-			<< "#include \"System.h\"\n"
-			<< "class " << name << " : public System\n"
-			<< "{\n"
-			<< "public:\n"
-			<< "\t" << name << "(GameManager* aGM)\n"
-			<< "\t\t: System::System(aGM)\n"
-			<< "\t{\n"
-			<< "\t}\n"
-			<< "\tvirtual void Update() override;\n"
-			<< "};\n";
-		headerFile.close();
-
-		std::ofstream sourceFile(path + sourceFileName);
-		sourceFile 
-			<< "#include \"pch.h\"\n"
-			<< "#include \"" << headerFileName << "\"\n"
-			<< "void " << name << "::Update()\n"
-			<< "{\n"
-			<< "\t// TODO: Implement " << name << "::Update()\n"
-			<< "}\n";
-		sourceFile.close();
-
-		// add files to project
-		std::string projPath = "../Source/Game/Game.vcxproj";
-		std::ifstream inputFile(projPath);
-		if (!inputFile.is_open())
-		{
-			printe("ERROR LOADING PROJ FILE\n");
-			return;
-		}
-
-		std::string line;
-		std::string xmlContent;
-		while (getline(inputFile, line))
-		{
-			xmlContent += line;
-		}
-
-		inputFile.close();
-		tinyxml2::XMLDocument doc;
-		if (doc.Parse(xmlContent.c_str()) != tinyxml2::XML_SUCCESS) 
-		{
-			printe("ERROR PARSING PROJ FILE\n");
-			return;
-		}
-
-		tinyxml2::XMLElement* root = doc.RootElement();
-
-		// add .h file
-		tinyxml2::XMLElement* itemGroupHeader = root->FirstChildElement("ItemGroup");
-		tinyxml2::XMLElement* clInclude = nullptr;
-		while (true)
-		{
-			clInclude = itemGroupHeader->FirstChildElement("ClInclude");
-			if (clInclude)
-			{
-				clInclude = itemGroupHeader->InsertNewChildElement("ClInclude");
-				break;
-			}
-			itemGroupHeader = itemGroupHeader->NextSiblingElement("ItemGroup");
-		}
-		clInclude->SetAttribute("Include", headerFileName.c_str());
-		itemGroupHeader->InsertEndChild(clInclude);
-
-		// add .cpp file
-		tinyxml2::XMLElement* itemGroupSource = root->FirstChildElement("ItemGroup");
-		tinyxml2::XMLElement* clCompile = nullptr;
-		while (true)
-		{
-			clCompile = itemGroupSource->FirstChildElement("ClCompile");
-			if (clCompile)
-			{
-				clCompile = itemGroupHeader->InsertNewChildElement("ClCompile");
-				break;
-			}
-			itemGroupSource = itemGroupSource->NextSiblingElement("ItemGroup");
-		}
-		clCompile->SetAttribute("Include", sourceFileName.c_str());
-		itemGroupSource->InsertEndChild(clCompile);
-
-		std::ofstream outputFile(projPath);
-		if (!outputFile.is_open())
-		{
-			printe("ERROR WRITING PROJ FILE\n");
-			return;
-		}
-
-		tinyxml2::XMLPrinter printer;
-		doc.Print(&printer);
-		outputFile << printer.CStr();
-
-		// Add files to filter
-
-		outputFile.close();
-		systemName.SetString("");
 	}
+
+	virtual void Update() override;
+};
+)DELIM";
+
+	std::string sourceContent = R"DELIM(#include "pch.h"
+#include ")DELIM" + headerFileName + R"DELIM("
+#include "GameManager.h"
+
+void )DELIM" + name + R"DELIM(::Update()
+{
+	// TODO: Implement )DELIM" + name + R"DELIM(::Update()
+};
+)DELIM";
+
+	WriteTextFile(path + headerFileName, headerContent);
+	WriteTextFile(path + sourceFileName, sourceContent);
+
+	// add files to project
+	std::string projPath = "../Source/Game/Game.vcxproj";
+	tinyxml2::XMLDocument doc;
+	LoadXMLFile(doc, projPath);
+	tinyxml2::XMLElement* root = doc.RootElement();
+	RegisterNewProjectFile(root, "ItemGroup", "ClInclude", "Include", headerFileName);
+	RegisterNewProjectFile(root, "ItemGroup", "ClCompile", "Include", sourceFileName);
+	SaveXMLFile(doc, projPath);
+
+	// Add files to filter
 }
 
 void Game::Editor::SceneHierarchy()
@@ -950,7 +970,7 @@ void Game::Editor::RenderGameTextureToRect(float2 aviewportSize)
 		sideBarCol         // color
 	);
 
-	// debug game window rect
+	// DEBUG game window rect
 	ImGui::GetOverlayDrawList()->AddRect(
 		pos,			   // min
 		posPlusWindowSize, // max

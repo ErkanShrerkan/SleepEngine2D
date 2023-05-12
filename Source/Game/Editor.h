@@ -85,7 +85,15 @@ namespace Game
 		void InvalidateSelectionIfInvalid();
 		void SetTransformOperation(eTransformOperation anOperation);
 		void SetTransformSpace(eTransformSpace aSpace);
-
+		void RegisterNewProjectFile(
+			tinyxml2::XMLElement* anElement,
+			const std::string& aCategory,
+			const std::string& aType,
+			const std::string& anAttribute,
+			const std::string& aFileName);
+		void LoadXMLFile(tinyxml2::XMLDocument& aDoc, const std::string& aPath);
+		void SaveXMLFile(tinyxml2::XMLDocument& aDoc, const std::string& aPath);
+		void WriteTextFile(const std::string& aPath, const std::string& someContent);
 		void LoadThumbnail(const std::string& anImgPath);
 		ID3D11ShaderResourceView* const GetThumbnail(const std::string& anImgPath) const noexcept;
 
