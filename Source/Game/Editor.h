@@ -7,6 +7,9 @@
 #include <filesystem>
 #include <d3d11.h>
 
+// XML
+#include <CommonUtilities\tinyxml2.h>
+
 namespace SE
 {
 	class CTexture;
@@ -55,6 +58,7 @@ namespace Game
 		void DirectoryNavigator();
 		void Assets();
 		void EditorDockSpace();
+		void SystemGenerator();
 		void RenderViewport();
 		void RenderGizmos();
 		float2 CalculateGameWindowRect();
@@ -77,6 +81,7 @@ namespace Game
 		void CheckClearThumbnails();
 		void InternalUpdate();
 		void DrawWorldGrid();
+		void GenerateSystem();
 		void InvalidateSelectionIfInvalid();
 		void SetTransformOperation(eTransformOperation anOperation);
 		void SetTransformSpace(eTransformSpace aSpace);
@@ -92,6 +97,7 @@ namespace Game
 		bool myHoversInitiallySelectedEntity = false;
 		bool myClearThumbnails = false;
 		bool myIsTransforming = false;
+		bool myShowSystemGenerator = false;
 		bool myDisplay = true;
 		uint mySelectedEntity = NULL_ENTITY;
 		uint mySelectedEntityLastFrame = NULL_ENTITY;
