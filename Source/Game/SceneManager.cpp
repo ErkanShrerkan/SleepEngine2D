@@ -5,13 +5,21 @@
 #include "SceneManager.h"
 #include "GameManager.h"
 
+#define STRING(x) #x
+#define WSTRING(x) L ## #x
+#define STRINGIFY(x) STRING(x)
+#define WSTRINGIFY(x) WSTRING(x)
+#define SCENE_PATH Assets/Scenes
+#define SCENE_PATH_S STRINGIFY(SCENE_PATH)
+#define SCENE_PATH_W WSTRINGIFY(SCENE_PATH)
+
 SceneManager::SceneManager(GameManager* aGM)
 	: myGameManager(aGM)
 {
 	mySceneDoc = std::make_unique<JsonDocument>();
 
-	CreateDirectory(L"Assets/Scenes", NULL);
-	auto it = std::filesystem::recursive_directory_iterator{ "Assets/Scenes" };
+	CreateDirectory(SCENE_PATH_W, NULL);
+	auto it = std::filesystem::recursive_directory_iterator{ SCENE_PATH_S };
 	for (const auto& dir : it)
 	{
 		std::string entry(dir.path().string());
@@ -153,7 +161,8 @@ bool SceneManager::SceneExists(const std::string& aSceneName)
 
 std::string SceneManager::GetScenePath(const std::string& aSceneName)
 {
-	return "Scenes/" + aSceneName + ".scn";
+	std::string path(SCENE_PATH_S);
+	return path + "/" + aSceneName + ".scn";
 }
 
 void SceneManager::FormatEntityComponentsForSaving()
