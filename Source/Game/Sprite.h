@@ -55,12 +55,12 @@ private:
     bool myRender = true;
     bool myDrawRect = false;
     float myRotation = 0;
-    float2 mySize;
-    float2 myPosition;
-    float2 myPivot;
+    float2 mySize = {100, 100};
+    float2 myPosition = {};
+    float2 myPivot = {};
     float4 myColor = { 1, 1, 1, 1 };
     float4 myRect = { 0, 0, 1, 1 };
-    SE::CSprite* mySprite;
+    SE::CSprite* mySprite = nullptr;
     ExposableString myTexture;
 };
 
