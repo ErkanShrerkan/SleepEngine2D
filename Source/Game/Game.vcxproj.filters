@@ -128,7 +128,6 @@
     <ClInclude Include="Random.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="SceneManager.h" />
     <ClInclude Include="CameraSystem.h">
       <Filter>Source Files\Game\ECS\Systems</Filter>
     </ClInclude>
@@ -147,12 +146,17 @@
     <ClInclude Include="IComponent.h">
       <Filter>Source Files\Game\ECS\Components</Filter>
     </ClInclude>
-    <ClInclude Include="ComponentIDManager.h" />
     <ClInclude Include="ComponentExposer.h">
       <Filter>Source Files\Game\ECS</Filter>
     </ClInclude>
     <ClInclude Include="DynamicStringBuffer.h">
       <Filter>Source Files\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneManager.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ComponentIDManager.h">
+      <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -207,9 +211,6 @@
     <ClCompile Include="PlayerController.cpp">
       <Filter>Source Files\Game\ECS\Components</Filter>
     </ClCompile>
-    <ClCompile Include="CameraComponent.cpp">
-      <Filter>Source Files\Game\ECS\Components</Filter>
-    </ClCompile>
     <ClCompile Include="InputDispatcher.cpp">
       <Filter>Source Files\Game</Filter>
     </ClCompile>
@@ -248,6 +249,9 @@
     </ClCompile>
     <ClCompile Include="DynamicStringBuffer.cpp">
       <Filter>Source Files\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="CameraComponent.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

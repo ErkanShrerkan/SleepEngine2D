@@ -7,6 +7,9 @@
 #include <filesystem>
 #include <d3d11.h>
 
+// XML
+#include <CommonUtilities\tinyxml2.h>
+
 namespace SE
 {
 	class CTexture;
@@ -55,6 +58,7 @@ namespace Game
 		void DirectoryNavigator();
 		void Assets();
 		void EditorDockSpace();
+		void SystemGenerator();
 		void RenderViewport();
 		void RenderGizmos();
 		float2 CalculateGameWindowRect();
@@ -77,10 +81,19 @@ namespace Game
 		void CheckClearThumbnails();
 		void InternalUpdate();
 		void DrawWorldGrid();
+		void GenerateSystem();
 		void InvalidateSelectionIfInvalid();
 		void SetTransformOperation(eTransformOperation anOperation);
 		void SetTransformSpace(eTransformSpace aSpace);
-
+		void RegisterNewProjectFile(
+			tinyxml2::XMLElement* anElement,
+			const std::string& aCategory,
+			const std::string& aType,
+			const std::string& anAttribute,
+			const std::string& aFileName);
+		void LoadXMLFile(tinyxml2::XMLDocument& aDoc, const std::string& aPath);
+		void SaveXMLFile(tinyxml2::XMLDocument& aDoc, const std::string& aPath);
+		void WriteTextFile(const std::string& aPath, const std::string& someContent);
 		void LoadThumbnail(const std::string& anImgPath);
 		ID3D11ShaderResourceView* const GetThumbnail(const std::string& anImgPath) const noexcept;
 
@@ -92,6 +105,7 @@ namespace Game
 		bool myHoversInitiallySelectedEntity = false;
 		bool myClearThumbnails = false;
 		bool myIsTransforming = false;
+		bool myShowSystemGenerator = false;
 		bool myDisplay = true;
 		uint mySelectedEntity = NULL_ENTITY;
 		uint mySelectedEntityLastFrame = NULL_ENTITY;

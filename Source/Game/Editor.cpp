@@ -2,6 +2,8 @@
 #include "Globals.h"
 #include "Editor.h"
 
+#include <fstream>
+
 // Engine
 #include <Engine\Input.h>
 #include <Engine\Engine.h>
@@ -27,6 +29,7 @@
 
 Game::Editor::~Editor()
 {
+	StopObservingAllEvents();
 }
 
 bool Game::Editor::Init()
@@ -303,6 +306,78 @@ void Game::Editor::SetTransformSpace(eTransformSpace aSpace)
 	mySpace = aSpace;
 }
 
+void Game::Editor::RegisterNewProjectFile(
+	tinyxml2::XMLElement* anElement,
+	const std::string& aCategory,
+	const std::string& aType,
+	const std::string& anAttribute,
+	const std::string& aFileName)
+{
+	tinyxml2::XMLElement* element = anElement->FirstChildElement(aCategory.c_str());
+	tinyxml2::XMLElement* type = nullptr;
+	bool success = false;
+	for (size_t i = 0; i < 10; i++)
+	{
+		type = element->FirstChildElement(aType.c_str());
+		if (type)
+		{
+			type = element->InsertNewChildElement(aType.c_str());
+			success = true;
+			break;
+		}
+		element = element->NextSiblingElement(aCategory.c_str());
+	}
+
+	if (!success)
+		return;
+
+	type->SetAttribute(anAttribute.c_str(), aFileName.c_str());
+	element->InsertEndChild(type);
+}
+
+void Game::Editor::LoadXMLFile(tinyxml2::XMLDocument& aDoc, const std::string& aPath)
+{
+	std::ifstream inputFile(aPath);
+	if (!inputFile.is_open())
+	{
+		printe("ERROR LOADING PROJ FILE\n");
+		return;
+	}
+	std::string line;
+	std::string xmlContent;
+	while (getline(inputFile, line))
+	{
+		xmlContent += line;
+	}
+	inputFile.close();
+	if (aDoc.Parse(xmlContent.c_str()) != tinyxml2::XML_SUCCESS)
+	{
+		printe("ERROR PARSING PROJ FILE\n");
+		return;
+	}
+}
+
+void Game::Editor::SaveXMLFile(tinyxml2::XMLDocument& aDoc, const std::string& aPath)
+{
+	std::ofstream outputFile(aPath);
+	if (!outputFile.is_open())
+	{
+		printe("ERROR WRITING PROJ FILE\n");
+		return;
+	}
+	tinyxml2::XMLPrinter printer;
+	aDoc.Print(&printer);
+	outputFile << printer.CStr();
+	outputFile.close();
+}
+
+void Game::Editor::WriteTextFile(const std::string& aPath, const std::string& someContent)
+{
+	std::ofstream file(aPath);
+	file << someContent;
+	file.close();
+}
+
 void Game::Editor::HandleHierarchySelection(uint anID, bool isHovered)
 {
 	if (!isHovered)
@@ -391,6 +466,66 @@ void Game::Editor::DrawWorldGrid()
 	}
 
 	Debug::DrawCircle({ 0.f, 0.f }, 50);
+}
+
+void Game::Editor::GenerateSystem()
+{
+	static DynamicStringBuffer systemName(32);
+	ImGui::InputText("System Name", systemName[0], systemName.GetSize());
+
+	if (!ImGui::Button("Create System"))
+		return;
+
+	std::string name = systemName.GetString();
+
+	if (name.empty())
+		return;
+
+	systemName.SetString("");
+
+	std::string path = "../Source/Game/";
+	std::string headerFileName = name + ".h";
+	std::string sourceFileName = name + ".cpp";
+
+	std::string headerContent = R"DELIM(#pragma once
+#include "System.h"
+
+class )DELIM" + name + R"DELIM( : public System
+{
+public:
+	)DELIM" + name + R"DELIM((GameManager* aGM)
+		: System::System(aGM)
+	{
+
+	}
+
+	virtual void Update() override;
+};
+)DELIM";
+
+	std::string sourceContent = R"DELIM(#include "pch.h"
+#include ")DELIM" + headerFileName + R"DELIM("
+#include "GameManager.h"
+
+void )DELIM" + name + R"DELIM(::Update()
+{
+	// TODO: Implement )DELIM" + name + R"DELIM(::Update()
+};
+)DELIM";
+
+	WriteTextFile(path + headerFileName, headerContent);
+	WriteTextFile(path + sourceFileName, sourceContent);
+
+	// add files to project
+	std::string projPath = "../Source/Game/Game.vcxproj";
+	tinyxml2::XMLDocument doc;
+	LoadXMLFile(doc, projPath);
+	tinyxml2::XMLElement* root = doc.RootElement();
+	RegisterNewProjectFile(root, "ItemGroup", "ClInclude", "Include", headerFileName);
+	RegisterNewProjectFile(root, "ItemGroup", "ClCompile", "Include", sourceFileName);
+	SaveXMLFile(doc, projPath);
+
+	// Add files to filter
 }
 
 void Game::Editor::SceneHierarchy()
@@ -634,12 +769,33 @@ void Game::Editor::DebugDrawMousePos()
 
 void Game::Editor::EditorDockSpace()
 {
-	ImGui::Begin("Sleep Engine 2D", 0, ImGuiWindowFlags_NoMove);
+	ImGui::Begin("Sleep Engine 2D", 0, ImGuiWindowFlags_NoMove | ImGuiWindowFlags_MenuBar);
 	{
 		ImGui::DockSpace(ImGui::GetID("SE2D"));
 		//DebugDrawRect();
 		//DebugDrawMousePos();
+		if (ImGui::BeginMenuBar())
+		{
+			SystemGenerator();
+			ImGui::EndMenuBar();
+		}
 	}
+	ImGui::End();
+}
+
+void Game::Editor::SystemGenerator()
+{
+	if (ImGui::BeginMenu("Tools"))
+	{
+		ImGui::MenuItem("Generate Systems", NULL, &myShowSystemGenerator);
+		ImGui::EndMenu();
+	}
+
+	if (!myShowSystemGenerator)
+		return;
+
+	ImGui::Begin("System Generator", &myShowSystemGenerator, ImGuiWindowFlags_NoCollapse);
+	GenerateSystem();
 	ImGui::End();
 }
 
@@ -758,9 +914,9 @@ float2 Game::Editor::CalculateGameWindowRect()
 
 	//float ratio = (float)res.x / res.y;
 	//ImVec2 windowSize = ImGui::GetContentRegionAvail();
-	ImVec2 viewportSize = 
-	{ 
-		gs.gameWindowRect.z - gs.gameWindowRect.x,  
+	ImVec2 viewportSize =
+	{
+		gs.gameWindowRect.z - gs.gameWindowRect.x,
 		gs.gameWindowRect.w - gs.gameWindowRect.y
 	};
 	//ImVec2 cursorPos;
@@ -814,7 +970,7 @@ void Game::Editor::RenderGameTextureToRect(float2 aviewportSize)
 		sideBarCol         // color
 	);
 
-	// debug game window rect
+	// DEBUG game window rect
 	ImGui::GetOverlayDrawList()->AddRect(
 		pos,			   // min
 		posPlusWindowSize, // max
@@ -828,7 +984,7 @@ void Game::Editor::RenderGameTextureToRect(float2 aviewportSize)
 		//ImVec2(0.55f, .55f), // uv end
 		//ImVec4(1, 1, 1, 1) // tint color
 		//ImVec4(1, 0, 0, 1) // border color
-	); 
+	);
 
 	ImGui::GetWindowDrawList()->AddRect(tl, br, col);
 
