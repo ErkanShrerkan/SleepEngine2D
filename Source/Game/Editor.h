@@ -87,10 +87,13 @@ namespace Game
 		void SetTransformSpace(eTransformSpace aSpace);
 		void RegisterNewProjectFile(
 			tinyxml2::XMLElement* anElement,
-			const std::string& aCategory,
 			const std::string& aType,
-			const std::string& anAttribute,
 			const std::string& aFileName);
+		void RegisterFileToFilter(
+			tinyxml2::XMLElement* anElement,
+			const std::string& aType,
+			const std::string& aFileName,
+			const std::string& aFilter);
 		void LoadXMLFile(tinyxml2::XMLDocument& aDoc, const std::string& aPath);
 		void SaveXMLFile(tinyxml2::XMLDocument& aDoc, const std::string& aPath);
 		void WriteTextFile(const std::string& aPath, const std::string& someContent);

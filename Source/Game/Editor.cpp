@@ -307,13 +307,11 @@ void Game::Editor::SetTransformSpace(eTransformSpace aSpace)
 }
 
 void Game::Editor::RegisterNewProjectFile(
-	tinyxml2::XMLElement* anElement,
-	const std::string& aCategory,
-	const std::string& aType,
-	const std::string& anAttribute,
+	tinyxml2::XMLElement* anElement, 
+	const std::string& aType, 
 	const std::string& aFileName)
 {
-	tinyxml2::XMLElement* element = anElement->FirstChildElement(aCategory.c_str());
+	tinyxml2::XMLElement* element = anElement->FirstChildElement("ItemGroup");
 	tinyxml2::XMLElement* type = nullptr;
 	bool success = false;
 	for (size_t i = 0; i < 10; i++)
@@ -325,13 +323,44 @@ void Game::Editor::RegisterNewProjectFile(
 			success = true;
 			break;
 		}
-		element = element->NextSiblingElement(aCategory.c_str());
+		element = element->NextSiblingElement("ItemGroup");
 	}
 
 	if (!success)
 		return;
 
-	type->SetAttribute(anAttribute.c_str(), aFileName.c_str());
+	type->SetAttribute("Include", aFileName.c_str());
+	element->InsertEndChild(type);
+}
+
+void Game::Editor::RegisterFileToFilter(
+	tinyxml2::XMLElement* anElement,
+	const std::string& aType,
+	const std::string& aFileName,
+	const std::string& aFilter)
+{
+	tinyxml2::XMLElement* element = anElement->FirstChildElement("ItemGroup");
+	tinyxml2::XMLElement* type = nullptr;
+	bool success = false;
+	for (size_t i = 0; i < 10; i++)
+	{
+		type = element->FirstChildElement(aType.c_str());
+		if (type)
+		{
+			type = element->InsertNewChildElement(aType.c_str());
+			success = true;
+			break;
+		}
+		element = element->NextSiblingElement("ItemGroup");
+	}
+
+	if (!success)
+		return;
+
+	type->SetAttribute("Include", aFileName.c_str());
+	tinyxml2::XMLElement* filterElement = type->InsertNewChildElement("Filter");
+	std::string filter = "Source Files" + (aFilter.empty() ? "" : "\\" + aFilter);
+	filterElement->SetText(filter.c_str());
 	element->InsertEndChild(type);
 }
 
@@ -521,11 +550,17 @@ void )DELIM" + name + R"DELIM(::Update()
 	tinyxml2::XMLDocument doc;
 	LoadXMLFile(doc, projPath);
 	tinyxml2::XMLElement* root = doc.RootElement();
-	RegisterNewProjectFile(root, "ItemGroup", "ClInclude", "Include", headerFileName);
-	RegisterNewProjectFile(root, "ItemGroup", "ClCompile", "Include", sourceFileName);
+	RegisterNewProjectFile(root, "ClInclude", headerFileName);
+	RegisterNewProjectFile(root, "ClCompile", sourceFileName);
 	SaveXMLFile(doc, projPath);
 
 	// Add files to filter
+	std::string filtersPath = projPath + ".filters";
+	LoadXMLFile(doc, filtersPath);
+	root = doc.RootElement();
+	RegisterFileToFilter(root, "ClInclude", headerFileName, "Game\\ECS\\Systems");
+	RegisterFileToFilter(root, "ClCompile", sourceFileName, "Game\\ECS\\Systems");
+	SaveXMLFile(doc, filtersPath);
 }
 
 void Game::Editor::SceneHierarchy()
