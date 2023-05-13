@@ -359,7 +359,7 @@ void Game::Editor::RegisterFileToFilter(
 
 	type->SetAttribute("Include", aFileName.c_str());
 	tinyxml2::XMLElement* filterElement = type->InsertNewChildElement("Filter");
-	std::string filter = "Source Files" + (aFilter.empty() ? "" : aFileName + "\\");
+	std::string filter = "Source Files" + (aFilter.empty() ? "" : "\\" + aFilter);
 	filterElement->SetText(filter.c_str());
 	element->InsertEndChild(type);
 }
