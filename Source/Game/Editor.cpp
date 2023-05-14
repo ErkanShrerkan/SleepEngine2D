@@ -407,6 +407,34 @@ void Game::Editor::WriteTextFile(const std::string& aPath, const std::string& so
 	file.close();
 }
 
+void Game::Editor::AppendLineToTextFile(const std::string& aPath, const std::string& someText)
+{
+	std::ifstream finput;
+	finput.open(aPath);
+
+	if (!finput.is_open())
+	{
+		printe("Failed to open file %s for reading", aPath.c_str());
+		return;
+	}
+
+	std::ofstream foutput;
+	foutput.open(aPath, std::ios::app);
+	if (!finput.is_open())
+	{
+		finput.close();
+		printe("Failed to open file %s for writing", aPath.c_str());
+		return;
+	}
+
+	foutput << "\n" + someText;
+
+	printe("Text append to %s [SUCCESS]\n", aPath.c_str());
+
+	finput.close();
+	foutput.close();
+}
+
 bool Game::Editor::FileExists(const std::string& aFilePath)
 {
 	return std::filesystem::exists(aFilePath.c_str());
@@ -953,23 +981,35 @@ void )DELIM" + name + R"DELIM(::Update()
 	RegisterFileToFilter(root, "ClCompile", sourceFileName, "Game\\ECS\\Systems");
 	SaveXMLFile(doc, filtersPath);
 
+	AppendLineToTextFile(path + "SystemRegister.h", "RegisterSystem<" + name + ">();");
+	AppendLineToTextFile(path + "SystemInclude.h", "#include \"" + headerFileName + "\"");
+
 	printe("System %s [SUCCESS]\n", name.c_str());
 }
 
 void Game::Editor::GenerateComponent()
 {
+	static bool initWithUpdate = false;
 	static DynamicStringBuffer componentName(32);
-	ImGui::InputText("Component Name", componentName[0], componentName.GetSize());
+	static DynamicStringBuffer componentDisplayName(32);
+
+	ImGui::Text("Component Name");
+	ImGui::InputText("##name", componentName[0], componentName.GetSize());
+	ImGui::Text("Component Display Name");
+	ImGui::InputText("##displayname", componentDisplayName[0], componentDisplayName.GetSize());
+	ImGui::Checkbox("Init With Update", &initWithUpdate);
 
 	if (!ImGui::Button("Create Component"))
 		return;
 
 	std::string name = componentName.GetString();
+	std::string displayName = componentDisplayName.GetString();
 
-	if (name.empty())
+	if (name.empty() || displayName.empty())
 		return;
 
 	componentName.SetString("");
+	componentDisplayName.SetString("");
 
 	std::string path = "../Source/Game/";
 	std::string headerFileName = name + ".h";
@@ -981,6 +1021,9 @@ void Game::Editor::GenerateComponent()
 		return;
 	}
 
+	//void PlayerController::Update();
+	std::string updateDeclaration = initWithUpdate ? "\n\tvirtual void Update() override;" : "";
+	std::string updateDefinition = initWithUpdate ? "\nvoid " + name + "::Update()\n{\n}\n" : "";
 	std::string headerContent = R"DELIM(#pragma once
 #include "Component.h"
 
@@ -991,8 +1034,7 @@ public:
 	~)DELIM" + name + R"DELIM(();
 
 public:
-	virtual void Start() override;
-	// bool check update
+	virtual void Start() override;)DELIM" + updateDeclaration + R"DELIM(
 };
 )DELIM";
 
@@ -1010,7 +1052,7 @@ public:
 void )DELIM" + name + R"DELIM(::Start()
 {
 }
-)DELIM";
+)DELIM" + updateDefinition;
 
 	WriteTextFile(path + headerFileName, headerContent);
 	WriteTextFile(path + sourceFileName, sourceContent);
@@ -1031,6 +1073,9 @@ void )DELIM" + name + R"DELIM(::Start()
 	RegisterFileToFilter(root, "ClInclude", headerFileName, "Game\\ECS\\Components");
 	RegisterFileToFilter(root, "ClCompile", sourceFileName, "Game\\ECS\\Components");
 	SaveXMLFile(doc, filtersPath);
+
+	AppendLineToTextFile(path + "ComponentRegister.h", "RegisterComponent<" + name + ">(\"" + displayName + "\");");
+	AppendLineToTextFile(path + "ComponentInclude.h", "#include \"" + headerFileName + "\"");
 
 	printe("Component %s [SUCCESS]\n", name.c_str());
 }

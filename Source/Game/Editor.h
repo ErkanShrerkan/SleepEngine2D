@@ -98,6 +98,7 @@ namespace Game
 		void LoadXMLFile(tinyxml2::XMLDocument& aDoc, const std::string& aPath);
 		void SaveXMLFile(tinyxml2::XMLDocument& aDoc, const std::string& aPath);
 		void WriteTextFile(const std::string& aPath, const std::string& someContent);
+		void AppendLineToTextFile(const std::string& aPath, const std::string& someText);
 		bool FileExists(const std::string& aFilePath);
 		void LoadThumbnail(const std::string& anImgPath);
 		ID3D11ShaderResourceView* const GetThumbnail(const std::string& anImgPath) const noexcept;
