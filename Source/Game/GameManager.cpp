@@ -27,22 +27,8 @@ void GameManager::Init()
 {
 	// TODO: Implement Pixel Art Animation Texture Map Lookup Thing
 
-	// register components
-	RegisterComponent<EditorController>("Editor Controller", true);
-	RegisterComponent<EntityPickingComponent>("Entity Picking", true);
-	RegisterComponent<Sprite>("Sprite");
-	RegisterComponent<Collider>("Collider");
-	RegisterComponent<Transform>("Transform");
-	RegisterComponent<PlayerController>("Player Controller");
-	RegisterComponent<CameraComponent>("Camera");
-	RegisterComponent<Rigidbody>("Rigidbody");
-
-	// register systems
-	RegisterSystem<EditorSystem>();
-	RegisterSystem<SpriteRenderSystem>();
-	RegisterSystem<CollisionSystem>();
-	RegisterSystem<CameraSystem>();
-	RegisterSystem<EntityPickingSystem>();
+	#include "ComponentRegister.h"
+	#include "SystemRegister.h"
 
 	mySceneManager = std::make_shared<SceneManager>(this);
 	mySceneManager->LoadScene();

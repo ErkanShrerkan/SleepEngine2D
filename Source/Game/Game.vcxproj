@@ -185,6 +185,10 @@
     <ClInclude Include="Component.h" />
     <ClInclude Include="ComponentIDManager.h" />
     <ClInclude Include="ComponentInclude.h" />
+    <ClInclude Include="ComponentRegister.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClInclude>
     <ClInclude Include="DynamicStringBuffer.h" />
     <ClInclude Include="Editor.h" />
     <ClInclude Include="EditorController.h" />
@@ -220,6 +224,10 @@
     <ClInclude Include="SpriteRenderSystem.h" />
     <ClInclude Include="System.h" />
     <ClInclude Include="SystemInclude.h" />
+    <ClInclude Include="SystemRegister.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClInclude>
     <ClInclude Include="Time.h" />
     <ClInclude Include="Transform.h" />
   </ItemGroup>

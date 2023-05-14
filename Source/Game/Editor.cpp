@@ -407,6 +407,11 @@ void Game::Editor::WriteTextFile(const std::string& aPath, const std::string& so
 	file.close();
 }
 
+bool Game::Editor::FileExists(const std::string& aFilePath)
+{
+	return std::filesystem::exists(aFilePath.c_str());
+}
+
 void Game::Editor::HandleHierarchySelection(uint anID, bool isHovered)
 {
 	if (!isHovered)
@@ -516,6 +521,12 @@ void Game::Editor::GenerateSystem()
 	std::string headerFileName = name + ".h";
 	std::string sourceFileName = name + ".cpp";
 
+	if (FileExists(path + headerFileName))
+	{
+		printe("System %s [FAILURE]\nAlready exists\n", name.c_str());
+		return;
+	}
+
 	std::string headerContent = R"DELIM(#pragma once
 #include "System.h"
 
@@ -561,6 +572,9 @@ void )DELIM" + name + R"DELIM(::Update()
 	RegisterFileToFilter(root, "ClInclude", headerFileName, "Game\\ECS\\Systems");
 	RegisterFileToFilter(root, "ClCompile", sourceFileName, "Game\\ECS\\Systems");
 	SaveXMLFile(doc, filtersPath);
+
+	printe("System %s [SUCCESS]\n", name.c_str());
+
 }
 
 void Game::Editor::SceneHierarchy()
