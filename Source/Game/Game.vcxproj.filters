@@ -251,7 +251,7 @@
       <Filter>Source Files\Game</Filter>
     </ClCompile>
     <ClCompile Include="CameraComponent.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Game\ECS\Components</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
