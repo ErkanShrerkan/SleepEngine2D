@@ -989,6 +989,9 @@ void )DELIM" + name + R"DELIM(::Update()
 
 void Game::Editor::GenerateComponent()
 {
+	// Might make tool for deleting systems and components 
+	// that cleans up proj and filter files but its low prio
+
 	static bool initWithUpdate = false;
 	static DynamicStringBuffer componentName(32);
 	static DynamicStringBuffer componentDisplayName(32);
@@ -1021,7 +1024,6 @@ void Game::Editor::GenerateComponent()
 		return;
 	}
 
-	//void PlayerController::Update();
 	std::string updateDeclaration = initWithUpdate ? "\n\tvirtual void Update() override;" : "";
 	std::string updateDefinition = initWithUpdate ? "\nvoid " + name + "::Update()\n{\n}\n" : "";
 	std::string headerContent = R"DELIM(#pragma once
