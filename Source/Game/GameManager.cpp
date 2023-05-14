@@ -27,6 +27,7 @@ void GameManager::Init()
 {
 	// TODO: Implement Pixel Art Animation Texture Map Lookup Thing
 
+	// include files to make it easier to modify the files
 	#include "ComponentRegister.h"
 	#include "SystemRegister.h"
 

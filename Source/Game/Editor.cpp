@@ -307,8 +307,8 @@ void Game::Editor::SetTransformSpace(eTransformSpace aSpace)
 }
 
 void Game::Editor::RegisterNewProjectFile(
-	tinyxml2::XMLElement* anElement, 
-	const std::string& aType, 
+	tinyxml2::XMLElement* anElement,
+	const std::string& aType,
 	const std::string& aFileName)
 {
 	tinyxml2::XMLElement* element = anElement->FirstChildElement("ItemGroup");
@@ -500,81 +500,6 @@ void Game::Editor::DrawWorldGrid()
 	}
 
 	Debug::DrawCircle({ 0.f, 0.f }, 50);
-}
-
-void Game::Editor::GenerateSystem()
-{
-	static DynamicStringBuffer systemName(32);
-	ImGui::InputText("System Name", systemName[0], systemName.GetSize());
-
-	if (!ImGui::Button("Create System"))
-		return;
-
-	std::string name = systemName.GetString();
-
-	if (name.empty())
-		return;
-
-	systemName.SetString("");
-
-	std::string path = "../Source/Game/";
-	std::string headerFileName = name + ".h";
-	std::string sourceFileName = name + ".cpp";
-
-	if (FileExists(path + headerFileName))
-	{
-		printe("System %s [FAILURE]\nAlready exists\n", name.c_str());
-		return;
-	}
-
-	std::string headerContent = R"DELIM(#pragma once
-#include "System.h"
-
-class )DELIM" + name + R"DELIM( : public System
-{
-public:
-	)DELIM" + name + R"DELIM((GameManager* aGM)
-		: System::System(aGM)
-	{
-
-	}
-
-	virtual void Update() override;
-};
-)DELIM";
-
-	std::string sourceContent = R"DELIM(#include "pch.h"
-#include ")DELIM" + headerFileName + R"DELIM("
-#include "GameManager.h"
-
-void )DELIM" + name + R"DELIM(::Update()
-{
-	// TODO: Implement )DELIM" + name + R"DELIM(::Update()
-};
-)DELIM";
-
-	WriteTextFile(path + headerFileName, headerContent);
-	WriteTextFile(path + sourceFileName, sourceContent);
-
-	// add files to project
-	std::string projPath = "../Source/Game/Game.vcxproj";
-	tinyxml2::XMLDocument doc;
-	LoadXMLFile(doc, projPath);
-	tinyxml2::XMLElement* root = doc.RootElement();
-	RegisterNewProjectFile(root, "ClInclude", headerFileName);
-	RegisterNewProjectFile(root, "ClCompile", sourceFileName);
-	SaveXMLFile(doc, projPath);
-
-	// Add files to filter
-	std::string filtersPath = projPath + ".filters";
-	LoadXMLFile(doc, filtersPath);
-	root = doc.RootElement();
-	RegisterFileToFilter(root, "ClInclude", headerFileName, "Game\\ECS\\Systems");
-	RegisterFileToFilter(root, "ClCompile", sourceFileName, "Game\\ECS\\Systems");
-	SaveXMLFile(doc, filtersPath);
-
-	printe("System %s [SUCCESS]\n", name.c_str());
-
 }
 
 void Game::Editor::SceneHierarchy()
@@ -825,26 +750,10 @@ void Game::Editor::EditorDockSpace()
 		//DebugDrawMousePos();
 		if (ImGui::BeginMenuBar())
 		{
-			SystemGenerator();
+			ToolsMenu();
 			ImGui::EndMenuBar();
 		}
 	}
-	ImGui::End();
-}
-
-void Game::Editor::SystemGenerator()
-{
-	if (ImGui::BeginMenu("Tools"))
-	{
-		ImGui::MenuItem("Generate Systems", NULL, &myShowSystemGenerator);
-		ImGui::EndMenu();
-	}
-
-	if (!myShowSystemGenerator)
-		return;
-
-	ImGui::Begin("System Generator", &myShowSystemGenerator, ImGuiWindowFlags_NoCollapse);
-	GenerateSystem();
 	ImGui::End();
 }
 
@@ -935,6 +844,195 @@ void Game::Editor::RenderGizmos()
 
 	//Debug::DrawTransform(tNewWorld);
 	transform.SetTransform(tNewWorld * tParentWorldInverseTranspose);
+}
+
+void Game::Editor::ToolsMenu()
+{
+	struct ToolMenu
+	{
+		std::string action;
+		std::string name;
+		std::function<void()> functionality;
+		bool open = false;
+	};
+
+	static std::vector<ToolMenu> tools =
+	{
+		{ "Generate Component", "Component Generator", [&]() { GenerateComponent(); }},
+		{ "Generate System", "System Generator", [&]() { GenerateSystem(); }}
+	};
+
+	if (ImGui::BeginMenu("Tools"))
+	{
+		for (auto& tool : tools)
+		{
+			ImGui::MenuItem(tool.action.c_str(), NULL, &tool.open);
+		}
+		ImGui::EndMenu();
+	}
+
+	for (auto& tool : tools)
+	{
+		if (!tool.open)
+			continue;
+
+		ImGui::Begin(tool.name.c_str(), &tool.open, ImGuiWindowFlags_NoCollapse);
+		tool.functionality();
+		ImGui::End();
+	}
+}
+
+void Game::Editor::GenerateSystem()
+{
+	static DynamicStringBuffer systemName(32);
+	ImGui::InputText("System Name", systemName[0], systemName.GetSize());
+
+	if (!ImGui::Button("Create System"))
+		return;
+
+	std::string name = systemName.GetString();
+
+	if (name.empty())
+		return;
+
+	systemName.SetString("");
+
+	std::string path = "../Source/Game/";
+	std::string headerFileName = name + ".h";
+	std::string sourceFileName = name + ".cpp";
+
+	if (FileExists(path + headerFileName) || FileExists(path + sourceFileName))
+	{
+		printe("System %s [FAILURE]\nAlready exists\n", name.c_str());
+		return;
+	}
+
+	std::string headerContent = R"DELIM(#pragma once
+#include "System.h"
+
+class )DELIM" + name + R"DELIM( : public System
+{
+public:
+	)DELIM" + name + R"DELIM((GameManager* aGM)
+		: System::System(aGM)
+	{
+
+	}
+
+	virtual void Update() override;
+};
+)DELIM";
+
+	std::string sourceContent = R"DELIM(#include "pch.h"
+#include ")DELIM" + headerFileName + R"DELIM("
+#include "GameManager.h"
+
+void )DELIM" + name + R"DELIM(::Update()
+{
+	// TODO: Implement )DELIM" + name + R"DELIM(::Update()
+}
+)DELIM";
+
+	WriteTextFile(path + headerFileName, headerContent);
+	WriteTextFile(path + sourceFileName, sourceContent);
+
+	// add files to project
+	std::string projPath = "../Source/Game/Game.vcxproj";
+	tinyxml2::XMLDocument doc;
+	LoadXMLFile(doc, projPath);
+	tinyxml2::XMLElement* root = doc.RootElement();
+	RegisterNewProjectFile(root, "ClInclude", headerFileName);
+	RegisterNewProjectFile(root, "ClCompile", sourceFileName);
+	SaveXMLFile(doc, projPath);
+
+	// Add files to filter
+	std::string filtersPath = projPath + ".filters";
+	LoadXMLFile(doc, filtersPath);
+	root = doc.RootElement();
+	RegisterFileToFilter(root, "ClInclude", headerFileName, "Game\\ECS\\Systems");
+	RegisterFileToFilter(root, "ClCompile", sourceFileName, "Game\\ECS\\Systems");
+	SaveXMLFile(doc, filtersPath);
+
+	printe("System %s [SUCCESS]\n", name.c_str());
+}
+
+void Game::Editor::GenerateComponent()
+{
+	static DynamicStringBuffer componentName(32);
+	ImGui::InputText("Component Name", componentName[0], componentName.GetSize());
+
+	if (!ImGui::Button("Create Component"))
+		return;
+
+	std::string name = componentName.GetString();
+
+	if (name.empty())
+		return;
+
+	componentName.SetString("");
+
+	std::string path = "../Source/Game/";
+	std::string headerFileName = name + ".h";
+	std::string sourceFileName = name + ".cpp";
+
+	if (FileExists(path + headerFileName) || FileExists(path + sourceFileName))
+	{
+		printe("Component %s [FAILURE]\nAlready exists\n", name.c_str());
+		return;
+	}
+
+	std::string headerContent = R"DELIM(#pragma once
+#include "Component.h"
+
+class )DELIM" + name + R"DELIM( : public Component
+{
+public:
+	)DELIM" + name + R"DELIM(();
+	~)DELIM" + name + R"DELIM(();
+
+public:
+	virtual void Start() override;
+	// bool check update
+};
+)DELIM";
+
+	std::string sourceContent = R"DELIM(#include "pch.h"
+#include ")DELIM" + headerFileName + R"DELIM("
+
+)DELIM" + name + R"DELIM(::)DELIM" + name + R"DELIM(()
+{
+}
+
+)DELIM" + name + R"DELIM(::~)DELIM" + name + R"DELIM(()
+{
+}
+
+void )DELIM" + name + R"DELIM(::Start()
+{
+}
+)DELIM";
+
+	WriteTextFile(path + headerFileName, headerContent);
+	WriteTextFile(path + sourceFileName, sourceContent);
+
+	// add files to project
+	std::string projPath = "../Source/Game/Game.vcxproj";
+	tinyxml2::XMLDocument doc;
+	LoadXMLFile(doc, projPath);
+	tinyxml2::XMLElement* root = doc.RootElement();
+	RegisterNewProjectFile(root, "ClInclude", headerFileName);
+	RegisterNewProjectFile(root, "ClCompile", sourceFileName);
+	SaveXMLFile(doc, projPath);
+
+	// Add files to filter
+	std::string filtersPath = projPath + ".filters";
+	LoadXMLFile(doc, filtersPath);
+	root = doc.RootElement();
+	RegisterFileToFilter(root, "ClInclude", headerFileName, "Game\\ECS\\Components");
+	RegisterFileToFilter(root, "ClCompile", sourceFileName, "Game\\ECS\\Components");
+	SaveXMLFile(doc, filtersPath);
+
+	printe("Component %s [SUCCESS]\n", name.c_str());
 }
 
 float2 Game::Editor::CalculateGameWindowRect()

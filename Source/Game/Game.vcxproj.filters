@@ -158,9 +158,6 @@
     <ClInclude Include="ComponentIDManager.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="TestSystem.h">
-      <Filter>Source Files\Game\ECS\Systems</Filter>
-    </ClInclude>
     <ClInclude Include="ComponentRegister.h">
       <Filter>Source Files\Game\ECS</Filter>
     </ClInclude>

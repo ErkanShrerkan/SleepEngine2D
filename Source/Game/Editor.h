@@ -58,9 +58,11 @@ namespace Game
 		void DirectoryNavigator();
 		void Assets();
 		void EditorDockSpace();
-		void SystemGenerator();
 		void RenderViewport();
 		void RenderGizmos();
+		void ToolsMenu();
+		void GenerateSystem();
+		void GenerateComponent();
 		float2 CalculateGameWindowRect();
 		void RenderGameTextureToRect(float2 aViewPortSize);
 
@@ -81,7 +83,6 @@ namespace Game
 		void CheckClearThumbnails();
 		void InternalUpdate();
 		void DrawWorldGrid();
-		void GenerateSystem();
 		void InvalidateSelectionIfInvalid();
 		void SetTransformOperation(eTransformOperation anOperation);
 		void SetTransformSpace(eTransformSpace aSpace);
