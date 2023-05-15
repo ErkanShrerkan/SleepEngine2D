@@ -11,6 +11,8 @@
 #include "framework.h"
 #include "MathBundle.hpp"
 
-
+#define uptr(x) std::unique_ptr<x>
+#define sptr(x) std::shared_ptr<x>
+#define wptr(x) std::weak_ptr<x>
 
 #endif //PCH_H

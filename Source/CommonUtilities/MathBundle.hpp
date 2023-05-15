@@ -43,9 +43,4 @@ typedef CommonUtilities::Vector2<uint> uint2;
 typedef CommonUtilities::Vector3<uint> uint3;
 typedef CommonUtilities::Vector4<uint> uint4;
 
-#define uptr(x) std::unique_ptr<x>
-#define sptr(x) std::shared_ptr<x>
-#define wptr(x) std::weak_ptr<x>
-
-
 #include "Math/Quaternion.h"

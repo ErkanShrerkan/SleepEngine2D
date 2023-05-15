@@ -186,8 +186,6 @@ void Game::Editor::ModifyValues()
 	if (!ValidSelection())
 		return;
 
-
-
 	// loop components
 	auto& components = myGM.GetEntityComponents()[mySelectedEntity];
 	for (auto& [id, component] : components)
@@ -678,22 +676,26 @@ void Game::Editor::Assets()
 	ImGui::Text(myCurrentPath.string().c_str());
 	{
 		auto base = std::filesystem::path("Assets");
+		float padding = 16;
+		float imgSize = 128;
+		float cellSize = padding + imgSize;
+		float windowWidth = ImGui::GetContentRegionAvail().x;
+		int columnCount = (int)(windowWidth / cellSize);
+		ImVec2 imgSizeV = { imgSize, imgSize };
+
+		ImGui::Columns(columnCount > 0 ? columnCount : 1, 0, false);
+
 		if (myCurrentPath != base)
 		{
-			if (ImGui::Button("  <-  "))
+			ImGui::PushID("Back Button");
+			if (ImGui::Button("BACK", imgSizeV))
 			{
 				myCurrentPath = myCurrentPath.parent_path();
 				myClearThumbnails = true;
 			}
+			ImGui::PopID();
+			ImGui::NextColumn();
 		}
-
-		static float padding = 16;
-		static float imgSize = 128;
-		float cellSize = padding + imgSize;
-		float windowWidth = ImGui::GetContentRegionAvail().x;
-		int columnCount = (int)(windowWidth / cellSize);
-
-		ImGui::Columns(columnCount > 0 ? columnCount : 1, 0, false);
 
 		auto it = std::filesystem::directory_iterator(myCurrentPath);
 		for (const auto& dir : it)
@@ -710,7 +712,6 @@ void Game::Editor::Assets()
 			std::string fileName = relativePath;
 
 			std::string ext = std::string(path.end() - 4, path.end());
-			ImVec2 imgSizeV = { imgSize, imgSize };
 			ID3D11ShaderResourceView* srv = nullptr;
 			// Set image based on type (can expand later)
 			if (isDir)

@@ -9,12 +9,13 @@
 
 // add headers that you want to pre-compile here
 #include "framework.h"
-#include <ThirdParty\ImGui\imgui.h>
+//#include <ThirdParty\ImGui\imgui.h>
 //#include <rapidjson/document.h>
 
 // Frequently used stuff
 #include <CommonUtilities/MathBundle.hpp>
 #include "CommonUtilities.h"
+#include <cassert>
 
 template <int bytes, class type = unsigned char>
 struct UnusedSpace
@@ -23,6 +24,12 @@ struct UnusedSpace
 };
 
 #define C_ARRAY_SIZE(aCArray) (sizeof(aCArray) / sizeof(*(aCArray)))
+
+#define uptr(x) std::unique_ptr<x>
+#define sptr(x) std::shared_ptr<x>
+#define wptr(x) std::weak_ptr<x>
+
+#define TREAT_AS(T, x) *reinterpret_cast<T*>(x)
 
 #include "DebugConsole.h"
 #define pout Singleton<SE::Debug::CDebugConsole>()

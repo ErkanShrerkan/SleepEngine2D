@@ -1,10 +1,15 @@
 #pragma once
-
+#include <memory>
 #include <Engine\Timer.h>
+
 #define DELTA_TIME Singleton<CommonUtilities::Timer>().GetDeltaTime()
 
 #define ENGINE (SE::CEngine::GetInstance())
 #define CAMERA (ENGINE->GetActiveScene()->GetMainCamera())
+
+#define uptr(x) std::unique_ptr<x>
+#define sptr(x) std::shared_ptr<x>
+#define wptr(x) std::weak_ptr<x>
 
 #define TREAT_AS(T, x) *reinterpret_cast<T*>(x)
 

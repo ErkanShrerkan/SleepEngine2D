@@ -1,7 +1,14 @@
 #include "pch.h"
 #include "DebugProfiler.h"
+#include "ImGui\imgui.h"
 
-#ifdef _DEBUG
+//#ifdef //_DEBUG
+#if 1
+#define CAPTURE_DEBUG_DATA
+#endif 
+
+#ifdef CAPTURE_DEBUG_DATA
+
 #include <ddkernel.h>			// K32GetProcessMemoryInfo
 #include <psapi.h>				// GetProcessMemoryInfo
 #include <processthreadsapi.h>	// GetCurrentProcess
@@ -34,7 +41,7 @@ void operator delete(void* address)
 	--g_dif;
 	free(address);
 }
-#endif // _DEBUG
+#endif
 
 namespace SE
 {
@@ -53,17 +60,17 @@ namespace SE
 
 		void CDebugProfiler::BeginCapture()
 		{
-#ifdef _DEBUG
+#ifdef CAPTURE_DEBUG_DATA
 			myFirstTime = myClock.now();
 			myDrawCallCountSum += myDrawCallCount;
 			myDrawCallCount = 0;
 			myDrawnTriangles = 0;
-#endif // _DEBUG
+#endif
 		}
 
 		void CDebugProfiler::EndCapture()
 		{
-#ifdef _DEBUG
+#ifdef CAPTURE_DEBUG_DATA
 			float deltaTime = std::chrono::duration<float>(myClock.now() - myFirstTime).count();
 			deltaTime;
 			myTotalFrameTime += Singleton<Time>().deltaTime;
@@ -102,12 +109,12 @@ namespace SE
 				myAverageDrawCalls.Push(static_cast<float>(myDrawCallCountSum) * oneDividedByFrameCounter);
 				myDrawCallCountSum = 0;
 			}
-#endif // _DEBUG
+#endif 
 		}
 
 		void CDebugProfiler::Render()
 		{
-#ifdef _DEBUG
+#ifdef CAPTURE_DEBUG_DATA
 			//ImGui::Begin("Profiler");
 			{
 				ImGui::Separator();
@@ -167,21 +174,21 @@ namespace SE
 				ImGui::PopStyleVar();
 			}
 			//ImGui::End();
-#endif // _DEBUG
+#endif 
 		}
 		void CDebugProfiler::IncrementDrawCallCount()
 		{
-#ifdef _DEBUG
+#ifdef CAPTURE_DEBUG_DATA
 			++myDrawCallCount;
-#endif // _DEBUG
+#endif 
 		}
 		void CDebugProfiler::IncrementDrawnTriangles(int anAmount)
 		{
-#ifdef _DEBUG
+#ifdef CAPTURE_DEBUG_DATA
 			myDrawnTriangles += anAmount;
 #else
 			anAmount;
-#endif // _DEBUG
+#endif 
 		}
 	}
 }
