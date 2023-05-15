@@ -243,10 +243,7 @@ bool Game::Editor::ValidSelection()
 
 void Game::Editor::CheckEnableEditorControls()
 {
-	if (myGameWindowActive)
-	{
-
-	}
+	myGM.GetEntity(myEditorEntityID).SetActive(myGameWindowActive);
 }
 
 void Game::Editor::BuildHierarchy()

@@ -18,6 +18,9 @@ void EntityPickingSystem::Update()
 
 	for (auto& [entityID, picker] : map)
 	{
+		if (!myGameManager->IsEntityAndComponentActive(entityID, picker))
+			continue;
+
 		pickerEntity = &myGameManager->GetEntity(entityID);
 		cam = pickerEntity->GetComponent<CameraComponent>();
 

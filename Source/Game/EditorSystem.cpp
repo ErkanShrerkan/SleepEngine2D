@@ -11,6 +11,9 @@ void EditorSystem::Update()
 {
 	for (auto& [entity, component] : myGameManager->GetComponentMap<EditorController>().map)
 	{
+		if (!myGameManager->IsEntityAndComponentActive(entity, component))
+			continue;
+
 		component.Move();
 		Entity& object = myGameManager->GetEntity(entity);
 		auto picker = object.GetComponent<EntityPickingComponent>();
