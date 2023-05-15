@@ -993,6 +993,7 @@ void Game::Editor::GenerateComponent()
 	// that cleans up proj and filter files but its low prio
 
 	static bool initWithUpdate = false;
+	static bool isEditorOnly = false;
 	static DynamicStringBuffer componentName(32);
 	static DynamicStringBuffer componentDisplayName(32);
 
@@ -1001,6 +1002,7 @@ void Game::Editor::GenerateComponent()
 	ImGui::Text("Component Display Name");
 	ImGui::InputText("##displayname", componentDisplayName[0], componentDisplayName.GetSize());
 	ImGui::Checkbox("Init With Update", &initWithUpdate);
+	ImGui::Checkbox("Is Editor Only", &isEditorOnly);
 
 	if (!ImGui::Button("Create Component"))
 		return;
@@ -1076,7 +1078,7 @@ void )DELIM" + name + R"DELIM(::Start()
 	RegisterFileToFilter(root, "ClCompile", sourceFileName, "Game\\ECS\\Components");
 	SaveXMLFile(doc, filtersPath);
 
-	AppendLineToTextFile(path + "ComponentRegister.h", "RegisterComponent<" + name + ">(\"" + displayName + "\");");
+	AppendLineToTextFile(path + "ComponentRegister.h", "RegisterComponent<" + name + ">(\"" + displayName + "\"" + (isEditorOnly ? ", true" : "") + "); ");
 	AppendLineToTextFile(path + "ComponentInclude.h", "#include \"" + headerFileName + "\"");
 
 	printe("Component %s [SUCCESS]\n", name.c_str());
