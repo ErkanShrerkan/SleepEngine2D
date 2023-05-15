@@ -24,7 +24,7 @@ class IComponentMap
 public:
 	virtual ~IComponentMap() = default;
 	virtual void DeleteComponentFromEntity(uint anEntity) = 0;
-	virtual void UpdateComponents() = 0;
+	virtual void UpdateComponents(GameManager& aGM) = 0;
 	virtual void* RegisterNewComponent(uint anEntity) = 0;
 	virtual void AddComponent(uint anEntity, GameManager& aGM) = 0;
 
@@ -117,6 +117,7 @@ public:
 		component->SetEntity(entity);
 
 		entityComponents[componentID] = component;
+		InitComponent(*component);
 		component->Start();
 		return *component;
 	}
@@ -128,6 +129,10 @@ public:
 
 	void RemoveRefsToComponent(Component* aComponent);
 	void RegisterComponentRef(void** aRefAddress, Component* aReferencedComponent);
+	
+	bool IsEntityActive(uint anEntityID);
+	bool IsComponentActive(Component& aComponent);
+	bool IsEntityAndComponentActive(uint anEntityID, Component& aComponent);
 
 private:
 	template <typename ComponentType>
@@ -145,6 +150,7 @@ private:
 	void RemoveEntity(uint anEntityID);
 	void MarkEntityForRemoval(uint anEntityID);
 	void UnLoadAll();
+	void InitComponent(Component& aComponent);
 
 	template <typename ComponentType>
 	EnableFunctionIfTypeIsDerived(Component, ComponentType, ComponentType*)
@@ -212,7 +218,7 @@ public:
 		map.erase(anEntity);
 	}
 
-	virtual void UpdateComponents() override
+	virtual void UpdateComponents(GameManager& aGM) override
 	{
 		// if Update function is not overrided it is not called
 		if (!OVERRIDED(Component, ComponentType, Update))
@@ -220,6 +226,9 @@ public:
 
 		for (auto& [entity, component] : map)
 		{
+			if (!aGM.IsEntityAndComponentActive(entity, component))
+				continue;
+
 			component.Update();
 		}
 	}

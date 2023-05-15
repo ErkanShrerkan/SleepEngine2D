@@ -72,6 +72,7 @@ void Game::Editor::OnImGui()
 	ImGui::DockSpaceOverViewport();
 	ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(2, 2));
 
+	CheckEnableEditorControls();
 	BlackScreen();
 	HandleSelection();
 	EditorDockSpace();
@@ -110,6 +111,13 @@ void Game::Editor::AddEntityComponent()
 		entityComponents.insert(componentID);
 	}
 
+	ImGui::Text("Active");
+	ImGui::SameLine();
+	ImGui::PushID("Active Box");
+	ImGui::Checkbox("", &myGM.GetEntity(mySelectedEntity).GetActiveRef());
+	ImGui::PopID();
+	ImGui::SameLine();
+	
 	if (ImGui::Button("Reload") && ValidSelection())
 	{
 		for (auto& [id, component] : ec)
@@ -117,8 +125,9 @@ void Game::Editor::AddEntityComponent()
 			component->Reload();
 		}
 	}
-
+	
 	ImGui::SameLine();
+
 	ImGui::PushID("Component Combo");
 	if (ImGui::BeginCombo("", "Add Component"))
 	{
@@ -175,19 +184,17 @@ void Game::Editor::SelectEntity()
 void Game::Editor::ModifyValues()
 {
 	if (!ValidSelection())
-	{
 		return;
-	}
+
+
 
 	// loop components
 	auto& components = myGM.GetEntityComponents()[mySelectedEntity];
 	for (auto& [id, component] : components)
 	{
-		{
-			ImGui::PushID(id);
-			component->GetComponentExposer()->OnImGui(myGM.GetComponentMaps()[id]->myName);
-			ImGui::PopID();
-		}
+		ImGui::PushID(id);
+		component->GetComponentExposer()->OnImGui(myGM.GetComponentMaps()[id]->myName);
+		ImGui::PopID();
 	}
 	ImGui::Separator();
 }
@@ -232,6 +239,14 @@ void Game::Editor::ListEntityRecursive(uint anID)
 bool Game::Editor::ValidSelection()
 {
 	return mySelectedEntity != INVALID_ENTITY;
+}
+
+void Game::Editor::CheckEnableEditorControls()
+{
+	if (myGameWindowActive)
+	{
+
+	}
 }
 
 void Game::Editor::BuildHierarchy()
@@ -608,6 +623,7 @@ void Game::Editor::GameWindow()
 	ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0, 0));
 	if (ImGui::Begin("Game Window"))
 	{
+		myGameWindowActive = ImGui::IsWindowFocused();
 		RenderViewport();
 		RenderGizmos();
 	}
@@ -886,8 +902,8 @@ void Game::Editor::ToolsMenu()
 
 	static std::vector<ToolMenu> tools =
 	{
-		{ "Generate Component", "Component Generator", [&]() { GenerateComponent(); }},
-		{ "Generate System", "System Generator", [&]() { GenerateSystem(); }}
+		{ "New Component", "Component Generator", [&]() { GenerateComponent(); }},
+		{ "New System", "System Generator", [&]() { GenerateSystem(); }}
 	};
 
 	if (ImGui::BeginMenu("Tools"))
@@ -904,7 +920,7 @@ void Game::Editor::ToolsMenu()
 		if (!tool.open)
 			continue;
 
-		ImGui::Begin(tool.name.c_str(), &tool.open, ImGuiWindowFlags_NoCollapse);
+		ImGui::Begin(tool.name.c_str(), &tool.open, ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_AlwaysAutoResize);
 		tool.functionality();
 		ImGui::End();
 	}
@@ -913,7 +929,8 @@ void Game::Editor::ToolsMenu()
 void Game::Editor::GenerateSystem()
 {
 	static DynamicStringBuffer systemName(32);
-	ImGui::InputText("System Name", systemName[0], systemName.GetSize());
+	ImGui::Text("System Name");
+	ImGui::InputText("##name", systemName[0], systemName.GetSize());
 
 	if (!ImGui::Button("Create System"))
 		return;

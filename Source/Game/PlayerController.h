@@ -3,11 +3,6 @@
 
 class Transform;
 
-class TestClass
-{
-    int nuthin;
-};
-
 class PlayerController : public Component, public InputObserver
 {
 public:

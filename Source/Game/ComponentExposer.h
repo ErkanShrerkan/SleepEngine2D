@@ -11,6 +11,8 @@ class Component;
 
 namespace Expose
 {
+	static int idCounter = INT_MIN;
+
 	enum class ePickMode : char
 	{
 		Drag,
@@ -38,6 +40,10 @@ namespace Expose
 	class IExposed
 	{
 	public:
+		IExposed()
+		{
+			id = ++Expose::idCounter;
+		}
 		virtual ~IExposed() = default;
 		virtual void OnImGui() = 0;
 		void PrepareImGui();
@@ -46,6 +52,7 @@ namespace Expose
 		eDataFormat format;
 		ePickMode pickMode;
 		eBounds boundsType = eBounds::None;
+		int id;
 		float sensitivity;
 		float2 bounds;
 		std::string name;

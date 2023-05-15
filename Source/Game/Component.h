@@ -17,6 +17,9 @@ public:
 	virtual void Update(){};
 	virtual void Start() = 0;
 	virtual void Reload(){};
+	void SetActive(bool anActiveState);
+	bool GetActive();
+	void ToggleActive();
 
 protected:
 	template <typename... Args>
@@ -27,6 +30,9 @@ protected:
 
 private:
 	void SetEntity(sptr(Entity) anEntity);
+
+protected:
+	bool myIsActive = true;
 
 private:
 	sptr(Entity) myEntity;

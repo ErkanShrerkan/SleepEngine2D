@@ -79,6 +79,26 @@ bool Entity::HasParent()
 	return myParentID != NULL_ENTITY;
 }
 
+void Entity::SetActive(bool anActiveState)
+{
+	myIsActive = anActiveState;
+}
+
+bool Entity::GetActive()
+{
+	return myIsActive;
+}
+
+bool& Entity::GetActiveRef()
+{
+	return myIsActive;
+}
+
+void Entity::ToggleActive()
+{
+	myIsActive = !myIsActive;
+}
+
 uint Entity::GetID()
 {
 	return myID;

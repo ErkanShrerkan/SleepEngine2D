@@ -67,6 +67,9 @@ void CollisionSystem::Update()
 	// upgrade with spacial partitioning
 	for (auto& [entity0, component0] : colliders.map)
 	{
+		if (!myGameManager->IsEntityAndComponentActive(entity0, component0))
+			continue;
+
 		//for (auto& [entity1, component1] : colliders.map)
 		//{
 		//	if (entity0 != entity1)

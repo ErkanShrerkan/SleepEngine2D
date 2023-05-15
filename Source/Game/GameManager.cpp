@@ -9,6 +9,7 @@
 #include "SystemInclude.h"
 #include "ComponentInclude.h"
 #include "SceneManager.h"
+#include "ComponentExposer.h"
 
 GameManager::GameManager()
 {
@@ -169,6 +170,26 @@ void GameManager::UnLoadAll()
 	UpdateEntityRemoval();
 }
 
+void GameManager::InitComponent(Component& aComponent)
+{
+	aComponent.myExposer->Expose(aComponent.myIsActive, "Active");
+}
+
+bool GameManager::IsEntityActive(uint anEntityID)
+{
+	return GetEntity(anEntityID).GetActive();
+}
+
+bool GameManager::IsComponentActive(Component& aComponent)
+{
+	return aComponent.GetActive();
+}
+
+bool GameManager::IsEntityAndComponentActive(uint anEntityID, Component& aComponent)
+{
+	return !(!IsComponentActive(aComponent) || !IsEntityActive(anEntityID));
+}
+
 void GameManager::UpdateEntityRemoval()
 {
 	for (auto& entityID : myEntitiesToRemove)
@@ -190,7 +211,7 @@ void GameManager::UpdateComponents()
 {
 	for (auto& [componentID, componentMap] : myComponentMaps)
 	{
-		componentMap->UpdateComponents();
+		componentMap->UpdateComponents(*this);
 	}
 }
 

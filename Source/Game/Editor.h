@@ -72,6 +72,7 @@ namespace Game
 
 		// Editor Functions
 		bool ValidSelection();
+		void CheckEnableEditorControls();
 		void AddEntityComponent();
 		void AddEntity();
 		void SelectEntity();
@@ -113,6 +114,7 @@ namespace Game
 		bool myIsTransforming = false;
 		bool myShowSystemGenerator = false;
 		bool myDisplay = true;
+		bool myGameWindowActive = false;
 		uint mySelectedEntity = NULL_ENTITY;
 		uint mySelectedEntityLastFrame = NULL_ENTITY;
 		uint myInitiallySelectedEntity = NULL_ENTITY;

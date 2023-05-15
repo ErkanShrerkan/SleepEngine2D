@@ -37,11 +37,16 @@ public:
 	void MarkForRemoval();
 	void RemoveChild(uint anID);
 	bool HasParent();
+	void SetActive(bool anActiveState);
+	bool GetActive();
+	bool& GetActiveRef();
+	void ToggleActive();
 
 private:
 	void ForceAbandon(uint aParentID, uint aChildID);
 
 private:
+	bool myIsActive = true;
 	uint myID;
 	uint myParentID = NULL_ENTITY;
 	GameManager* myGameManager;

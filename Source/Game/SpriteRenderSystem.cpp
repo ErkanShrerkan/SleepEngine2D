@@ -9,6 +9,9 @@ void SpriteRenderSystem::Update()
 {
 	for (auto& [entity, component] : myGameManager->GetComponentMap<Sprite>().map)
 	{
+		if (!myGameManager->IsEntityAndComponentActive(entity, component))
+			continue;
+
 		component.Render();
 	}
 }

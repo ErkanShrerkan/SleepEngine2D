@@ -120,8 +120,8 @@ namespace Expose
 		}
 		else
 		{
-			std::string id = std::to_string(component->GameObject().GetID());
-			std::string label("(" + id + ") " + componentName);
+			std::string objectID = std::to_string(component->GameObject().GetID());
+			std::string label("(" + objectID + ") " + componentName);
 			es.SetString(label);
 			ImGui::InputText("", es[0], es.GetSize(), ImGuiInputTextFlags_ReadOnly);
 			AcceptDragDropPayLoad();
@@ -333,7 +333,9 @@ void ComponentExposer::OnImGui(const std::string& aName)
 			ImGui::PushID(&variable);
 			ImGui::TableSetColumnIndex(0);
 
+			ImGui::PushID(variable->id);
 			variable->OnImGui();
+			ImGui::PopID();
 
 			if (i != myExposedVariables.size() - 1)
 				ImGui::TableNextRow();
