@@ -43,6 +43,7 @@ void PlayerController::Start()
 	//GameObject().GetComponent<Transform>().SetPosition({ Random::Float(-10.f, 10.f), Random::Float(-10.f, 10.f) });
 	ObserveInputEvent(eInputEvent::Interact, eInputState::Released, [&]() { this->ToggleMovement(); });
 
+	ExposeEnable();
 	Expose(mySpeed, "Speed", 10.f);
 	Expose(myTransformRef, "Transform Ref Test");
 }

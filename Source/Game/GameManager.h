@@ -117,7 +117,6 @@ public:
 		component->SetEntity(entity);
 
 		entityComponents[componentID] = component;
-		InitComponent(*component);
 		component->Start();
 		return *component;
 	}
@@ -150,7 +149,6 @@ private:
 	void RemoveEntity(uint anEntityID);
 	void MarkEntityForRemoval(uint anEntityID);
 	void UnLoadAll();
-	void InitComponent(Component& aComponent);
 
 	template <typename ComponentType>
 	EnableFunctionIfTypeIsDerived(Component, ComponentType, ComponentType*)

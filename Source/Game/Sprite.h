@@ -52,7 +52,6 @@ private:
 private:
     // not proud of this sprite setup but it's very low priority to fix
     bool myIsScreenSpace = false;
-    bool myRender = true;
     bool myDrawRect = false;
     float myRotation = 0;
     float2 mySize = {100, 100};

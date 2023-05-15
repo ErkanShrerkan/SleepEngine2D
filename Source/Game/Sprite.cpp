@@ -20,6 +20,7 @@ void Sprite::Start()
 {
 	mySprite = SE::CEngine::GetInstance()->GetContentLoader()->GetSpriteFactory().GetSprite(myTexture.GetString());
 	mySize = mySprite->GetSize();
+	ExposeEnable();
 	Expose(myTexture, "Texture");
 	Expose(myRotation, "Rotation", .1f, Expose::eBounds::Loop, float2(0.f, 360.f));
 	Expose(myPosition, "Offset", .25f);
@@ -28,7 +29,6 @@ void Sprite::Start()
 	Expose(myColor, "Color", .1f);
 	Expose(myRect, "Rect", .01f, Expose::ePickMode::Drag);
 	Expose(myIsScreenSpace, "Is Screen Space");
-	Expose(myRender, "Render");
 	Expose(myDrawRect, "Draw Rect");
 }
 
@@ -203,14 +203,12 @@ Sprite& Sprite::SetRect(const float4 aRect)
 
 void Sprite::Render()
 {
-	if (myRender)
-	{
-		SE::CEngine::GetInstance()->GetActiveScene()->AddInstance(this);
-	}
-	if (myDrawRect)
-	{
-		DrawRect();
-	}
+	SE::CEngine::GetInstance()->GetActiveScene()->AddInstance(this);
+
+	if (!myDrawRect)
+		return;
+
+	DrawRect();
 }
 
 Sprite& Sprite::SetShaderData(float someData)

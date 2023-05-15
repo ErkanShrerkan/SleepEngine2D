@@ -20,6 +20,7 @@ public:
 	void SetActive(bool anActiveState);
 	bool GetActive();
 	void ToggleActive();
+	void ExposeEnable();
 
 protected:
 	template <typename... Args>

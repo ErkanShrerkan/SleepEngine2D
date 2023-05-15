@@ -170,11 +170,6 @@ void GameManager::UnLoadAll()
 	UpdateEntityRemoval();
 }
 
-void GameManager::InitComponent(Component& aComponent)
-{
-	aComponent.myExposer->Expose(aComponent.myIsActive, "Active");
-}
-
 bool GameManager::IsEntityActive(uint anEntityID)
 {
 	return GetEntity(anEntityID).GetActive();

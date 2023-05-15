@@ -12,4 +12,5 @@ Collider::~Collider()
 
 void Collider::Start()
 {
+	ExposeEnable();
 }

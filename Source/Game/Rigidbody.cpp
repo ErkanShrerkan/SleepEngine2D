@@ -11,4 +11,5 @@ Rigidbody::~Rigidbody()
 
 void Rigidbody::Start()
 {
+	ExposeEnable();
 }

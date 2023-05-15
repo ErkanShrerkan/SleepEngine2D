@@ -6,7 +6,6 @@
 Component::Component()
 {
 	myExposer = std::make_shared<ComponentExposer>();
-
 }
 
 Entity& Component::GameObject()
@@ -27,6 +26,11 @@ bool Component::GetActive()
 void Component::ToggleActive()
 {
 	myIsActive = !myIsActive;
+}
+
+void Component::ExposeEnable()
+{
+	Expose(myIsActive, "Active");
 }
 
 void Component::SetEntity(sptr(Entity) anEntity)
