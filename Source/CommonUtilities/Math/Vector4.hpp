@@ -270,6 +270,16 @@ namespace CommonUtilities
 		return temp;
 	}
 
+	template<class T> Vector4<T> operator*(const Vector4<T>& aVector0, const Vector4<T>& aVector1)
+	{
+		Vector4<T> temp = aVector0;
+		temp.x *= aVector1.x;
+		temp.y *= aVector1.y;
+		temp.z *= aVector1.z;
+		temp.w *= aVector1.w;
+		return temp;
+	}
+
 	//Returns the vector aVector multiplied by the scalar aScalar
 	template<class T> Vector4<T> operator*(const T& aScalar, const Vector4<T>& aVector)
 	{

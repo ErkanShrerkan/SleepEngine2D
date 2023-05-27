@@ -186,12 +186,19 @@ namespace SE
 		myWindowData.width = rect.right - rect.left;
 		myWindowData.height = rect.bottom - rect.top;
 
-		Singleton<GlobalSettings>().windowRect =
+		auto& gs = Singleton<GlobalSettings>();
+		gs.windowRect =
 		{
 			(float)rect.left,
 			(float)rect.top,
 			(float)rect.right,
 			(float)rect.bottom
+		};
+
+		gs.windowResolution =
+		{
+			uint(gs.windowRect.z - gs.windowRect.x),
+			uint(gs.windowRect.w - gs.windowRect.y)
 		};
 	}
 

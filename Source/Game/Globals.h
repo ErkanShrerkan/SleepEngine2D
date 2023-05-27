@@ -15,6 +15,7 @@ public:
 	uint2 screenResolution = { 1920, 1080 };
 	float4 gameWindowRect = { 16, 16, 32, 32 }; // window space
 	float4 gameScreenRect = { 16, 16, 32, 32 }; // screen space
+	float4 gameViewRect = { 0, 0, 1, 1 }; // uv of game texture shown in game window
 	float4 windowRect = { 16, 16, 32, 32 };
 	SE::CFullscreenTexture* gameViewTexture;
 };

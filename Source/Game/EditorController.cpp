@@ -50,7 +50,7 @@ void EditorController::Zoom(float aZoomValue)
 		return;
 
 	float newZoom = myCam->GetZoom() + (aZoomValue + (aZoomValue * myShiftDown * (myShiftMult - 1.f)));
-	myCam->SetZoom(newZoom < 0 ? 0 : newZoom);
+	myCam->SetZoom(newZoom < 100 ? 100 : newZoom);
 }
 
 void EditorController::Pick()

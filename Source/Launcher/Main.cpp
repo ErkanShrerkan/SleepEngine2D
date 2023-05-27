@@ -86,6 +86,8 @@ int WINAPI wWinMain(_In_ HINSTANCE hInstance,
 	uint x = uint((float)GetSystemMetrics(SM_CXSCREEN) * .8f);
 	uint y = uint((float)GetSystemMetrics(SM_CYSCREEN) * .8f);
 
+	auto& gs = Singleton<GlobalSettings>();
+
 	{
 		SE::CEngine::SEngineParameters engineParameters{};
 		engineParameters.window.x = 0;
@@ -97,15 +99,14 @@ int WINAPI wWinMain(_In_ HINSTANCE hInstance,
 		//engineParameters.clearColor = { 64.f / 255.f, 127.f / 255.f, 1.f, 1.f };
 		engineParameters.clearColor = { .1f, .1f, .1f, 1.f };
 
-		auto& gs = Singleton<GlobalSettings>();
 		gs.gameplayResolution = { 640, /*480*/ 360 };
 		gs.windowResolution = { x, y };
 		gs.gameWindowRect = { 0.f, 0.f, (float)x, (float)y };
 		gs.windowRect = { 0.f, 0.f, (float)x, (float)y };
-		gs.screenResolution = 
-		{ 
-			(uint)GetSystemMetrics(SM_CXSCREEN), 
-			(uint)GetSystemMetrics(SM_CYSCREEN) 
+		gs.screenResolution =
+		{
+			(uint)GetSystemMetrics(SM_CXSCREEN),
+			(uint)GetSystemMetrics(SM_CYSCREEN)
 		};
 
 		// Start the Engine
@@ -120,7 +121,7 @@ int WINAPI wWinMain(_In_ HINSTANCE hInstance,
 	Timer timer;
 	timer.Update();
 	MSG windowMessage = { 0 };
-		
+
 	//ShowCursor(false);
 
 	{
@@ -172,7 +173,7 @@ int WINAPI wWinMain(_In_ HINSTANCE hInstance,
 		sptr(Process) process;
 
 		Singleton<GlobalSettings>().gameplayResolution =
-			(currentProcess ? uint2(960 / 2/*640*/, 540 / 2/*480*/ /*360*/) : uint2(x, y));
+			(currentProcess ? uint2(960 / 2/*640*/, 540 / 2/*480*/ /*360*/) : gs.windowResolution);
 
 		isRunning = engine->Restart();
 

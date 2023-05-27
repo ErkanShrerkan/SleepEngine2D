@@ -302,17 +302,19 @@ void Input::Update(bool doUpdate)
 
 			for (auto& observerCallback : scrollEvent.callbacks)
 			{
+				if (!observerCallback.observer->myIsObservingInputs)
+					continue;
+
 				if (myIsEditing)
 				{
-					if (observerCallback.observer->myIsObservingEditorInputs)
-					{
-						observerCallback.callback();
-					}
-				}
-				else
-				{
+					if (!observerCallback.observer->myIsObservingEditorInputs)
+						continue;
+
 					observerCallback.callback();
+					continue;
 				}
+
+				observerCallback.callback();
 			}
 		}
 	}
@@ -343,17 +345,19 @@ void Input::Update(bool doUpdate)
 
 			for (auto& observerCallback : inputEvent.callbacks)
 			{
+				if (!observerCallback.observer->myIsObservingInputs)
+					continue;
+
 				if (myIsEditing)
 				{
-					if (observerCallback.observer->myIsObservingEditorInputs)
-					{
-						observerCallback.callback();
-					}
-				}
-				else
-				{
+					if (!observerCallback.observer->myIsObservingEditorInputs)
+						continue;
+
 					observerCallback.callback();
+					continue;
 				}
+
+				observerCallback.callback();
 			}
 		}
 	}

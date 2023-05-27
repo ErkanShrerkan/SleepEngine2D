@@ -129,6 +129,7 @@ void Game::Editor::AddEntityComponent()
 	ImGui::SameLine();
 
 	ImGui::PushID("Component Combo");
+	ImGui::SetNextItemWidth(ImGui::CalcTextSize("Add Component		").x);
 	if (ImGui::BeginCombo("", "Add Component"))
 	{
 		for (auto& [componentID, map] : myGM.GetComponentMaps())
@@ -811,18 +812,54 @@ void Game::Editor::RenderGizmos()
 	ImGuizmo::SetDrawlist();
 
 	auto& gs = Singleton<GlobalSettings>();
-	float4 rect = gs.gameWindowRect;
-	float w = rect.z - rect.x;
-	float h = rect.w - rect.y;
+	float4 windowRect = gs.windowRect;
+	//float4 gameViewRect = gs.gameViewRect;
 
-	ImGuizmo::SetRect(rect.x, rect.y, w, h);
-	ImVec2 tl = { rect.x, rect.y };
-	ImVec2 br = { rect.z, rect.w };
+	//float4 gameWindowNormalPos(gameWindowNormal.x, gameWindowNormal.y, gameWindowNormal.x, gameWindowNormal.y);
+	//gameWindowNormal -= gameWindowNormalPos;
+	//gameViewRect -= gameWindowNormalPos;
+
+
+	float4 gizmoRect = windowRect;
+	//{
+	//	gs.gameScreenRect.x, //* gs.screenResolution.x,
+	//	gs.gameScreenRect.y, //* gs.screenResolution.y,
+	//	gs.gameScreenRect.z, //* gs.screenResolution.x,
+	//	gs.gameScreenRect.w //* gs.screenResolution.y,
+	//};
+
+	ImGuizmo::SetRect(gizmoRect.x, gizmoRect.y, gizmoRect.z, gizmoRect.w);
+	ImVec2 tl = { gizmoRect.x, gizmoRect.y };
+	ImVec2 br = { gizmoRect.z, gizmoRect.w };
 	//ImGui::GetWindowDrawList()->AddRect(tl, br, ImColor(1.f, .5f, .125f, 1.f));
 
+	float2 viewPortCenter =
+	{
+		.5f * (gs.gameViewRect.x + gs.gameViewRect.z),
+		.5f * (gs.gameViewRect.y + gs.gameViewRect.w)
+	};
+
+	float4 windowRectNormal = gs.GetWindowNormalised();
+	float2 windowCenter = 
+	{
+		.5f * (windowRectNormal.x + windowRectNormal.z),
+		.5f * (windowRectNormal.y + windowRectNormal.w)
+	};
+
+	viewPortCenter -= windowCenter;
+	viewPortCenter.y *= -1.f;
+
 	CameraComponent& cam = *myGM.GetComponent<CameraComponent>(myEditorEntityID);
-	float* cameraView = float4x4::GetFastInverse(myGM.GetComponent<Transform>(myEditorEntityID)->GetTransform()).Raw();
-	float* cameraProjection = cam.GetProjection().Raw();
+	float zoom = cam.GetZoom();
+	float2 offset = { zoom * cam.GetAspectRatio(), zoom };
+	offset = offset * viewPortCenter;
+
+	float4x4 cameraTransform = myGM.GetComponent<Transform>(myEditorEntityID)->GetTransform();
+	float3 offsetCamPos = cameraTransform.GetPosition() + float3(offset, 0);
+	cameraTransform.SetRow(4, { cameraTransform.GetPosition() + offsetCamPos, 1 });
+
+	float4x4 cameraView = float4x4::GetFastInverse(cameraTransform);
+	float4x4 cameraProjection = cam.GetProjection();
 
 	if (!ValidSelection())
 		return;
@@ -860,8 +897,8 @@ void Game::Editor::RenderGizmos()
 	}
 
 	ImGuizmo::Manipulate(
-		cameraView,
-		cameraProjection,
+		cameraView.Raw(),
+		cameraProjection.Raw(),
 		op,
 		ImGuizmo::WORLD,
 		tNewWorld.Raw(),
@@ -871,6 +908,7 @@ void Game::Editor::RenderGizmos()
 	if (!ImGuizmo::IsUsing())
 	{
 		myIsTransforming = false;
+		myGM.GetEntity(myEditorEntityID).GetComponent<EditorController>()->myIsObservingInputs = true;
 		return;
 	}
 
@@ -878,6 +916,7 @@ void Game::Editor::RenderGizmos()
 	{
 		// Just started transformation
 		myIsTransforming = true;
+		myGM.GetEntity(myEditorEntityID).GetComponent<EditorController>()->myIsObservingInputs = false;
 		tParentWorldInverseTranspose = float4x4::Transpose(tParentWorld.Inverse());
 		tNewWorld = tWorld;
 		unalteredTransform = transform;
@@ -1123,36 +1162,29 @@ float2 Game::Editor::CalculateGameWindowRect()
 		pos.y + windowSize.y - frameH
 	};
 
-	//float ratio = (float)res.x / res.y;
-	//ImVec2 windowSize = ImGui::GetContentRegionAvail();
 	ImVec2 viewportSize =
 	{
 		gs.gameWindowRect.z - gs.gameWindowRect.x,
 		gs.gameWindowRect.w - gs.gameWindowRect.y
 	};
-	//ImVec2 cursorPos;
-	//// too wide
-	//if (windowSize.x * 1.f / ratio > windowSize.y)
-	//{
-	//	cursorPos = { (windowSize.x - (ratio * windowSize.y)) * 0.5f, frameH };
-	//	viewportSize.x = ratio * windowSize.y;
-	//}
-	//// too narrow
-	//else
-	//{
-	//	cursorPos = { 0, frameH + ((windowSize.y - (windowSize.x * 1.f / ratio)) * 0.5f) };
-	//	viewportSize.y = windowSize.x * 1.f / ratio;
-	//}
-	//ImGui::SetCursorPos(cursorPos);
-	//cursorPos.x += pos.x;
-	//cursorPos.y += pos.y;
-	//gs.gameWindowRect =
-	//{
-	//	cursorPos.x,
-	//	cursorPos.y,
-	//	cursorPos.x + viewportSize.x,
-	//	cursorPos.y + viewportSize.y,
-	//};
+
+	float halfWidthNormal = (float)(uint(gs.gameWindowRect.z - gs.gameWindowRect.x)) / (gs.windowResolution.x * 2);
+	float halfHeightNormal = (float)(uint(gs.gameWindowRect.w - gs.gameWindowRect.y)) / (gs.windowResolution.y * 2);
+
+	gs.gameViewRect =
+	{
+		.5f - halfWidthNormal,
+		.5f - halfHeightNormal,
+		.5f + halfWidthNormal,
+		.5f + halfHeightNormal
+	};
+
+	gs.gameScreenRect = gs.gameWindowRect + float4(
+		windowRect.x,
+		windowRect.y,
+		windowRect.x,
+		windowRect.y
+	);
 
 	return *reinterpret_cast<float2*>(&viewportSize);
 }
@@ -1163,46 +1195,32 @@ void Game::Editor::RenderGameTextureToRect(float2 aviewportSize)
 	ImColor sideBarCol = { .15f, .15f, .15f, 1.f };
 
 	auto& gs = Singleton<GlobalSettings>();
-	float4 windowRect = gs.windowRect;
-	float4 rect = gs.gameWindowRect;
-	ImVec2 windowSize = ImGui::GetWindowSize();
-	ImVec2 pos = ImGui::GetWindowPos();
-	float frameH = ImGui::GetFrameHeight();
-	pos.y += frameH;
+	ImVec2 tl = { gs.gameWindowRect.x, gs.gameWindowRect.y };
+	ImVec2 br = { gs.gameWindowRect.z, gs.gameWindowRect.w };
 
-	ImVec2 tl = { rect.x, rect.y };
-	ImVec2 br = { rect.z, rect.w };
-	ImVec2 posPlusWindowSize = { pos.x + windowSize.x, pos.y + windowSize.y - frameH };
 	ImVec2 viewportSize = { aviewportSize.x, aviewportSize.y };
 
 	ImGui::GetWindowDrawList()->AddRectFilled(
-		pos,			   // min
-		posPlusWindowSize, // max
+		tl,			   // min
+		br,				// max
 		sideBarCol         // color
 	);
 
 	// DEBUG game window rect
 	ImGui::GetOverlayDrawList()->AddRect(
-		pos,			   // min
-		posPlusWindowSize, // max
+		tl, // min
+		br, // max
 		ImColor(1.f, 0.f, 0.f, 1.f) // color
 	);
 
 	ImGui::Image(
 		(void*)gs.gameViewTexture->GetSRV(),
-		viewportSize
-		//ImVec2(0.f, .f), // uv start
-		//ImVec2(0.55f, .55f), // uv end
+		viewportSize,
+		ImVec2(gs.gameViewRect.x, gs.gameViewRect.y), // uv start
+		ImVec2(gs.gameViewRect.z, gs.gameViewRect.w) // uv end
 		//ImVec4(1, 1, 1, 1) // tint color
 		//ImVec4(1, 0, 0, 1) // border color
 	);
 
 	ImGui::GetWindowDrawList()->AddRect(tl, br, col);
-
-	gs.gameScreenRect = rect + float4(
-		windowRect.x,
-		windowRect.y,
-		windowRect.x,
-		windowRect.y
-	);
 }

@@ -12,6 +12,7 @@ class InputObserver
 public:
 	~InputObserver();
 	bool myIsObservingEditorInputs = false;
+	bool myIsObservingInputs = true;
 
 protected:
 	void ObserveInputEvent(eInputEvent anEvent, eInputState aTriggerState, std::function<void()> aCallback);

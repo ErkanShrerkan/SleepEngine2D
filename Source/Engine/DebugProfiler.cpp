@@ -15,6 +15,7 @@
 
 #include "Engine.h"
 #include <Game\Time.h>
+#include <Game\Globals.h>
 
 int g_new;
 int g_del;
@@ -122,7 +123,11 @@ namespace SE
 				//ImGui::SetNextWindowSize(ImVec2(350, 675), ImGuiCond_FirstUseEver);
 				//if (ImGui::Begin("Profiler##prf", 0, ImGuiWindowFlags_NoScrollbar))
 
+				auto& gs = Singleton<GlobalSettings>();
+				uint2 res = gs.windowResolution;
+
 				{
+					ImGui::Text("Render Resolution: %ix%i", res.x, res.y);
 					ImGui::Text("Total Mallocs: %i", g_new);
 					ImGui::Text("Total Frees: %i", g_del);
 					ImGui::Text("Last Diff: %i", myMallocDiff);
