@@ -818,24 +818,26 @@ void Game::Editor::RenderGizmos()
 	float2 windowCenter = gs.GetWindowCenterPixel();
 	float2 viewPortCenterOffset = viewPortCenter - windowCenter;
 
-	ImGui::Begin("RECT DEBUG");
-	ImGui::DragFloat2("vpc", &viewPortCenter.x);
-	ImGui::DragFloat2("wc", &windowCenter.x);
-	ImGui::DragFloat2("vpco", &viewPortCenterOffset.x);
-	ImGui::End();
-
-	//RenderLinesAcrossRect(windowRect);
 	float4 gameRect = gs.gameWindowRect;
 	gameRect += {
 		windowRect.xy,
 			windowRect.xy
 	};
-	RenderLinesAcrossRect(gameRect);
 
-    float multx = 1.f - (454.f / 1351.f);
+	float multx = 1.f - (454.f / 1351.f);
 	float multy = 1.f - (255.f / 758.f);
 	viewPortCenterOffset.x *= multx;
 	viewPortCenterOffset.y *= multy;
+	//float windowWidth = gs.windowRect.z - gs.windowRect.x;
+	//float windowHeight = gs.windowRect.w - gs.windowRect.y;
+	//
+	//float viewportWidth = gs.gameWindowRect.z - gs.gameWindowRect.x;
+	//float viewportHeight = gs.gameWindowRect.w - gs.gameWindowRect.y;
+	//
+    //float multx = (1.f - (viewportWidth / windowWidth));
+	//float multy = (1.f - (viewportHeight / windowHeight));
+	//viewPortCenterOffset.x *= multx;
+	//viewPortCenterOffset.y *= multy;
 
 	float4 gizmoRect = windowRect;
 
@@ -844,24 +846,16 @@ void Game::Editor::RenderGizmos()
 		viewPortCenterOffset,
 		viewPortCenterOffset
 	};
-	RenderLinesAcrossRect(gizmoRect);
+
 	gizmoRect -=
 	{
 		windowRect.xy,
 		windowRect.xy
 	};
 
-	//gizmoRect = gs.gameWindowRect;
-
 	ImGuizmo::SetRect(gizmoRect.x, gizmoRect.y, gizmoRect.z, gizmoRect.w);
 	ImVec2 tl = { gizmoRect.x, gizmoRect.y };
 	ImVec2 br = { gizmoRect.z, gizmoRect.w };
-
-	ImGui::GetOverlayDrawList()->AddRect(
-		tl,							// min
-		br,							// max
-		ImColor(255, 0, 255, 255)   // color
-	);
 
 	CameraComponent cam = *myGM.GetComponent<CameraComponent>(myEditorEntityID);
 	float4x4 cameraTransform = myGM.GetComponent<Transform>(myEditorEntityID)->GetTransform();
