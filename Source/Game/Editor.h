@@ -65,6 +65,7 @@ namespace Game
 		void GenerateComponent();
 		float2 CalculateGameWindowRect();
 		void RenderGameTextureToRect(float2 aViewPortSize);
+		void RenderLinesAcrossRect(float4 aRect);
 
 		// Debug
 		void DebugDrawRect();

@@ -41,8 +41,8 @@ float2 GlobalSettings::GetGameWindowCenterPixel()
 {
     return    
     {
-        .5f * (gameWindowRect.x + gameWindowRect.z),
-        .5f * (gameWindowRect.y + gameWindowRect.w)
+        .5f * (gameWindowRect.x + gameWindowRect.z) + windowRect.x,
+        .5f * (gameWindowRect.y + gameWindowRect.w) + windowRect.y
     };
 }
 

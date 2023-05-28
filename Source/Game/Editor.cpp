@@ -813,70 +813,45 @@ void Game::Editor::RenderGizmos()
 
 	auto& gs = Singleton<GlobalSettings>();
 	float4 windowRect = gs.windowRect;
-	//float4 gameViewRect = gs.gameViewRect;
-
-	//float4 gameWindowNormalPos(gameWindowNormal.x, gameWindowNormal.y, gameWindowNormal.x, gameWindowNormal.y);
-	//gameWindowNormal -= gameWindowNormalPos;
-	//gameViewRect -= gameWindowNormalPos;
-
-
-	float4 gizmoRect = windowRect;
-	//{
-	//	gs.gameScreenRect.x, //* gs.screenResolution.x,
-	//	gs.gameScreenRect.y, //* gs.screenResolution.y,
-	//	gs.gameScreenRect.z, //* gs.screenResolution.x,
-	//	gs.gameScreenRect.w //* gs.screenResolution.y,
-	//};
-
-	//ImGui::GetWindowDrawList()->AddRect(tl, br, ImColor(1.f, .5f, .125f, 1.f));
 
 	float2 viewPortCenter = gs.GetGameWindowCenterPixel();
 	float2 windowCenter = gs.GetWindowCenterPixel();
-
-	//float4 windowRectNormal = gs.GetWindowNormalised();
-	//float2 windowCenter = 
-	//{
-	//	.5f * (windowRectNormal.x + windowRectNormal.z),
-	//	.5f * (windowRectNormal.y + windowRectNormal.w)
-	//};
-
-	windowCenter -= windowRect.xy;
-	//viewPortCenter -= windowRect.xy;
 	float2 viewPortCenterOffset = viewPortCenter - windowCenter;
 
-	ImGui::GetOverlayDrawList()->AddLine(
-		ImVec2(windowCenter.x, windowCenter.y),			   // min
-		ImVec2(windowCenter.x + viewPortCenterOffset.x, windowCenter.y + viewPortCenterOffset.y),				// max
-		ImColor(255, 222, 222, 255)         // color
-	);
-
-	static float mult = 1.f;
-	ImGui::SetNextItemWidth(100);
-	ImGui::Begin("MULT");
-	ImGui::DragFloat("mult", &mult, .1f);
+	ImGui::Begin("RECT DEBUG");
+	ImGui::DragFloat2("vpc", &viewPortCenter.x);
+	ImGui::DragFloat2("wc", &windowCenter.x);
+	ImGui::DragFloat2("vpco", &viewPortCenterOffset.x);
 	ImGui::End();
-	//viewPortCenterOffset -= windowRect.xy;
-	viewPortCenterOffset *= mult;
 
-	gizmoRect = windowRect;
-
-	gizmoRect -=
-	{
+	//RenderLinesAcrossRect(windowRect);
+	float4 gameRect = gs.gameWindowRect;
+	gameRect += {
 		windowRect.xy,
-		windowRect.xy
+			windowRect.xy
 	};
+	RenderLinesAcrossRect(gameRect);
+
+    float multx = 1.f - (454.f / 1351.f);
+	float multy = 1.f - (255.f / 758.f);
+	viewPortCenterOffset.x *= multx;
+	viewPortCenterOffset.y *= multy;
+
+	float4 gizmoRect = windowRect;
 
 	gizmoRect += 
 	{
 		viewPortCenterOffset,
 		viewPortCenterOffset
 	};
+	RenderLinesAcrossRect(gizmoRect);
+	gizmoRect -=
+	{
+		windowRect.xy,
+		windowRect.xy
+	};
 
-	//gizmoRect -= float4(windowRect.xy, windowRect.xy);
-	//gizmoRect *= (2.f / 3.f);
-	//viewPortCenterOffset.x /= (float)gs.screenResolution.x;
-	//viewPortCenterOffset.y /= (float)gs.screenResolution.y;
-	//viewPortCenterOffset.y *= -1.f;
+	//gizmoRect = gs.gameWindowRect;
 
 	ImGuizmo::SetRect(gizmoRect.x, gizmoRect.y, gizmoRect.z, gizmoRect.w);
 	ImVec2 tl = { gizmoRect.x, gizmoRect.y };
@@ -1255,4 +1230,27 @@ void Game::Editor::RenderGameTextureToRect(float2 aviewportSize)
 	);
 
 	ImGui::GetWindowDrawList()->AddRect(tl, br, col);
+}
+
+void Game::Editor::RenderLinesAcrossRect(float4 aRect)
+{
+	auto& gs = Singleton<GlobalSettings>();
+	float4 windowRect = gs.windowRect;
+
+	float4 rect = aRect -
+		float4{
+			windowRect.xy,
+			windowRect.xy
+	};
+	ImGui::GetOverlayDrawList()->AddLine(
+		ImVec2(rect.x, rect.y),			   // min
+		ImVec2(rect.z, rect.w),				// max
+		ImColor(255, 222, 222, 255)         // color
+	);
+
+	ImGui::GetOverlayDrawList()->AddLine(
+		ImVec2(rect.x, rect.w),			   // min
+		ImVec2(rect.z, rect.y),				// max
+		ImColor(255, 222, 222, 255)         // color
+	);
 }
