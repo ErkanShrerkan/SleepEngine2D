@@ -828,16 +828,6 @@ void Game::Editor::RenderGizmos()
 	float multy = 1.f - (255.f / 758.f);
 	viewPortCenterOffset.x *= multx;
 	viewPortCenterOffset.y *= multy;
-	//float windowWidth = gs.windowRect.z - gs.windowRect.x;
-	//float windowHeight = gs.windowRect.w - gs.windowRect.y;
-	//
-	//float viewportWidth = gs.gameWindowRect.z - gs.gameWindowRect.x;
-	//float viewportHeight = gs.gameWindowRect.w - gs.gameWindowRect.y;
-	//
-    //float multx = (1.f - (viewportWidth / windowWidth));
-	//float multy = (1.f - (viewportHeight / windowHeight));
-	//viewPortCenterOffset.x *= multx;
-	//viewPortCenterOffset.y *= multy;
 
 	float4 gizmoRect = windowRect;
 
