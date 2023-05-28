@@ -117,7 +117,7 @@ void Game::Editor::AddEntityComponent()
 	ImGui::Checkbox("", &myGM.GetEntity(mySelectedEntity).GetActiveRef());
 	ImGui::PopID();
 	ImGui::SameLine();
-	
+
 	if (ImGui::Button("Reload") && ValidSelection())
 	{
 		for (auto& [id, component] : ec)
@@ -125,7 +125,7 @@ void Game::Editor::AddEntityComponent()
 			component->Reload();
 		}
 	}
-	
+
 	ImGui::SameLine();
 
 	ImGui::PushID("Component Combo");
@@ -828,36 +828,68 @@ void Game::Editor::RenderGizmos()
 	//	gs.gameScreenRect.w //* gs.screenResolution.y,
 	//};
 
+	//ImGui::GetWindowDrawList()->AddRect(tl, br, ImColor(1.f, .5f, .125f, 1.f));
+
+	float2 viewPortCenter = gs.GetGameWindowCenterPixel();
+	float2 windowCenter = gs.GetWindowCenterPixel();
+
+	//float4 windowRectNormal = gs.GetWindowNormalised();
+	//float2 windowCenter = 
+	//{
+	//	.5f * (windowRectNormal.x + windowRectNormal.z),
+	//	.5f * (windowRectNormal.y + windowRectNormal.w)
+	//};
+
+	windowCenter -= windowRect.xy;
+	//viewPortCenter -= windowRect.xy;
+	float2 viewPortCenterOffset = viewPortCenter - windowCenter;
+
+	ImGui::GetOverlayDrawList()->AddLine(
+		ImVec2(windowCenter.x, windowCenter.y),			   // min
+		ImVec2(windowCenter.x + viewPortCenterOffset.x, windowCenter.y + viewPortCenterOffset.y),				// max
+		ImColor(255, 222, 222, 255)         // color
+	);
+
+	static float mult = 1.f;
+	ImGui::SetNextItemWidth(100);
+	ImGui::Begin("MULT");
+	ImGui::DragFloat("mult", &mult, .1f);
+	ImGui::End();
+	//viewPortCenterOffset -= windowRect.xy;
+	viewPortCenterOffset *= mult;
+
+	gizmoRect = windowRect;
+
+	gizmoRect -=
+	{
+		windowRect.xy,
+		windowRect.xy
+	};
+
+	gizmoRect += 
+	{
+		viewPortCenterOffset,
+		viewPortCenterOffset
+	};
+
+	//gizmoRect -= float4(windowRect.xy, windowRect.xy);
+	//gizmoRect *= (2.f / 3.f);
+	//viewPortCenterOffset.x /= (float)gs.screenResolution.x;
+	//viewPortCenterOffset.y /= (float)gs.screenResolution.y;
+	//viewPortCenterOffset.y *= -1.f;
+
 	ImGuizmo::SetRect(gizmoRect.x, gizmoRect.y, gizmoRect.z, gizmoRect.w);
 	ImVec2 tl = { gizmoRect.x, gizmoRect.y };
 	ImVec2 br = { gizmoRect.z, gizmoRect.w };
-	//ImGui::GetWindowDrawList()->AddRect(tl, br, ImColor(1.f, .5f, .125f, 1.f));
 
-	float2 viewPortCenter =
-	{
-		.5f * (gs.gameViewRect.x + gs.gameViewRect.z),
-		.5f * (gs.gameViewRect.y + gs.gameViewRect.w)
-	};
+	ImGui::GetOverlayDrawList()->AddRect(
+		tl,							// min
+		br,							// max
+		ImColor(255, 0, 255, 255)   // color
+	);
 
-	float4 windowRectNormal = gs.GetWindowNormalised();
-	float2 windowCenter = 
-	{
-		.5f * (windowRectNormal.x + windowRectNormal.z),
-		.5f * (windowRectNormal.y + windowRectNormal.w)
-	};
-
-	viewPortCenter -= windowCenter;
-	viewPortCenter.y *= -1.f;
-
-	CameraComponent& cam = *myGM.GetComponent<CameraComponent>(myEditorEntityID);
-	float zoom = cam.GetZoom();
-	float2 offset = { zoom * cam.GetAspectRatio(), zoom };
-	offset = offset * viewPortCenter;
-
+	CameraComponent cam = *myGM.GetComponent<CameraComponent>(myEditorEntityID);
 	float4x4 cameraTransform = myGM.GetComponent<Transform>(myEditorEntityID)->GetTransform();
-	float3 offsetCamPos = cameraTransform.GetPosition() + float3(offset, 0);
-	cameraTransform.SetRow(4, { cameraTransform.GetPosition() + offsetCamPos, 1 });
-
 	float4x4 cameraView = float4x4::GetFastInverse(cameraTransform);
 	float4x4 cameraProjection = cam.GetProjection();
 

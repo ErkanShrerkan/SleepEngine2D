@@ -36,3 +36,21 @@ float4 GlobalSettings::GetWindowNormalised()
     };
     return normalised;
 }
+
+float2 GlobalSettings::GetGameWindowCenterPixel()
+{
+    return    
+    {
+        .5f * (gameWindowRect.x + gameWindowRect.z),
+        .5f * (gameWindowRect.y + gameWindowRect.w)
+    };
+}
+
+float2 GlobalSettings::GetWindowCenterPixel()
+{
+    return    
+    {
+        .5f * (windowRect.x + windowRect.z),
+        .5f * (windowRect.y + windowRect.w)
+    };
+}

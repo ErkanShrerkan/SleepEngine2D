@@ -8,6 +8,8 @@ public:
 	float4 GetGameWindowNormalised();
 	float4 GetGameScreenNormalised();
 	float4 GetWindowNormalised();
+	float2 GetGameWindowCenterPixel();
+	float2 GetWindowCenterPixel();
 
 public:
 	uint2 gameplayResolution = { 640, /*480*/ 360 };
