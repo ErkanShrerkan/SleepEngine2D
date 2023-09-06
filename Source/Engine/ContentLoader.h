@@ -30,7 +30,7 @@ namespace SE
 	template<class Resource, class ...Args>
 	inline Resource* CContentLoader::Load(Args ...someArguments)
 	{
-		static_assert(false, "SE::CContentLoader<Resource>::Load() was called with an unsupported type or unsupported arguments");
+		//static_assert(false, "SE::CContentLoader<Resource>::Load() was called with an unsupported type or unsupported arguments");
 		return nullptr;
 	}
 

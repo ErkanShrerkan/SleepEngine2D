@@ -17,14 +17,17 @@ PlayerController::~PlayerController()
 
 void PlayerController::Update()
 {
-	if (myMovement.LengthSqr() > 0)
-	{
-		myMovement.Normalize();
-		myMovement *= mySpeed * Singleton<Time>().deltaTime;
-		GameObject().GetComponent<Transform>()->Move(myMovement, Transform::Space::Object);
-		myMovement = { 0, 0 };
-	}
 	Debug::DrawCircle(GameObject().GetComponent<Transform>()->GetPosition(), 50);
+
+	if (myMovement.LengthSqr() == 0)
+	{
+		return;
+	}
+
+	myMovement.Normalize();
+	myMovement *= mySpeed * Singleton<Time>().deltaTime;
+	GameObject().GetComponent<Transform>()->Move(myMovement, Transform::Space::Object);
+	myMovement = { 0, 0 };
 }
 
 void PlayerController::Start()
