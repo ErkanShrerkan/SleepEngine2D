@@ -47,7 +47,6 @@ namespace Game
 		return true;
 	}
 
-	bool printAddress = true;
 	bool Game::Update()
 	{
 		if (!myIsPaused)
