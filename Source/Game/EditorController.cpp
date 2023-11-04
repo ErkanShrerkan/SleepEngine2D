@@ -35,7 +35,7 @@ void EditorController::Move()
 
 	myMovement.Normalize();
 	myMovement *= (mySpeed + (mySpeed * myShiftDown * (myShiftMult - 1.f))) * Singleton<Time>().deltaTime;
-	GameObject().GetComponent<Transform>()->Move(myMovement, Transform::Space::Object);
+	GameObject().GetComponent<Transform>()->Move({myMovement.x, 0.f, myMovement.y}, Transform::Space::Object);
 	myMovement = { 0, 0 };
 }
 

@@ -216,6 +216,9 @@
     <ClInclude Include="InputData.h">
       <Filter>Source Files</Filter>
     </ClInclude>
+    <ClInclude Include="RenderCommand.h">
+      <Filter>Source Files\Engine\Graphics</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -334,6 +337,9 @@
     </ClCompile>
     <ClCompile Include="TypeInfo.cpp">
       <Filter>Source Files\Engine\Utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderCommand.cpp">
+      <Filter>Source Files\Engine\Graphics</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -195,6 +195,7 @@
     <ClInclude Include="AudioEngine.h" />
     <ClInclude Include="AutoReleaser.h" />
     <ClInclude Include="BufferHelper.h" />
+    <ClInclude Include="RenderCommand.h" />
     <ClInclude Include="InputData.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="CDebugDrawer.h" />
@@ -247,6 +248,7 @@
     <ClCompile Include="ContentLoader.cpp" />
     <ClCompile Include="DebugConsole.cpp" />
     <ClCompile Include="DebugProfiler.cpp" />
+    <ClCompile Include="RenderCommand.cpp" />
     <ClCompile Include="DX11.cpp" />
     <ClCompile Include="EnvironmentLight.cpp" />
     <ClCompile Include="FullscreenRenderer.cpp" />

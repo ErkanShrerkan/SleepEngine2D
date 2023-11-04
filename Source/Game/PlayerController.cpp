@@ -17,7 +17,7 @@ PlayerController::~PlayerController()
 
 void PlayerController::Update()
 {
-	Debug::DrawCircle(GameObject().GetComponent<Transform>()->GetPosition(), 50);
+	//Debug::DrawCircle(GameObject().GetComponent<Transform>()->GetPosition(), 50);
 
 	if (myMovement.LengthSqr() == 0)
 	{
@@ -26,7 +26,7 @@ void PlayerController::Update()
 
 	myMovement.Normalize();
 	myMovement *= mySpeed * Singleton<Time>().deltaTime;
-	GameObject().GetComponent<Transform>()->Move(myMovement, Transform::Space::Object);
+	GameObject().GetComponent<Transform>()->Move({myMovement.x, 0.f, myMovement.y}, Transform::Space::Object);
 	myMovement = { 0, 0 };
 }
 

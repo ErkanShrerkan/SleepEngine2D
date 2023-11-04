@@ -42,7 +42,7 @@ void GameManager::Init()
 		for (size_t i = 0; i < 100; i++)
 		{
 			auto& e = entityPool.CreateChild();
-			e.GetComponent<Transform>()->SetPosition({ Random::Float(-10'00.f, 10'00.f), Random::Float(-10'00.f, 10'00.f) });
+			e.GetComponent<Transform>()->SetPosition({ Random::Float(-10'00.f, 10'00.f), Random::Float(-10'00.f, 10'00.f), Random::Float(-10'00.f, 10'00.f) });
 			//e.GetComponent<Transform>().SetScale({ .1f, .1f });
 			auto& s = e.AddComponent<Sprite>(/*"assets/textures/black.dds"*/"assets/textures/sprites/circle.dds");
 			s.SetColor({ Random::Float(0.f, 1.f), Random::Float(0.f, 1.f), Random::Float(0.f, 1.f), 1 });

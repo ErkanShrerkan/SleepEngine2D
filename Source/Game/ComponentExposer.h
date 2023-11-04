@@ -143,7 +143,7 @@ public:
 		float3& aVariable,
 		const std::string& aName,
 		float aSensitivity,
-		Expose::ePickMode aPickMode = Expose::ePickMode::Color,
+		Expose::ePickMode aPickMode = Expose::ePickMode::Drag,
 		Expose::eBounds aBoundsType = Expose::eBounds::None,
 		float2 someBounds = { 0, 100 });
 

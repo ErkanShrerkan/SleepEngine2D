@@ -7,6 +7,10 @@
 #include "Math.hpp"
 #include <memory>
 
+#define PI Math::pi
+#define RAD_TO_DEG(x) Math::RadianToDegree(x)
+#define DEG_TO_RAD(x) Math::DegreeToRadian(x)
+
 typedef unsigned int uint;
 typedef unsigned short ushort;
 

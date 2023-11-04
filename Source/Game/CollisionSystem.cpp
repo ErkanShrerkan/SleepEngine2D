@@ -62,46 +62,46 @@ bool CollisionSystem::Intersects(const PolygonCollider& a, const PolygonCollider
 
 void CollisionSystem::Update()
 {
-	auto& colliders = myGameManager->GetComponentMap<Collider>();
+	//auto& colliders = myGameManager->GetComponentMap<Collider>();
 
 	// upgrade with spacial partitioning
-	for (auto& [entity0, component0] : colliders.map)
-	{
-		if (!myGameManager->IsEntityAndComponentActive(entity0, component0))
-			continue;
+	//for (auto& [entity0, component0] : colliders.map)
+	//{
+	//	if (!myGameManager->IsEntityAndComponentActive(entity0, component0))
+	//		continue;
 
-		//for (auto& [entity1, component1] : colliders.map)
-		//{
-		//	if (entity0 != entity1)
-		//	{
-		//		// solve collision
-		//	}
-		//}
+	//	//for (auto& [entity1, component1] : colliders.map)
+	//	//{
+	//	//	if (entity0 != entity1)
+	//	//	{
+	//	//		// solve collision
+	//	//	}
+	//	//}
 
-		float2 objectPos = myGameManager->GetEntity(entity0).GetComponent<Transform>()->GetPosition();
-		objectPos += component0.pos;
+	//	float3 objectPos = myGameManager->GetEntity(entity0).GetComponent<Transform>()->GetPosition();
+	//	objectPos += component0.pos;
 
-		float2 firstPoint = { 0, 0 };
-		float2 lastPoint = { 0, 0 };
-		float r = component0.radius;
-		bool first = true;
-		for (float a = 0; a <= 2 * 3.1415927f; a += /*2 * */.31415927f)
-		{
-			float x = (r * cos(a)) * (9.f / 16);
-			float y = r * sin(a);
+	//	float3 firstPoint = { 0, 0 };
+	//	float3 lastPoint = { 0, 0 };
+	//	float r = component0.radius;
+	//	bool first = true;
+	//	for (float a = 0; a <= 2 * 3.1415927f; a += /*2 * */.31415927f)
+	//	{
+	//		float x = (r * cos(a)) * (9.f / 16);
+	//		float y = r * sin(a);
 
-			if (first)
-			{
-				first = false;
-				firstPoint = { x, y };
-				lastPoint = firstPoint;
-			}
-			else
-			{
-				Debug::DrawLine2D({ objectPos.x + lastPoint.x, objectPos.y + lastPoint.y }, { x + objectPos.x, objectPos.y + y /** (16.f / 9)*/ }, { 1, 1, 1, 1 });
-				lastPoint = { x, y };
-			}
-		}
-		Debug::DrawLine2D({ objectPos.x + lastPoint.x, objectPos.y + lastPoint.y }, { firstPoint.x + objectPos.x, objectPos.y + firstPoint.y }, { 1, 1, 1, 1 });
-	}
+	//		if (first)
+	//		{
+	//			first = false;
+	//			firstPoint = { x, y };
+	//			lastPoint = firstPoint;
+	//		}
+	//		else
+	//		{
+	//			Debug::DrawLine2D({ objectPos.x + lastPoint.x, objectPos.y + lastPoint.y }, { x + objectPos.x, objectPos.y + y /** (16.f / 9)*/ }, { 1, 1, 1, 1 });
+	//			lastPoint = { x, y };
+	//		}
+	//	}
+	//	Debug::DrawLine2D({ objectPos.x + lastPoint.x, objectPos.y + lastPoint.y }, { firstPoint.x + objectPos.x, objectPos.y + firstPoint.y }, { 1, 1, 1, 1 });
+	//}
 }

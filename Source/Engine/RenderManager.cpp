@@ -37,7 +37,7 @@
 #include <Game\EditorController.h>
 #include <ImGui/imgui.h>
 
-constexpr auto PI = 3.14159265f;
+//constexpr auto PI = 3.14159265f;
 
 #define SKIP_SHADOW
 #define SKIP_HD

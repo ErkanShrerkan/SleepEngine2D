@@ -74,6 +74,8 @@ public:
 
 	inline void getMatrix_transposed(Matrix4x4f& dest) const;
 
+	float3 GetEuler();
+
 	Quaternion& makeInverse();
 
 
@@ -109,7 +111,7 @@ inline Quaternion::Quaternion(float x, float y, float z)
 // Constructor which converts euler angles to a quaternion
 inline Quaternion::Quaternion(const float3& vec)
 {
-	set(vec.x, vec.y, vec.z);
+	set(DEG_TO_RAD(vec.x), DEG_TO_RAD(vec.y), DEG_TO_RAD(vec.z));
 }
 
 #if !IRR_TEST_BROKEN_QUATERNION_USE
@@ -356,6 +358,28 @@ inline void Quaternion::getMatrix_transposed(Matrix4x4f& dest) const
 	dest[7] = 0.f;
 	dest[11] = 0.f;
 	dest[15] = 1.f;
+}
+
+inline float3 Quaternion::GetEuler()
+{
+	float3 angles;
+
+	// roll (x-axis rotation)
+	float sinr_cosp = 2.0f * (w * x + y * z);
+	float cosr_cosp = 1.0f - 2.0f * (x * x + y * y);
+	angles.x = std::atan2(sinr_cosp, cosr_cosp);
+
+	// pitch (y-axis rotation)
+	float sinp = std::sqrt(1.0f + 2.0f * (w * y - x * z));
+	float cosp = std::sqrt(1.0f - 2.0f * (w * y - x * z));
+	angles.y = 2 * std::atan2(sinp, cosp) - (PI / 2.0f);
+
+	// yaw (z-axis rotation)
+	float siny_cosp = 2.0f * (w * z + x * y);
+	float cosy_cosp = 1.0f - 2.0f * (y * y + z * z);
+	angles.z = std::atan2(siny_cosp, cosy_cosp);
+
+	return angles;
 }
 
 

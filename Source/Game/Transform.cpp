@@ -10,12 +10,7 @@ Transform::~Transform()
 {
 }
 
-void Transform::SetPosition(float2 aPos)
-{
-	myPosition = aPos;
-}
-
-void Transform::Move(float2 aMovementVector, Space aSpace)
+void Transform::Move(float3 aMovementVector, Space aSpace)
 {
 	switch (aSpace)
 	{
@@ -30,7 +25,7 @@ void Transform::Move(float2 aMovementVector, Space aSpace)
 	}
 }
 
-void Transform::Rotate(float aRotaionInDegrees)
+void Transform::Rotate(float3 aRotaionInDegrees)
 {
 	SetRotation(GetRotation() + aRotaionInDegrees);
 }
@@ -44,57 +39,64 @@ void Transform::SetTransform(const float4x4& aMatrix)
 
 void Transform::SetScale(const float4x4& aMatrix)
 {
-	SetScale({ aMatrix.GetRight().Length(), aMatrix.GetUp().Length() });
+	SetScale(
+		{ 
+			aMatrix.GetRight().Length(), 
+			aMatrix.GetUp().Length(), 
+			aMatrix.GetForward().Length() 
+		});
 }
 
 void Transform::SetRotation(const float4x4& aMatrix)
 {
-	float2 rV = { aMatrix(1, 2), aMatrix(1, 1) };
-	rV.Normalize();
-	float rad = atan2f(rV.x, rV.y);
-	float deg = Math::RadianToDegree(rad);
-	SetRotation(deg);
+	Quaternion q(aMatrix);
+	SetRotation(q.GetEuler());
 }
 
 void Transform::SetPosition(const float4x4& aMatrix)
 {
-	SetPosition(aMatrix.GetPosition().xy);
+	SetPosition(aMatrix.GetPosition());
 }
 
-void Transform::SetRotation(float aRotationInDegrees)
+void Transform::SetPosition(float3 aPos)
 {
-	myRotation = -aRotationInDegrees;
+	myTransform.myPosition = aPos;
+}
+
+void Transform::SetRotation(float3 aRotationInDegrees)
+{
+	myTransform.myRotation = aRotationInDegrees;
 	InBoundsRotation();
 }
 
-void Transform::SetScale(float2 aScale)
+void Transform::SetScale(float3 aScale)
 {
-	myScale = aScale;
+	myTransform.myScale = aScale;
 }
 
-float Transform::GetRotation()
+float3 Transform::GetRotation()
 {
-	return -myRotation;
+	return myTransform.myRotation;
 }
 
-float2 Transform::GetScale()
+float3 Transform::GetScale()
 {
-	return myScale;
+	return myTransform.myScale;
 }
 
-float2 Transform::GetPosition()
+float3 Transform::GetPosition()
 {
-	return myPosition;
+	return myTransform.myPosition;
 }
 
-float2 Transform::GetUp()
+float3 Transform::GetUp()
 {
-	return GetTransform().GetUp().xy;
+	return GetTransform().GetUp();
 }
 
-float2 Transform::GetRight()
+float3 Transform::GetRight()
 {
-	return GetTransform().GetRight().xy;
+	return GetTransform().GetRight();
 }
 
 float4x4 Transform::GetTransform()
@@ -112,30 +114,43 @@ float4x4 Transform::GetScaleMatrix()
 {
 	float4x4 s;
 
-	s(1, 1) = myScale.x;
-	s(2, 2) = myScale.y;
+	s(1, 1) = myTransform.myScale.x;
+	s(2, 2) = myTransform.myScale.y;
+	s(3, 3) = myTransform.myScale.z;
 
 	return s;
 }
 
 float4x4 Transform::GetRotationMatrix()
 {
-	return float4x4::CreateRotationAroundZ(Math::DegreeToRadian(GetRotation()));
+	Quaternion q(myTransform.myRotation);
+	float4x4 m;
+	q.getRotationMatrix(m, true);
+	return m;
 }
 
 float4x4 Transform::GetTranslationMatrix()
 {
 	float4x4 t;
-	t.SetRow(4, { myPosition, 0, 1 });
+	t.SetRow(4, { myTransform.myPosition, 1 });
 	return t;
 }
 
 float4x4 Transform::GetObjectSpaceTransform()
 {
+	if (!HasChanged())
+	{
+		return myCachedMatrix;
+	}
+
+	memcpy(&myCachedTransform, &myTransform, sizeof(TransformData));
+
 	float4x4 s = GetScaleMatrix();
 	float4x4 r = GetRotationMatrix();
 	float4x4 t = GetTranslationMatrix();
-	return s * r * t;
+
+	myCachedMatrix = s * r * t;
+	return myCachedMatrix;
 }
 
 float4x4 Transform::GetParentWorldSpaceTransform()
@@ -148,25 +163,37 @@ float4x4 Transform::GetParentWorldSpaceTransform()
 	return t.GetTransform();
 }
 
-void Transform::MoveObjectSpace(float2 aMovementVector)
+void Transform::MoveObjectSpace(float3 aMovementVector)
 {
-	float4 rotatedMovementVector = GetRotationMatrix() * float4(aMovementVector, 0, 1);
-	SetPosition(myPosition + rotatedMovementVector.xy);
+	float4 rotatedMovementVector = GetRotationMatrix() * float4(aMovementVector, 1);
+	SetPosition(myTransform.myPosition + rotatedMovementVector.xyz);
 }
 
-void Transform::MoveWorldSpace(float2 aMovementVector)
+void Transform::MoveWorldSpace(float3 aMovementVector)
 {
-	SetPosition(myPosition + aMovementVector);
+	SetPosition(myTransform.myPosition + aMovementVector);
 }
 
 void Transform::InBoundsRotation()
 {
-	myRotation += myRotation > 360.f ? -360.f : (myRotation < 0.f ? 360.f : 0);
+	InBoundsRotationAxis(myTransform.myRotation.x);
+	InBoundsRotationAxis(myTransform.myRotation.y);
+	InBoundsRotationAxis(myTransform.myRotation.z);
+}
+
+void Transform::InBoundsRotationAxis(float& anAxis)
+{
+	anAxis += anAxis > 360.f ? -360.f : (anAxis < 0.f ? 360.f : 0);
+}
+
+bool Transform::HasChanged()
+{
+	return memcmp(&myTransform, &myCachedTransform, sizeof(TransformData)) != 0;
 }
 
 void Transform::Start()
 {
-	Expose(myScale, "Scale", .1f);
-	Expose(myPosition, "Position", .25f);
-	Expose(myRotation, "Rotation", .1f, Expose::eBounds::Loop, float2(0.f, 360.f));
+	Expose(myTransform.myScale, "Scale", .1f);
+	Expose(myTransform.myPosition, "Position", .25f);
+	Expose(myTransform.myRotation, "Rotation", .1f, Expose::ePickMode::Drag, Expose::eBounds::Loop, float2(0.f, 360.f));
 }
