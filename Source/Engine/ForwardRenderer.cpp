@@ -147,14 +147,14 @@ namespace SE
 
 			t = scale * t;
 
-			t = t * float4x4::CreateRotationAroundZ(Math::DegreeToRadian(-sprite->GetRotation()));
+			t = t * float4x4::CreateRotationAroundZ(Math::DegreeToRadian(sprite->GetRotation()));
 			t.SetRow(4, { pos, 1 });
 
 			mySpriteBufferData.myTransform = t;
 			mySpriteBufferData.myPosOffset = offset;
 			mySpriteBufferData.mySize = size;
 			mySpriteBufferData.myPivot = sprite->GetPivot();
-			mySpriteBufferData.myRotation = Math::DegreeToRadian(-sprite->GetRotation());
+			mySpriteBufferData.myRotation = Math::DegreeToRadian(sprite->GetRotation());
 			mySpriteBufferData.myRect = sprite->GetRect();
 			mySpriteBufferData.myData = sprite->GetShaderData();
 			mySpriteBufferData.myColor = sprite->GetColor();

@@ -195,6 +195,11 @@
     <ClInclude Include="AudioEngine.h" />
     <ClInclude Include="AutoReleaser.h" />
     <ClInclude Include="BufferHelper.h" />
+    <ClInclude Include="DeferredRenderer.h" />
+    <ClInclude Include="Material.h" />
+    <ClInclude Include="MaterialManager.h" />
+    <ClInclude Include="ModelFactory.h" />
+    <ClInclude Include="PixelShader.h" />
     <ClInclude Include="RenderCommand.h" />
     <ClInclude Include="InputData.h" />
     <ClInclude Include="Camera.h" />
@@ -237,6 +242,7 @@
     <ClInclude Include="Timer.h" />
     <ClInclude Include="Transform.h" />
     <ClInclude Include="TypeInfo.h" />
+    <ClInclude Include="VertexShader.h" />
     <ClInclude Include="WindowHandler.h" />
   </ItemGroup>
   <ItemGroup>
@@ -248,6 +254,11 @@
     <ClCompile Include="ContentLoader.cpp" />
     <ClCompile Include="DebugConsole.cpp" />
     <ClCompile Include="DebugProfiler.cpp" />
+    <ClCompile Include="DeferredRenderer.cpp" />
+    <ClCompile Include="Material.cpp" />
+    <ClCompile Include="MaterialManager.cpp" />
+    <ClCompile Include="ModelFactory.cpp" />
+    <ClCompile Include="PixelShader.cpp" />
     <ClCompile Include="RenderCommand.cpp" />
     <ClCompile Include="DX11.cpp" />
     <ClCompile Include="EnvironmentLight.cpp" />
@@ -284,6 +295,7 @@
     <ClCompile Include="TextureHelper.cpp" />
     <ClCompile Include="Transform.cpp" />
     <ClCompile Include="TypeInfo.cpp" />
+    <ClCompile Include="VertexShader.cpp" />
     <ClCompile Include="WindowHandler.cpp" />
   </ItemGroup>
   <ItemGroup>

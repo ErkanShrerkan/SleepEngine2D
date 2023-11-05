@@ -13,11 +13,91 @@ namespace SE
     {
         namespace ShaderHelper
         {
+            class VertexShaderBank
+            {
+            public:
+                bool GetVertexShader(ID3D11VertexShader** aVertexShader, const std::string& aFilePath)
+                {
+                    auto it = myVertexShaders.find(aFilePath);
+                    if (it != myVertexShaders.end())
+                    {
+                        *aVertexShader = it->second;
+                        return true;
+                    }
+
+                    std::string vsData;
+                    return CreateVertexShader(aVertexShader, aFilePath, &vsData);
+                }
+            private:
+                bool CreateVertexShader(ID3D11VertexShader** aVertexShader, const std::string& aFilePath, std::string* const& anOutData)
+                {
+                    HRESULT result;
+                    ID3D11Device* const& device = CEngine::GetInstance()->GetDXDevice();
+
+                    std::ifstream vsFile;
+                    vsFile.open(aFilePath + SE_HELPER_SHADER_FILE_EXTENSION, std::ios::binary);
+                    *anOutData = { std::istreambuf_iterator<char>(vsFile), std::istreambuf_iterator<char>() };
+                    result = device->CreateVertexShader((*anOutData).data(), (*anOutData).size(), nullptr, aVertexShader);
+                    vsFile.close();
+                    if (FAILED(result))
+                    {
+                        /* Error Message */
+                        perr("Error creating Vertex Shader \"%s\"", (aFilePath + SE_HELPER_SHADER_FILE_EXTENSION).c_str());
+                    }
+
+                    myVertexShaders[aFilePath] = *aVertexShader;
+
+                    return *aVertexShader != nullptr;
+                }
+            private:
+                std::unordered_map<std::string, ID3D11VertexShader*> myVertexShaders;
+            };
+
+            struct PixelShaderBank
+            {
+            public:
+                bool GetPixelShader(ID3D11PixelShader** aPixelShader, const std::string& aFilePath)
+                {
+                    auto it = myPixelShaders.find(aFilePath);
+                    if (it != myPixelShaders.end())
+                    {
+                        *aPixelShader = it->second;
+                        return true;
+                    }
+
+                    std::string psData;
+                    return CreatePixelShader(aPixelShader, aFilePath, &psData);
+                }
+            private:
+                bool CreatePixelShader(ID3D11PixelShader** aPixelShader, const std::string& aFilePath, std::string* const& anOutData)
+                {
+                    HRESULT result;
+                    ID3D11Device* const& device = CEngine::GetInstance()->GetDXDevice();
+
+                    std::ifstream psFile;
+                    psFile.open(aFilePath + SE_HELPER_SHADER_FILE_EXTENSION, std::ios::binary);
+                    *anOutData = { std::istreambuf_iterator<char>(psFile), std::istreambuf_iterator<char>() };
+                    result = device->CreatePixelShader((*anOutData).data(), (*anOutData).size(), nullptr, aPixelShader);
+                    psFile.close();
+                    if (FAILED(result))
+                    {
+                        /* Error Message */
+                        perr("Error creating Pixel Shader \"%s\"", (aFilePath + SE_HELPER_SHADER_FILE_EXTENSION).c_str());
+                    }
+
+                    myPixelShaders[aFilePath] = *aPixelShader;
+
+                    return *aPixelShader != nullptr;
+                }
+            private:
+                std::unordered_map<std::string, ID3D11PixelShader*> myPixelShaders;
+            };
+
             bool CreateVertexShader(ID3D11VertexShader** aVertexShader, const std::string& aFilePath)
             {
-                std::string vsData;
-                return CreateVertexShader(aVertexShader, aFilePath, &vsData);
+                return Singleton<VertexShaderBank>().GetVertexShader(aVertexShader, aFilePath);
             }
+
             bool CreateVertexShader(ID3D11VertexShader** aVertexShader, const std::string& aFilePath, std::string* const& anOutData)
             {
                 HRESULT result;
@@ -39,9 +119,9 @@ namespace SE
 
             bool CreatePixelShader(ID3D11PixelShader** aPixelShader, const std::string& aFilePath)
             {
-                std::string psData;
-                return CreatePixelShader(aPixelShader, aFilePath, &psData);
+                return Singleton<PixelShaderBank>().GetPixelShader(aPixelShader, aFilePath);
             }
+
             bool CreatePixelShader(ID3D11PixelShader** aPixelShader, const std::string& aFilePath, std::string* const& anOutData)
             {
                 HRESULT result;

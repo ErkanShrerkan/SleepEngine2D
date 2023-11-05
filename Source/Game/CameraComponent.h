@@ -5,7 +5,7 @@ class CameraComponent : public Component
 {
 public: 
     CameraComponent(){}
-    CameraComponent(float2 anAspectRatio, float aZoom);
+    CameraComponent(float2 anAspectRatio, float anFOV = 90, bool aIsPerspective = true, float aNear = 1.f, float aFar = 1000'00.f);
     ~CameraComponent();
 
 public:
@@ -18,7 +18,15 @@ public:
     void SetZoom(float aZoom) { myZoom = aZoom; };
 
 private:
-    float myZoom = 1000;
+    void StartPerspective();
+    void StartOrthographic();
+
+private:
+    bool myIsPerspective = true;
+    float myNear;
+    float myFar;
+    float myFOV;
+    float myZoom = 100.f;
     float2 myAspectRatio = { 1, 1 };
     float4x4 myProjection;
 };

@@ -81,6 +81,12 @@
     <Filter Include="JSON">
       <UniqueIdentifier>{b6a9bb1f-f58d-4c1a-92a6-f4c6e25bbae6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Engine\Resource\Raw\Material">
+      <UniqueIdentifier>{b63c6565-1382-4106-a4a1-cb0620fab6aa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Engine\Shader\Class">
+      <UniqueIdentifier>{c579332f-a68b-4185-828d-f2171a87cc6f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -219,6 +225,24 @@
     <ClInclude Include="RenderCommand.h">
       <Filter>Source Files\Engine\Graphics</Filter>
     </ClInclude>
+    <ClInclude Include="DeferredRenderer.h">
+      <Filter>Source Files\Engine\Graphics\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="Material.h">
+      <Filter>Source Files\Engine\Resource\Raw\Material</Filter>
+    </ClInclude>
+    <ClInclude Include="MaterialManager.h">
+      <Filter>Source Files\Engine\Resource\Raw\Material</Filter>
+    </ClInclude>
+    <ClInclude Include="VertexShader.h">
+      <Filter>Source Files\Engine\Shader\Class</Filter>
+    </ClInclude>
+    <ClInclude Include="PixelShader.h">
+      <Filter>Source Files\Engine\Shader\Class</Filter>
+    </ClInclude>
+    <ClInclude Include="ModelFactory.h">
+      <Filter>Source Files\Engine\Resource\Factory</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -340,6 +364,24 @@
     </ClCompile>
     <ClCompile Include="RenderCommand.cpp">
       <Filter>Source Files\Engine\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="DeferredRenderer.cpp">
+      <Filter>Source Files\Engine\Graphics\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="Material.cpp">
+      <Filter>Source Files\Engine\Resource\Raw\Material</Filter>
+    </ClCompile>
+    <ClCompile Include="MaterialManager.cpp">
+      <Filter>Source Files\Engine\Resource\Raw\Material</Filter>
+    </ClCompile>
+    <ClCompile Include="VertexShader.cpp">
+      <Filter>Source Files\Engine\Shader\Class</Filter>
+    </ClCompile>
+    <ClCompile Include="PixelShader.cpp">
+      <Filter>Source Files\Engine\Shader\Class</Filter>
+    </ClCompile>
+    <ClCompile Include="ModelFactory.cpp">
+      <Filter>Source Files\Engine\Resource\Factory</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

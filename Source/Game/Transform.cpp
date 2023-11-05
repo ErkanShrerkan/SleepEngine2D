@@ -193,7 +193,7 @@ bool Transform::HasChanged()
 
 void Transform::Start()
 {
-	Expose(myTransform.myScale, "Scale", .1f);
+	Expose(myTransform.myScale, "Scale", .01f);
 	Expose(myTransform.myPosition, "Position", .25f);
 	Expose(myTransform.myRotation, "Rotation", .1f, Expose::ePickMode::Drag, Expose::eBounds::Loop, float2(0.f, 360.f));
 }

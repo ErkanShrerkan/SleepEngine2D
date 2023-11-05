@@ -42,7 +42,7 @@ void PlayerController::Start()
 	//auto& cc = GameObject().AddComponent<Collider>(Collider::eType::Circle);
 	//cc.isRigidBody = true;
 	//cc.radius = c.GetSize().x;
-	GameObject().AddComponent<CameraComponent>(float2(16, 9), 1000.f);
+	GameObject().AddComponent<CameraComponent>(float2(16, 9));
 	//GameObject().GetComponent<Transform>().SetPosition({ Random::Float(-10.f, 10.f), Random::Float(-10.f, 10.f) });
 	ObserveInputEvent(eInputEvent::Interact, eInputState::Released, [&]() { this->ToggleMovement(); });
 
