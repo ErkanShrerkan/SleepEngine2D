@@ -4,16 +4,30 @@
             "ID": 0,
             "Components": [
                 4,
+                8,
                 0,
                 6,
-                1
+                1,
+                10
             ]
         },
         {
             "ID": 1,
             "Components": [
                 4,
-                8,
+                10
+            ]
+        },
+        {
+            "ID": 2,
+            "Components": [
+                4
+            ]
+        },
+        {
+            "ID": 3,
+            "Components": [
+                4,
                 9
             ]
         }

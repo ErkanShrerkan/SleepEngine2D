@@ -192,7 +192,20 @@ void Game::Editor::ModifyValues()
 	for (auto& [id, component] : components)
 	{
 		ImGui::PushID(id);
-		component->GetComponentExposer()->OnImGui(myGM.GetComponentMaps()[id]->myName);
+		auto& map = myGM.GetComponentMaps()[id];
+		auto* exposer = component->GetComponentExposer();
+		exposer->OnImGuiBegin(map->myName);
+		
+		uint entityID = mySelectedEntity;
+		UpdateDragAndDrop([&]()
+			{
+				ImGui::SetDragDropPayload("DRAG_COMPONENT_REF", &component, sizeof(Component*));
+				ImGui::Text("Ref %s", std::to_string(entityID).c_str());
+				ImGui::EndDragDropSource();
+			}, id);
+
+		exposer->OnImGui();
+
 		ImGui::PopID();
 	}
 	ImGui::Separator();
@@ -315,6 +328,43 @@ void Game::Editor::SetTransformOperation(eTransformOperation anOperation)
 void Game::Editor::SetTransformSpace(eTransformSpace aSpace)
 {
 	mySpace = aSpace;
+}
+
+void Game::Editor::UpdateDragAndDrop(std::function<void()> aLoadPayloadFunc, uint anID)
+{
+	if (ImGui::IsItemHovered())
+	{
+		if (Input::GetInputReleased(eInputEvent::LMB))
+		{
+			if (!myHoversInitiallySelectedItem)
+			{
+				myInitiallySelectedItem = NULL_ENTITY;
+			}
+			else
+			{
+				mySelectedItem = mySelectedItem == myInitiallySelectedItem ? NULL_ENTITY : myInitiallySelectedItem;
+			}
+		}
+		else if (Input::GetInputPressed(eInputEvent::LMB))
+		{
+			myInitiallySelectedItem = anID;
+			myHoversInitiallySelectedItem = true;
+		}
+	}
+	else
+	{
+		if (myInitiallySelectedItem == anID)
+		{
+			myInitiallySelectedItem = NULL_ENTITY;
+			myHoversInitiallySelectedItem = false;
+
+			// handle drag n drop
+			if (ImGui::BeginDragDropSource(ImGuiDragDropFlags_None))
+			{
+				aLoadPayloadFunc();
+			}
+		}
+	}
 }
 
 void Game::Editor::RegisterNewProjectFile(
@@ -455,10 +505,10 @@ void Game::Editor::HandleHierarchySelection(uint anID, bool isHovered)
 {
 	if (!isHovered)
 	{
-		if (myInitiallySelectedItem == anID)
+		if (myInitiallySelectedEntity == anID)
 		{
-			myInitiallySelectedItem = NULL_ENTITY;
-			myHoversInitiallySelectedItem = false;
+			myInitiallySelectedEntity = NULL_ENTITY;
+			myHoversInitiallySelectedEntity = false;
 
 			// handle drag n drop
 			if (ImGui::BeginDragDropSource(ImGuiDragDropFlags_None))
@@ -473,20 +523,20 @@ void Game::Editor::HandleHierarchySelection(uint anID, bool isHovered)
 
 	if (Input::GetInputReleased(eInputEvent::LMB))
 	{
-		if (!myHoversInitiallySelectedItem)
+		if (!myHoversInitiallySelectedEntity)
 		{
-			myInitiallySelectedItem = NULL_ENTITY;
+			myInitiallySelectedEntity = NULL_ENTITY;
 			return;
 		}
 
-		mySelectedEntity = mySelectedEntity == myInitiallySelectedItem ? NULL_ENTITY : myInitiallySelectedItem;
+		mySelectedEntity = mySelectedEntity == myInitiallySelectedEntity ? NULL_ENTITY : myInitiallySelectedEntity;
 		myPicker->SetPickedEntityID(mySelectedEntity);
 	}
 	else if (Input::GetInputPressed(eInputEvent::LMB))
 	{
 
-		myInitiallySelectedItem = anID;
-		myHoversInitiallySelectedItem = true;
+		myInitiallySelectedEntity = anID;
+		myHoversInitiallySelectedEntity = true;
 	}
 }
 
@@ -738,24 +788,6 @@ void Game::Editor::Assets()
 				srv = nullptr;
 			}
 
-			//if (Input::GetInputReleased(eInputEvent::LMB))
-			//{
-			//	if (!myHoversInitiallySelectedEntity)
-			//	{
-			//		myInitiallySelectedEntity = NULL_ENTITY;
-			//		return;
-			//	}
-			//
-			//	mySelectedEntity = mySelectedEntity == myInitiallySelectedEntity ? NULL_ENTITY : myInitiallySelectedEntity;
-			//	myPicker->SetPickedEntityID(mySelectedEntity);
-			//}
-			//else if (Input::GetInputPressed(eInputEvent::LMB))
-			//{
-			//	myInitiallySelectedEntity = anID;
-			//	myHoversInitiallySelectedEntity = true;
-			//}
-
-
 			uint id = ImGui::GetID(fileName.c_str());
 			ImGui::PushID(id);
 			if (ImGui::ImageButton(srv, imgSizeV))
@@ -773,43 +805,21 @@ void Game::Editor::Assets()
 				}
 			}
 
-			if (ImGui::IsItemHovered())
+			if (isDir)
 			{
-				if (Input::GetInputReleased(eInputEvent::LMB))
-				{
-					if (!myHoversInitiallySelectedItem)
-					{
-						myInitiallySelectedItem = NULL_ENTITY;
-					}
-					else
-					{
-						mySelectedItem = mySelectedItem == myInitiallySelectedItem ? NULL_ENTITY : myInitiallySelectedItem;
-						myPicker->SetPickedEntityID(mySelectedEntity);
-					}
-				}
-				else if (Input::GetInputPressed(eInputEvent::LMB))
-				{
-					myInitiallySelectedItem = id;
-					myHoversInitiallySelectedItem = true;
-				}
+				ImGui::PopID();
+				ImGui::TextWrapped(fileName.c_str());
+				ImGui::NextColumn();
+				continue;
 			}
-			else
-			{
-				if (myInitiallySelectedItem == id)
-				{
-					myInitiallySelectedItem = NULL_ENTITY;
-					myHoversInitiallySelectedItem = false;
 
-					// handle drag n drop
-					if (ImGui::BeginDragDropSource(ImGuiDragDropFlags_None))
-					{
-						myActivePayload.SetString(fileName);
-						ImGui::SetDragDropPayload("DRAG_FILENAME", &myActivePayload, sizeof(char) * 128);
-						ImGui::Text(fileName.c_str());
-						ImGui::EndDragDropSource();
-					}
-				}
-			}
+			UpdateDragAndDrop([&]()
+				{
+					myActivePayload.SetString(fileName);
+					ImGui::SetDragDropPayload("DRAG_FILENAME", &myActivePayload, sizeof(char) * 128);
+					ImGui::Text(fileName.c_str());
+					ImGui::EndDragDropSource();
+				}, id);
 
 			ImGui::PopID();
 			ImGui::TextWrapped(fileName.c_str());

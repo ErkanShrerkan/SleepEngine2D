@@ -6,6 +6,7 @@
 #include <Engine\Input.h>
 #include <filesystem>
 #include <d3d11.h>
+#include <functional>
 
 // XML
 #include <CommonUtilities\tinyxml2.h>
@@ -89,6 +90,7 @@ namespace Game
 		void InvalidateSelectionIfInvalid();
 		void SetTransformOperation(eTransformOperation anOperation);
 		void SetTransformSpace(eTransformSpace aSpace);
+		void UpdateDragAndDrop(std::function<void()> aLoadPayloadFunc, uint anID);
 		void RegisterNewProjectFile(
 			tinyxml2::XMLElement* anElement,
 			const std::string& aType,
@@ -111,6 +113,7 @@ namespace Game
 		eTransformOperation myOperation = eTransformOperation::Translate;
 		eTransformSpace mySpace = eTransformSpace::World;
 		bool myEntityHierarchyNeedsUpdating = false;
+		bool myHoversInitiallySelectedEntity = false;
 		bool myHoversInitiallySelectedItem = false;
 		bool myClearThumbnails = false;
 		bool myIsTransforming = false;
@@ -121,6 +124,7 @@ namespace Game
 		uint mySelectedEntity = NULL_ENTITY;
 		uint mySelectedEntityLastFrame = NULL_ENTITY;
 		uint myInitiallySelectedItem = NULL_ENTITY;
+		uint myInitiallySelectedEntity = NULL_ENTITY;
 		uint myEditorEntityID;
 		EntityPickingComponent* myPicker;
 		std::map<uint, std::set<uint>> myEntityHierarchy;

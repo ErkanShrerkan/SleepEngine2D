@@ -150,15 +150,34 @@ namespace Expose
 		if (!ImGui::BeginDragDropTarget())
 			return;
 
-		if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("DRAG_ENTITY_REF"))
+		if (const ImGuiPayload* entityPayload = ImGui::AcceptDragDropPayload("DRAG_ENTITY_REF"))
 		{
-			IM_ASSERT(payload->DataSize == sizeof(uint));
-			uint entity = *(const uint*)payload->Data;
+			IM_ASSERT(entityPayload->DataSize == sizeof(uint));
+			uint entity = *(const uint*)entityPayload->Data;
 			Component* componentPtr = nullptr;
 
 			try
 			{
 				componentPtr = myGameManager.GetComponentsFromEntity(entity).at(componentID);
+			}
+			catch (const std::exception&)
+			{
+				ImGui::EndDragDropTarget();
+				return;
+			}
+
+			*adr = componentPtr;
+			myGameManager.RegisterComponentRef(adr, componentPtr);
+		}
+		else if (const ImGuiPayload* compPayload = ImGui::AcceptDragDropPayload("DRAG_COMPONENT_REF"))
+		{
+			IM_ASSERT(compPayload->DataSize == sizeof(Component*));
+			Component* componentPtr = *(Component**)compPayload->Data;
+
+			try
+			{
+				auto* c = myGameManager.GetComponentsFromEntity(componentPtr->GameObject().GetID()).at(componentID);
+				c;
 			}
 			catch (const std::exception&)
 			{
@@ -329,43 +348,48 @@ void ComponentExposer::SetGameManager(GameManager* aGameManager)
 	myGameManager = aGameManager;
 }
 
-void ComponentExposer::OnImGui(const std::string& aName)
+void ComponentExposer::OnImGuiBegin(const std::string& aName)
 {
 	ImGui::Separator();
 	ImGui::AlignTextToFramePadding();
-	bool open = ImGui::TreeNode("Component", aName.c_str());
+	isOpen = ImGui::TreeNode("Component", aName.c_str());
+}
 
-	if (!HasExposedVariables() || !open)
+void ComponentExposer::OnImGui()
+{
+	if (!HasExposedVariables() || !isOpen)
 	{
 		ImGui::PushID(INT_MIN);
 		ImGui::PopID();
-		if (open)
+		if (isOpen)
 		{
 			ImGui::TreePop();
 		}
 		return;
 	}
 
-	if (open)
+	if (!isOpen)
 	{
-		ImGui::BeginTable("values", 2);
-		ImGui::TableNextRow();
-		for (int i = 0; i < myExposedVariables.size(); i++)
-		{
-			auto& variable = myExposedVariables[i];
-			ImGui::PushID(&variable);
-			ImGui::TableSetColumnIndex(0);
-
-			ImGui::PushID(variable->id);
-			variable->OnImGui();
-			ImGui::PopID();
-
-			if (i != myExposedVariables.size() - 1)
-				ImGui::TableNextRow();
-
-			ImGui::PopID();
-		}
-		ImGui::EndTable();
-		ImGui::TreePop();
+		return;
 	}
+
+	ImGui::BeginTable("values", 2);
+	ImGui::TableNextRow();
+	for (int i = 0; i < myExposedVariables.size(); i++)
+	{
+		auto& variable = myExposedVariables[i];
+		ImGui::PushID(&variable);
+		ImGui::TableSetColumnIndex(0);
+
+		ImGui::PushID(variable->id);
+		variable->OnImGui();
+		ImGui::PopID();
+
+		if (i != myExposedVariables.size() - 1)
+			ImGui::TableNextRow();
+
+		ImGui::PopID();
+	}
+	ImGui::EndTable();
+	ImGui::TreePop();
 }

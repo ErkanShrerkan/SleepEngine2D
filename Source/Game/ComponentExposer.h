@@ -117,7 +117,9 @@ public:
 	~ComponentExposer();
 
 	void SetGameManager(GameManager* aGameManager);
-	void OnImGui(const std::string& aName);
+	void OnImGuiBegin(const std::string& aName);
+	void OnImGui();
+	
 	void Update() { /*TODO: Fix variable update here*/ }
 	bool HasExposedVariables() { return !myExposedVariables.empty(); }
 
@@ -187,6 +189,7 @@ public:
 	}
 
 private:
+	bool isOpen = false;
 	GameManager* myGameManager;
 	std::vector<sptr(Expose::IExposed)> myExposedVariables;
 };
