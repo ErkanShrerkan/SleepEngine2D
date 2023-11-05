@@ -87,6 +87,12 @@
     <Filter Include="Source Files\Engine\Shader\Class">
       <UniqueIdentifier>{c579332f-a68b-4185-828d-f2171a87cc6f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Engine\Shader\Materials">
+      <UniqueIdentifier>{0be24865-4e1a-4489-a485-1e2d25ac489f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Engine\Shader\Materials\Standard">
+      <UniqueIdentifier>{99976314-f938-4bdf-864a-05b5a0365769}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -246,6 +252,12 @@
     <ClInclude Include="Model.h">
       <Filter>Source Files\Engine\Resource\Raw</Filter>
     </ClInclude>
+    <ClInclude Include="MaterialFactory.h">
+      <Filter>Source Files\Engine\Resource\Factory</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderCommandManager.h">
+      <Filter>Source Files\Engine\Graphics</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -389,6 +401,12 @@
     <ClCompile Include="Model.cpp">
       <Filter>Source Files\Engine\Resource\Raw</Filter>
     </ClCompile>
+    <ClCompile Include="MaterialFactory.cpp">
+      <Filter>Source Files\Engine\Resource\Factory</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderCommandManager.cpp">
+      <Filter>Source Files\Engine\Graphics</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="FullscreenVS.hlsl">
@@ -469,6 +487,12 @@
     <FxCompile Include="FullscreenPS-LinearToGamma.hlsl">
       <Filter>Source Files\Engine\Shader\Effects\Post Processing</Filter>
     </FxCompile>
+    <FxCompile Include="StandardVS.hlsl">
+      <Filter>Source Files\Engine\Shader\Materials\Standard</Filter>
+    </FxCompile>
+    <FxCompile Include="StandardGBuffer.hlsl">
+      <Filter>Source Files\Engine\Shader\Materials\Standard</Filter>
+    </FxCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="BRDFHelper.hlsli">
@@ -491,6 +515,12 @@
       <Filter>Source Files\Engine\Shader</Filter>
     </None>
     <None Include="cpp.hint" />
+    <None Include="StandardStructs.hlsli">
+      <Filter>Source Files\Engine\Shader\Materials\Standard</Filter>
+    </None>
+    <None Include="Samplers.hlsli">
+      <Filter>Source Files\Engine\Shader</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Engine.rc">

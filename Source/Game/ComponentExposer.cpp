@@ -86,6 +86,18 @@ namespace Expose
 	{
 		ExposableString& es = *(ExposableString*)adr;
 		ImGui::InputText("", es[0], es.GetSize());
+
+		if (!ImGui::BeginDragDropTarget())
+			return;
+
+		if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("DRAG_FILENAME"))
+		{
+			IM_ASSERT(payload->DataSize == sizeof(char) * 128);
+			DynamicStringBuffer dsb = *(const DynamicStringBuffer*)payload->Data;
+			es.SetString(dsb.GetString());
+		}
+
+		ImGui::EndDragDropTarget();
 	}
 
 	void IExposed::PrepareImGui()
@@ -142,7 +154,18 @@ namespace Expose
 		{
 			IM_ASSERT(payload->DataSize == sizeof(uint));
 			uint entity = *(const uint*)payload->Data;
-			Component* componentPtr = myGameManager.GetComponentsFromEntity(entity).at(componentID);
+			Component* componentPtr = nullptr;
+
+			try
+			{
+				componentPtr = myGameManager.GetComponentsFromEntity(entity).at(componentID);
+			}
+			catch (const std::exception&)
+			{
+				ImGui::EndDragDropTarget();
+				return;
+			}
+
 			*adr = componentPtr;
 			myGameManager.RegisterComponentRef(adr, componentPtr);
 		}

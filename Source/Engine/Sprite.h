@@ -13,7 +13,7 @@ namespace SE
 		eCount
 	};
 
-	class CTexture;
+	class Texture;
 	class CSprite
 	{
 		friend class CForwardRenderer;
@@ -54,7 +54,7 @@ namespace SE
 		float GetRotation();
 		float GetRotationRadian() { return myRotation; };
 		void Release();
-		sptr(CTexture) GetTexture() { return myTexture; }
+		sptr(Texture) GetTexture() { return myTexture; }
 
 	private:
 		void WaitIfTextureIsNotLoaded();
@@ -68,8 +68,8 @@ namespace SE
 		float2 mySize;
 		float2 myPosition;
 		float2 myPivot;
-		sptr(CTexture) myTexture;
-		sptr(CTexture) myMaskTexture;
+		sptr(Texture) myTexture;
+		sptr(Texture) myMaskTexture;
 
 	private:
 		struct Data

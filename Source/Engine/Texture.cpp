@@ -5,16 +5,16 @@
 #include <Engine\Async.h>
 #include <Engine\Engine.h>
 
-SE::CTexture::CTexture(sptr(STextureResourcePtr) aPtr)
+SE::Texture::Texture(sptr(STextureResourcePtr) aPtr)
 {
 	myResource = aPtr;
 }
 
-SE::CTexture::~CTexture()
+SE::Texture::~Texture()
 {
 }
 
-ID3D11ShaderResourceView* const SE::CTexture::GetShaderResourceView() const noexcept
+ID3D11ShaderResourceView* const SE::Texture::GetShaderResourceView() const noexcept
 {
 	if (myResource->ptr)
 	{
@@ -26,7 +26,7 @@ ID3D11ShaderResourceView* const SE::CTexture::GetShaderResourceView() const noex
 	}
 }
 
-ID3D11ShaderResourceView* const* SE::CTexture::GetPointerToShaderResourceView() const
+ID3D11ShaderResourceView* const* SE::Texture::GetPointerToShaderResourceView() const
 {
 	if (myResource->ptr)
 	{
@@ -35,5 +35,18 @@ ID3D11ShaderResourceView* const* SE::CTexture::GetPointerToShaderResourceView() 
 	else
 	{
 		return nullptr;
+	}
+}
+
+SE::CTextureResource::~CTextureResource()
+{
+	while (!loaded)
+	{
+		Sleep(1);
+	}
+
+	if (srv)
+	{
+		srv->Release();
 	}
 }

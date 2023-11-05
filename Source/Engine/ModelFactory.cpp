@@ -22,6 +22,34 @@ namespace SE
 	{
 	}
 
+	Model* ModelFactory::GetModel(const std::string& aPath)
+	{
+#pragma warning(disable:4244)
+// '=': conversion from 'int' to 'char', possible loss of data
+		std::string lowerCasePath = aPath;
+		std::transform(aPath.begin(), aPath.end(), lowerCasePath.begin(), std::tolower);
+#pragma warning(default:4244)
+
+		std::replace(lowerCasePath.begin(), lowerCasePath.end(), '\\', '/');
+
+		std::string ext(lowerCasePath.end() - 4, lowerCasePath.end());
+		if (ext == ".erc")
+		{
+			if (myModels.find(lowerCasePath) == myModels.end())
+			{
+				return LoadERC(lowerCasePath);
+			}
+			else
+			{
+				return myModels.at(lowerCasePath);
+			}
+		}
+
+		assert("model not found or failed to load :/");
+
+		return nullptr;
+	}
+
 	Model* ModelFactory::LoadERC(const std::string& aPath)
 	{
 		CommonUtilities::Timer timer;
@@ -157,7 +185,6 @@ namespace SE
 
 		myModels[aPath] = model;
 
-		//animator->AddAnimation("Models/CH_EY_Kubb/CH_EY_Kubb_Attack_AN.myr");
 		return model;
 	}
 }

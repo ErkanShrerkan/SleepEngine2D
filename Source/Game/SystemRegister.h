@@ -3,3 +3,4 @@ RegisterSystem<SpriteRenderSystem>();
 RegisterSystem<CollisionSystem>();
 RegisterSystem<CameraSystem>();
 RegisterSystem<EntityPickingSystem>();
+RegisterSystem<MeshRendererSystem>();

@@ -1,9 +1,9 @@
 #pragma once
-#include <Game\Transform.h>
+#include "Material.h"
 
 namespace SE
 {
-	class Mesh;
+	class Model;
 	class Material;
 
 	class RenderCommand
@@ -18,9 +18,23 @@ namespace SE
 
 	};
 
-	class RenderSkinnedMeshCommand
+	class RenderSkinnedMeshCommand : public RenderCommand
 	{
-		RenderSkinnedMeshCommand(Mesh* aMesh, Material* aMaterial, Transform* aTransform);
+	public:
+		RenderSkinnedMeshCommand(
+			Model* aMesh, 
+			Material aMaterial,
+			float4x4 aTransform,
+			std::vector<float4x4> aPose
+		);
+
+		virtual void Execute() override;
+
+	private:
+		Model* myMesh;
+		Material myMaterial;
+		float4x4 myTransform;
+		std::vector<float4x4> myPose;
 	};
 
 	class RenderMeshCommand

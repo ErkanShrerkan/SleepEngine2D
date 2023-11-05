@@ -1,7 +1,5 @@
 #pragma once
-#include <d3d11.h>
-//#include <string_view>
-//#include "AutoReleaser.h"
+#include<windows.h>  
 
 struct ID3D11ShaderResourceView;
 namespace SE
@@ -18,18 +16,7 @@ namespace SE
 			, loaded(false)
 		{}
 
-		~CTextureResource()
-		{
-			while (!loaded)
-			{
-				Sleep(1);
-			}
-
-			if (srv)
-			{
-				srv->Release();
-			}
-		}
+		~CTextureResource();
 
 	public:
 		bool loaded;
@@ -44,11 +31,11 @@ namespace SE
 		sptr(CTextureResource) ptr;
 	};
 
-	class CTexture
+	class Texture
 	{
 	public:
-		CTexture(sptr(STextureResourcePtr) aPtr);
-		~CTexture();
+		Texture(sptr(STextureResourcePtr) aPtr);
+		~Texture();
 		ID3D11ShaderResourceView* const GetShaderResourceView() const noexcept;
 		ID3D11ShaderResourceView* const* GetPointerToShaderResourceView() const;
 		

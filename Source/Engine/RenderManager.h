@@ -95,6 +95,14 @@ namespace SE
 			float y;
 		};
 
+		struct FrameBufferData
+		{
+			Matrix4x4f cameraTransform;
+			Matrix4x4f toCamera;
+			Matrix4x4f toProjection;
+			Vector4f cameraPosition;
+		};
+
 	private:
 		void ActuallyRestart();
 		void CreateTextures();
@@ -124,6 +132,7 @@ namespace SE
 
 		CSprite* myCursor;
 
+		FrameBufferData myFrameBufferData;
 		PostProcessingData myPostProcessingData;
 		ID3D11Buffer* myPostProcessingBuffer = nullptr;
 		CDirectX11Framework* myFrameWorkRef;

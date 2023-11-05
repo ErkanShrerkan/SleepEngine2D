@@ -455,10 +455,10 @@ void Game::Editor::HandleHierarchySelection(uint anID, bool isHovered)
 {
 	if (!isHovered)
 	{
-		if (myInitiallySelectedEntity == anID)
+		if (myInitiallySelectedItem == anID)
 		{
-			myInitiallySelectedEntity = NULL_ENTITY;
-			myHoversInitiallySelectedEntity = false;
+			myInitiallySelectedItem = NULL_ENTITY;
+			myHoversInitiallySelectedItem = false;
 
 			// handle drag n drop
 			if (ImGui::BeginDragDropSource(ImGuiDragDropFlags_None))
@@ -473,20 +473,20 @@ void Game::Editor::HandleHierarchySelection(uint anID, bool isHovered)
 
 	if (Input::GetInputReleased(eInputEvent::LMB))
 	{
-		if (!myHoversInitiallySelectedEntity)
+		if (!myHoversInitiallySelectedItem)
 		{
-			myInitiallySelectedEntity = NULL_ENTITY;
+			myInitiallySelectedItem = NULL_ENTITY;
 			return;
 		}
 
-		mySelectedEntity = mySelectedEntity == myInitiallySelectedEntity ? NULL_ENTITY : myInitiallySelectedEntity;
+		mySelectedEntity = mySelectedEntity == myInitiallySelectedItem ? NULL_ENTITY : myInitiallySelectedItem;
 		myPicker->SetPickedEntityID(mySelectedEntity);
 	}
 	else if (Input::GetInputPressed(eInputEvent::LMB))
 	{
 
-		myInitiallySelectedEntity = anID;
-		myHoversInitiallySelectedEntity = true;
+		myInitiallySelectedItem = anID;
+		myHoversInitiallySelectedItem = true;
 	}
 }
 
@@ -722,7 +722,7 @@ void Game::Editor::Assets()
 				LoadThumbnail(imgPath);
 				srv = GetThumbnail(imgPath);
 			}
-			else if (ext == ".dds")
+			else if (ext == ".dds" || ext == ".DDS")
 			{
 				LoadThumbnail(path);
 				srv = GetThumbnail(path);
@@ -738,7 +738,26 @@ void Game::Editor::Assets()
 				srv = nullptr;
 			}
 
-			ImGui::PushID(ImGui::GetID(fileName.c_str()));
+			//if (Input::GetInputReleased(eInputEvent::LMB))
+			//{
+			//	if (!myHoversInitiallySelectedEntity)
+			//	{
+			//		myInitiallySelectedEntity = NULL_ENTITY;
+			//		return;
+			//	}
+			//
+			//	mySelectedEntity = mySelectedEntity == myInitiallySelectedEntity ? NULL_ENTITY : myInitiallySelectedEntity;
+			//	myPicker->SetPickedEntityID(mySelectedEntity);
+			//}
+			//else if (Input::GetInputPressed(eInputEvent::LMB))
+			//{
+			//	myInitiallySelectedEntity = anID;
+			//	myHoversInitiallySelectedEntity = true;
+			//}
+
+
+			uint id = ImGui::GetID(fileName.c_str());
+			ImGui::PushID(id);
 			if (ImGui::ImageButton(srv, imgSizeV))
 			{
 				if (isDir)
@@ -753,6 +772,45 @@ void Game::Editor::Assets()
 					// save current scene -> load new scene
 				}
 			}
+
+			if (ImGui::IsItemHovered())
+			{
+				if (Input::GetInputReleased(eInputEvent::LMB))
+				{
+					if (!myHoversInitiallySelectedItem)
+					{
+						myInitiallySelectedItem = NULL_ENTITY;
+					}
+					else
+					{
+						mySelectedItem = mySelectedItem == myInitiallySelectedItem ? NULL_ENTITY : myInitiallySelectedItem;
+						myPicker->SetPickedEntityID(mySelectedEntity);
+					}
+				}
+				else if (Input::GetInputPressed(eInputEvent::LMB))
+				{
+					myInitiallySelectedItem = id;
+					myHoversInitiallySelectedItem = true;
+				}
+			}
+			else
+			{
+				if (myInitiallySelectedItem == id)
+				{
+					myInitiallySelectedItem = NULL_ENTITY;
+					myHoversInitiallySelectedItem = false;
+
+					// handle drag n drop
+					if (ImGui::BeginDragDropSource(ImGuiDragDropFlags_None))
+					{
+						myActivePayload.SetString(fileName);
+						ImGui::SetDragDropPayload("DRAG_FILENAME", &myActivePayload, sizeof(char) * 128);
+						ImGui::Text(fileName.c_str());
+						ImGui::EndDragDropSource();
+					}
+				}
+			}
+
 			ImGui::PopID();
 			ImGui::TextWrapped(fileName.c_str());
 			ImGui::NextColumn();
@@ -831,16 +889,16 @@ void Game::Editor::RenderGizmos()
 
 	float4 gizmoRect = windowRect;
 
-	gizmoRect += 
+	gizmoRect +=
 	{
 		viewPortCenterOffset,
-		viewPortCenterOffset
+			viewPortCenterOffset
 	};
 
 	gizmoRect -=
 	{
 		windowRect.xy,
-		windowRect.xy
+			windowRect.xy
 	};
 
 	ImGuizmo::SetRect(gizmoRect.x, gizmoRect.y, gizmoRect.z, gizmoRect.w);
@@ -931,7 +989,8 @@ void Game::Editor::ToolsMenu()
 	static std::vector<ToolMenu> tools =
 	{
 		{ "New Component", "Component Generator", [&]() { GenerateComponent(); }},
-		{ "New System", "System Generator", [&]() { GenerateSystem(); }}
+		{ "New System", "System Generator", [&]() { GenerateSystem(); }},
+		{ "New Material", "Material Generator", [&]() { GenerateMaterial(); }}
 	};
 
 	if (ImGui::BeginMenu("Tools"))
@@ -1129,6 +1188,10 @@ void )DELIM" + name + R"DELIM(::Start()
 	printe("Component %s [SUCCESS]\n", name.c_str());
 }
 
+void Game::Editor::GenerateMaterial()
+{
+}
+
 float2 Game::Editor::CalculateGameWindowRect()
 {
 	auto& gs = Singleton<GlobalSettings>();
@@ -1223,7 +1286,7 @@ void Game::Editor::RenderLinesAcrossRect(float4 aRect)
 
 	float4 rect = aRect -
 		float4{
-			windowRect.xy,
+		windowRect.xy,
 			windowRect.xy
 	};
 	ImGui::GetOverlayDrawList()->AddLine(

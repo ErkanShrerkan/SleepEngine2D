@@ -12,7 +12,7 @@
 
 namespace SE
 {
-	class CTexture;
+	class Texture;
 }
 
 class EntityPickingComponent;
@@ -63,6 +63,7 @@ namespace Game
 		void ToolsMenu();
 		void GenerateSystem();
 		void GenerateComponent();
+		void GenerateMaterial();
 		float2 CalculateGameWindowRect();
 		void RenderGameTextureToRect(float2 aViewPortSize);
 		void RenderLinesAcrossRect(float4 aRect);
@@ -110,22 +111,24 @@ namespace Game
 		eTransformOperation myOperation = eTransformOperation::Translate;
 		eTransformSpace mySpace = eTransformSpace::World;
 		bool myEntityHierarchyNeedsUpdating = false;
-		bool myHoversInitiallySelectedEntity = false;
+		bool myHoversInitiallySelectedItem = false;
 		bool myClearThumbnails = false;
 		bool myIsTransforming = false;
 		bool myShowSystemGenerator = false;
 		bool myDisplay = true;
 		bool myGameWindowActive = false;
+		uint mySelectedItem = NULL_ENTITY;
 		uint mySelectedEntity = NULL_ENTITY;
 		uint mySelectedEntityLastFrame = NULL_ENTITY;
-		uint myInitiallySelectedEntity = NULL_ENTITY;
+		uint myInitiallySelectedItem = NULL_ENTITY;
 		uint myEditorEntityID;
 		EntityPickingComponent* myPicker;
 		std::map<uint, std::set<uint>> myEntityHierarchy;
 		DynamicStringBuffer mySceneLabel;
+		DynamicStringBuffer myActivePayload;
 		std::filesystem::path myCurrentPath;
 		std::unordered_map<uint, bool> myShowChildrenRecord;
-		std::unordered_map<std::string, sptr(SE::CTexture)> myAssetThumbnails;
+		std::unordered_map<std::string, sptr(SE::Texture)> myAssetThumbnails;
 		GameManager myGM;
 	};
 }

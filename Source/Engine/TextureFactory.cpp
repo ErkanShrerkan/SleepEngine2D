@@ -263,7 +263,7 @@ namespace SE
 		myMutex.unlock();
 	}
 
-	sptr(CTexture) CTextureFactory::LoadTexture(const std::string& aPath)
+	sptr(Texture) CTextureFactory::LoadTexture(const std::string& aPath)
 	{
 		std::string cleanName(aPath);
 		std::replace(cleanName.begin(), cleanName.end(), '\\', '/');
@@ -274,7 +274,7 @@ namespace SE
 #pragma warning(default:4244)
 
 		sptr(STextureResourcePtr) resourcePtr = std::make_shared<STextureResourcePtr>();
-		sptr(CTexture) texture = std::make_shared<CTexture>(resourcePtr);
+		sptr(Texture) texture = std::make_shared<Texture>(resourcePtr);
 
 		myMutex.lock();
 		auto it = myResourcePool.find(lowerCasePath);

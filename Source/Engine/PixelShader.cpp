@@ -35,7 +35,7 @@ namespace SE
 
 	void PixelShader::Release()
 	{
-		if (!myPS)
+		if (myPS)
 		{
 			myPS->Release();
 		}

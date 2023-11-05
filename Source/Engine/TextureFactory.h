@@ -13,7 +13,7 @@
 struct ID3D11Texture2D;
 namespace SE
 {
-    class CTexture;
+    class Texture;
     class CTextureResource;
     struct STextureResourcePtr;
     class CTextureFactory
@@ -28,7 +28,7 @@ namespace SE
         CGBuffer CreateGBuffer(const Vector2ui& aSize);
 
         void Update();
-        sptr(CTexture) LoadTexture(const std::string& aPath);
+        sptr(Texture) LoadTexture(const std::string& aPath);
         
     private:
         struct QueuedResource

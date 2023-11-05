@@ -121,7 +121,7 @@ int main()
 
 		if (option < 2)
 		{
-			auto it = std::filesystem::recursive_directory_iterator{ "Models" };
+			auto it = std::filesystem::recursive_directory_iterator{ "Assets/Models" };
 			for (const auto& dir : it)
 			{
 				std::string entry(dir.path().string());
@@ -133,7 +133,7 @@ int main()
 				}
 			}
 			std::string currentFbx;
-			for (auto const& dir : std::filesystem::recursive_directory_iterator{ "Models" })
+			for (auto const& dir : std::filesystem::recursive_directory_iterator{ "Assets/Models" })
 			{
 				ClearConsole();
 
@@ -164,7 +164,7 @@ int main()
 			successes = 0;
 			current = 0;
 			all = 0;
-			auto it = std::filesystem::recursive_directory_iterator{ "models" };
+			auto it = std::filesystem::recursive_directory_iterator{ "Assets/models" };
 			for (const auto& dir : it)
 			{
 				std::string entry(dir.path().string());
@@ -176,7 +176,7 @@ int main()
 			}
 
 			std::string currentFbx;
-			for (auto const& dir : std::filesystem::recursive_directory_iterator{ "models" })
+			for (auto const& dir : std::filesystem::recursive_directory_iterator{ "Assets/models" })
 			{
 				ClearConsole();
 

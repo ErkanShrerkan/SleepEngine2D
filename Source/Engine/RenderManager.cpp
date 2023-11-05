@@ -311,7 +311,7 @@ namespace SE
 			myPostProcessingData.TimePI -= PI * 2;
 		}
 
-		CScene* scene = CEngine::GetInstance()->GetActiveScene();
+		//CScene* scene = CEngine::GetInstance()->GetActiveScene();
 		GameManager& gm = CEngine::GetInstance()->GetGameManager();
 		CameraComponent* mainCam = nullptr;
 
@@ -350,11 +350,10 @@ namespace SE
 
 		if (mainCam)
 		{
-			SetBlendState(E_BLENDSTATE_ALPHABLEND);
-			myScaledBackBuffer.SetAsActiveTarget();
-			myForwardRenderer.RenderSprites(mainCam, scene->GetSprites());
-			myForwardRenderer.RenderSprites(mainCam, scene->GetSSSprites(), true);
 			SetBlendState(E_BLENDSTATE_DISABLE);
+			myScaledBackBuffer.SetAsActiveTarget();
+			//myForwardRenderer.RenderSprites(mainCam, scene->GetSprites());
+			//myForwardRenderer.RenderSprites(mainCam, scene->GetSSSprites(), true);
 		}
 
 		myFullscreen.SetAsActiveTarget();

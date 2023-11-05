@@ -197,6 +197,7 @@
     <ClInclude Include="BufferHelper.h" />
     <ClInclude Include="DeferredRenderer.h" />
     <ClInclude Include="Material.h" />
+    <ClInclude Include="MaterialFactory.h" />
     <ClInclude Include="MaterialManager.h" />
     <ClInclude Include="Model.h" />
     <ClInclude Include="ModelFactory.h" />
@@ -220,6 +221,7 @@
     <ClInclude Include="Keyboard.h" />
     <ClInclude Include="LightFactory.h" />
     <ClInclude Include="LineDrawer.h" />
+    <ClInclude Include="RenderCommandManager.h" />
     <ClInclude Include="RenderManager.h" />
     <ClInclude Include="ShaderDefines.h" />
     <ClInclude Include="PointLight.h" />
@@ -257,6 +259,7 @@
     <ClCompile Include="DebugProfiler.cpp" />
     <ClCompile Include="DeferredRenderer.cpp" />
     <ClCompile Include="Material.cpp" />
+    <ClCompile Include="MaterialFactory.cpp" />
     <ClCompile Include="MaterialManager.cpp" />
     <ClCompile Include="Model.cpp" />
     <ClCompile Include="ModelFactory.cpp" />
@@ -274,6 +277,7 @@
     <ClCompile Include="LightFactory.cpp" />
     <ClCompile Include="LineDrawer.cpp" />
     <ClCompile Include="PointLight.cpp" />
+    <ClCompile Include="RenderCommandManager.cpp" />
     <ClCompile Include="RenderManager.cpp" />
     <ClCompile Include="ShaderHelper.cpp" />
     <ClCompile Include="SplashScreen.cpp" />
@@ -449,6 +453,18 @@
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Vertex</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
     </FxCompile>
+    <FxCompile Include="StandardGBuffer.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>
+    </FxCompile>
+    <FxCompile Include="StandardVS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Vertex</ShaderType>
+    </FxCompile>
     <FxCompile Include="WorldSpriteVS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
@@ -463,7 +479,9 @@
     <None Include="Functions.hlsli" />
     <None Include="packages.config" />
     <None Include="PixelShaderFunctions.hlsli" />
+    <None Include="Samplers.hlsli" />
     <None Include="SpriteStructs.hlsli" />
+    <None Include="StandardStructs.hlsli" />
     <None Include="Structs.hlsli" />
   </ItemGroup>
   <ItemGroup>
