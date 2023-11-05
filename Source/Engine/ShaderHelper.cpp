@@ -16,7 +16,7 @@ namespace SE
             class VertexShaderBank
             {
             public:
-                bool GetVertexShader(ID3D11VertexShader** aVertexShader, const std::string& aFilePath)
+                bool GetVertexShader(ID3D11VertexShader** aVertexShader, const std::string& aFilePath, std::string& aBytecode)
                 {
                     auto it = myVertexShaders.find(aFilePath);
                     if (it != myVertexShaders.end())
@@ -25,8 +25,7 @@ namespace SE
                         return true;
                     }
 
-                    std::string vsData;
-                    return CreateVertexShader(aVertexShader, aFilePath, &vsData);
+                    return CreateVertexShader(aVertexShader, aFilePath, &aBytecode);
                 }
             private:
                 bool CreateVertexShader(ID3D11VertexShader** aVertexShader, const std::string& aFilePath, std::string* const& anOutData)
@@ -93,9 +92,15 @@ namespace SE
                 std::unordered_map<std::string, ID3D11PixelShader*> myPixelShaders;
             };
 
+            bool CreateVertexShader(ID3D11VertexShader** aVertexShader, const std::string& aFilePath, std::string& aBytecode)
+            {
+                return Singleton<VertexShaderBank>().GetVertexShader(aVertexShader, aFilePath, aBytecode);
+            }
+
             bool CreateVertexShader(ID3D11VertexShader** aVertexShader, const std::string& aFilePath)
             {
-                return Singleton<VertexShaderBank>().GetVertexShader(aVertexShader, aFilePath);
+                std::string vsData;
+                return Singleton<VertexShaderBank>().GetVertexShader(aVertexShader, aFilePath, vsData);
             }
 
             bool CreateVertexShader(ID3D11VertexShader** aVertexShader, const std::string& aFilePath, std::string* const& anOutData)

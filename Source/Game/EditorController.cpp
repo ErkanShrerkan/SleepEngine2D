@@ -24,7 +24,7 @@ void EditorController::Start()
 	ObserveScrollEvent(eScrollState::Up, [&]() { this->Zoom(-100); });
 	ObserveScrollEvent(eScrollState::Down, [&]() { this->Zoom(100); });
 
-	myCam = &GameObject().AddComponent<CameraComponent>(float2(16, 9), 1000.f);
+	myCam = &GameObject().AddComponent<CameraComponent>(float2(16, 9), 90.f);
 	GameObject().AddComponent<EntityPickingComponent>();
 }
 

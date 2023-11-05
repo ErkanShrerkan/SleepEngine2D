@@ -198,6 +198,7 @@
     <ClInclude Include="DeferredRenderer.h" />
     <ClInclude Include="Material.h" />
     <ClInclude Include="MaterialManager.h" />
+    <ClInclude Include="Model.h" />
     <ClInclude Include="ModelFactory.h" />
     <ClInclude Include="PixelShader.h" />
     <ClInclude Include="RenderCommand.h" />
@@ -257,6 +258,7 @@
     <ClCompile Include="DeferredRenderer.cpp" />
     <ClCompile Include="Material.cpp" />
     <ClCompile Include="MaterialManager.cpp" />
+    <ClCompile Include="Model.cpp" />
     <ClCompile Include="ModelFactory.cpp" />
     <ClCompile Include="PixelShader.cpp" />
     <ClCompile Include="RenderCommand.cpp" />

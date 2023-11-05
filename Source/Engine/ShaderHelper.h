@@ -13,6 +13,7 @@ namespace SE
     {
         namespace ShaderHelper
         {
+            bool CreateVertexShader(ID3D11VertexShader** aVertexShader, const std::string& aFilePath, std::string& aBytecode);
             bool CreateVertexShader(ID3D11VertexShader** aVertexShader, const std::string& aFilePath);
             bool CreateVertexShader(ID3D11VertexShader** aVertexShader, const std::string& aFilePath, std::string* const& anOutData);
             bool CreatePixelShader(ID3D11PixelShader** aPixelShader, const std::string& aFilePath);

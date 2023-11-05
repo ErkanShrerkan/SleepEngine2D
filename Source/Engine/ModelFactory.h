@@ -1,6 +1,7 @@
 #pragma once
 #include <map>
 
+struct ID3D11InputLayout;
 namespace SE
 {
 	class Model;
@@ -23,10 +24,13 @@ namespace SE
 		};
 
 	public:
-		Model* GetModel(const std::string& aModelPath);
+		ModelFactory();
+		~ModelFactory();
+
+		Model* GetModel(const std::string& aPath);
 
 	private:
-		Model* LoadERC(const std::string& aModelPath);
+		Model* LoadERC(const std::string& aPath);
 
 	private:
 		std::map<std::string, Model*> myModels;

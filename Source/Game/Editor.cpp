@@ -202,8 +202,8 @@ void Game::Editor::ListEntityRecursive(uint anID)
 {
 	for (auto& id : myEntityHierarchy[anID])
 	{
-		if (id == myEditorEntityID)
-			continue;
+		//if (id == myEditorEntityID)
+		//	continue;
 
 		ImGui::PushID(id);
 		ImGuiTreeNodeFlags nodeFlag = ImGuiTreeNodeFlags_Leaf;

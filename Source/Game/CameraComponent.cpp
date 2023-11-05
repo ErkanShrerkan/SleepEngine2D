@@ -47,7 +47,7 @@ void CameraComponent::UpdateProjection()
 
 void CameraComponent::StartPerspective()
 {
-	float horizontalFoVinRadians = Math::DegreeToRadian(myFOV * myZoom * 0.01f);
+	float horizontalFoVinRadians = Math::DegreeToRadian(myFOV/* * myZoom * 0.01f*/);
 
 	float verticalFoVinRadians = 2.f * std::atanf(std::tanf(horizontalFoVinRadians * 0.5f) * (myAspectRatio.y / myAspectRatio.x));
 

@@ -16,6 +16,12 @@ namespace SE
 		Release();
 	}
 
+	void PixelShader::Set(const std::string& aPixelShaderPath)
+	{
+		myPath = aPixelShaderPath;
+		Reload();
+	}
+
 	ID3D11PixelShader* PixelShader::Raw()
 	{
 		return myPS;

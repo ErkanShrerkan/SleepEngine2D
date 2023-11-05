@@ -13,8 +13,8 @@ namespace SE
 		PixelShader GetPS();
 
 	protected:
-		ID3D11VertexShader* myVertexShader = nullptr;
-		ID3D11PixelShader* myPixelShader = nullptr;
+		VertexShader myVertexShader;
+		PixelShader myPixelShader;
 	};
 
 }
