@@ -223,6 +223,7 @@
     <ClInclude Include="LineDrawer.h" />
     <ClInclude Include="RenderCommandManager.h" />
     <ClInclude Include="RenderManager.h" />
+    <ClInclude Include="RenderTargetManager.h" />
     <ClInclude Include="ShaderDefines.h" />
     <ClInclude Include="PointLight.h" />
     <ClInclude Include="ShaderHelper.h" />
@@ -279,6 +280,7 @@
     <ClCompile Include="PointLight.cpp" />
     <ClCompile Include="RenderCommandManager.cpp" />
     <ClCompile Include="RenderManager.cpp" />
+    <ClCompile Include="RenderTargetManager.cpp" />
     <ClCompile Include="ShaderHelper.cpp" />
     <ClCompile Include="SplashScreen.cpp" />
     <ClCompile Include="SpotLight.cpp" />

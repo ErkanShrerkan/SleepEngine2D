@@ -7,6 +7,7 @@ namespace SE
 	{
 	public:
 		void RegisterCommand(RenderSkinnedMeshCommand newCommand);
+		std::vector<RenderSkinnedMeshCommand>& GetSkinnedMeshRenderCommands();
 		void Clear();
 
 	private:

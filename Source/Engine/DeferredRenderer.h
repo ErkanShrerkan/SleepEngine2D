@@ -13,7 +13,7 @@ namespace SE
 
 		bool Init();
 
-		void GenerateGBuffer(const std::vector<RenderCommand>& someRenderCommands);
+		void GenerateGBuffer();
 
 	private:
 		struct ObjectBufferData

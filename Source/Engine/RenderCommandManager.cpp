@@ -9,6 +9,11 @@ namespace SE
 		myRenderCommands.push_back(newCommand);
 	}
 
+	std::vector<RenderSkinnedMeshCommand>& RenderCommandManager::GetSkinnedMeshRenderCommands()
+	{
+		return myRenderCommands;
+	}
+
 	void RenderCommandManager::Clear()
 	{
 		myRenderCommands.clear();

@@ -1,5 +1,6 @@
 #pragma once
 #include "ForwardRenderer.h"
+#include "DeferredRenderer.h"
 #include "FullscreenRenderer.h"
 #include "FullscreenTexture.h"
 #include "GBuffer.h"
@@ -114,6 +115,7 @@ namespace SE
 
 	private:
 		CForwardRenderer myForwardRenderer;
+		CDeferredRenderer myDeferredRenderer;
 		CFullscreenRenderer myFullscreenRenderer;
 
 		CFullscreenTexture myBackBuffer;

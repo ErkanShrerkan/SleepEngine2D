@@ -30,15 +30,15 @@ namespace SE
         
         union
         {
-            ID3D11RenderTargetView* myRenderTargetView;
+            ID3D11RenderTargetView* myRenderTargetView = nullptr;
             ID3D11DepthStencilView* myDepth;
         };
 
-        ID3D11Texture2D* myTexture;
-        ID3D11ShaderResourceView* myShaderResourceView;
-        std::shared_ptr<D3D11_VIEWPORT> myViewport;
+        ID3D11Texture2D* myTexture = nullptr;
+        ID3D11ShaderResourceView* myShaderResourceView = nullptr;
+        std::shared_ptr<D3D11_VIEWPORT> myViewport = nullptr;
 
         // Not Owned by this
-        ID3D11DeviceContext* myContext;
+        ID3D11DeviceContext* myContext = nullptr;
     };
 }

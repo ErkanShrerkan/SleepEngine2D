@@ -33,6 +33,11 @@ namespace SE
 		float color[4] = { 0, 0, 0, 0 };
 		for (int idx = 0; idx < CGBuffer::E_COUNT; idx++)
 		{
+			if (!myRTVs[idx])
+			{
+				continue;
+			}
+
 			CEngine::GetInstance()->GetDXDeviceContext()->ClearRenderTargetView(myRTVs[idx], &color[0]);
 		}
 	}

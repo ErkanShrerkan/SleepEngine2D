@@ -36,6 +36,7 @@
 #include <Game\CameraComponent.h>
 #include <Game\EditorController.h>
 #include <ImGui/imgui.h>
+#include "RenderCommandManager.h"
 
 //constexpr auto PI = 3.14159265f;
 
@@ -323,6 +324,7 @@ namespace SE
 
 		if (!mainCam)
 		{
+			// TODO: abstract away all component references in engine, only raw data
 			auto& cameraMap = gm.GetComponentMap<CameraComponent>();
 
 			// picks first best available camera, might fix later
@@ -352,6 +354,7 @@ namespace SE
 		{
 			SetBlendState(E_BLENDSTATE_DISABLE);
 			myScaledBackBuffer.SetAsActiveTarget();
+			myDeferredRenderer.GenerateGBuffer();
 			//myForwardRenderer.RenderSprites(mainCam, scene->GetSprites());
 			//myForwardRenderer.RenderSprites(mainCam, scene->GetSSSprites(), true);
 		}

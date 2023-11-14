@@ -258,6 +258,9 @@
     <ClInclude Include="RenderCommandManager.h">
       <Filter>Source Files\Engine\Graphics</Filter>
     </ClInclude>
+    <ClInclude Include="RenderTargetManager.h">
+      <Filter>Source Files\Engine\Graphics\Renderer</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -406,6 +409,9 @@
     </ClCompile>
     <ClCompile Include="RenderCommandManager.cpp">
       <Filter>Source Files\Engine\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderTargetManager.cpp">
+      <Filter>Source Files\Engine\Graphics\Renderer</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

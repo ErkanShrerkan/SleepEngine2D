@@ -30,11 +30,21 @@ namespace SE
 
 	void CFullscreenTexture::ClearTexture(const Vector4f& aClearColor)
 	{
+		if (!myRenderTargetView)
+		{
+			return;
+		}
+
 		myContext->ClearRenderTargetView(myRenderTargetView, &aClearColor.x);
 	}
 
 	void CFullscreenTexture::ClearDepth(float aClearDepthValue, uint aClearStencilValue)
 	{
+		if (!myDepth)
+		{
+			return;
+		}
+
 		UINT8 clearStencilValue = static_cast<UINT8>(aClearStencilValue);
 		myContext->ClearDepthStencilView(myDepth, D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, aClearDepthValue, clearStencilValue);
 	}
