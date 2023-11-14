@@ -15,7 +15,7 @@ void MeshRendererSystem::Update()
 		if (!gm.IsEntityAndComponentActive(entity, animator))
 			continue;
 
-		animator.Update();
+		animator.UpdateAnimation();
 	}
 
 	for (auto& [entity, meshRenderer] : meshRenderers)

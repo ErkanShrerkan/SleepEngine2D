@@ -13,7 +13,7 @@ void AnimatorComponent::Start()
 {
 }
 
-void AnimatorComponent::Update()
+void AnimatorComponent::UpdateAnimation()
 {
 	float dt = DELTA_TIME;
 	dt;
