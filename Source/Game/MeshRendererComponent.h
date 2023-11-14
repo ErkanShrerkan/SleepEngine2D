@@ -1,8 +1,12 @@
 #pragma once
 #include "Component.h"
 
-class MeshComponent;
-class MaterialComponent;
+namespace SE
+{
+	class Model;
+	class Material;
+}
+
 class Transform;
 
 class MeshRendererComponent : public Component
@@ -13,11 +17,15 @@ public:
 
 public:
 	virtual void Start() override;
-
+	virtual void Reload() override;
 	void Render();
 
 private:
-	MeshComponent* myMeshRef;
-	MaterialComponent* myMatRef;
+	ExposableString myModelPath;
+	ExposableString myMaterialPath;
+
 	Transform* myTransformRef;
+
+	SE::Model* myModel = nullptr;
+	SE::Material* myMaterial = nullptr;
 };

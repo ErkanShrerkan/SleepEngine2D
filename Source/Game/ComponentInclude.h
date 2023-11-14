@@ -9,4 +9,3 @@
 #include "EntityPickingComponent.h"
 #include "MaterialComponent.h"
 #include "MeshRendererComponent.h"
-#include "MeshComponent.h"

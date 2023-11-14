@@ -197,9 +197,10 @@ void Game::Editor::ModifyValues()
 		exposer->OnImGuiBegin(map->myName);
 		
 		uint entityID = mySelectedEntity;
+		Component* comp = component;
 		UpdateDragAndDrop([&]()
 			{
-				ImGui::SetDragDropPayload("DRAG_COMPONENT_REF", &component, sizeof(Component*));
+				ImGui::SetDragDropPayload("DRAG_COMPONENT_REF", &comp, sizeof(Component*));
 				ImGui::Text("Ref %s", std::to_string(entityID).c_str());
 				ImGui::EndDragDropSource();
 			}, id);

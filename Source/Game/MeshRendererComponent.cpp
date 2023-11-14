@@ -1,11 +1,13 @@
 #include "pch.h"
 #include "MeshRendererComponent.h"
-#include "MeshComponent.h"
 #include "Transform.h"
+#include "Entity.h"
 #include "MaterialComponent.h"
 #include <Engine\RenderCommand.h>
 #include <Engine\RenderCommandManager.h>
 #include <Engine\Model.h>
+#include <Engine\Material.h>
+#include <Engine\ModelFactory.h>
 
 MeshRendererComponent::MeshRendererComponent()
 {
@@ -17,22 +19,26 @@ MeshRendererComponent::~MeshRendererComponent()
 
 void MeshRendererComponent::Start()
 {
-	Expose(myMeshRef, "Mesh To Render");
-	Expose(myMatRef, "Material");
-	Expose(myTransformRef, "Transform");
+	Expose(myModelPath, "Model");
+	Expose(myMaterialPath, "Material");
+	myTransformRef = GameObject().GetComponent<Transform>();
+}
+
+void MeshRendererComponent::Reload()
+{
+	myModel = Singleton<SE::ModelFactory>().GetModel(myModelPath.GetString());
+	// TODO: Create material factory to get material here as well
 }
 
 void MeshRendererComponent::Render()
 {
-	if (!myMeshRef || !myMatRef || !myTransformRef)
+	if (!myModel || !myMaterial)
 	{
 		return;
 	}
 
-	SE::Model* mesh = myMeshRef->GetMesh();
-	SE::Material mat = myMatRef->GetMaterial();
 	float4x4 transform = myTransformRef->GetTransform();
-	std::vector<float4x4> pose;
-	SE::RenderSkinnedMeshCommand skmc(mesh, mat, transform, pose);
+	std::vector<float4x4> pose; // get from animator component if there is one
+	SE::RenderSkinnedMeshCommand skmc(myModel, *myMaterial, transform, pose);
 	Singleton<SE::RenderCommandManager>().RegisterCommand(skmc);
 }

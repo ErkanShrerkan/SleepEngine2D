@@ -22,5 +22,4 @@ namespace SE
 		PixelShader myPixelShader;
 		std::vector<sptr(Texture)> myTextures;
 	};
-
 }

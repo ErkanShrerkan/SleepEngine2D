@@ -1,0 +1,29 @@
+Skeleton
+	bone transforms
+	(is separate file)
+
+Model:
+	vertex data
+
+Animator:
+	Skeleton (by name)
+	Animation controller
+
+Material:
+	pixel shader
+	vertex shader
+	textures
+	Blackboard for data
+
+Material File Format:
+	JSON
+	pixel shader path
+	vertex shader path
+	list of texture paths
+
+Render Command:
+	transform
+	model
+	material
+	material Data
+	animation pose (depending on command)
