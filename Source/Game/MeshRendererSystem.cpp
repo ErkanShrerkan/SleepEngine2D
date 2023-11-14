@@ -2,16 +2,27 @@
 #include "MeshRendererSystem.h"
 #include "GameManager.h"
 #include "MeshRendererComponent.h"
+#include "AnimatorComponent.h"
 
 void MeshRendererSystem::Update()
 {
-	auto& mr = myGameManager->GetComponentMap<MeshRendererComponent>();
+	GameManager& gm = *myGameManager;
+	auto& meshRenderers = gm.GetComponentMap<MeshRendererComponent>().map;
+	auto& animators = gm.GetComponentMap<AnimatorComponent>().map;
 
-	for (auto& [entity, component] : mr.map)
+	for (auto& [entity, animator] : animators)
 	{
-		if (!myGameManager->IsEntityAndComponentActive(entity, component))
+		if (!gm.IsEntityAndComponentActive(entity, animator))
 			continue;
 
-		component.Render();
+		animator.Update();
+	}
+
+	for (auto& [entity, meshRenderer] : meshRenderers)
+	{
+		if (!gm.IsEntityAndComponentActive(entity, meshRenderer))
+			continue;
+
+		meshRenderer.Render();
 	}
 }

@@ -24,7 +24,7 @@ private:
 	ExposableString myModelPath;
 	ExposableString myMaterialPath;
 
-	Transform* myTransformRef;
+	Transform* myTransformRef = nullptr;
 
 	SE::Model* myModel = nullptr;
 	SE::Material* myMaterial = nullptr;

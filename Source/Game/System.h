@@ -12,6 +12,7 @@ public:
 
 	virtual ~System() = default;
 
+	virtual void Start() {};
 	virtual void Update() = 0;
 
 protected:

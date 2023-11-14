@@ -8,3 +8,4 @@ RegisterComponent<CameraComponent>("Camera");
 RegisterComponent<Rigidbody>("Rigidbody");
 RegisterComponent<MaterialComponent>("Material"); 
 RegisterComponent<MeshRendererComponent>("Mesh Renderer");
+RegisterComponent<AnimatorComponent>("Animator"); 

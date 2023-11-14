@@ -133,6 +133,16 @@ public:
 	bool IsComponentActive(Component& aComponent);
 	bool IsEntityAndComponentActive(uint anEntityID, Component& aComponent);
 
+	template <typename ComponentType>
+	EnableFunctionIfTypeIsDerived(Component, ComponentType, ComponentType*)
+		GetComponent(uint anEntityID)
+	{
+		auto& map = GetComponentMap<ComponentType>().map;
+		auto findIt = map.find(anEntityID);
+
+		return findIt == map.end() ? nullptr : &findIt->second;
+	}
+
 private:
 	template <typename ComponentType>
 	EnableFunctionIfTypeIsDerived(Component, ComponentType, void)
@@ -150,21 +160,17 @@ private:
 	void MarkEntityForRemoval(uint anEntityID);
 	void UnLoadAll();
 
-	template <typename ComponentType>
-	EnableFunctionIfTypeIsDerived(Component, ComponentType, ComponentType*)
-		GetComponent(uint anEntityID)
-	{
-		auto& map = GetComponentMap<ComponentType>().map;
-		auto findIt = map.find(anEntityID);
-
-		return findIt == map.end() ? nullptr : &findIt->second;
-	}
-
 	template <typename SystemType>
 	EnableFunctionIfTypeIsDerived(System, SystemType, void)
 		RegisterSystem()
 	{
-		mySystems.push_back(std::make_shared<SystemType>(this));
+		sptr(SystemType) newSystem = std::make_shared<SystemType>(this);
+		mySystems.push_back(newSystem);
+
+		if (!OVERRIDED(System, SystemType, Start))
+			return;
+
+		newSystem->Start();
 	}
 
 private:
