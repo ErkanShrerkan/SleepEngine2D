@@ -7,7 +7,7 @@ namespace SE
 	class Model
 	{
 		friend class ModelFactory;
-
+	public:
 		struct Mesh
 		{
 			uint myStride;
@@ -52,6 +52,7 @@ namespace SE
 		{
 			return myMinimumPoint;
 		}
+
 		inline const float3& GetMaximumPoint() const
 		{
 			return myMaximumPoint;

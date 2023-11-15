@@ -14,6 +14,7 @@ namespace SE
 		void Set(const std::string& aVertexShaderPath);
 
 		ID3D11VertexShader* Raw();
+		ID3D11InputLayout* GetInputLayout();
 
 	private:
 		void Reload();

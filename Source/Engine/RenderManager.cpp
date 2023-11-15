@@ -37,6 +37,7 @@
 #include <Game\EditorController.h>
 #include <ImGui/imgui.h>
 #include "RenderCommandManager.h"
+#include "RenderTargetManager.h"
 
 //constexpr auto PI = 3.14159265f;
 
@@ -113,6 +114,11 @@ namespace SE
 		if (!myForwardRenderer.Init(aFramework))
 		{
 			/* Error Message */
+			return false;
+		}
+
+		if (!myDeferredRenderer.Init(aFramework))
+		{
 			return false;
 		}
 
@@ -469,6 +475,8 @@ namespace SE
 	{
 		Vector2ui res = Singleton<GlobalSettings>().gameplayResolution;////*{ 1920, 1080 };*/DX11::GetResolution();
 		CTextureFactory& factory = Singleton<CTextureFactory>();
+
+		Singleton<RenderTargetManager>().ReleaseAllTextures();
 
 		myScaledBackBuffer.Release();
 		myIntermediateDepth.Release();

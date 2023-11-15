@@ -196,11 +196,13 @@
     <ClInclude Include="AutoReleaser.h" />
     <ClInclude Include="BufferHelper.h" />
     <ClInclude Include="DeferredRenderer.h" />
+    <ClInclude Include="FrameBufferData.h" />
     <ClInclude Include="Material.h" />
     <ClInclude Include="MaterialFactory.h" />
     <ClInclude Include="MaterialManager.h" />
     <ClInclude Include="Model.h" />
     <ClInclude Include="ModelFactory.h" />
+    <ClInclude Include="ObjectBufferData.h" />
     <ClInclude Include="PixelShader.h" />
     <ClInclude Include="RenderCommand.h" />
     <ClInclude Include="InputData.h" />
@@ -259,11 +261,13 @@
     <ClCompile Include="DebugConsole.cpp" />
     <ClCompile Include="DebugProfiler.cpp" />
     <ClCompile Include="DeferredRenderer.cpp" />
+    <ClCompile Include="FrameBufferData.cpp" />
     <ClCompile Include="Material.cpp" />
     <ClCompile Include="MaterialFactory.cpp" />
     <ClCompile Include="MaterialManager.cpp" />
     <ClCompile Include="Model.cpp" />
     <ClCompile Include="ModelFactory.cpp" />
+    <ClCompile Include="ObjectBufferData.cpp" />
     <ClCompile Include="PixelShader.cpp" />
     <ClCompile Include="RenderCommand.cpp" />
     <ClCompile Include="DX11.cpp" />

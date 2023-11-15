@@ -30,6 +30,11 @@ namespace SE
 		return myVS;
 	}
 
+	ID3D11InputLayout* VertexShader::GetInputLayout()
+	{
+		return myInputLayout;
+	}
+
 	void VertexShader::Reload()
 	{
 		Release();

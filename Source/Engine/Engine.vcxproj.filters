@@ -261,6 +261,12 @@
     <ClInclude Include="RenderTargetManager.h">
       <Filter>Source Files\Engine\Graphics\Renderer</Filter>
     </ClInclude>
+    <ClInclude Include="FrameBufferData.h">
+      <Filter>Source Files\Engine\Graphics\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="ObjectBufferData.h">
+      <Filter>Source Files\Engine\Graphics\Renderer</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -411,6 +417,12 @@
       <Filter>Source Files\Engine\Graphics</Filter>
     </ClCompile>
     <ClCompile Include="RenderTargetManager.cpp">
+      <Filter>Source Files\Engine\Graphics\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="FrameBufferData.cpp">
+      <Filter>Source Files\Engine\Graphics\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="ObjectBufferData.cpp">
       <Filter>Source Files\Engine\Graphics\Renderer</Filter>
     </ClCompile>
   </ItemGroup>

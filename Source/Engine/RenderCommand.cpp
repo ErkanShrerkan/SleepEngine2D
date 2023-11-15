@@ -10,12 +10,9 @@ namespace SE
 		Material aMaterial,
 		float4x4 aTransform,
 		std::vector<float4x4> aPose)
-		: myMesh(aMesh), myMaterial(aMaterial), myTransform(aTransform), myPose(aPose)
+		: myModel(aMesh), myMaterial(aMaterial), myTransform(aTransform), myPose(aPose)
 	{
-	}
-
-	void RenderSkinnedMeshCommand::Execute()
-	{
+		myIsAnimated = !aPose.empty();
 	}
 
 }
