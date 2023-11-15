@@ -115,6 +115,7 @@ namespace SE
 	public:
 		~RenderTargetManager();
 
+		RenderTarget& GetFullscreenDepth(uint2 aRes);
 		RenderTarget& GetFullscreenTexture(uint2 aRes, DXGI_FORMAT aFormat);
 		RenderTarget& GetGBuffer(uint2 aRes, DXGI_FORMAT aFormat);
 		void ReleaseAllTextures();

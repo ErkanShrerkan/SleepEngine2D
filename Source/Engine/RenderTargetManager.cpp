@@ -10,6 +10,12 @@ namespace SE
 		ReleaseAllTextures();
 	}
 
+	RenderTarget& RenderTargetManager::GetFullscreenDepth(uint2 aRes)
+	{
+		std::string format = "FD_" + GetFormat(aRes, DXGI_FORMAT_R32_TYPELESS);
+		return GetRenderTarget(format);
+	}
+
 	RenderTarget& RenderTargetManager::GetFullscreenTexture(uint2 aRes, DXGI_FORMAT aFormat)
 	{
 		std::string format = "GB_" + GetFormat(aRes, aFormat);
