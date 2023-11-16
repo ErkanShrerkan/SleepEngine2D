@@ -38,7 +38,7 @@ namespace SE
 		void ClearTextures();
 		void SetAsActiveTarget(CFullscreenTexture* aDepth = nullptr);
 		void SetAsResourceOnSlot(EGBufferTexture aTexture, unsigned int aSlot);
-		void SetAllAsResources(int aStartSlot = 2);
+		void SetAllAsResources(int aStartSlot = 0);
 	};
 }
 

@@ -117,7 +117,7 @@ namespace SE
 
 		RenderTarget& GetFullscreenDepth(uint2 aRes);
 		RenderTarget& GetFullscreenTexture(uint2 aRes, DXGI_FORMAT aFormat);
-		RenderTarget& GetGBuffer(uint2 aRes, DXGI_FORMAT aFormat);
+		RenderTarget& GetGBuffer(uint2 aRes);
 		void ReleaseAllTextures();
 		void ClearAllTextures();
 		void Update();

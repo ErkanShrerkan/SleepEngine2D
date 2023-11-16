@@ -15,6 +15,10 @@ MeshRendererComponent::MeshRendererComponent()
 
 MeshRendererComponent::~MeshRendererComponent()
 {
+	if (myMaterial)
+	{
+		myMaterial->Release();
+	}
 }
 
 void MeshRendererComponent::Start()
@@ -26,7 +30,23 @@ void MeshRendererComponent::Start()
 
 void MeshRendererComponent::Reload()
 {
+	if (myModelPath.GetString().size() < 5)
+	{
+		return;
+	}
+
 	myModel = Singleton<SE::ModelFactory>().GetModel(myModelPath.GetString());
+	
+	if (myMaterial)
+	{
+		myMaterial->Release();
+		delete myMaterial;
+		myMaterial = nullptr;
+	}
+
+	myMaterial = new SE::Material();
+	myMaterial->SetPS("Shaders/StandardGBuffer");
+	myMaterial->SetVS("Shaders/StandardVS");
 	// TODO: Create material factory to get material here as well
 }
 

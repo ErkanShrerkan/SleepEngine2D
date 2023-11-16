@@ -237,9 +237,6 @@
     <ClInclude Include="Material.h">
       <Filter>Source Files\Engine\Resource\Raw\Material</Filter>
     </ClInclude>
-    <ClInclude Include="MaterialManager.h">
-      <Filter>Source Files\Engine\Resource\Raw\Material</Filter>
-    </ClInclude>
     <ClInclude Include="VertexShader.h">
       <Filter>Source Files\Engine\Shader\Class</Filter>
     </ClInclude>
@@ -393,9 +390,6 @@
       <Filter>Source Files\Engine\Graphics\Renderer</Filter>
     </ClCompile>
     <ClCompile Include="Material.cpp">
-      <Filter>Source Files\Engine\Resource\Raw\Material</Filter>
-    </ClCompile>
-    <ClCompile Include="MaterialManager.cpp">
       <Filter>Source Files\Engine\Resource\Raw\Material</Filter>
     </ClCompile>
     <ClCompile Include="VertexShader.cpp">

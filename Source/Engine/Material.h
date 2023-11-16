@@ -9,6 +9,7 @@ namespace SE
 	{
 	public:
 		Material();
+		Material(const Material& aMat);
 		void Reset();
 		void AddTexture(const std::string& aTexturePath);
 		void SetPS(const std::string& aPSPath);
@@ -16,7 +17,7 @@ namespace SE
 		VertexShader GetVS();
 		PixelShader GetPS();
 		const std::vector<sptr(Texture)>& GetTextures();
-
+		void Release();
 	protected:
 		VertexShader myVertexShader;
 		PixelShader myPixelShader;

@@ -167,7 +167,6 @@ namespace SE
 			mesh.myOffset = 0;
 			mesh.myVertexBuffer = vertexBuffer;
 			mesh.myIndexBuffer = indexBuffer;
-			mesh.myPrimitiveTopology = D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST;
 			mMeshV.push_back(mesh);
 		}
 		timer.Update();

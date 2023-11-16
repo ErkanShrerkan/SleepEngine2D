@@ -816,7 +816,8 @@ void Game::Editor::Assets()
 
 			UpdateDragAndDrop([&]()
 				{
-					myActivePayload.SetString(fileName);
+					std::string path = myCurrentPath.string();
+					myActivePayload.SetString(path + "\\" + fileName);
 					ImGui::SetDragDropPayload("DRAG_FILENAME", &myActivePayload, sizeof(char) * 128);
 					ImGui::Text(fileName.c_str());
 					ImGui::EndDragDropSource();

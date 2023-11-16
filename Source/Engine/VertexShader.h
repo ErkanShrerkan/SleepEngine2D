@@ -9,16 +9,18 @@ namespace SE
 	public:
 		VertexShader(const std::string& aVertexShaderPath);
 		VertexShader(){}
+		VertexShader(const VertexShader& aVS);
 		~VertexShader();
 
 		void Set(const std::string& aVertexShaderPath);
 
 		ID3D11VertexShader* Raw();
-		ID3D11InputLayout* GetInputLayout();
+		ID3D11InputLayout* const& GetInputLayout();
+
+		void Release();
 
 	private:
 		void Reload();
-		void Release();
 
 	private:
 		std::string myPath;

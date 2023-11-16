@@ -11,9 +11,15 @@ namespace SE
 		Reload();
 	}
 
+	PixelShader::PixelShader(const PixelShader& aPS)
+	{
+		myPath = aPS.myPath;
+		myPS = aPS.myPS;
+	}
+
 	PixelShader::~PixelShader()
 	{
-		Release();
+		//Release();
 	}
 
 	void PixelShader::Set(const std::string& aPixelShaderPath)

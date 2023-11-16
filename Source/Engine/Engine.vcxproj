@@ -199,7 +199,6 @@
     <ClInclude Include="FrameBufferData.h" />
     <ClInclude Include="Material.h" />
     <ClInclude Include="MaterialFactory.h" />
-    <ClInclude Include="MaterialManager.h" />
     <ClInclude Include="Model.h" />
     <ClInclude Include="ModelFactory.h" />
     <ClInclude Include="ObjectBufferData.h" />
@@ -264,7 +263,6 @@
     <ClCompile Include="FrameBufferData.cpp" />
     <ClCompile Include="Material.cpp" />
     <ClCompile Include="MaterialFactory.cpp" />
-    <ClCompile Include="MaterialManager.cpp" />
     <ClCompile Include="Model.cpp" />
     <ClCompile Include="ModelFactory.cpp" />
     <ClCompile Include="ObjectBufferData.cpp" />

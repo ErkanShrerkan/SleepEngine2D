@@ -9,6 +9,13 @@ namespace SE
 	{
 	}
 
+	Material::Material(const Material& aMat)
+	{
+		myPixelShader = aMat.myPixelShader;
+		myVertexShader = aMat.myVertexShader;
+		myTextures = aMat.myTextures;
+	}
+
 	void Material::Reset()
 	{
 		myTextures.clear();
@@ -42,6 +49,12 @@ namespace SE
 	const std::vector<sptr(Texture)>& Material::GetTextures()
 	{
 		return myTextures;
+	}
+
+	void Material::Release()
+	{
+		myVertexShader.Release();
+		myPixelShader.Release();
 	}
 
 }

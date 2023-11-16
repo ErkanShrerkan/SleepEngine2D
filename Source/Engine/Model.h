@@ -15,7 +15,6 @@ namespace SE
 			uint myNumberOfVertices;
 			uint myNumberOfIndices;
 
-			D3D11_PRIMITIVE_TOPOLOGY myPrimitiveTopology;
 			ID3D11Buffer* myVertexBuffer;
 			ID3D11Buffer* myIndexBuffer;
 		};

@@ -18,13 +18,13 @@ namespace SE
 
 	RenderTarget& RenderTargetManager::GetFullscreenTexture(uint2 aRes, DXGI_FORMAT aFormat)
 	{
-		std::string format = "GB_" + GetFormat(aRes, aFormat);
+		std::string format = "FT_" + GetFormat(aRes, aFormat);
 		return GetRenderTarget(format);
 	}
 
-	RenderTarget& RenderTargetManager::GetGBuffer(uint2 aRes, DXGI_FORMAT aFormat)
+	RenderTarget& RenderTargetManager::GetGBuffer(uint2 aRes)
 	{
-		std::string format = "FT_" + GetFormat(aRes, aFormat);
+		std::string format = "GB_" + GetFormat(aRes, DXGI_FORMAT(0));
 		return GetRenderTarget(format);
 	}
 
@@ -72,13 +72,22 @@ namespace SE
 	void RenderTarget::InitRenderTarget(const std::string& aFormat)
 	{
 		std::string s = aFormat;
-		size_t pos = 0;
+		//size_t pos = 0;
+		//std::vector<std::string> data;
+		//std::string spacer = "_";
+		//while ((pos = s.find(spacer)) != std::string::npos)
+		//{
+		//	data.push_back(s.substr(0, pos));
+		//	s.erase(0, pos + spacer.length());
+		//}
+
+		std::string tmp;
+		std::stringstream ss(s);
 		std::vector<std::string> data;
-		std::string spacer = "_";
-		while ((pos = s.find(spacer)) != std::string::npos)
+
+		while (getline(ss, tmp, '_')) 
 		{
-			data.push_back(s.substr(0, pos));
-			s.erase(0, pos + spacer.length());
+			data.push_back(tmp);
 		}
 
 		CTextureFactory& factory = Singleton<CTextureFactory>();

@@ -9,15 +9,16 @@ namespace SE
 	public:
 		PixelShader(const std::string& aPixelShaderPath);
 		PixelShader(){}
+		PixelShader(const PixelShader& aPS);
 		~PixelShader();
 
 		void Set(const std::string& aPixelShaderPath);
 
 		ID3D11PixelShader* Raw();
+		void Release();
 
 	private:
 		void Reload();
-		void Release();
 
 	private:
 		std::string myPath;

@@ -13,6 +13,10 @@ struct GBufferOutput
     float myDepth : SV_TARGET6;
 };
 
+Texture2D albedoTexture : register(t8);
+Texture2D normalTexture : register(t9);
+Texture2D materialTexture : register(t10);
+
 GBufferOutput main(VertexToPixel input)
 {
     float2 scaledUV = input.myUV;

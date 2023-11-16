@@ -299,6 +299,9 @@ namespace SE
 		//	}
 		//}
 
+		auto rect = Singleton<GlobalSettings>().windowRect;
+		uint2 rectRes = { uint(rect.z - rect.x), uint(rect.w - rect.y) };
+
 		myBackBuffer.ClearTexture({ 1, 1, 1, 1 });
 		myFullscreen.ClearTexture();
 		myFullscreenCopy.ClearTexture();
@@ -356,16 +359,20 @@ namespace SE
 
 		myIntermediateDepth.ClearDepth();
 
+		RenderTarget& gbuffer = Singleton<RenderTargetManager>().GetGBuffer(rectRes);
 		if (mainCam)
 		{
 			SetBlendState(E_BLENDSTATE_DISABLE);
-			myScaledBackBuffer.SetAsActiveTarget();
+			gbuffer.GetRenderTarget<CGBuffer>().SetAsActiveTarget(&myIntermediateDepth);
 			myDeferredRenderer.GenerateGBuffer();
 			//myForwardRenderer.RenderSprites(mainCam, scene->GetSprites());
 			//myForwardRenderer.RenderSprites(mainCam, scene->GetSSSprites(), true);
 		}
 
 		myFullscreen.SetAsActiveTarget();
+
+		gbuffer.GetRenderTarget<CGBuffer>().SetAllAsResources();
+
 		myScaledBackBuffer.SetAsResourceOnSlot(0);
 		myFullscreenRenderer.Render(CFullscreenRenderer::EShader_Copy);
 
@@ -402,6 +409,8 @@ namespace SE
 		myFullscreenRenderer.Render(CFullscreenRenderer::EShader_LinearToGamma);
 		myFullscreen.SetAsActiveTarget();
 
+		gbuffer.Return();
+
 		CLineDrawer::Clear();
 	}
 
@@ -412,7 +421,7 @@ namespace SE
 		myCursor->SetPosition(pos);
 		myCursor->SetColor({ 0, 0, 0, 0 });
 		//if (!Input::GetLockedCursorState())
-			sprites.push_back(myCursor);
+		sprites.push_back(myCursor);
 
 		SetBlendState(E_BLENDSTATE_ALPHABLEND);
 		myScaledBackBuffer.ClearTexture();

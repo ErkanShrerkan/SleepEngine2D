@@ -8,10 +8,10 @@ struct VertexInput
     float3 myBinormal : BINORMAL;
     uint4 myBoneIDs : BONEIDS;
     float4 myBoneWeights : BONEWEIGHTS;
-    float4 myRight : RIGHT;
-    float4 myUp : UP;
-    float4 myForward : FORWARD;
-    float4 myPos : POS;
+    //float4 myRight : RIGHT;
+    //float4 myUp : UP;
+    //float4 myForward : FORWARD;
+    //float4 myPos : POS;
 };
 
 struct VertexToPixel
@@ -37,14 +37,17 @@ cbuffer FrameBuffer : register(b0)
 cbuffer ObjectBuffer : register(b1)
 {
     float4x4 toWorld;
-    float4 scale;
     unsigned int hasBones;
     unsigned int numBones;
     int xx, yy;
     float4x4 bones[128];
-    float4 color;
 }
 
-Texture2D albedoTexture : register(t0);
-Texture2D normalTexture : register(t1);
-Texture2D materialTexture : register(t2);
+// pbr textures deferred
+Texture2D positionTextureGBuffer : register(t0);
+Texture2D albedoTextureGBuffer : register(t1);
+Texture2D normalTextureGBuffer : register(t3);
+Texture2D vertexNormalTextureGBuffer : register(t4);
+Texture2D materialTextureGBuffer : register(t5);
+Texture2D ambientOcclusionTextureGBuffer : register(t6);
+Texture2D depthTextureGBuffer : register(t7);

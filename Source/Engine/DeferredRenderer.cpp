@@ -103,6 +103,7 @@ namespace SE
 		myContext->VSSetConstantBuffers(0, 1, &myFrameBuffer);
 		myContext->PSSetConstantBuffers(0, 1, &myFrameBuffer);
 		myContext->GSSetConstantBuffers(0, 1, &myFrameBuffer);
+		myContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
 		auto& smrc = Singleton<RenderCommandManager>().GetSkinnedMeshRenderCommands();
 
@@ -130,23 +131,26 @@ namespace SE
 
 			auto& meshes = model->GetMeshes();
 
-			myContext->IASetInputLayout(mat.GetVS().GetInputLayout());
+			auto ps = mat.GetPS();
+			auto vs = mat.GetVS();
+			auto layout = vs.GetInputLayout();
+			layout;
 
+			myContext->IASetInputLayout(nullptr);
 			myContext->VSSetConstantBuffers(1, 1, &myObjectBuffer);
 			myContext->PSSetConstantBuffers(1, 1, &myObjectBuffer);
-			myContext->VSSetShader(mat.GetVS().Raw(), nullptr, 0);
-			myContext->PSSetShader(mat.GetPS().Raw(), nullptr, 0);
+			myContext->VSSetShader(vs.Raw(), nullptr, 0);
+			myContext->PSSetShader(ps.Raw(), nullptr, 0);
 
 			int offset = 0;
 			for (auto& texture : mat.GetTextures())
 			{
-				myContext->PSSetShaderResources(9 + offset, 1, texture->GetPointerToShaderResourceView());
+				myContext->PSSetShaderResources(8 + offset, 1, texture->GetPointerToShaderResourceView());
 				offset++;
 			}
 
 			for (auto& mesh : meshes)
 			{
-				myContext->IASetPrimitiveTopology(mesh.myPrimitiveTopology);
 				myContext->IASetVertexBuffers(0, 1, &mesh.myVertexBuffer, &mesh.myStride, &mesh.myOffset);
 				myContext->IASetIndexBuffer(mesh.myIndexBuffer, DXGI_FORMAT_R32_UINT, 0);
 
@@ -154,5 +158,7 @@ namespace SE
 				Singleton<Debug::CDebugProfiler>().IncrementDrawCallCount();
 			}
 		}
+
+		Singleton<RenderCommandManager>().Clear();
 	}
 }
