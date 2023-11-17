@@ -1,10 +1,9 @@
 #pragma once
 #include "Material.h"
+#include <Engine/JsonDocument.h>
 
-class JsonDocument;
 namespace SE
 {
-
 	class MaterialFactory
 	{
 	public:

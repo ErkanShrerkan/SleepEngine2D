@@ -1,13 +1,16 @@
 #include "pch.h"
 #include "MeshRendererComponent.h"
+
 #include "Transform.h"
 #include "Entity.h"
-#include "MaterialComponent.h"
+
 #include <Engine\RenderCommand.h>
 #include <Engine\RenderCommandManager.h>
+
 #include <Engine\Model.h>
 #include <Engine\Material.h>
 #include <Engine\ModelFactory.h>
+#include <Engine\MaterialFactory.h>
 
 MeshRendererComponent::MeshRendererComponent()
 {
@@ -26,6 +29,9 @@ void MeshRendererComponent::Start()
 	Expose(myModelPath, "Model");
 	Expose(myMaterialPath, "Material");
 	myTransformRef = GameObject().GetComponent<Transform>();
+	myModelPath.SetString("Assets\\Models\\Chest\\Particle_Chest.erc");
+	myMaterialPath.SetString("Assets\\Models\\Chest\\Chest.mat");
+	Reload();
 }
 
 void MeshRendererComponent::Reload()
@@ -44,10 +50,7 @@ void MeshRendererComponent::Reload()
 		myMaterial = nullptr;
 	}
 
-	myMaterial = new SE::Material();
-	myMaterial->SetPS("Shaders/StandardGBuffer");
-	myMaterial->SetVS("Shaders/StandardVS");
-	// TODO: Create material factory to get material here as well
+	myMaterial = new SE::Material(Singleton<SE::MaterialFactory>().CreateMaterial(myMaterialPath.GetString()));
 }
 
 void MeshRendererComponent::Render()

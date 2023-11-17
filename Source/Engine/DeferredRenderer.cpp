@@ -94,8 +94,6 @@ namespace SE
 
 	void CDeferredRenderer::GenerateGBuffer()
 	{
-		D3D11_MAPPED_SUBRESOURCE subresource = { 0 };
-
 		FrameBufferData& fbd = Singleton<FrameBufferData>();
 
 		BindDataToBuffer(myFrameBuffer, &fbd, sizeof(FrameBufferData));

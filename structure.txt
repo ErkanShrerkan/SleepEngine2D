@@ -27,3 +27,5 @@ Render Command:
 	material
 	material Data
 	animation pose (depending on command)
+
+TODO: create generic version of texture factory, to load models and shaders like that as well

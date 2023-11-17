@@ -343,19 +343,20 @@ namespace SE
 			}
 		}
 
-		D3D11_MAPPED_SUBRESOURCE bufferData = { 0 };
-		ID3D11DeviceContext* context = CEngine::GetInstance()->GetDXDeviceContext();
-		ZeroMemory(&bufferData, sizeof(D3D11_MAPPED_SUBRESOURCE));
-		HRESULT result = context->Map(myPostProcessingBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &bufferData);
-		if (FAILED(result))
-		{
-			return;
-		}
-
-		memcpy(bufferData.pData, &myPostProcessingData, sizeof(PostProcessingData));
-		context->Unmap(myPostProcessingBuffer, 0);
-		context->VSSetConstantBuffers(3, 1, &myPostProcessingBuffer);
-		context->PSSetConstantBuffers(3, 1, &myPostProcessingBuffer);
+		// TODO: fix post process data
+		//D3D11_MAPPED_SUBRESOURCE bufferData = { 0 };
+		//ID3D11DeviceContext* context = CEngine::GetInstance()->GetDXDeviceContext();
+		//ZeroMemory(&bufferData, sizeof(D3D11_MAPPED_SUBRESOURCE));
+		//HRESULT result = context->Map(myPostProcessingBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &bufferData);
+		//if (FAILED(result))
+		//{
+		//	return;
+		//}
+		//
+		//memcpy(bufferData.pData, &myPostProcessingData, sizeof(PostProcessingData));
+		//context->Unmap(myPostProcessingBuffer, 0);
+		//context->VSSetConstantBuffers(3, 1, &myPostProcessingBuffer);
+		//context->PSSetConstantBuffers(3, 1, &myPostProcessingBuffer);
 
 		myIntermediateDepth.ClearDepth();
 
@@ -370,10 +371,7 @@ namespace SE
 		}
 
 		myFullscreen.SetAsActiveTarget();
-
-		gbuffer.GetRenderTarget<CGBuffer>().SetAllAsResources();
-
-		myScaledBackBuffer.SetAsResourceOnSlot(0);
+		gbuffer.GetRenderTarget<CGBuffer>().SetAsResourceOnSlot(CGBuffer::E_ALBEDO, 0);
 		myFullscreenRenderer.Render(CFullscreenRenderer::EShader_Copy);
 
 		// line drawer
@@ -395,7 +393,7 @@ namespace SE
 			if (mainCam)
 			{
 				SetBlendState(E_BLENDSTATE_ALPHABLEND);
-				CLineDrawer::Render();
+				//CLineDrawer::Render();
 				SetBlendState(E_BLENDSTATE_DISABLE);
 			}
 		}

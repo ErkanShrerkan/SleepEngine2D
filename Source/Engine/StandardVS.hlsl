@@ -10,7 +10,6 @@ VertexToPixel main(VertexInput input)
     float4 normal = float4(input.myNormal, 0);
     float4 binormal = float4(input.myBinormal, 0);
     float4 tangent = float4(input.myTangent, 0);
-    float4 scale = float4(scale.x, scale.y, scale.z, 0);
 
     if (hasBones)
     {

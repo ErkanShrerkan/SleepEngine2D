@@ -1,6 +1,6 @@
 #include "pch.h"
 #include "MaterialFactory.h"
-#include <Engine/JsonDocument.h>
+#include <algorithm>
 
 namespace SE
 {
@@ -11,30 +11,29 @@ namespace SE
 
 	Material MaterialFactory::CreateMaterial(const std::string& aPath)
 	{
-		bool success = myDoc->ParseFile(aPath);
-		success;
+		bool error = myDoc->ParseFile(aPath);
 
-		assert(!success && "failed parse");
+		assert(!error && "failed parse");
 
 		std::string ps;
 		std::string vs;
-		std::vector<std::string> textures;
 
 		auto& mat = myDoc->GetDocument()["Material"];
 
 		ps = mat["PS"].GetString();
 		vs = mat["VS"].GetString();
 
+		Material m;
+
 		for (auto& texture : mat["Textures"].GetArray())
 		{
-			textures.push_back(texture.GetString());
+			m.AddTexture(texture.GetString());
 		}
 
-		Material m;
 		m.SetPS(ps);
 		m.SetVS(vs);
 
-		return Material();
+		return m;
 	}
 
 }

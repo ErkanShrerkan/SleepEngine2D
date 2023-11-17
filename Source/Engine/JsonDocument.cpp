@@ -14,9 +14,9 @@ JsonDocument::JsonDocument()
 
 bool JsonDocument::ParseFile(const std::string& aJsonFile)
 {
-    std::filesystem::path dataPath(std::filesystem::current_path() / L"Data");
-    std::filesystem::create_directory(dataPath);
-    std::string jsonPath(dataPath.string() + "/" + aJsonFile);
+    //std::filesystem::path dataPath(std::filesystem::current_path() / L"Data");
+    //std::filesystem::create_directory(dataPath);
+    std::string jsonPath(/*dataPath.string() + "/" +*/ aJsonFile);
     std::ifstream t(jsonPath);
     std::stringstream buffer;
     buffer << t.rdbuf();
@@ -26,7 +26,7 @@ bool JsonDocument::ParseFile(const std::string& aJsonFile)
     rapidjson::StringStream stream(content.c_str());
     bool error = myDocument.ParseStream(stream).HasParseError();
 
-    printf("<%s> Parse error at offset %u: \"%s\", when loading file",
+    printf("<%s> Parse error at offset %u: \"%s\", when loading file\n",
         "JsonDocument::JsonDocument",
         (unsigned)myDocument.GetErrorOffset(),
         rapidjson::GetParseError_En(myDocument.GetParseError())

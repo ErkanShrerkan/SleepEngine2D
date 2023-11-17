@@ -20,6 +20,7 @@ namespace SE
 		void Return()
 		{
 			myIsAvailable = true;
+			Clear();
 		}
 
 		bool IsAvailable()

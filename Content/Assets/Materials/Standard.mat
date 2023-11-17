@@ -1,8 +1,13 @@
 {
     "Material":
     {
-        "PS" : Shaders/StandardGBuffer,
-        "VS" : Shaders/StandardVS,
-        "Textures"
+        "PS" : "Shaders/StandardGBuffer",
+        "VS" : "Shaders/StandardVS",
+        "Textures" :
+        [
+            "Assets/Textures/Error/Albedo_c.dds",
+            "Assets/Textures/Error/Normal_n.dds", 
+            "Assets/Textures/Error/Material_m.dds"
+        ]
     }
 }
