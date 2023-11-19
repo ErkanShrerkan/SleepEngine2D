@@ -33,6 +33,16 @@
 *.out
 *.app
 
+# Assets
+*.fbx
+*.tga
+*.mat
+*.myr
+*.erc
+*.png
+*.jpg
+*.unity
+
 # Shaders
 *.cso
 
@@ -43,4 +53,3 @@ Temp/
 */ThirdParty/ImGuizmo/example/
 */ThirdParty/ImGuizmo/vcpkg-example/
 /ThirdParty/
-*/Assets/Models/
