@@ -30,8 +30,8 @@ void EditorController::Start()
 
 	// camera
 	ObserveInputEvent(eInputEvent::RMB, ph, [&]() { this->SetCanLook(); });
-	ObserveScrollEvent(eScrollState::Up, [&]() { this->Zoom(-100); });
-	ObserveScrollEvent(eScrollState::Down, [&]() { this->Zoom(100); });
+	ObserveScrollEvent(eScrollState::Up, [&]() { this->Zoom(-1); });
+	ObserveScrollEvent(eScrollState::Down, [&]() { this->Zoom(1); });
 
 	ObserveInputEvent(eInputEvent::LMB, eInputState::Pressed, [&]() { this->Pick(); });
 
@@ -100,8 +100,9 @@ void EditorController::Zoom(float aZoomValue)
 	if (!MouseIsOverGameWindow())
 		return;
 
-	float newZoom = myCam->GetZoom() + (aZoomValue + (aZoomValue * myShiftDown * (myShiftMult - 1.f)));
-	myCam->SetZoom(newZoom < 100 ? 100 : newZoom);
+	float newZoom = myCam->GetFOV() + (aZoomValue + (aZoomValue * myShiftDown * (myShiftMult - 1.f)));
+	newZoom = Math::Clamp(newZoom, 15.f, 140.f);
+	myCam->SetFOV(newZoom);
 }
 
 void EditorController::Pick()

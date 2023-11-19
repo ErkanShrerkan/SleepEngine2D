@@ -47,8 +47,8 @@ private:
 
 private:
 	bool myIsActive = true;
-	uint myID;
+	uint myID = 0;
 	uint myParentID = NULL_ENTITY;
-	GameManager* myGameManager;
+	GameManager* myGameManager = nullptr;
 	std::vector<uint> myChildren;
 };

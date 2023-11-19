@@ -10,7 +10,7 @@ struct Key
 
 	Key(){}
 
-	uint key;
+	uint key = 0;
 };
 
 struct KeyUpdate

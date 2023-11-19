@@ -32,7 +32,7 @@ namespace SE
 	public:
 		struct SEngineParameters
 		{
-			CWindowHandler::SWindowData window;
+			CWindowHandler::SWindowData window{};
 			CommonUtilities::Vector4<float> clearColor;
 		};
 
@@ -74,12 +74,12 @@ namespace SE
 	private:
 		bool InternalStart();
 
-		SEngineParameters myEngineParameters;
+		SEngineParameters myEngineParameters{};
 
-		CContentLoader* myContentLoader;
-		CGraphicsEngine* myGraphicsEngine;
-		CAudioEngine* myAudioEngine;
-		GameManager* myGMptr;
-		CScene* myScene;
+		CContentLoader* myContentLoader = nullptr;
+		CGraphicsEngine* myGraphicsEngine = nullptr;
+		CAudioEngine* myAudioEngine = nullptr;
+		GameManager* myGMptr = nullptr;
+		CScene* myScene = nullptr;
 	};
 }

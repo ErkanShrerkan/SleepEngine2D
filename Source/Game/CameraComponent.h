@@ -14,6 +14,8 @@ public:
     void UpdateProjection();
     float GetAspectRatio() { return myAspectRatio.x / myAspectRatio.y; }
     float GetZoom() { return myZoom; }
+    float GetFOV() { return myFOV; }
+    void SetFOV(float anFOV) { myFOV = anFOV; }
     void Zoom(float aZoomMod) { myZoom *= aZoomMod; };
     void SetZoom(float aZoom) { myZoom = aZoom; };
 
@@ -23,9 +25,9 @@ private:
 
 private:
     bool myIsPerspective = true;
-    float myNear;
-    float myFar;
-    float myFOV;
+    float myNear = 0;
+    float myFar = 0;
+    float myFOV = 0;
     float myZoom = 100.f;
     float2 myAspectRatio = { 1, 1 };
     float4x4 myProjection;

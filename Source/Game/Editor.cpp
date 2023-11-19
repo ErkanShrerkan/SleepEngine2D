@@ -3,6 +3,9 @@
 #include "Editor.h"
 
 #include <fstream>
+#include <algorithm>
+#include <cctype>
+#include <string>
 
 // Engine
 #include <Engine\Input.h>
@@ -27,6 +30,7 @@
 
 // ImGuizmo
 #include <ImGuizmo\ImGuizmo.h>
+#include <Engine\JsonDocument.h>
 
 Game::Editor::~Editor()
 {
@@ -890,10 +894,10 @@ void Game::Editor::RenderGizmos()
 	float2 viewPortCenterOffset = viewPortCenter - windowCenter;
 
 	float4 gameRect = gs.gameWindowRect;
-	gameRect += 
+	gameRect +=
 	{
 		windowRect.xy,
-		windowRect.xy
+			windowRect.xy
 	};
 
 	float multx = 1.f - (454.f / 1351.f);
@@ -906,13 +910,13 @@ void Game::Editor::RenderGizmos()
 	gizmoRect +=
 	{
 		viewPortCenterOffset,
-		viewPortCenterOffset
+			viewPortCenterOffset
 	};
 
 	gizmoRect -=
 	{
 		windowRect.xy,
-		windowRect.xy
+			windowRect.xy
 	};
 
 	ImGuizmo::SetRect(gizmoRect.x, gizmoRect.y, gizmoRect.z, gizmoRect.w);
@@ -1241,6 +1245,60 @@ void )DELIM" + name + R"DELIM(::Start()
 
 void Game::Editor::GenerateMaterial()
 {
+	if (ImGui::Button("Create materials from model directories"))
+	{
+		for (auto const& dir : std::filesystem::recursive_directory_iterator{ "Assets/Models" })
+		{
+			std::string entry(dir.path().string());
+
+#pragma warning(disable:4244)
+			std::string lowerCaseEntry = entry;
+			std::transform(entry.begin(), entry.end(), lowerCaseEntry.begin(), [](unsigned char c) { return std::tolower(c); });
+#pragma warning(default:4244)
+			std::replace(entry.begin(), entry.end(), '\\', '/');
+
+			std::string ext = std::string(lowerCaseEntry.end() - 6, lowerCaseEntry.end());
+
+			if (ext == "_c.dds")
+			{
+				uptr(JsonDocument) jdoc = std::make_unique<JsonDocument>();
+				auto& doc = jdoc->GetDocument();
+				doc.SetObject();
+				rapidjson::Document::AllocatorType& alctr = doc.GetAllocator();
+
+				std::string texture = entry;
+				texture.erase(texture.size() - 6);
+
+				rapidjson::Value mat(rapidjson::kObjectType);
+				mat.AddMember("PS", "Shaders/StandardGBuffer", alctr);
+				mat.AddMember("VS", "Shaders/StandardVS", alctr);
+
+				rapidjson::Value textures(rapidjson::kArrayType);
+				std::string albedo = texture + "_c.dds";
+				std::string normal = texture + "_n.dds";
+				std::string material = texture + "_m.dds";
+
+				rapidjson::Value valbedo = rapidjson::Value(albedo.c_str(), alctr);
+				rapidjson::Value vnormal = rapidjson::Value(normal.c_str(), alctr);
+				rapidjson::Value vmaterial = rapidjson::Value(material.c_str(), alctr);
+
+				textures.PushBack(valbedo, alctr);
+				textures.PushBack(vnormal, alctr);
+				textures.PushBack(vmaterial, alctr);
+
+				mat.AddMember("Textures", textures, alctr);
+
+				doc.AddMember("Material", mat, alctr);
+
+				jdoc->SaveToFile(texture + ".mat", true);
+			}
+		}
+	}
+
+	if (true)
+	{
+
+	}
 }
 
 float2 Game::Editor::CalculateGameWindowRect()

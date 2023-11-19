@@ -23,8 +23,8 @@ namespace SE
 		{
 			struct Joint
 			{
-				uint myIndex;
-				uint myName;
+				uint myIndex = 0;
+				uint myName = 0;
 				float4x4 myBindPoseInverse;
 			};
 			std::vector<Joint> myJoints;
