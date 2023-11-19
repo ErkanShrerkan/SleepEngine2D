@@ -34,7 +34,7 @@
 *.app
 
 # Assets
-*.fbx
+#*.fbx
 *.tga
 *.mat
 *.myr
