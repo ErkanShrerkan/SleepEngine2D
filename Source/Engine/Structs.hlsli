@@ -23,6 +23,12 @@ struct VertexInput_LineDrawer
     float mySpace : SPACE;
 };
 
+struct VertexToPixel_LineDrawer
+{
+    float4 myPosition : SV_POSITION;
+    float4 myColor : COLOR;
+};
+
 struct VertexInput_Fullscreen
 {
     unsigned int myIndex : SV_VertexID;
@@ -71,11 +77,6 @@ struct QuadInput_GBuffer
     float4 myRect : RECT;
 };
 
-struct VertexToPixel_LineDrawer
-{
-    float4 myPosition : SV_POSITION;
-    float4 myColor : COLOR;
-};
 
 struct VertexToPixel_GBuffer
 {
@@ -164,13 +165,12 @@ cbuffer FrameBufferData_Sprite : register(b1)
     float4 myCameraPosition;
 };
 
-// effect textures
-Texture2D FullscreenTexture : register(t0);
-Texture2D FullscreenTexture2 : register(t1);
-
 // sprite textures
 Texture2D spriteTexture : register(t0);
 Texture2D maskTexture : register(t1);
+
+Texture2D FullscreenTexture : register(t0);
+Texture2D FullscreenTexture2: register(t1);
 
 // samplers
 SamplerState defaultSampler : register(s0);

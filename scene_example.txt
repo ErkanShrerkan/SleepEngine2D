@@ -1,0 +1,25 @@
+{
+  "Entities": [
+    {
+      "ID": 0,
+      "Components": 
+      [
+        {
+          "ID": 0,
+          "Exposed Variables" : 
+          {
+              "Speed": 500
+          }
+        },
+        {
+          "ID": 1,
+          "Exposed Variables": 
+          {
+              "Texture": "Texture/Texture.textute",
+              "Rect": [0, 0, 1, 1]
+          }
+        }
+      ]
+    }
+  ]
+}

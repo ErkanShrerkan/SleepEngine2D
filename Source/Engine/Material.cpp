@@ -51,10 +51,4 @@ namespace SE
 		return myTextures;
 	}
 
-	void Material::Release()
-	{
-		myVertexShader.Release();
-		myPixelShader.Release();
-	}
-
 }

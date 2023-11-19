@@ -164,9 +164,6 @@
     <ClInclude Include="SystemRegister.h">
       <Filter>Source Files\Game\ECS</Filter>
     </ClInclude>
-    <ClInclude Include="MaterialComponent.h">
-      <Filter>Source Files\Game\ECS\Components</Filter>
-    </ClInclude>
     <ClInclude Include="MeshRendererComponent.h">
       <Filter>Source Files\Game\ECS\Components</Filter>
     </ClInclude>
@@ -269,9 +266,6 @@
       <Filter>Source Files\Game</Filter>
     </ClCompile>
     <ClCompile Include="CameraComponent.cpp">
-      <Filter>Source Files\Game\ECS\Components</Filter>
-    </ClCompile>
-    <ClCompile Include="MaterialComponent.cpp">
       <Filter>Source Files\Game\ECS\Components</Filter>
     </ClCompile>
     <ClCompile Include="MeshRendererComponent.cpp">

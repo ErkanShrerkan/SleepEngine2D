@@ -15,23 +15,19 @@ namespace SE
 
 		assert(!error && "failed parse");
 
-		std::string ps;
-		std::string vs;
-
 		auto& mat = myDoc->GetDocument()["Material"];
 
-		ps = mat["PS"].GetString();
-		vs = mat["VS"].GetString();
+		std::string ps = mat["PS"].GetString();
+		std::string vs = mat["VS"].GetString();
 
 		Material m;
+		m.SetPS(ps);
+		m.SetVS(vs);
 
 		for (auto& texture : mat["Textures"].GetArray())
 		{
 			m.AddTexture(texture.GetString());
 		}
-
-		m.SetPS(ps);
-		m.SetVS(vs);
 
 		return m;
 	}

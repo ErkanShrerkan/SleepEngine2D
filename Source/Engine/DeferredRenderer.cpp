@@ -143,7 +143,11 @@ namespace SE
 			int offset = 0;
 			for (auto& texture : mat.GetTextures())
 			{
-				myContext->PSSetShaderResources(8 + offset, 1, texture->GetPointerToShaderResourceView());
+				auto srv = texture->GetShaderResourceView();
+				if (srv)
+				{
+					myContext->PSSetShaderResources(8 + offset, 1, &srv);
+				}
 				offset++;
 			}
 

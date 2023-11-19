@@ -18,10 +18,6 @@ MeshRendererComponent::MeshRendererComponent()
 
 MeshRendererComponent::~MeshRendererComponent()
 {
-	if (myMaterial)
-	{
-		myMaterial->Release();
-	}
 }
 
 void MeshRendererComponent::Start()
@@ -42,15 +38,11 @@ void MeshRendererComponent::Reload()
 	}
 
 	myModel = Singleton<SE::ModelFactory>().GetModel(myModelPath.GetString());
-	
-	if (myMaterial)
-	{
-		myMaterial->Release();
-		delete myMaterial;
-		myMaterial = nullptr;
-	}
 
-	myMaterial = new SE::Material(Singleton<SE::MaterialFactory>().CreateMaterial(myMaterialPath.GetString()));
+	auto& factory = Singleton<SE::MaterialFactory>();
+	const std::string matPath = myMaterialPath.GetString();
+	const SE::Material mat = factory.CreateMaterial(matPath);
+	myMaterial = std::make_shared<SE::Material>(mat);
 }
 
 void MeshRendererComponent::Render()

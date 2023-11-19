@@ -40,6 +40,7 @@ namespace SE
 namespace Debug
 {
 	void DrawLine2D(float2 aStart, float2 anEnd, float4 aCol = { 1, 1, 1, 1 }, bool aIsScreenSpace = false);
+	void DrawLine(float3 aStart, float3 anEnd, float4 aCol = { 1, 1, 1, 1 }, bool aIsScreenSpace = false);
 	void DrawCircle(float2 aCenter, float aRadius, bool aIsScreenSpace = false);
 	void DrawTransformNormalized(float4x4 aTransform);
 	void DrawTransform(const float4x4& aTransform);

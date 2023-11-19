@@ -14,6 +14,7 @@ void EditorSystem::Update()
 		if (!myGameManager->IsEntityAndComponentActive(entity, component))
 			continue;
 
+		component.Look();
 		component.Move();
 
 		Entity& object = myGameManager->GetEntity(entity);

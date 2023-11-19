@@ -358,8 +358,6 @@ namespace SE
 		//context->VSSetConstantBuffers(3, 1, &myPostProcessingBuffer);
 		//context->PSSetConstantBuffers(3, 1, &myPostProcessingBuffer);
 
-		myIntermediateDepth.ClearDepth();
-
 		RenderTarget& gbuffer = Singleton<RenderTargetManager>().GetGBuffer(rectRes);
 		if (mainCam)
 		{
@@ -382,18 +380,20 @@ namespace SE
 				CLineDrawer::SetEnabled(myDrawLines);
 			}
 
-			//if (myLinesUseDepth)
-			//{
-			//	myScaledBackBuffer.SetAsActiveTarget(1, &myIntermediateDepth);
-			//}
-			//else
-			//{
-				//myScaledBackBuffer.SetAsActiveTarget();
-			//}
+			if (Input::GetInputPressed(eInputEvent::ToggleDrawLineUseDepth))
+			{
+				MyDrawLinesUseDepth = !MyDrawLinesUseDepth;
+			}
+
+			if (MyDrawLinesUseDepth)
+			{
+				myFullscreen.SetAsActiveTarget(1, &myIntermediateDepth);
+			}
+
 			if (mainCam)
 			{
 				SetBlendState(E_BLENDSTATE_ALPHABLEND);
-				//CLineDrawer::Render();
+				CLineDrawer::Render();
 				SetBlendState(E_BLENDSTATE_DISABLE);
 			}
 		}
@@ -475,7 +475,7 @@ namespace SE
 	{
 		CreateTextures();
 		BindSamplerStates();
-		SetRasterizerState(ERasterizerState::E_RASTERIZERSTATE_CULLNONE);
+		SetRasterizerState(ERasterizerState::E_RASTERIZERSTATE_DEFAULT);
 	}
 
 	void CRenderManager::CreateTextures()

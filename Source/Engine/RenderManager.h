@@ -141,6 +141,7 @@ namespace SE
 
 		int myRenderLayer = 0;
 		bool myDrawLines = true;
+		bool MyDrawLinesUseDepth = true;
 		bool myRestartNextFrame = false;
 	};
 }

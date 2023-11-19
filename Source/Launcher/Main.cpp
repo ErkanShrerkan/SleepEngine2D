@@ -60,8 +60,14 @@ void HandleTabbing(bool& isTabbed)
 
 bool MessagePeek(MSG& aMSG)
 {
+	int i = 0;
 	while (PeekMessage(&aMSG, 0, 0, 0, PM_REMOVE))
 	{
+		if (i > 1000)
+		{
+			return false;
+		}
+
 		TranslateMessage(&aMSG);
 		DispatchMessage(&aMSG);
 
@@ -69,6 +75,8 @@ bool MessagePeek(MSG& aMSG)
 		{
 			return false;
 		}
+
+		i++;
 	}
 	return true;
 }

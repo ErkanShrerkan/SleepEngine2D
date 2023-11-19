@@ -21,11 +21,13 @@ public:
 	void Render();
 
 private:
+
+private:
 	ExposableString myModelPath;
 	ExposableString myMaterialPath;
 
 	Transform* myTransformRef = nullptr;
 
-	SE::Model* myModel = nullptr;
-	SE::Material* myMaterial = nullptr;
+	SE::Model* myModel;
+	sptr(SE::Material) myMaterial = nullptr;
 };

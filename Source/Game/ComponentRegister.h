@@ -6,6 +6,5 @@ RegisterComponent<Transform>("Transform");
 RegisterComponent<PlayerController>("Player Controller");
 RegisterComponent<CameraComponent>("Camera");
 RegisterComponent<Rigidbody>("Rigidbody");
-RegisterComponent<MaterialComponent>("Material"); 
 RegisterComponent<MeshRendererComponent>("Mesh Renderer");
 RegisterComponent<AnimatorComponent>("Animator"); 

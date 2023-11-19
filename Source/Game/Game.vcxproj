@@ -234,7 +234,6 @@
     </ClInclude>
     <ClInclude Include="Time.h" />
     <ClInclude Include="Transform.h" />
-    <ClInclude Include="MaterialComponent.h" />
     <ClInclude Include="MeshRendererComponent.h" />
     <ClInclude Include="MeshRendererSystem.h" />
     <ClInclude Include="AnimatorComponent.h" />
@@ -276,7 +275,6 @@
     <ClCompile Include="SpriteRenderSystem.cpp" />
     <ClCompile Include="System.cpp" />
     <ClCompile Include="Transform.cpp" />
-    <ClCompile Include="MaterialComponent.cpp" />
     <ClCompile Include="MeshRendererComponent.cpp" />
     <ClCompile Include="MeshRendererSystem.cpp" />
     <ClCompile Include="AnimatorComponent.cpp" />

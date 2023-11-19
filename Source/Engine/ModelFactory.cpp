@@ -20,6 +20,11 @@ namespace SE
 
 	ModelFactory::~ModelFactory()
 	{
+		for (auto& [path, model] : myModels)
+		{
+			delete model;
+			model = nullptr;
+		}
 	}
 
 	Model* ModelFactory::GetModel(const std::string& aPath)

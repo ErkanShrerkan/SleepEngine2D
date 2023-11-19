@@ -7,6 +7,5 @@
 #include "Rigidbody.h"
 #include "EditorController.h"
 #include "EntityPickingComponent.h"
-#include "MaterialComponent.h"
 #include "MeshRendererComponent.h"
 #include "AnimatorComponent.h"

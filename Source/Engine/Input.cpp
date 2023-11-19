@@ -94,11 +94,20 @@ void Input::Init()
 
 	ET[(uint)eInputEvent::ChangeCamera] = { 'Y' };
 	ET[(uint)eInputEvent::ToggleDrawLine] = { 'Z' };
+	ET[(uint)eInputEvent::ToggleDrawLineUseDepth] = { 'L' };
+	
 	ET[(uint)eInputEvent::Shift] = { VK_SHIFT };
+	ET[(uint)eInputEvent::Control] = { VK_CONTROL };
+	ET[(uint)eInputEvent::Space] = { VK_SPACE };
 
 	ET[(uint)eInputEvent::H] = { 'H' };
 	ET[(uint)eInputEvent::J] = { 'J' };
 	ET[(uint)eInputEvent::G] = { 'G' };
+	ET[(uint)eInputEvent::T] = { 'T' };
+	ET[(uint)eInputEvent::Y] = { 'Y' };
+	ET[(uint)eInputEvent::U] = { 'U' };
+	ET[(uint)eInputEvent::I] = { 'I' };
+
 	ET[(uint)eInputEvent::Interact] = { 'F' };
 	ET[(uint)eInputEvent::UseItem] = { 'E' };
 	ET[(uint)eInputEvent::Reload] = { 'R' };
@@ -223,7 +232,7 @@ Vector2f Input::GetMouseDelta()
 	}
 	else
 	{
-		return { 0,0 };
+		return { 0, 0 };
 	}
 }
 

@@ -13,7 +13,10 @@ public:
 
 private:
     void Move();
-    void MoveInput(float2 aMovement);
+    void Look();
+    void SetCanLook();
+    void MoveInput(float3 aMovement);
+    void MoveY(int aDirection);
     void Zoom(float aZoomValue);
     void ToggleShift(bool aBool) { myShiftDown = aBool; }
     void Pick();
@@ -22,9 +25,12 @@ private:
 private:
     bool myCanMove = false;
     bool myShiftDown = false;
+    bool myCanLook = false;
     float mySpeed = 500;
     float myShiftMult = 2;
-    float2 myMovement;
+    float myCameraSensitivity = 0.15f;
+    float3 myMovement;
+    float2 myRotation = { 0, 0 };
     CameraComponent* myCam = nullptr;
 };
 

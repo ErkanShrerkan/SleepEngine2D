@@ -13,6 +13,7 @@
 #include <Engine\WindowHandler.h>
 #include <Engine\Texture.h>
 #include <Engine\LineDrawer.h>
+#include <Engine\FrameBufferData.h>
 
 // ECS
 #include "Entity.h"
@@ -45,10 +46,10 @@ bool Game::Editor::Init()
 	myPicker = myGM.GetEntity(myEditorEntityID).GetComponent<EntityPickingComponent>();
 
 	eInputState state = eInputState::Pressed;
-	ObserveInputEvent(eInputEvent::Q, state, [&]() { this->SetTransformOperation(eTransformOperation::None); });
-	ObserveInputEvent(eInputEvent::W, state, [&]() { this->SetTransformOperation(eTransformOperation::Translate); });
-	ObserveInputEvent(eInputEvent::E, state, [&]() { this->SetTransformOperation(eTransformOperation::Rotate); });
-	ObserveInputEvent(eInputEvent::R, state, [&]() { this->SetTransformOperation(eTransformOperation::Scale); });
+	ObserveInputEvent(eInputEvent::I, state, [&]() { this->SetTransformOperation(eTransformOperation::None); });
+	ObserveInputEvent(eInputEvent::T, state, [&]() { this->SetTransformOperation(eTransformOperation::Translate); });
+	ObserveInputEvent(eInputEvent::Y, state, [&]() { this->SetTransformOperation(eTransformOperation::Rotate); });
+	ObserveInputEvent(eInputEvent::U, state, [&]() { this->SetTransformOperation(eTransformOperation::Scale); });
 
 	return true;
 }
@@ -195,7 +196,7 @@ void Game::Editor::ModifyValues()
 		auto& map = myGM.GetComponentMaps()[id];
 		auto* exposer = component->GetComponentExposer();
 		exposer->OnImGuiBegin(map->myName);
-		
+
 		uint entityID = mySelectedEntity;
 		Component* comp = component;
 		UpdateDragAndDrop([&]()
@@ -216,8 +217,9 @@ void Game::Editor::ListEntityRecursive(uint anID)
 {
 	for (auto& id : myEntityHierarchy[anID])
 	{
-		//if (id == myEditorEntityID)
-		//	continue;
+		// SKIP EDITOR
+		if (id == myEditorEntityID)
+			continue;
 
 		ImGui::PushID(id);
 		ImGuiTreeNodeFlags nodeFlag = ImGuiTreeNodeFlags_Leaf;
@@ -582,11 +584,11 @@ void Game::Editor::DrawWorldGrid()
 	float2 res = { 100 * meter, 100 * meter };
 	for (float x = -res.x; x < res.x; x += meter)
 	{
-		Debug::DrawLine2D({ x, -res.x }, { x, res.x }, { 1, 1, 1, .125f });
+		Debug::DrawLine({ x, 0.f, -res.x }, { x, 0.f,  res.x }, { 1, 1, 1, .125f });
 	}
 	for (float y = -res.y; y < res.y; y += meter)
 	{
-		Debug::DrawLine2D({ -res.y, y }, { res.y, y }, { 1, 1, 1, .125f });
+		Debug::DrawLine({ -res.y, 0.f, y }, { res.y, 0.f, y }, { 1, 1, 1, .125f });
 	}
 
 	Debug::DrawCircle({ 0.f, 0.f }, 50);
@@ -878,7 +880,6 @@ void Game::Editor::RenderViewport()
 
 void Game::Editor::RenderGizmos()
 {
-	ImGuizmo::SetOrthographic(true);
 	ImGuizmo::SetDrawlist();
 
 	auto& gs = Singleton<GlobalSettings>();
@@ -889,9 +890,10 @@ void Game::Editor::RenderGizmos()
 	float2 viewPortCenterOffset = viewPortCenter - windowCenter;
 
 	float4 gameRect = gs.gameWindowRect;
-	gameRect += {
+	gameRect += 
+	{
 		windowRect.xy,
-			windowRect.xy
+		windowRect.xy
 	};
 
 	float multx = 1.f - (454.f / 1351.f);
@@ -904,23 +906,18 @@ void Game::Editor::RenderGizmos()
 	gizmoRect +=
 	{
 		viewPortCenterOffset,
-			viewPortCenterOffset
+		viewPortCenterOffset
 	};
 
 	gizmoRect -=
 	{
 		windowRect.xy,
-			windowRect.xy
+		windowRect.xy
 	};
 
 	ImGuizmo::SetRect(gizmoRect.x, gizmoRect.y, gizmoRect.z, gizmoRect.w);
-	ImVec2 tl = { gizmoRect.x, gizmoRect.y };
-	ImVec2 br = { gizmoRect.z, gizmoRect.w };
 
-	CameraComponent cam = *myGM.GetComponent<CameraComponent>(myEditorEntityID);
-	float4x4 cameraTransform = myGM.GetComponent<Transform>(myEditorEntityID)->GetTransform();
-	float4x4 cameraView = float4x4::GetFastInverse(cameraTransform);
-	float4x4 cameraProjection = cam.GetProjection();
+	FrameBufferData fbd = Singleton<FrameBufferData>();
 
 	if (!ValidSelection())
 		return;
@@ -946,24 +943,50 @@ void Game::Editor::RenderGizmos()
 	Transform& transform = *myGM.GetComponent<Transform>(mySelectedEntity);
 
 	// if no parent then identity
-	float4x4 tParentWorld = transform.GetParentWorldSpaceTransform();
-	float4x4 tWorld = transform.GetObjectSpaceTransform() * tParentWorld;
+	float4x4 tParentWorld;
+	float4x4 tWorld;
 	static float4x4 tParentWorldInverseTranspose;
 	static float4x4 tNewWorld;
 	static Transform unalteredTransform;
 
+	ImGuizmo::MODE mode = ImGuizmo::WORLD;
+
 	if (!myIsTransforming)
 	{
+		myGM.GetEntity(myEditorEntityID).GetComponent<EditorController>()->myIsObservingInputs = false;
+		tParentWorldInverseTranspose = float4x4::Transpose(tParentWorld.Inverse());
+		tParentWorld = transform.GetParentWorldSpaceTransform();
+		unalteredTransform = transform;
+
+		tWorld = transform.GetObjectSpaceTransform() * tParentWorld;
+
+		switch (op)
+		{
+		case ImGuizmo::TRANSLATE:
+			tWorld = transform.GetObjectSpaceTransform() * tParentWorld;
+			break;
+		case ImGuizmo::ROTATE:
+			mode = ImGuizmo::LOCAL;
+			unalteredTransform.SetScale({ 1, 1, 1 });
+			tWorld = unalteredTransform.GetObjectSpaceTransform() * tParentWorld;
+			unalteredTransform = transform;
+			break;
+		case ImGuizmo::SCALE:
+			tWorld = transform.GetObjectSpaceTransform() * tParentWorld;
+			break;
+		default:
+			break;
+		}
+
 		tNewWorld = tWorld;
 	}
 
 	ImGuizmo::Manipulate(
-		cameraView.Raw(),
-		cameraProjection.Raw(),
+		fbd.myToCamera.Raw(),
+		fbd.myToProjection.Raw(),
 		op,
-		ImGuizmo::WORLD,
-		tNewWorld.Raw(),
-		NULL
+		mode,
+		tNewWorld.Raw()
 	);
 
 	if (!ImGuizmo::IsUsing())
@@ -977,15 +1000,31 @@ void Game::Editor::RenderGizmos()
 	{
 		// Just started transformation
 		myIsTransforming = true;
-		myGM.GetEntity(myEditorEntityID).GetComponent<EditorController>()->myIsObservingInputs = false;
-		tParentWorldInverseTranspose = float4x4::Transpose(tParentWorld.Inverse());
-		tNewWorld = tWorld;
-		unalteredTransform = transform;
 		return;
 	}
 
-	//Debug::DrawTransform(tNewWorld);
-	transform.SetTransform(tNewWorld * tParentWorldInverseTranspose);
+	float4x4 tNewTransform = tNewWorld * tParentWorldInverseTranspose;
+
+	switch (op)
+	{
+	case ImGuizmo::TRANSLATE:
+		transform.SetPosition(tNewTransform);
+		transform.SetRotation(unalteredTransform.GetRotation());
+		transform.SetScale(unalteredTransform.GetScale());
+		break;
+	case ImGuizmo::ROTATE:
+		transform.SetRotation(tNewTransform);
+		transform.SetScale(unalteredTransform.GetScale());
+		transform.SetPosition(unalteredTransform.GetPosition());
+		break;
+	case ImGuizmo::SCALE:
+		transform.SetScale(tNewTransform);
+		transform.SetRotation(unalteredTransform.GetRotation());
+		transform.SetPosition(unalteredTransform.GetPosition());
+		break;
+	default:
+		break;
+	}
 }
 
 void Game::Editor::ToolsMenu()

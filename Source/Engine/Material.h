@@ -17,7 +17,7 @@ namespace SE
 		VertexShader GetVS();
 		PixelShader GetPS();
 		const std::vector<sptr(Texture)>& GetTextures();
-		void Release();
+
 	protected:
 		VertexShader myVertexShader;
 		PixelShader myPixelShader;

@@ -50,7 +50,9 @@ void Transform::SetScale(const float4x4& aMatrix)
 void Transform::SetRotation(const float4x4& aMatrix)
 {
 	Quaternion q(aMatrix);
-	SetRotation(q.GetEuler());
+	float3 e = q.GetEuler();
+	e = { RAD_TO_DEG(e.x), RAD_TO_DEG(e.y), RAD_TO_DEG(e.z) };
+	SetRotation(e);
 }
 
 void Transform::SetPosition(const float4x4& aMatrix)

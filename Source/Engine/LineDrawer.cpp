@@ -24,11 +24,13 @@ namespace SE
 
 	void CLineDrawer::DrawLine(float3 aStart, float3 anEnd, float4 aCol, bool aIsScreenSpace)
 	{
-		if (myIsEnabled)
+		if (!myIsEnabled)
 		{
-			AddVert({ {aStart, 1}, aCol, (float)aIsScreenSpace });
-			AddVert({ {anEnd, 1}, aCol, (float)aIsScreenSpace });
+			return;
 		}
+
+		AddVert({ {aStart, 1}, aCol, (float)aIsScreenSpace });
+		AddVert({ {anEnd, 1}, aCol, (float)aIsScreenSpace });
 	}
 
 	bool CLineDrawer::Init()
@@ -125,6 +127,11 @@ namespace Debug
 		SE::CLineDrawer::DrawLine({ aStart.x, aStart.y, .5f }, { anEnd.x, anEnd.y, .5f }, aCol, aIsScreenSpace);
 	}
 
+	void DrawLine(float3 aStart, float3 anEnd, float4 aCol, bool aIsScreenSpace)
+	{
+		SE::CLineDrawer::DrawLine(aStart, anEnd, aCol, aIsScreenSpace);
+	}
+
 	void DrawCircle(float2 aCenter, float aRadius, bool aIsScreenSpace)
 	{
 		float2 firstPoint = { 0, 0 };
@@ -144,11 +151,11 @@ namespace Debug
 			}
 			else
 			{
-				DrawLine2D({ aCenter.x + lastPoint.x, aCenter.y + lastPoint.y }, { x + aCenter.x, aCenter.y + y }, { 1, 1, 1, 1 }, aIsScreenSpace);
+				DrawLine({ aCenter.x + lastPoint.x, 0, aCenter.y + lastPoint.y }, { x + aCenter.x, 0, aCenter.y + y }, { 1, 1, 1, 1 }, aIsScreenSpace);
 				lastPoint = { x, y };
 			}
 		}
-		DrawLine2D({ aCenter.x + lastPoint.x, aCenter.y + lastPoint.y }, { firstPoint.x + aCenter.x, aCenter.y + firstPoint.y }, { 1, 1, 1, 1 }, aIsScreenSpace);
+		DrawLine({ aCenter.x + lastPoint.x, 0, aCenter.y + lastPoint.y }, { firstPoint.x + aCenter.x, 0, aCenter.y + firstPoint.y }, { 1, 1, 1, 1 }, aIsScreenSpace);
 	}
 
 	void DrawTransformNormalized(float4x4 aTransform)
