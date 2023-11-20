@@ -114,12 +114,6 @@ namespace SE
 		timer.Update();
 		printf("anim data load time: %f\n", timer.GetDeltaTime());
 
-		if (aPath == "models/ch_player/playerarms.erc")
-		{
-			int i = 0;
-			i;
-		}
-
 		for (size_t i = 0; i < mMeshes; i++)
 		{
 			HRESULT result;
