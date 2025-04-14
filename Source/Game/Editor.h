@@ -3,6 +3,7 @@
 #include "Process.h"
 #include "GameManager.h"
 #include "DynamicStringBuffer.h"
+
 #include <Engine\Input.h>
 #include <filesystem>
 #include <d3d11.h>
@@ -21,8 +22,7 @@ namespace Game
 {
 	class Editor : 
 		public Observer, 
-		public Process, 
-		public InputObserver
+		public Process
 	{
 	public:
 		~Editor();
@@ -134,6 +134,8 @@ namespace Game
 		std::unordered_map<uint, bool> myShowChildrenRecord;
 		std::unordered_map<std::string, sptr(SE::Texture)> myAssetThumbnails;
 		GameManager myGM;
+
+		InputObserver myInputObserver;
 	};
 }
 

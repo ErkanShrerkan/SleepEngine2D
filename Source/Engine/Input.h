@@ -11,15 +11,15 @@ class InputObserver
 {
 public:
 	~InputObserver();
-	bool myIsObservingEditorInputs = false;
-	bool myIsObservingInputs = true;
 
-protected:
 	void ObserveInputEvent(eInputEvent anEvent, eInputState aTriggerState, std::function<void()> aCallback);
 	void StopObservingInputEvent(eInputEvent anEvent, eInputState aTriggerState);
 	void ObserveScrollEvent(eScrollState aState, std::function<void()> aCallback);
 	void StopObservingScrollEvent(eScrollState aState);
 	void StopObservingAllEvents();
+
+	bool myIsObservingEditorInputs = false;
+	bool myIsObservingInputs = true;
 };
 
 class Input

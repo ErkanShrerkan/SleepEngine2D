@@ -44,7 +44,7 @@ void PlayerController::Start()
 	//cc.radius = c.GetSize().x;
 	GameObject().AddComponent<CameraComponent>(float2(16, 9));
 	//GameObject().GetComponent<Transform>().SetPosition({ Random::Float(-10.f, 10.f), Random::Float(-10.f, 10.f) });
-	ObserveInputEvent(eInputEvent::Interact, eInputState::Released, [&]() { this->ToggleMovement(); });
+	myInputObserver.ObserveInputEvent(eInputEvent::Interact, eInputState::Released, [&]() { this->ToggleMovement(); });
 
 	ExposeEnable();
 	Expose(mySpeed, "Speed", 10.f);
@@ -77,16 +77,16 @@ void PlayerController::ToggleMovement()
 	eInputState ph = eInputState::Pressed | eInputState::Held;
 	if (myCanMove)
 	{
-		ObserveInputEvent(eInputEvent::Up, ph, [&]() { this->MoveUp(); });
-		ObserveInputEvent(eInputEvent::Down, ph, [&]() { this->MoveDown(); });
-		ObserveInputEvent(eInputEvent::Left, ph, [&]() { this->MoveLeft(); });
-		ObserveInputEvent(eInputEvent::Right, ph, [&]() { this->MoveRight(); });
+		myInputObserver.ObserveInputEvent(eInputEvent::Up, ph, [&]() { MoveUp(); });
+		myInputObserver.ObserveInputEvent(eInputEvent::Down, ph, [&]() { MoveDown(); });
+		myInputObserver.ObserveInputEvent(eInputEvent::Left, ph, [&]() { MoveLeft(); });
+		myInputObserver.ObserveInputEvent(eInputEvent::Right, ph, [&]() { MoveRight(); });
 	}
 	else
 	{
-		StopObservingInputEvent(eInputEvent::Up, ph);
-		StopObservingInputEvent(eInputEvent::Down, ph);
-		StopObservingInputEvent(eInputEvent::Left, ph);
-		StopObservingInputEvent(eInputEvent::Right, ph);
+		myInputObserver.StopObservingInputEvent(eInputEvent::Up, ph);
+		myInputObserver.StopObservingInputEvent(eInputEvent::Down, ph);
+		myInputObserver.StopObservingInputEvent(eInputEvent::Left, ph);
+		myInputObserver.StopObservingInputEvent(eInputEvent::Right, ph);
 	}
 }

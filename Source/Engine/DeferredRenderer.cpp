@@ -119,7 +119,7 @@ namespace SE
 			{
 				obd.myHasBones = 1;
 				obd.myNumBones = (unsigned)model->GetSkeleton().myJoints.size();
-				auto jointTransforms = command.GetPose();
+				const auto& jointTransforms = command.GetPose();
 				memcpy(&obd.myBones[0], jointTransforms.data(), sizeof(Matrix4x4f) * obd.myNumBones);
 			}
 

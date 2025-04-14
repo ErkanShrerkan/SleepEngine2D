@@ -34,7 +34,7 @@
 
 Game::Editor::~Editor()
 {
-	StopObservingAllEvents();
+	myInputObserver.StopObservingAllEvents();
 }
 
 bool Game::Editor::Init()
@@ -42,7 +42,7 @@ bool Game::Editor::Init()
 	Input::SetIsEditing(true);
 	myGM.Init();
 	SE::CEngine::GetInstance()->SetGameManagerRef(&myGM);
-	myIsObservingEditorInputs = true;
+	myInputObserver.myIsObservingEditorInputs = true;
 
 	myShowChildrenRecord[ENTITY_HIERARCHY_ROOT] = true;
 	myCurrentPath = std::filesystem::relative("Assets");
@@ -50,10 +50,10 @@ bool Game::Editor::Init()
 	myPicker = myGM.GetEntity(myEditorEntityID).GetComponent<EntityPickingComponent>();
 
 	eInputState state = eInputState::Pressed;
-	ObserveInputEvent(eInputEvent::I, state, [&]() { this->SetTransformOperation(eTransformOperation::None); });
-	ObserveInputEvent(eInputEvent::T, state, [&]() { this->SetTransformOperation(eTransformOperation::Translate); });
-	ObserveInputEvent(eInputEvent::Y, state, [&]() { this->SetTransformOperation(eTransformOperation::Rotate); });
-	ObserveInputEvent(eInputEvent::U, state, [&]() { this->SetTransformOperation(eTransformOperation::Scale); });
+	myInputObserver.ObserveInputEvent(eInputEvent::I, state, [&]() { SetTransformOperation(eTransformOperation::None); });
+	myInputObserver.ObserveInputEvent(eInputEvent::T, state, [&]() { SetTransformOperation(eTransformOperation::Translate); });
+	myInputObserver.ObserveInputEvent(eInputEvent::Y, state, [&]() { SetTransformOperation(eTransformOperation::Rotate); });
+	myInputObserver.ObserveInputEvent(eInputEvent::U, state, [&]() { SetTransformOperation(eTransformOperation::Scale); });
 
 	return true;
 }
@@ -897,7 +897,7 @@ void Game::Editor::RenderGizmos()
 	gameRect +=
 	{
 		windowRect.xy,
-			windowRect.xy
+		windowRect.xy
 	};
 
 	float multx = 1.f - (454.f / 1351.f);
@@ -957,7 +957,7 @@ void Game::Editor::RenderGizmos()
 
 	if (!myIsTransforming)
 	{
-		myGM.GetEntity(myEditorEntityID).GetComponent<EditorController>()->myIsObservingInputs = false;
+		myGM.GetEntity(myEditorEntityID).GetComponent<EditorController>()->GetInputObserver().myIsObservingInputs = false;
 		tParentWorldInverseTranspose = float4x4::Transpose(tParentWorld.Inverse());
 		tParentWorld = transform.GetParentWorldSpaceTransform();
 		unalteredTransform = transform;
@@ -996,7 +996,7 @@ void Game::Editor::RenderGizmos()
 	if (!ImGuizmo::IsUsing())
 	{
 		myIsTransforming = false;
-		myGM.GetEntity(myEditorEntityID).GetComponent<EditorController>()->myIsObservingInputs = true;
+		myGM.GetEntity(myEditorEntityID).GetComponent<EditorController>()->GetInputObserver().myIsObservingInputs = true;
 		return;
 	}
 
@@ -1293,11 +1293,6 @@ void Game::Editor::GenerateMaterial()
 				jdoc->SaveToFile(texture + ".mat", true);
 			}
 		}
-	}
-
-	if (true)
-	{
-
 	}
 }
 

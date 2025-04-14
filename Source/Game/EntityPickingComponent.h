@@ -3,7 +3,7 @@
 
 class EntityPickingSystem;
 
-class EntityPickingComponent : public Component, public InputObserver
+class EntityPickingComponent : public Component
 {
 	friend class EntityPickingSystem;
 public:
@@ -18,5 +18,7 @@ private:
 	bool myShouldPick = false;
 	uint myPickedEntityID = NULL_ENTITY;
 	float2 myPickPos;
+
+	InputObserver myInputObserver;
 };
 

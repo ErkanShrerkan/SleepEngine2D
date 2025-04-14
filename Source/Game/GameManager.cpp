@@ -187,7 +187,7 @@ bool GameManager::IsComponentActive(Component& aComponent)
 
 bool GameManager::IsEntityAndComponentActive(uint anEntityID, Component& aComponent)
 {
-	return !(!IsComponentActive(aComponent) || !IsEntityActive(anEntityID));
+	return IsComponentActive(aComponent) && IsEntityActive(anEntityID);
 }
 
 void GameManager::UpdateEntityRemoval()

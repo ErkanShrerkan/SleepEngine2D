@@ -3,7 +3,7 @@
 
 class Transform;
 
-class PlayerController : public Component, public InputObserver
+class PlayerController : public Component
 {
 public:
     PlayerController();
@@ -25,5 +25,7 @@ private:
     float mySpeed = 500;
     float2 myMovement;
     Transform* myTransformRef;
+
+    InputObserver myInputObserver;
 };
 

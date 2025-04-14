@@ -4,12 +4,14 @@
 class EditorSystem;
 class CameraComponent;
 
-class EditorController : public Component, public InputObserver
+class EditorController : public Component
 {
 	friend class EditorSystem;
 public:
     ~EditorController();
 	virtual void Start() override;
+
+    InputObserver& GetInputObserver() { return myInputObserver; }
 
 private:
     void Move();
@@ -32,5 +34,7 @@ private:
     float3 myMovement;
     float2 myRotation = { 0, 0 };
     CameraComponent* myCam = nullptr;
+
+    InputObserver myInputObserver;
 };
 

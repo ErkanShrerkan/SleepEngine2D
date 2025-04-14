@@ -24,14 +24,14 @@ namespace SE
 			Model* aMesh, 
 			Material aMaterial,
 			float4x4 aTransform,
-			std::vector<float4x4> aPose
+			const std::vector<float4x4>& aPose
 		);
 
 		Model* GetModel() { return myModel; }
 		Material& GetMaterial() { return myMaterial; }
 		float4x4& GetTransform() { return myTransform; }
 		bool IsAnimated() { return myIsAnimated; }
-		std::vector<float4x4>& GetPose() { return myPose; }
+		const std::vector<float4x4>& GetPose() { return myPose; }
 
 	private:
 		bool myIsAnimated = false;

@@ -13,6 +13,93 @@
             "ID": 1,
             "Components": [
                 4,
+                5,
+                2,
+                6,
+                8
+            ]
+        }
+    ],
+    "Entity Components": [
+        {
+            "ID": 0,
+            "Components": [
+                4,
+                0,
+                6,
+                1
+            ]
+        },
+        {
+            "ID": 1,
+            "Components": [
+                4,
+                5,
+                2,
+                6,
+                8
+            ]
+        }
+    ],
+    "Entity Components": [
+        {
+            "ID": 0,
+            "Components": [
+                4,
+                0,
+                6,
+                1
+            ]
+        },
+        {
+            "ID": 1,
+            "Components": [
+                4,
+                5,
+                2,
+                6,
+                8
+            ]
+        }
+    ],
+    "Entity Components": [
+        {
+            "ID": 0,
+            "Components": [
+                4,
+                0,
+                6,
+                1
+            ]
+        },
+        {
+            "ID": 1,
+            "Components": [
+                4,
+                5,
+                2,
+                6,
+                8
+            ]
+        }
+    ],
+    "Entity Components": [
+        {
+            "ID": 0,
+            "Components": [
+                4,
+                0,
+                6,
+                1
+            ]
+        },
+        {
+            "ID": 1,
+            "Components": [
+                4,
+                5,
+                2,
+                6,
                 8
             ]
         }

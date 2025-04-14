@@ -8,32 +8,32 @@
 
 EditorController::~EditorController()
 {
-	StopObservingAllEvents();
+	myInputObserver.StopObservingAllEvents();
 }
 
 void EditorController::Start()
 {
-	myIsObservingEditorInputs = true;
+	myInputObserver.myIsObservingEditorInputs = true;
 	eInputState ph = eInputState::Pressed | eInputState::Held;
 
 	// movement
-	ObserveInputEvent(eInputEvent::Forward, ph, [&]() { this->MoveInput({0, 0, 1}); });
-	ObserveInputEvent(eInputEvent::Back, ph, [&]() { this->MoveInput({0, 0, -1}); });
-	ObserveInputEvent(eInputEvent::Left, ph, [&]() { this->MoveInput({-1, 0, 0}); });
-	ObserveInputEvent(eInputEvent::Right, ph, [&]() { this->MoveInput({1, 0, 0}); });
-	ObserveInputEvent(eInputEvent::E, ph, [&]() { this->MoveInput({ 0, 1, 0 }); });
-	ObserveInputEvent(eInputEvent::Q, ph, [&]() { this->MoveInput({ 0, -1, 0 }); });
-	ObserveInputEvent(eInputEvent::Space, ph, [&]() { this->MoveY(1); });
-	ObserveInputEvent(eInputEvent::Control, ph, [&]() { this->MoveY(-1); });
-	ObserveInputEvent(eInputEvent::Shift, eInputState::Pressed, [&]() { this->ToggleShift(true); });
-	ObserveInputEvent(eInputEvent::Shift, eInputState::Released, [&]() { this->ToggleShift(false); });
+	myInputObserver.ObserveInputEvent(eInputEvent::Forward, ph, [&]() { MoveInput({0, 0, 1}); });
+	myInputObserver.ObserveInputEvent(eInputEvent::Back, ph, [&]() { MoveInput({0, 0, -1}); });
+	myInputObserver.ObserveInputEvent(eInputEvent::Left, ph, [&]() { MoveInput({-1, 0, 0}); });
+	myInputObserver.ObserveInputEvent(eInputEvent::Right, ph, [&]() { MoveInput({1, 0, 0}); });
+	myInputObserver.ObserveInputEvent(eInputEvent::E, ph, [&]() { MoveInput({ 0, 1, 0 }); });
+	myInputObserver.ObserveInputEvent(eInputEvent::Q, ph, [&]() { MoveInput({ 0, -1, 0 }); });
+	myInputObserver.ObserveInputEvent(eInputEvent::Space, ph, [&]() { MoveY(1); });
+	myInputObserver.ObserveInputEvent(eInputEvent::Control, ph, [&]() { MoveY(-1); });
+	myInputObserver.ObserveInputEvent(eInputEvent::Shift, eInputState::Pressed, [&]() { ToggleShift(true); });
+	myInputObserver.ObserveInputEvent(eInputEvent::Shift, eInputState::Released, [&]() { ToggleShift(false); });
 
 	// camera
-	ObserveInputEvent(eInputEvent::RMB, ph, [&]() { this->SetCanLook(); });
-	ObserveScrollEvent(eScrollState::Up, [&]() { this->Zoom(-1); });
-	ObserveScrollEvent(eScrollState::Down, [&]() { this->Zoom(1); });
+	myInputObserver.ObserveInputEvent(eInputEvent::RMB, ph, [&]() { SetCanLook(); });
+	myInputObserver.ObserveScrollEvent(eScrollState::Up, [&]() { Zoom(-1); });
+	myInputObserver.ObserveScrollEvent(eScrollState::Down, [&]() { Zoom(1); });
 
-	ObserveInputEvent(eInputEvent::LMB, eInputState::Pressed, [&]() { this->Pick(); });
+	myInputObserver.ObserveInputEvent(eInputEvent::LMB, eInputState::Pressed, [&]() { Pick(); });
 
 	myCam = &GameObject().AddComponent<CameraComponent>(float2(16, 9), 90.f);
 	GameObject().AddComponent<EntityPickingComponent>();
