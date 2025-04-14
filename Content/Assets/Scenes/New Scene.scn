@@ -1,10 +1,10 @@
 {
     "Entity Components": [
         {
-            "ID": 0,
+            "EntityID": 0,
             "Components": [
                 {
-                    "ID": 4,
+                    "ComponentID": 4,
                     "Variables": [
                         {
                             "Name": "Scale",
@@ -36,7 +36,7 @@
                     ]
                 },
                 {
-                    "ID": 0,
+                    "ComponentID": 0,
                     "Variables": [
                         {
                             "Name": "Sensitivity",
@@ -46,7 +46,7 @@
                     ]
                 },
                 {
-                    "ID": 6,
+                    "ComponentID": 6,
                     "Variables": [
                         {
                             "Name": "Aspect Ratio",
@@ -84,16 +84,16 @@
                     ]
                 },
                 {
-                    "ID": 1,
+                    "ComponentID": 1,
                     "Variables": []
                 }
             ]
         },
         {
-            "ID": 1,
+            "EntityID": 1,
             "Components": [
                 {
-                    "ID": 4,
+                    "ComponentID": 4,
                     "Variables": [
                         {
                             "Name": "Scale",
@@ -125,7 +125,7 @@
                     ]
                 },
                 {
-                    "ID": 8,
+                    "ComponentID": 8,
                     "Variables": [
                         {
                             "Name": "Model",
