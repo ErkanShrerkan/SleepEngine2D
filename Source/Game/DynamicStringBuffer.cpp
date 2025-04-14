@@ -27,14 +27,19 @@ void DynamicStringBuffer::SetSize(uint aSize)
 	buf.resize(aSize);
 }
 
-uint DynamicStringBuffer::GetSize()
+uint DynamicStringBuffer::GetSize() const
 {
 	return (uint)buf.size();
 }
 
-std::string DynamicStringBuffer::GetString()
+uint DynamicStringBuffer::GetStringSize() const
 {
-	return std::string(&buf[0]);
+	return static_cast<uint>(GetString().size());
+}
+
+std::string DynamicStringBuffer::GetString() const
+{
+	return &buf[0];
 }
 
 char* DynamicStringBuffer::operator[](uint anIndex)

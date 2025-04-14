@@ -350,8 +350,8 @@ namespace Expose
 		info.AddMember("Name", name, allocator);
 		info.AddMember("Type", type, allocator);
 
-		ExposableString& string = *reinterpret_cast<ExposableString*>(adr);
-		value.SetString(string.GetString().c_str(), string.GetSize());
+		const ExposableString& string = *reinterpret_cast<ExposableString*>(adr);
+		value.SetString(string.GetString().c_str(), string.GetStringSize(), allocator);
 
 		info.AddMember("Value", value, allocator);
 		return info;

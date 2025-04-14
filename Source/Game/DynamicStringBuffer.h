@@ -8,8 +8,9 @@ public:
 	DynamicStringBuffer(uint aSize);
 	void SetString(const std::string& aString);
 	void SetSize(uint aSize);
-	uint GetSize();
-	std::string GetString();
+	uint GetSize() const;
+	uint GetStringSize() const;
+	std::string GetString() const;
 	char* operator[](uint anIndex);
 
 private:
