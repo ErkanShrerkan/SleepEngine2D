@@ -1,8 +1,13 @@
 #pragma once
-#include <functional>
+
 #include "IComponent.h"
 #include "ComponentIDManager.h"
 #include "DynamicStringBuffer.h"
+
+#include <Engine/JsonDocument.h>
+#include <ThirdParty\ImGui\imgui.h>
+
+#include <functional>
 
 typedef DynamicStringBuffer ExposableString;
 
@@ -29,7 +34,7 @@ namespace Expose
 	enum class eDataFormat : char
 	{
 		Bool,
-		Scalar,
+		Float,
 		Vec2,
 		Vec3,
 		Vec4,
@@ -42,55 +47,100 @@ namespace Expose
 	public:
 		IExposed()
 		{
-			id = ++Expose::idCounter;
+			myId = ++Expose::idCounter;
 		}
+
 		virtual ~IExposed() = default;
-		virtual void OnImGui() = 0;
+		virtual void Edit() = 0;
+		virtual rapidjson::Value Serialize(rapidjson::Document::AllocatorType& allocator) = 0;
+
 		void PrepareImGui();
+		void OnImGui();
+
+		float InBoundsValue(float aValue);
+
+		std::string GetDataFormatAsString(eDataFormat format);
 
 	public:
-		eDataFormat format;
-		ePickMode pickMode;
-		eBounds boundsType = eBounds::None;
-		int id;
-		float sensitivity;
-		float2 bounds;
-		std::string name;
+		eDataFormat myFormat;
+		ePickMode myPickMode;
+		eBounds myBoundsType = eBounds::None;
+		int myId;
+		float mySensitivity;
+		float2 myBounds;
+		std::string myName;
 	};
 
-	class ExposedVariable : public IExposed
+	class ExposedBool : public IExposed
 	{
 	public:
-		~ExposedVariable();
-		void OnImGui() override;
+		void Edit() override;
+
+		rapidjson::Value Serialize(rapidjson::Document::AllocatorType& allocator) override;
 
 	public:
 		void* adr = nullptr;
+	};
 
-	private:
-		float InBoundsValue(float aValue);
-		void EditBool();
-		void EditScalar();
-		void EditVec2();
-		void EditVec3();
-		void EditVec4();
-		void EditString();
+	class ExposedFloat : public IExposed
+	{
+	public:
+		void Edit() override;
+		rapidjson::Value Serialize(rapidjson::Document::AllocatorType& allocator) override;
+
+	public:
+		void* adr = nullptr;
+	};
+
+	class ExposedVec2 : public IExposed
+	{
+	public:
+		void Edit() override;
+		rapidjson::Value Serialize(rapidjson::Document::AllocatorType& allocator) override;
+
+	public:
+		void* adr = nullptr;
+	};
+
+	class ExposedVec3 : public IExposed
+	{
+	public:
+		void Edit() override;
+		rapidjson::Value Serialize(rapidjson::Document::AllocatorType& allocator) override;
+
+	public:
+		void* adr = nullptr;
+	};
+
+	class ExposedVec4 : public IExposed
+	{
+	public:
+		void Edit() override;
+		rapidjson::Value Serialize(rapidjson::Document::AllocatorType& allocator) override;
+
+	public:
+		void* adr = nullptr;
+	};
+
+	class ExposedString : public IExposed
+	{
+	public:
+		void Edit() override;
+		rapidjson::Value Serialize(rapidjson::Document::AllocatorType& allocator) override;
+
+	public:
+		void* adr = nullptr;
 	};
 
 	class ExposedComponentRef : public IExposed
 	{
 	public:
 		ExposedComponentRef() = delete;
-		ExposedComponentRef(GameManager* aGameManager);
+		ExposedComponentRef(GameManager* aGameManager)
+			: myGameManager(*aGameManager) { }
 
-		void OnImGui() override;
-
-		template<typename ComponentType>
-		EnableFunctionIfTypeIsDerived(IComponent, ComponentType, void)
-			StartEditComponentRef()
-		{
-			EditComponentRef();
-		}
+		void Edit() override;
+		rapidjson::Value Serialize(rapidjson::Document::AllocatorType& allocator) override;
 
 		const std::string& GetComponentName(uint anID);
 
@@ -99,10 +149,8 @@ namespace Expose
 		uint entityID = INVALID_ENTITY;
 		uint componentID = NULL;
 		std::string componentName = "NULL";
-		std::function<void(ExposedComponentRef&)> editFunc;
 	
 	private:	
-		void EditComponentRef();
 		Component*& GetComponentPtr();
 		void AcceptDragDropPayLoad();
 
@@ -122,6 +170,8 @@ public:
 	
 	void Update() { /*TODO: Fix variable update here*/ }
 	bool HasExposedVariables() { return !myExposedVariables.empty(); }
+
+	rapidjson::Value Serialize(rapidjson::Document::AllocatorType& allocator);
 
 	void Expose(
 		bool& aVariable,
@@ -173,17 +223,12 @@ public:
 
 		auto& ecrr = *ecr;
 		ecrr.adr = (void**)&aComponentRef;
-		ecrr.format = Expose::eDataFormat::ComponentRef;
-		ecrr.name = aName;
+		ecrr.myFormat = Expose::eDataFormat::ComponentRef;
+		ecrr.myName = aName;
 
 		auto& idManager = Singleton<ComponentIDManager>();
 		ecrr.componentID = idManager.GetID<ComponentType>();
 		ecrr.componentName = ecrr.GetComponentName(ecrr.componentID);
-
-		ecrr.editFunc = [&](Expose::ExposedComponentRef& ecr) 
-		{ 
-			ecr.StartEditComponentRef<ComponentType>();
-		};
 		
 		myExposedVariables.push_back(ecr);
 	}

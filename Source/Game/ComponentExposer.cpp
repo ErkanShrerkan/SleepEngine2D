@@ -1,5 +1,5 @@
 #include "pch.h"
-#include <ThirdParty\ImGui\imgui.h>
+//#include <ThirdParty\ImGui\imgui.h>
 #include "ComponentExposer.h"
 //#include "Component.h"
 #include "GameManager.h"
@@ -7,16 +7,32 @@
 
 namespace Expose
 {
-	float ExposedVariable::InBoundsValue(float aValue)
+	void IExposed::PrepareImGui()
+	{
+		ImGui::AlignTextToFramePadding();
+		ImGui::Text("  ");
+		ImGui::SameLine();
+		ImGui::Text(myName.c_str());
+		ImGui::TableSetColumnIndex(1);
+		ImGui::SetNextItemWidth(-FLT_MIN);
+	}
+
+	void IExposed::OnImGui()
+	{
+		PrepareImGui();
+		Edit();
+	}
+
+	float IExposed::InBoundsValue(float aValue)
 	{
 		float returnVal = aValue;
-		switch (boundsType)
+		switch (myBoundsType)
 		{
 		case eBounds::Loop:
-			returnVal += returnVal > bounds.y ? bounds.x - bounds.y : (returnVal < bounds.x ? bounds.y - bounds.x : 0.f);
+			returnVal += returnVal > myBounds.y ? myBounds.x - myBounds.y : (returnVal < myBounds.x ? myBounds.y - myBounds.x : 0.f);
 			break;
 		case eBounds::Clamp:
-			returnVal = Math::Clamp(returnVal, bounds.x, bounds.y);
+			returnVal = Math::Clamp(returnVal, myBounds.x, myBounds.y);
 			break;
 		default:
 			break;
@@ -24,102 +40,30 @@ namespace Expose
 		return returnVal;
 	}
 
-	void ExposedVariable::EditBool()
+	std::string IExposed::GetDataFormatAsString(eDataFormat format)
 	{
-		ImGui::Checkbox("", (bool*)adr);
-	}
-
-	void ExposedVariable::EditScalar()
-	{
-		ImGui::DragFloat("", (float*)adr, sensitivity);
-		*(float*)adr = InBoundsValue(*(float*)adr);
-	}
-
-	void ExposedVariable::EditVec2()
-	{
-		ImGui::DragFloat2("", (float*)adr, sensitivity);
-		float2& f2 = *(float2*)adr;
-		f2.x = InBoundsValue(f2.x);
-		f2.y = InBoundsValue(f2.y);
-	}
-
-	void ExposedVariable::EditVec3()
-	{
-		float3& f3 = *(float3*)adr;
-		switch (pickMode)
+		switch (format)
 		{
-		case ePickMode::Drag:
-			ImGui::DragFloat3("", (float*)adr, sensitivity);
-			f3.x = InBoundsValue(f3.x);
-			f3.y = InBoundsValue(f3.y);
-			f3.z = InBoundsValue(f3.z);
-			break;
-		case ePickMode::Color:
-			ImGui::ColorEdit3("", (float*)adr);
-			break;
-		default:
-			break;
-		}
-	}
-
-	void ExposedVariable::EditVec4()
-	{
-		float4& f4 = *(float4*)adr;
-		switch (pickMode)
-		{
-		case ePickMode::Drag:
-			ImGui::DragFloat4("", (float*)adr, sensitivity);
-			f4.x = InBoundsValue(f4.x);
-			f4.y = InBoundsValue(f4.y);
-			f4.z = InBoundsValue(f4.z);
-			f4.w = InBoundsValue(f4.w);
-			break;
-		case ePickMode::Color:
-			ImGui::ColorEdit4("", (float*)adr);
-			break;
-		default:
-			break;
-		}
-	}
-
-	void ExposedVariable::EditString()
-	{
-		ExposableString& es = *(ExposableString*)adr;
-		ImGui::InputText("", es[0], es.GetSize());
-
-		if (!ImGui::BeginDragDropTarget())
-			return;
-
-		if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("DRAG_FILENAME"))
-		{
-			IM_ASSERT(payload->DataSize == sizeof(char) * 128);
-			DynamicStringBuffer dsb = *(const DynamicStringBuffer*)payload->Data;
-			es.SetString(dsb.GetString());
+		case eDataFormat::Bool:
+			return "bool";
+		case eDataFormat::Float:
+			return "float";
+		case eDataFormat::Vec2:
+			return "vec2";
+		case eDataFormat::Vec3:
+			return "vec3";
+		case eDataFormat::Vec4:
+			return "vec4";
+		case eDataFormat::String:
+			return "string";
+		case eDataFormat::ComponentRef:
+			return "reference";
 		}
 
-		ImGui::EndDragDropTarget();
+		return "error";
 	}
 
-	void IExposed::PrepareImGui()
-	{
-		ImGui::AlignTextToFramePadding();
-		ImGui::Text("  ");
-		ImGui::SameLine();
-		ImGui::Text(name.c_str());
-		ImGui::TableSetColumnIndex(1);
-		ImGui::SetNextItemWidth(-FLT_MIN);
-	}
-
-	ExposedComponentRef::ExposedComponentRef(GameManager* aGameManager)
-		: myGameManager(*aGameManager) { }
-
-	void ExposedComponentRef::OnImGui()
-	{
-		PrepareImGui();
-		editFunc(*this);
-	}
-
-	void ExposedComponentRef::EditComponentRef()
+	void ExposedComponentRef::Edit()
 	{
 		AcceptDragDropPayLoad();
 		ExposableString es(32);
@@ -138,6 +82,16 @@ namespace Expose
 			ImGui::InputText("", es[0], es.GetSize(), ImGuiInputTextFlags_ReadOnly);
 			AcceptDragDropPayLoad();
 		}
+	}
+
+	rapidjson::Value ExposedComponentRef::Serialize([[maybe_unused]] rapidjson::Document::AllocatorType& allocator)
+	{
+		return rapidjson::Value();
+	}
+
+	const std::string& ExposedComponentRef::GetComponentName(uint anID)
+	{
+		return myGameManager.GetComponentTypeNameByID(anID);
 	}
 
 	Component*& ExposedComponentRef::GetComponentPtr()
@@ -176,8 +130,7 @@ namespace Expose
 
 			try
 			{
-				auto* c = myGameManager.GetComponentsFromEntity(componentPtr->GameObject().GetID()).at(componentID);
-				c;
+				std::ignore = myGameManager.GetComponentsFromEntity(componentPtr->GameObject().GetID()).at(componentID);
 			}
 			catch (const std::exception&)
 			{
@@ -192,43 +145,243 @@ namespace Expose
 		ImGui::EndDragDropTarget();
 	}
 
-	const std::string& ExposedComponentRef::GetComponentName(uint anID)
+	void ExposedBool::Edit()
 	{
-		return myGameManager.GetComponentTypeNameByID(anID);
+		ImGui::Checkbox("", (bool*)adr);
 	}
 
-	ExposedVariable::~ExposedVariable()
+	rapidjson::Value ExposedBool::Serialize(rapidjson::Document::AllocatorType& allocator)
 	{
-		/*printe("EXPOSED VARIABLE DELETED\n");*/
+		rapidjson::Value info(rapidjson::kObjectType);
+		rapidjson::Value name(rapidjson::kObjectType);
+		rapidjson::Value type(rapidjson::kObjectType);
+		rapidjson::Value value(rapidjson::kObjectType);
+
+		name.SetString(myName.c_str(), static_cast<uint>(myName.size()), allocator);
+
+		const std::string typeString = GetDataFormatAsString(myFormat);
+		type.SetString(typeString.c_str(), static_cast<uint>(typeString.size()), allocator);
+
+		info.AddMember("Name", name, allocator);
+		info.AddMember("Type", type, allocator);
+
+		value.SetBool(*reinterpret_cast<bool*>(adr));
+
+		info.AddMember("Value", value, allocator);
+		return info;
 	}
 
-	void ExposedVariable::OnImGui()
+	void ExposedFloat::Edit()
 	{
-		PrepareImGui();
-		switch (format)
+		ImGui::DragFloat("", (float*)adr, mySensitivity);
+		*(float*)adr = InBoundsValue(*(float*)adr);
+	}
+
+	rapidjson::Value ExposedFloat::Serialize(rapidjson::Document::AllocatorType& allocator)
+	{
+		rapidjson::Value info(rapidjson::kObjectType);
+		rapidjson::Value name(rapidjson::kObjectType);
+		rapidjson::Value type(rapidjson::kObjectType);
+		rapidjson::Value value(rapidjson::kObjectType);
+
+		name.SetString(myName.c_str(), static_cast<uint>(myName.size()), allocator);
+
+		const std::string typeString = GetDataFormatAsString(myFormat);
+		type.SetString(typeString.c_str(), static_cast<uint>(typeString.size()), allocator);
+
+		info.AddMember("Name", name, allocator);
+		info.AddMember("Type", type, allocator);
+
+		value.SetFloat(*reinterpret_cast<float*>(adr));
+
+		info.AddMember("Value", value, allocator);
+		return info;
+	}
+
+	void ExposedVec2::Edit()
+	{
+		ImGui::DragFloat2("", (float*)adr, mySensitivity);
+		float2& f2 = *(float2*)adr;
+		f2.x = InBoundsValue(f2.x);
+		f2.y = InBoundsValue(f2.y);
+	}
+
+	rapidjson::Value ExposedVec2::Serialize(rapidjson::Document::AllocatorType& allocator)
+	{
+		rapidjson::Value info(rapidjson::kObjectType);
+		rapidjson::Value name(rapidjson::kObjectType);
+		rapidjson::Value type(rapidjson::kObjectType);
+		rapidjson::Value value(rapidjson::kArrayType);
+
+		name.SetString(myName.c_str(), static_cast<uint>(myName.size()), allocator);
+
+		const std::string typeString = GetDataFormatAsString(myFormat);
+		type.SetString(typeString.c_str(), static_cast<uint>(typeString.size()), allocator);
+
+		info.AddMember("Name", name, allocator);
+		info.AddMember("Type", type, allocator);
+
+		Vector2f vec = *reinterpret_cast<Vector2f*>(adr);
+		value.PushBack(vec.x, allocator);
+		value.PushBack(vec.y, allocator);
+
+		info.AddMember("Value", value, allocator);
+		return info;
+	}
+
+	void ExposedVec3::Edit()
+	{
+		float3& f3 = *(float3*)adr;
+		switch (myPickMode)
 		{
-		case eDataFormat::Bool:	EditBool();	break;
-		case eDataFormat::Scalar: EditScalar();	break;
-		case eDataFormat::Vec2:	EditVec2();	break;
-		case eDataFormat::Vec3:	EditVec3();	break;
-		case eDataFormat::Vec4:	EditVec4();	break;
-		case eDataFormat::String: EditString();	break;
-		default: break;
+		case ePickMode::Drag:
+			ImGui::DragFloat3("", (float*)adr, mySensitivity);
+			f3.x = InBoundsValue(f3.x);
+			f3.y = InBoundsValue(f3.y);
+			f3.z = InBoundsValue(f3.z);
+			break;
+		case ePickMode::Color:
+			ImGui::ColorEdit3("", (float*)adr);
+			break;
+		default:
+			break;
 		}
 	}
+
+	rapidjson::Value ExposedVec3::Serialize(rapidjson::Document::AllocatorType& allocator)
+	{
+		rapidjson::Value info(rapidjson::kObjectType);
+		rapidjson::Value name(rapidjson::kObjectType);
+		rapidjson::Value type(rapidjson::kObjectType);
+		rapidjson::Value value(rapidjson::kArrayType);
+
+		name.SetString(myName.c_str(), static_cast<uint>(myName.size()), allocator);
+
+		const std::string typeString = GetDataFormatAsString(myFormat);
+		type.SetString(typeString.c_str(), static_cast<uint>(typeString.size()), allocator);
+
+		info.AddMember("Name", name, allocator);
+		info.AddMember("Type", type, allocator);
+
+		Vector3f vec = *reinterpret_cast<Vector3f*>(adr);
+		value.PushBack(vec.x, allocator);
+		value.PushBack(vec.y, allocator);
+		value.PushBack(vec.z, allocator);
+
+		info.AddMember("Value", value, allocator);
+		return info;
+	}
+
+	void ExposedVec4::Edit()
+	{
+		float4& f4 = *(float4*)adr;
+		switch (myPickMode)
+		{
+		case ePickMode::Drag:
+			ImGui::DragFloat4("", (float*)adr, mySensitivity);
+			f4.x = InBoundsValue(f4.x);
+			f4.y = InBoundsValue(f4.y);
+			f4.z = InBoundsValue(f4.z);
+			f4.w = InBoundsValue(f4.w);
+			break;
+		case ePickMode::Color:
+			ImGui::ColorEdit4("", (float*)adr);
+			break;
+		default:
+			break;
+		}
+	}
+
+	rapidjson::Value ExposedVec4::Serialize(rapidjson::Document::AllocatorType& allocator)
+	{
+		rapidjson::Value info(rapidjson::kObjectType);
+		rapidjson::Value name(rapidjson::kObjectType);
+		rapidjson::Value type(rapidjson::kObjectType);
+		rapidjson::Value value(rapidjson::kArrayType);
+
+		name.SetString(myName.c_str(), static_cast<uint>(myName.size()), allocator);
+
+		const std::string typeString = GetDataFormatAsString(myFormat);
+		type.SetString(typeString.c_str(), static_cast<uint>(typeString.size()), allocator);
+
+		info.AddMember("Name", name, allocator);
+		info.AddMember("Type", type, allocator);
+
+		Vector4f vec = *reinterpret_cast<Vector4f*>(adr);
+		value.PushBack(vec.x, allocator);
+		value.PushBack(vec.y, allocator);
+		value.PushBack(vec.z, allocator);
+		value.PushBack(vec.w, allocator);
+
+		info.AddMember("Value", value, allocator);
+		return info;
+	}
+
+	void ExposedString::Edit()
+	{
+		ExposableString& es = *(ExposableString*)adr;
+		ImGui::InputText("", es[0], es.GetSize());
+
+		if (!ImGui::BeginDragDropTarget())
+			return;
+
+		if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("DRAG_FILENAME"))
+		{
+			IM_ASSERT(payload->DataSize == sizeof(char) * 128);
+			DynamicStringBuffer dsb = *(const DynamicStringBuffer*)payload->Data;
+			es.SetString(dsb.GetString());
+		}
+
+		ImGui::EndDragDropTarget();
+	}
+
+	rapidjson::Value ExposedString::Serialize(rapidjson::Document::AllocatorType& allocator)
+	{
+		rapidjson::Value info(rapidjson::kObjectType);
+		rapidjson::Value name(rapidjson::kObjectType);
+		rapidjson::Value type(rapidjson::kObjectType);
+		rapidjson::Value value(rapidjson::kObjectType);
+
+		name.SetString(myName.c_str(), static_cast<uint>(myName.size()), allocator);
+
+		const std::string typeString = GetDataFormatAsString(myFormat);
+		type.SetString(typeString.c_str(), static_cast<uint>(typeString.size()), allocator);
+
+		info.AddMember("Name", name, allocator);
+		info.AddMember("Type", type, allocator);
+
+		ExposableString& string = *reinterpret_cast<ExposableString*>(adr);
+		value.SetString(string.GetString().c_str(), string.GetSize());
+
+		info.AddMember("Value", value, allocator);
+		return info;
+	}
+}
+
+rapidjson::Value ComponentExposer::Serialize(rapidjson::Document::AllocatorType& allocator)
+{
+	rapidjson::Value exposedVariablesArray(rapidjson::kArrayType);
+
+	for (auto& variable : myExposedVariables)
+	{
+		rapidjson::Value variableData = variable->Serialize(allocator);
+		exposedVariablesArray.PushBack(variableData, allocator);
+	}
+
+	return exposedVariablesArray;
 }
 
 void ComponentExposer::Expose(
 	bool& aVariable,
 	const std::string& aName)
 {
-	sptr(Expose::ExposedVariable) ev =
-		std::make_shared<Expose::ExposedVariable>();
+	sptr(Expose::ExposedBool) ev =
+		std::make_shared<Expose::ExposedBool>();
 
 	auto& evr = *ev;
 	evr.adr = &aVariable;
-	evr.format = Expose::eDataFormat::Bool;
-	evr.name = aName;
+	evr.myFormat = Expose::eDataFormat::Bool;
+	evr.myName = aName;
 
 	myExposedVariables.push_back(ev);
 }
@@ -240,17 +393,17 @@ void ComponentExposer::Expose(
 	Expose::eBounds aBoundsType,
 	float2 someBounds)
 {
-	sptr(Expose::ExposedVariable) ev =
-		std::make_shared<Expose::ExposedVariable>();
+	sptr(Expose::ExposedFloat) ev =
+		std::make_shared<Expose::ExposedFloat>();
 
 	auto& evr = *ev;
 	evr.adr = &aVariable;
-	evr.format = Expose::eDataFormat::Scalar;
-	evr.name = aName;
-	evr.pickMode = Expose::ePickMode::Drag;
-	evr.sensitivity = aSensitivity;
-	evr.boundsType = aBoundsType;
-	evr.bounds = someBounds;
+	evr.myFormat = Expose::eDataFormat::Float;
+	evr.myName = aName;
+	evr.myPickMode = Expose::ePickMode::Drag;
+	evr.mySensitivity = aSensitivity;
+	evr.myBoundsType = aBoundsType;
+	evr.myBounds = someBounds;
 
 	myExposedVariables.push_back(ev);
 }
@@ -262,17 +415,17 @@ void ComponentExposer::Expose(
 	Expose::eBounds aBoundsType,
 	float2 someBounds)
 {
-	sptr(Expose::ExposedVariable) ev =
-		std::make_shared<Expose::ExposedVariable>();
+	sptr(Expose::ExposedVec2) ev =
+		std::make_shared<Expose::ExposedVec2>();
 
 	auto& evr = *ev;
 	evr.adr = &aVariable;
-	evr.format = Expose::eDataFormat::Vec2;
-	evr.name = aName;
-	evr.pickMode = Expose::ePickMode::Drag;
-	evr.sensitivity = aSensitivity;
-	evr.boundsType = aBoundsType;
-	evr.bounds = someBounds;
+	evr.myFormat = Expose::eDataFormat::Vec2;
+	evr.myName = aName;
+	evr.myPickMode = Expose::ePickMode::Drag;
+	evr.mySensitivity = aSensitivity;
+	evr.myBoundsType = aBoundsType;
+	evr.myBounds = someBounds;
 
 	myExposedVariables.push_back(ev);
 }
@@ -285,17 +438,17 @@ void ComponentExposer::Expose(
 	Expose::eBounds aBoundsType,
 	float2 someBounds)
 {
-	sptr(Expose::ExposedVariable) ev =
-		std::make_shared<Expose::ExposedVariable>();
+	sptr(Expose::ExposedVec3) ev =
+		std::make_shared<Expose::ExposedVec3>();
 
 	auto& evr = *ev;
 	evr.adr = &aVariable;
-	evr.format = Expose::eDataFormat::Vec3;
-	evr.name = aName;
-	evr.pickMode = aPickMode;
-	evr.sensitivity = aSensitivity;
-	evr.boundsType = aBoundsType;
-	evr.bounds = someBounds;
+	evr.myFormat = Expose::eDataFormat::Vec3;
+	evr.myName = aName;
+	evr.myPickMode = aPickMode;
+	evr.mySensitivity = aSensitivity;
+	evr.myBoundsType = aBoundsType;
+	evr.myBounds = someBounds;
 
 	myExposedVariables.push_back(ev);
 }
@@ -308,17 +461,17 @@ void ComponentExposer::Expose(
 	Expose::eBounds aBoundsType,
 	float2 someBounds)
 {
-	sptr(Expose::ExposedVariable) ev =
-		std::make_shared<Expose::ExposedVariable>();
+	sptr(Expose::ExposedVec4) ev =
+		std::make_shared<Expose::ExposedVec4>();
 
 	auto& evr = *ev;
 	evr.adr = &aVariable;
-	evr.format = Expose::eDataFormat::Vec4;
-	evr.name = aName;
-	evr.pickMode = aPickMode;
-	evr.sensitivity = aSensitivity;
-	evr.boundsType = aBoundsType;
-	evr.bounds = someBounds;
+	evr.myFormat = Expose::eDataFormat::Vec4;
+	evr.myName = aName;
+	evr.myPickMode = aPickMode;
+	evr.mySensitivity = aSensitivity;
+	evr.myBoundsType = aBoundsType;
+	evr.myBounds = someBounds;
 
 	myExposedVariables.push_back(ev);
 }
@@ -327,13 +480,13 @@ void ComponentExposer::Expose(
 	ExposableString& aVariable,
 	const std::string& aName)
 {
-	sptr(Expose::ExposedVariable) ev =
-		std::make_shared<Expose::ExposedVariable>();
+	sptr(Expose::ExposedString) ev =
+		std::make_shared<Expose::ExposedString>();
 
 	auto& evr = *ev;
 	evr.adr = &aVariable;
-	evr.format = Expose::eDataFormat::String;
-	evr.name = aName;
+	evr.myFormat = Expose::eDataFormat::String;
+	evr.myName = aName;
 
 	myExposedVariables.push_back(ev);
 }
@@ -381,7 +534,7 @@ void ComponentExposer::OnImGui()
 		ImGui::PushID(&variable);
 		ImGui::TableSetColumnIndex(0);
 
-		ImGui::PushID(variable->id);
+		ImGui::PushID(variable->myId);
 		variable->OnImGui();
 		ImGui::PopID();
 

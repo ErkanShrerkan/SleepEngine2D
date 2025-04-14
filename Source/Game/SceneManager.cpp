@@ -98,34 +98,34 @@ void SceneManager::LoadScene(const std::string& aSceneName)
 	// TODO: Load Scene Data
 	// populate GameManager with data from document
 
-	//for (auto& entity : mySceneDoc->GetDocument()["Entities"].GetArray())
-	//{
-	//	uint entityID = entity["ID"].GetUint();
-	//	entityID;
-	//	for (auto& component : entity["Components"].GetArray())
-	//	{
-	//		uint componentID = component["ID"].GetUint();
-	//		componentID;
-	//		for (auto variable = component["Exposed Variables"].MemberBegin(); variable != component["Exposed Variables"].MemberEnd(); ++variable)
-	//		{
-	//			std::string variableName = variable->name.GetString();
-	//			rapidjson::Type type = variable->value.GetType();
+	for (auto& entity : mySceneDoc->GetDocument()["Entities"].GetArray())
+	{
+		uint entityID = entity["ID"].GetUint();
+		entityID;
+		for (auto& component : entity["Components"].GetArray())
+		{
+			uint componentID = component["ID"].GetUint();
+			componentID;
+			for (auto variable = component["Exposed Variables"].MemberBegin(); variable != component["Exposed Variables"].MemberEnd(); ++variable)
+			{
+				std::string variableName = variable->name.GetString();
+				rapidjson::Type type = variable->value.GetType();
 
-	//			variableName;
-	//			switch (type)
-	//			{
-	//			case rapidjson::kArrayType:
-	//				break;
-	//			case rapidjson::kStringType:
-	//				break;
-	//			case rapidjson::kNumberType:
-	//				break;
-	//			default:
-	//				break;
-	//			}
-	//		}
-	//	}
-	//}
+				variableName;
+				switch (type)
+				{
+				case rapidjson::kArrayType:
+					break;
+				case rapidjson::kStringType:
+					break;
+				case rapidjson::kNumberType:
+					break;
+				default:
+					break;
+				}
+			}
+		}
+	}
 
 	myActiveScene = aSceneName;
 }
@@ -169,27 +169,34 @@ void SceneManager::FormatEntityComponentsForSaving()
 {
 	auto& entityComponents = myGameManager->GetEntityComponents();
 	auto& doc = mySceneDoc->GetDocument();
+	doc.SetObject();
 
 	// Register which entities have which components
 	rapidjson::Value entityComponentArray(rapidjson::kArrayType);
-	rapidjson::Document::AllocatorType& alctr = doc.GetAllocator();
+	rapidjson::Document::AllocatorType& allocator = doc.GetAllocator();
 	for (auto& [entityID, components] : entityComponents)
 	{
 		// Entity ID
 		rapidjson::Value entity(rapidjson::kObjectType);
-		entity.AddMember("ID", entityID, alctr);
+		entity.AddMember("ID", entityID, allocator);
 
 		// Component IDs
 		rapidjson::Value componentArray(rapidjson::kArrayType);
 		for (auto& [componentID, component] : components)
 		{
-			componentArray.PushBack(componentID, alctr);
-		}
-		entity.AddMember("Components", componentArray, alctr);
+			ComponentExposer& exposer = *component->GetComponentExposer();
+			rapidjson::Value variables = exposer.Serialize(allocator);
 
-		entityComponentArray.PushBack(entity, alctr);
+			rapidjson::Value componentData(rapidjson::kObjectType);
+			componentData.AddMember("ID", componentID, allocator);
+			componentData.AddMember("Variables", variables, allocator);
+			componentArray.PushBack(componentData, allocator);
+		}
+		entity.AddMember("Components", componentArray, allocator);
+
+		entityComponentArray.PushBack(entity, allocator);
 	}
-	doc.AddMember("Entity Components", entityComponentArray, alctr);
+	doc.AddMember("Entity Components", entityComponentArray, allocator);
 }
 
 void SceneManager::ChangeSceneName(const std::string& aNewSceneName)

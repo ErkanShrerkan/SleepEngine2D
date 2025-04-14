@@ -44,7 +44,7 @@ void PlayerController::Start()
 	//cc.radius = c.GetSize().x;
 	GameObject().AddComponent<CameraComponent>(float2(16, 9));
 	//GameObject().GetComponent<Transform>().SetPosition({ Random::Float(-10.f, 10.f), Random::Float(-10.f, 10.f) });
-	myInputObserver.ObserveInputEvent(eInputEvent::Interact, eInputState::Released, [&]() { this->ToggleMovement(); });
+	myInputObserver.ObserveInputEvent(eInputEvent::Interact, eInputState::Released, [&]() { ToggleMovement(); });
 
 	ExposeEnable();
 	Expose(mySpeed, "Speed", 10.f);

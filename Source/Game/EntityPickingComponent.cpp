@@ -8,7 +8,7 @@ EntityPickingComponent::~EntityPickingComponent()
 void EntityPickingComponent::Start()
 {
 	eInputState ph = eInputState::Released;
-	myInputObserver.ObserveInputEvent(eInputEvent::LMB, ph, [&]() { this->Pick(); });
+	myInputObserver.ObserveInputEvent(eInputEvent::LMB, ph, [&]() { Pick(); });
 }
 
 void EntityPickingComponent::Pick()

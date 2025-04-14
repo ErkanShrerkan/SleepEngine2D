@@ -3,104 +3,90 @@
         {
             "ID": 0,
             "Components": [
-                4,
-                0,
-                6,
-                1
-            ]
-        },
-        {
-            "ID": 1,
-            "Components": [
-                4,
-                5,
-                2,
-                6,
-                8
-            ]
-        }
-    ],
-    "Entity Components": [
-        {
-            "ID": 0,
-            "Components": [
-                4,
-                0,
-                6,
-                1
-            ]
-        },
-        {
-            "ID": 1,
-            "Components": [
-                4,
-                5,
-                2,
-                6,
-                8
-            ]
-        }
-    ],
-    "Entity Components": [
-        {
-            "ID": 0,
-            "Components": [
-                4,
-                0,
-                6,
-                1
-            ]
-        },
-        {
-            "ID": 1,
-            "Components": [
-                4,
-                5,
-                2,
-                6,
-                8
-            ]
-        }
-    ],
-    "Entity Components": [
-        {
-            "ID": 0,
-            "Components": [
-                4,
-                0,
-                6,
-                1
-            ]
-        },
-        {
-            "ID": 1,
-            "Components": [
-                4,
-                5,
-                2,
-                6,
-                8
-            ]
-        }
-    ],
-    "Entity Components": [
-        {
-            "ID": 0,
-            "Components": [
-                4,
-                0,
-                6,
-                1
-            ]
-        },
-        {
-            "ID": 1,
-            "Components": [
-                4,
-                5,
-                2,
-                6,
-                8
+                {
+                    "ID": 4,
+                    "Variables": [
+                        {
+                            "Name": "Scale",
+                            "Type": "vec3",
+                            "Value": [
+                                1.0,
+                                1.0,
+                                1.0
+                            ]
+                        },
+                        {
+                            "Name": "Position",
+                            "Type": "vec3",
+                            "Value": [
+                                0.0,
+                                0.0,
+                                0.0
+                            ]
+                        },
+                        {
+                            "Name": "Rotation",
+                            "Type": "vec3",
+                            "Value": [
+                                0.0,
+                                0.0,
+                                0.0
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "ID": 0,
+                    "Variables": [
+                        {
+                            "Name": "Sensitivity",
+                            "Type": "float",
+                            "Value": 0.15000000596046449
+                        }
+                    ]
+                },
+                {
+                    "ID": 6,
+                    "Variables": [
+                        {
+                            "Name": "Aspect Ratio",
+                            "Type": "vec2",
+                            "Value": [
+                                16.0,
+                                9.0
+                            ]
+                        },
+                        {
+                            "Name": "Near Plane",
+                            "Type": "float",
+                            "Value": 1.0
+                        },
+                        {
+                            "Name": "Far Plane",
+                            "Type": "float",
+                            "Value": 100000.0
+                        },
+                        {
+                            "Name": "FOV",
+                            "Type": "float",
+                            "Value": 90.0
+                        },
+                        {
+                            "Name": "Zoom %",
+                            "Type": "float",
+                            "Value": 100.0
+                        },
+                        {
+                            "Name": "Is Perspective",
+                            "Type": "bool",
+                            "Value": true
+                        }
+                    ]
+                },
+                {
+                    "ID": 1,
+                    "Variables": []
+                }
             ]
         }
     ]
